@@ -1,0 +1,32 @@
+# binaires
+*.pyc
+*.pyo
+
+# Fichier temporaires:
+.*.swp
+*~
+\#*#
+src/*
+
+# DB de dev
+*.db
+*.sqlite
+
+# restants de merge
+*.orig
+*.rej
+
+# Configuration du projet - par environnement
+conf.py
+django.wsgi
+
+# buildout
+.installed.cfg
+bin
+develop-eggs
+downloads
+eggs
+log
+parts
+tmp
+sitestatic

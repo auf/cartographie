@@ -1,0 +1,20 @@
+# -*- encoding: utf-8 -*
+
+DATABASES = {
+    'default': {
+        #'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'db.sqlite',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
+        'PORT': '',
+    }
+}
+
+RAVEN_CONFIG = {
+    'dsn': '',
+}
+
+# Optionnel
+PIWIK_TOKEN = None
