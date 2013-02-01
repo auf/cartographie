@@ -12,6 +12,8 @@ DATABASES = {
     }
 }
 
+SECRET_KEY = 'ilseraitsagedemodifiercetteclefpourquelquechosedautre.'
+
 RAVEN_CONFIG = {
     'dsn': '',
 }

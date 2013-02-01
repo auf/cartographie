@@ -32,8 +32,6 @@ STATICFILES_DIRS = (
     os.path.join(PROJECT_ROOT, 'static'),
 )
 
-SECRET_KEY = 'ilseraitsagedemodifiercetteclefpourquelquechosedautre.'
-
 ROOT_URLCONF = 'cartographie.urls'
 
 INSTALLED_APPS = (
