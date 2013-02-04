@@ -30,3 +30,9 @@ log
 parts
 tmp
 sitestatic
+
+# Vagrant pour le poste local de Bernard
+Vagrantfile*
+edsl
+manifests
+puppet-modules
