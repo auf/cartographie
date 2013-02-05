@@ -32,3 +32,4 @@ Vagrantfile*
 manifests
 puppet-modules
 /*.vagrant
+/mysql-dumps/
