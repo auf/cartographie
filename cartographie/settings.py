@@ -49,7 +49,6 @@ INSTALLED_APPS = (
     # AUF
     'formation',
     'auf.django.references',
-    
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_TEMPLATE_CONTEXT_PROCESSORS + (
