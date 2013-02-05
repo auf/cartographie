@@ -47,8 +47,9 @@ INSTALLED_APPS = (
     'south',
     'raven.contrib.django',
     # AUF
-    'cartographie',
+    'formation',
     'auf.django.references',
+    
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_TEMPLATE_CONTEXT_PROCESSORS + (
