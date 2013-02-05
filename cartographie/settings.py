@@ -46,6 +46,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'south',
     'raven.contrib.django',
+    # AUF
+    'cartographie',
     'auf.django.references',
 )
 

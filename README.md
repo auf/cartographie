@@ -4,13 +4,34 @@ AUF - Cartographie des formations
 Comment construire le projet
 ---
 
+Rouler les commandes suivantes:
+
     $ git clone https://github.com/auf/cartographie.git
     $ cd cartographie
     $ python bootstrap.py
     $ bin/buildout -c devel.cfg
-    créer fichier conf.py à partir de conf.py.edit
+
+Créer fichier conf.py à partir de conf.py.edit et y copier les informations de connexion à la BD
+
+
+Comment synchroniser la base de données avec les Models
+---
+
     $ bin/django syncdb migrate
+
+Comment rouler le server Django de dév.
+---
+
     $ bin/django runserver
+
+Comment rouler le server Django de dév. dans une VM Vagrant
+---
+
+    $ bin/django runserver [::]:8000
+    
+Cela indique à Django de permettre les connexions de n'importe où sur le réseau actuel
+
+
 
 La gestion des CSS de l'app Formation
 ---
