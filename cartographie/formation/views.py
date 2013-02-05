@@ -5,66 +5,77 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect
-# from django.forms.models import modelformset_factory
-# from django.forms.models import model_to_dict
-# from django.http import HttpResponse
-from django.views.generic import View
-from django.views.generic import TemplateView
 
 # from auf.django.references import models as ref
 from formation import models
+from formation.constants import session_const
 from formation.decorators import token_required
 
 
-class ConnexionView(View):
-    def get(self, request, token):
-        """
-        Vérifie si le token est valide et redirige l'usager à la liste
-        des fiches formations
-        """
-        try:
-            token = models.Acces.objects.select_related(
-                'etablissement'
-            ).get(
-                token=token
-            )
+def connexion(request, token):
+    try:
+        # obtention d'un etablissement à partir de la valeur du token
+        etab = models.Acces.objects.select_related(
+            'etablissement'
+        ).get(
+            token=token
+        )
 
-            if len(token) != 0:
-                request.session['espace_formation_etablissement_id'] = token.etablissement_id
-                return redirect('formation_liste')
-            return redirect("formation_erreur")
+        if len(etab) != 0:
+            # tout est beau. on crée une variable session et hop
+            # dans la liste des fiches formations !
+            request.session[session_const.eta_id] = etab.etablissement_id
+            return redirect('formation_liste')
 
-        except ObjectDoesNotExist:
+        return redirect("formation_erreur")
 
-            request.session['espace_formation_erreur'] = True
-            return redirect('formation_erreur')
+    except ObjectDoesNotExist:
+        request.session[session_const.erreur] = True
+        return redirect('formation_erreur')
 
 
-class ErreurView(TemplateView):
-    template_name = "erreur.html"
+def erreur(request):
+    """
+    Page d'erreur lorsque le token fait défaut
+    """
+    return render_to_response(
+        "erreur.html", {}, RequestContext(request)
+    )
+
+    pass
 
 
-class ListeView(View):
-    @token_required
-    def get(request):
-        return render_to_response("liste.html", {}, RequestContext(request))
+@token_required
+def liste(request):
+    """
+        Afficher la liste de formation pour l'utilisateur courant
+    """
+    return render_to_response(
+        "liste.html", {}, RequestContext(request)
+    )
+
+    pass
 
 
-class AjouterView(View):
-    @token_required
-    def get(request):
-        return render_to_response("ajouter.html", {}, RequestContext(request))
+@token_required
+def ajouter(request):
+    """
+        Formulaire d'ajout d'une fiche formation
+    """
+    return render_to_response(
+        "ajouter.html", {}, RequestContext(request)
+    )
 
-    @token_required
-    def post(request, **kwargs):
-        return render_to_response("liste.html", {}, RequestContext(request))
+    pass
 
 
-class ModifierView(View):
-    @token_required
-    def get(request, formation_id):
-        return render_to_response("modifier.html", {}, RequestContext(request))
+@token_required
+def modifier(request, formation_id=None):
+    """
+        Formulaire d'édition d'une fiche formation
+    """
+    return render_to_response(
+        "modifier.html", {}, RequestContext(request)
+    )
 
-    @token_required
-    def post(request, **kwargs):
-        return render_to_response("modifier.html", {}, RequestContext(request))
+    pass
