@@ -23,6 +23,7 @@ django.wsgi
 # buildout
 .installed.cfg
 bin
+build
 develop-eggs
 downloads
 eggs
@@ -33,6 +34,5 @@ sitestatic
 
 # Vagrant pour le poste local de Bernard
 Vagrantfile*
-edsl
 manifests
 puppet-modules
