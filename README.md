@@ -17,7 +17,7 @@ Créer fichier conf.py à partir de conf.py.edit et y copier les informations de
 Comment synchroniser la base de données avec les Models
 ---
 
-    $ bin/django syncdb migrate
+    $ bin/django syncdb --migrate
 
 Comment rouler le server Django de dév.
 ---
