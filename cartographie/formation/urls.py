@@ -7,5 +7,6 @@ urlpatterns = patterns(
     url(r"^(?P<token>\w+)$", "connexion", name="connexion"),
     url(r"^liste$", "liste", name="liste"),
     url(r"^ajouter$", "ajouter", name="ajouter"),
-    url(r"^modifier/(?P<formation_id>\d+)$", "modifier", name="modifier")
+    url(r"^modifier/(?P<formation_id>\d+)$", "modifier", name="modifier"),
+    url(r"^erreur$", "erreur", name="erreur")
 )

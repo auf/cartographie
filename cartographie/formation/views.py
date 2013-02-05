@@ -11,6 +11,7 @@ from django.forms.models import model_to_dict
 from auf.django.references import models as ref
 from formation import models
 
+
 def connexion(request, token):
     try:
         return verifier_token(request, token)
@@ -22,28 +23,44 @@ def connexion(request, token):
 
 def verifier_token(request, token):
     """
-    Vérifie si le token est valide et redirige l'usager
+    Vérifie si le token est valide et redirige l'usager à la liste
+    des fiches formations
     """
 
     token = models.Acces.objects.select_related('etablissement').get(token=token)
 
-    request.session['espace_membre_etablissement'] = token.etablissement_id
-    return redirect('espace_membre_apercu')
+    if len(token) != 0:
+        request.session['espace_membre_etablissement'] = token.etablissement_id
+        return redirect('liste')
+
+    return redirect("erreur")
+
+
+def erreur(request):
+    """
+    Page d'erreur lorsque le token fait défaut
+    """
+    pass
 
 
 def liste(request):
     """
-        Show a list of formations
+        Afficher la liste de formation pour l'utilisateur courant
     """
 
     pass
 
 
 def ajouter(request):
-
+    """
+        Formulaire d'ajout d'une fiche formation
+    """
     pass
 
 
 def modifier(request, formation_id=None):
+    """
+        Formulaire d'édition d'une fiche formation
+    """
 
     pass
