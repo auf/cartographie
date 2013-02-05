@@ -25,3 +25,10 @@ LessCSS est utilisé pour rassembler le CSS de Twitter Bootstrap en un seul fich
 **Compilation d'un fichier .less**
 
     $ lessc -x fichier.less > fichier.css
+    
+Avertissements
+---
+
+Si votre système d'exploitation est Fedora, vous obtiendrez une erreur lors de l'obtention de distribute 0.6.34. 
+
+Veuillez contacter Bernard pour qu'il vous donne le fichier d'instructions Vagrant pour construire une VM avec Debian Stable, Python build essentials et MySQL.
