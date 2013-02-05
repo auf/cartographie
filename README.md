@@ -4,16 +4,14 @@ AUF - Cartographie des formations
 Comment construire le projet
 ---
 
-1. Rouler les commandes suivantes:
-
+Rouler les commandes suivantes:
 
     $ git clone https://github.com/auf/cartographie.git
     $ cd cartographie
     $ python bootstrap.py
     $ bin/buildout -c devel.cfg
 
-
-2. Créer fichier conf.py à partir de conf.py.edit et y copier les informations de connexion à la BD
+Créer fichier conf.py à partir de conf.py.edit et y copier les informations de connexion à la BD
 
 
 Comment synchroniser la base de données avec les Models
