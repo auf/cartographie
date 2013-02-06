@@ -53,7 +53,7 @@ class FormationCommentaire(models.Model):
     formation = models.ForeignKey(Formation)
     user = models.ForeignKey(User)
     date = models.DateTimeField(auto_now=True)
-    commentaire = models.CharField(max_length=10000, widget=forms.Textarea)
+    commentaire = models.CharField(max_length=10000)  # , widget=forms.Textarea
 
     class Meta:
         verbose_name = u"Commentaire"
@@ -64,21 +64,29 @@ class FormationCommentaire(models.Model):
 
 
 class EtablissementComposante(models.Model):
-    nom = models.CharField(help_text=u"Intitulé en français de la composante")
+    nom = models.CharField(
+        max_length=100,
+        help_text=u"Intitulé en français de la composante"
+    )
     nom_origine = models.CharField(
-        help_text=u" ".join(
-            "Intitulé de la composante dans la langue d'origine ",
-            "si ce n'est pas le français"
-        )
+        max_length=100,
+        help_text=u" ".join([
+            u"Intitulé de la composante dans la langue d'origine ",
+            u"si ce n'est pas le français"
+        ])
     )
-    sigle = models.CharField(verbose_name="Sigle de la composante")
+    sigle = models.CharField(
+        max_length=100,
+        verbose_name=u"Sigle de la composante"
+    )
     ville = models.CharField(
-        help_text="Ville de la composante (libellé en français)"
+        max_length=100,
+        help_text=u"Ville de la composante (libellé en français)"
     )
-    pays = models.ForeignKey(ref.Pays, help_text="Pays de la composante")
-    url = models.URLField(help_text="Site Internet de la composante")
+    pays = models.ForeignKey(ref.Pays, help_text=u"Pays de la composante")
+    url = models.URLField(help_text=u"Site Internet de la composante")
     diplomant = models.BooleanField(
-        verbose_name="La composante est diplômante?"
+        verbose_name=u"La composante est diplômante?"
     )
 
     class Meta:
@@ -90,7 +98,7 @@ class EtablissementComposante(models.Model):
 
 
 class RoleComposante(models.Model):
-    nom = models.CharField()
+    nom = models.CharField(max_length=100)
 
     class Meta:
         verbose_name = u""
@@ -116,9 +124,12 @@ class FormationEtablissementComposante(models.Model):
 
 
 class Personne(models.Model):
-    nom = models.CharField()
-    prenom = models.CharField()
-    fonction = models.CharField(help_text=u"Titre ou fonction occupée")
+    nom = models.CharField(max_length=100)
+    prenom = models.CharField(max_length=100)
+    fonction = models.CharField(
+        max_length=100,
+        help_text=u"Titre ou fonction occupée"
+    )
     courriel = models.EmailField()
 
     class Meta:
