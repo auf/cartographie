@@ -7,6 +7,11 @@ from formation.models import Acces
 
 
 class Command(BaseCommand):
+    help = u"""
+        Crée les jetons d'accès pour tout établissement membre
+        qui n'en possède pas.
+    """
+
     def handle(self, *args, **options):
         etabs = ref.Etablissements.objects.filter(membre=True).all()
 
