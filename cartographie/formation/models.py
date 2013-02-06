@@ -21,7 +21,7 @@ class Formation(models.Model):
     pass
 
 
-class FormationHistoriqueModification(models.Model):
+class HistoriqueModification(models.Model):
     formation = models.ForeignKey(Formation)
     derniere_modification = models.DateTimeField(auto_now=True)
 
