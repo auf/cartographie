@@ -13,17 +13,13 @@ from auf.django.references import models as ref
 
 class UserRole(models.Model, Role):
     perms = {
-        'gestionnaire': [
-            'manage',
-            'generer_formulaire_wcs',
-        ],
-        'comptable': [
-            'lecture_allocataires'
+        'editeur': [
+            'manage'
         ]
     }
 
     ROLE_CHOICES = (
-        (u'gestionnaire', u'Gestionnaire')
+        (u'editeur', u"AUF: Éditeur")
     )
 
     type = models.CharField(max_length=25, choices=ROLE_CHOICES)
