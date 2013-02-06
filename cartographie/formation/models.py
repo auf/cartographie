@@ -3,25 +3,46 @@
 import random
 import string
 
-from django import forms
+# from django import forms
 from django.db import models
 from django.contrib.auth.models import User
 
+from auf.django.permissions import Role
 from auf.django.references import models as ref
 
 
-class UserProfile(models.Model):
-    user = models.OneToOneField(User, related_name='profile', primary_key=True)
-    regions = models.ManyToManyField(
-        ref.Region, verbose_name=u"Régions", blank=True, null=True
+class UserRole(models.Model, Role):
+    perms = {
+        'gestionnaire': [
+            'manage',
+            'generer_formulaire_wcs',
+        ],
+        'comptable': [
+            'lecture_allocataires'
+        ]
+    }
+
+    ROLE_CHOICES = (
+        (u'gestionnaire', u'Gestionnaire')
     )
 
-    class Meta:
-        verbose_name = u"Profile d'utilisateur"
-        verbose_name_plural = u"Profiles d'utilisateurs"
+    type = models.CharField(max_length=25, choices=ROLE_CHOICES)
+    user = models.ForeignKey(User, related_name='roles')
+    regions = models.ManyToManyField(
+        ref.Region,
+        verbose_name=u"Régions",
+        related_name='roles'
+    )
 
-    def __unicode__(self):
-        return u"%s" % self.user
+    def has_perm(self, perm):
+        return perm in self.perms[self.type]
+
+    def get_filter_for_perm(self, perm, model):
+        if perm == "manage" and self.has_perm("manage"):
+            if model in [ref.Region]:
+                return models.Q(id__in=self.regions.all())
+
+        return False
 
 
 class Formation(models.Model):
