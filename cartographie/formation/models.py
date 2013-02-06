@@ -13,6 +13,18 @@ class Formation(models.Model):
     pass
 
 
+class FormationHistoriqueModification(models.Model):
+    formation = models.ForeignKey(Formation)
+    derniere_modification = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = u"Historique d'une formation"
+        verbose_name_plural = u"Historiques d'une formation"
+
+    def __unicode__(self):
+        return u"%s" % self.etablissement
+
+
 class Acces(models.Model):
     """
         Classe d'association d'un établissement à un jeton d'identification
@@ -32,7 +44,8 @@ class Acces(models.Model):
         return u"%s" % self.etablissement
 
     def generer_token(self, size=32):
-        randomized = random.choice(string.letters + string.digits)
-        self.token = ''.join(randomized for i in xrange(size))
+        self.token = ''.join(
+            random.choice(string.letters + string.digits) for i in xrange(size)
+        )
 
     pass
