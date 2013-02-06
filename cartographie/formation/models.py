@@ -15,11 +15,11 @@ class UserRole(models.Model, Role):
     perms = {
         'editeur': [
             'manage'
-        ]
+        ],
     }
 
     ROLE_CHOICES = (
-        (u'editeur', u"AUF: Éditeur")
+        (u'editeur', u"AUF: Éditeur"),
     )
 
     type = models.CharField(max_length=25, choices=ROLE_CHOICES)
