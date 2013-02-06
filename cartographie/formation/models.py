@@ -4,8 +4,16 @@ import random
 import string
 
 from django.db import models
+from django.contrib.auth.models import User
 
 from auf.django.references import models as ref
+
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, related_name='profile', primary_key=True)
+    regions = models.ManyToManyField(
+        ref.Region, verbose_name=u"Régions", blank=True, null=True
+    )
 
 
 class Formation(models.Model):
