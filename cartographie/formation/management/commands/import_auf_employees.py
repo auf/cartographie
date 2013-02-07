@@ -12,11 +12,11 @@ from auf.django.references import models as ref
 class Command(BaseCommand):
     args = ''
     help = """
-        Importation des usagers de l'AUF
+        Importation des employés de l'AUF pour les convertir
+        en user de l'app "formation"
     """
 
     def handle(self, *args, **options):
-        # obtention des employés de l'AUF
         # on exclut ceux qui ne possède pas de courriel
         employes = ref.Employe.objects.filter(
             courriel__isnull=False
@@ -48,7 +48,11 @@ class Command(BaseCommand):
             )
 
             nouveau_user.set_password(
-                ''.join([string.letters[random.randint(0, 25)]])
+                ''.join(
+                    random.choice(
+                        string.letters + string.digits
+                    ) for i in xrange(8)
+                )
             )
 
             self.stdout.write("---\n")

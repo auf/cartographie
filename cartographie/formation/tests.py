@@ -36,4 +36,4 @@ class ImportUsersTestCase(TestCase):
         args = []
         opts = {}
 
-        call_command("import_users", *args, **opts)
+        call_command("import_auf_employees", *args, **opts)
