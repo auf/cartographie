@@ -38,14 +38,13 @@ class Command(BaseCommand):
 
             # la création elle-même du user à partir des infos de
             # l'employé
-            nouveau_user = DjangoUser.objects.create(
-                first_name=e.prenom,
-                last_name=e.nom,
-                is_staff=True,
-                is_active=True,
-                username=(e.courriel.split('@')[0]),
-                email=e.courriel
-            )
+            nouveau_user = DjangoUser()
+            nouveau_user.first_name = e.prenom
+            nouveau_user.last_name = e.nom
+            nouveau_user.is_staff = True
+            nouveau_user.is_active = True
+            nouveau_user.username = (e.courriel.split('@')[0])
+            nouveau_user.email = e.courriel
 
             nouveau_user.set_password(
                 ''.join(
@@ -54,5 +53,6 @@ class Command(BaseCommand):
                     ) for i in xrange(8)
                 )
             )
+            nouveau_user.save()
 
             self.stdout.write("---\n")
