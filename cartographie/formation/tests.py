@@ -12,6 +12,7 @@ from django.core.management import call_command
 
 
 class JetonizerTestCase(TestCase):
+
     def test_command(self):
         """
         tester la commande Jetonizer et s'assurer que chaque etablissement
@@ -22,3 +23,17 @@ class JetonizerTestCase(TestCase):
         opts = {}
 
         call_command("jetonizer", *args, **opts)
+
+
+class ImportUsersTestCase(TestCase):
+
+    def test_command(self):
+        """
+            Tester l'import des employés de l'AUF dans la tables des users de
+            l'application "formation"
+        """
+
+        args = []
+        opts = {}
+
+        call_command("import_users", *args, **opts)
