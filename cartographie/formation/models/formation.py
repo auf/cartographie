@@ -7,7 +7,8 @@ from django.contrib.auth.models import User
 
 from auf.django.references import models as ref
 
-from . import Discipline, EtablissementComposante, Personne
+from . import Discipline, EtablissementComposante, \
+              EtablissementAutre, Personne
 
 
 class Formation(models.Model):
@@ -195,33 +196,61 @@ class FormationCommentaire(models.Model):
         super(FormationCommentaire, self).save(*args, **kwargs)
 
 
-class EtablissementComposante(models.Model):
-    nom = models.CharField(max_length=150, help_text=u"Intitulé en français de la composante")
+class FormationComposante(models.Model):
+    formation = models.ForeignKey(Formation)
+    etablissementComposante = models.ForeignKey(
+        EtablissementComposante,
+        limit_choices_to={
+            BaseModel.formation.etablissement: BaseModel.etablissementComposante.etablissement
+        }
+    )
+
+    etablissement_composante_emet_diplome = models.BooleanField(
+        default=False,
+        verbose_name=u"Émet diplôme?",
+        help_text=u" ".join([
+            u"Cocher si cette composante émet un diplôme pour cette formation"
+        ])
+    )
+
+    class Meta:
+        verbose_name = u""
+        verbose_name_plural = u""
+
+    def __unicode__(self):
+        return u""
+
+
+class FormationPartenaireAUF(models.Model):
+    formation = models.ForeignKey(Formation)
+    etablissement = models.ForeignKey(
+        ref.Etablissement,
+        limit_choices_to={
+            "membre": True, "actif": True
+        }
+    )
+    partenaire_auf_emet_diplome = models.BooleanField(
+        default=False,
+        verbose_name=u"Émet diplôme?",
+        help_text=u" ".join([
+            u"Cocher si ce partenaire membre de l'AUF émet un diplôme",
+            u"pour cette formation"
+        ])
+    )
     pass
 
 
-class FormationComposante(models.Model):
+class FormationPartenaireAutre(models.Model):
     formation = models.ForeignKey(Formation)
-    etablissementComposante = models.ForeignKey(EtablissementComposante)
-
-    # roles = models.ManyToManyField(
-    #     RoleComposante, verbose_name=u"Rôles", blank=True, null=True
-    # )
-
-    class Meta:
-        verbose_name = u""
-        verbose_name_plural = u""
-
-    def __unicode__(self):
-        return u""
-
-
-class RoleComposante(models.Model):
-    nom = models.CharField(max_length=100)
-
-    class Meta:
-        verbose_name = u""
-        verbose_name_plural = u""
-
-    def __unicode__(self):
-        return u""
+    etablissement = models.ForeignKey(
+        EtablissementAutre
+    )
+    partenaire_autre_emet_diplome = models.BooleanField(
+        default=False,
+        verbose_name=u"Émet diplôme?",
+        help_text=u" ".join([
+            u"Cocher si ce partenaire non membre de l'AUF émet un diplôme",
+            u"pour cette formation"
+        ])
+    )
+    pass

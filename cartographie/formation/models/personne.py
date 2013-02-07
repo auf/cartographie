@@ -5,14 +5,35 @@ from auf.django.references import models as ref
 
 
 class Personne(models.Model):
-    nom = models.CharField(max_length=100)
-    prenom = models.CharField(max_length=100)
+    nom = models.CharField(max_length=100, required=True)
+
+    prenom = models.CharField(max_length=100, required=True)
+
+    etablissement = models.ForeignKey(
+        ref.Etablissement,
+        required=True,
+        verbose_name=u"Établissement"
+    )
+
     fonction = models.CharField(
-        max_length=100,
+        max_length=150,
+        verbose_name=u"Fonction",
         help_text=u"Titre ou fonction occupée"
     )
-    etablissement = models.ForeignKey(ref.Etablissement)
-    courriel = models.EmailField()
+
+    courriel = models.EmailField(
+        verbose_name=u"Courriel"
+    )
+
+    telephone = models.CharField(
+        max_length=100,
+        verbose_name=u"Téléphone"
+    )
+
+    actif = models.BooleanField(
+        default=True,
+        verbose_name=u"Actif?"
+    )
 
     class Meta:
         verbose_name = u"Personne"

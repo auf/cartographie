@@ -1,10 +1,15 @@
 #coding: utf-8
 
+# Étant donné que j'ai séparé les models dans différents fichiers,
+# les imports suivants sont nécessaires pour que l'on puisse faire
+# from models import [whatever].
 from userRole import UserRole
 from discipline import Discipline
 from personne import Personne
 from acces import Acces
-from etablissementComposante import EtablissementComposante
+from etablissement import EtablissementComposante, EtablissementAutre
+from formation import Formation, FormationModification, FormationCommentaire, \
+                      FormationComposante, RoleComposante
 
 
 if __name__ == '__main__':
@@ -22,3 +27,9 @@ if __name__ == '__main__':
     p = Personne()
     a = Acces()
     ec = EtablissementComposante()
+    ea = EtablissementAutre()
+    f = Formation()
+    fm = FormationModification()
+    fc = FormationCommentaire()
+    fcc = FormationComposante()
+    rc = RoleComposante()
