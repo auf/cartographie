@@ -4,7 +4,8 @@ from django.conf.urls.defaults import *
 
 
 urlpatterns = patterns("cartographie.formation.views",
-    url(r"^connexion/(?P<token>\w+)$", "connexion", name="formation_connexion"),
+    url(r"^connexion/(?P<token>\w+)$", "connexion",
+        name="formation_connexion"),
     url(r"^erreur$", "erreur", name="formation_erreur"),
     url(r"^liste$", "liste", name="formation_liste"),
     url(r"^ajouter$", "ajouter", name="formation_ajouter"),
