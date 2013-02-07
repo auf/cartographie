@@ -16,7 +16,7 @@ urlpatterns = patterns(
     # admin
     url(r'^admin_tools/', include('admin_tools.urls')),
     (r'^admin/', include(admin.site.urls)),
-    (r'^formation/', include("cartographie.formation.urls"))
+    (r'^etablissement/', include("cartographie.formation.urls"))
 )
 
 if settings.DEBUG:
