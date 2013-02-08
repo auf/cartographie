@@ -7,8 +7,11 @@ from django.contrib.auth.models import User
 
 from auf.django.references import models as ref
 
-from . import Discipline, EtablissementComposante, \
-              EtablissementAutre, Personne
+from .configuration import Discipline, NiveauDiplome, TypeDiplome, \
+                           DelivranceDiplome, NiveauUniversitaire, \
+                           Vocation, TypeFormation, Langue
+from .etablissement import EtablissementComposante, EtablissementAutre
+from .personne import Personne
 
 
 class Formation(models.Model):
@@ -60,44 +63,56 @@ class Formation(models.Model):
     )
 
     etablissement_composante = models.ManyToManyField(
-        "FormationComposante", through="Etablissement"
+        "FormationComposante",
+        # through=""
     )
 
     # TODO: quel through ?
     partenaires_auf = models.ManyToManyField(
-        "FormationPartenaireAUF", through=""
+        "FormationPartenaireAUF",
+        # through=""
     )
 
     # TODO: quel through ?
     partenaires_autres = models.ManyToManyField(
-        "FormationPartenaireAutre", through=""
+        "FormationPartenaireAutre",
+        # through=""
     )
 
     # Diplôme
     niveau_diplome = models.ForeignKey(
-        "NiveauDiplome",
+        NiveauDiplome,
         limit_choices_to={"actif": True}
     )
+
     type_diplome = models.ForeignKey(
-        "TypeDiplome", verbose_name=u"Type de diplôme",
+        TypeDiplome,
+        verbose_name=u"Type de diplôme",
         limit_choices_to={"actif": True}
     )
+
     delivrance_diplome = models.ForeignKey(
-        "DelivranceDiplome", verbose_name=u"Délivrance du diplôme",
+        DelivranceDiplome,
+        verbose_name=u"Délivrance du diplôme",
         limit_choices_to={"actif": True}
     )
+
     niveau_entree = models.ManyToManyField(
-        "NiveauUniversitaire", verbose_name=u"Niveau d'entrée",
+        NiveauUniversitaire,
+        verbose_name=u"Niveau d'entrée",
         help_text=u"Nombre d'années d'enseignement supérieur",
         limit_choices_to={"actif": True}
     )
+
     niveau_sortie = models.ManyToManyField(
-        "NiveauUniversitaire", verbose_name=u"Niveau de sortie",
+        NiveauUniversitaire,
+        verbose_name=u"Niveau de sortie",
         help_text=u"Nombre d'années d'enseignement supérieur",
         limit_choices_to={"actif": True}
     )
+
     vocation = models.ManyToManyField(
-        "Vocation",
+        Vocation,
         limit_choices_to={"actif": True}
     )
 
@@ -127,14 +142,15 @@ class Formation(models.Model):
         Personne,
         limit_choices_to={
             "actif": True,
-            "personne__etablissement": BaseModel.etablissement
+            # "personne__etablissement": self.etablissement
         }
     )
+
     contacts = models.ManyToManyField(
         Personne,
         limit_choices_to={
             "actif": True,
-            "personne__etablissement": BaseModel.etablissement
+            # "personne__etablissement": self.etablissement
         }
     )
 
@@ -202,9 +218,9 @@ class FormationComposante(models.Model):
     formation = models.ForeignKey(Formation)
     etablissementComposante = models.ForeignKey(
         EtablissementComposante,
-        limit_choices_to={
-            BaseModel.formation.etablissement: BaseModel.etablissementComposante.etablissement
-        }
+        # limit_choices_to={
+        #     BaseModel.formation.etablissement: BaseModel.etablissementComposante.etablissement
+        # }
     )
 
     etablissement_composante_emet_diplome = models.BooleanField(

@@ -8,7 +8,7 @@ from personne import Personne
 from acces import Acces
 from etablissement import EtablissementComposante, EtablissementAutre
 from formation import Formation, FormationModification, FormationCommentaire, \
-                      FormationComposante, RoleComposante
+                      FormationComposante
 from configuration import Discipline, NiveauDiplome, TypeDiplome, \
                           DelivranceDiplome, NiveauUniversitaire, \
                           Vocation, TypeFormation
@@ -32,7 +32,6 @@ if __name__ == '__main__':
     fm = FormationModification()
     fc = FormationCommentaire()
     fcc = FormationComposante()
-    rc = RoleComposante()
     d = Discipline()
     nd = NiveauDiplome()
     tp = TypeDiplome()
