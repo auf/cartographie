@@ -5,14 +5,14 @@ from auf.django.references import models as ref
 
 
 class Personne(models.Model):
-    nom = models.CharField(max_length=100, required=True)
+    nom = models.CharField(max_length=100, blank=False)
 
-    prenom = models.CharField(max_length=100, required=True)
+    prenom = models.CharField(max_length=100, blank=False)
 
     etablissement = models.ForeignKey(
         ref.Etablissement,
-        required=True,
-        verbose_name=u"Établissement"
+        verbose_name=u"Établissement",
+        blank=False
     )
 
     fonction = models.CharField(

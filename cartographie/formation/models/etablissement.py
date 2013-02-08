@@ -9,7 +9,8 @@ class EtablissementComposante(models.Model):
     nom = models.CharField(
         max_length=150,
         verbose_name=u"Nom",
-        help_text=u"Intitulé en français de la composante"
+        help_text=u"Intitulé en français de la composante",
+        blank=False
     )
 
     nom_origine = models.CharField(
@@ -57,7 +58,8 @@ class EtablissementAutre(models.Model):
         max_length=150, verbose_name=u"Nom",
         help_text=u" ".join([
             u"Intitulé en français de l'établissement non membre de l'AUF"
-        ])
+        ]),
+        blank=False
     )
 
     nom_origine = models.CharField(

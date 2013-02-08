@@ -20,7 +20,8 @@ class Formation(models.Model):
     # identification
     nom = models.CharField(
         max_length=250,
-        help_text=u"Intitulé en français de la formation"
+        help_text=u"Intitulé en français de la formation",
+        blank=False
     )
     nom_origine = models.CharField(
         verbose_name=u"Nom d'origine",
@@ -38,7 +39,7 @@ class Formation(models.Model):
     url = models.URLField(
         help_text=u"Lien Internet vers une page présentant la formation"
     )
-    discipline_1 = models.ForeignKey(Discipline, null=True)
+    discipline_1 = models.ForeignKey(Discipline, blank=False)
     discipline_2 = models.ForeignKey(Discipline, null=True)
     discipline_3 = models.ForeignKey(Discipline, null=True)
 
@@ -46,7 +47,8 @@ class Formation(models.Model):
     etablissement = models.ForeignKey(
         ref.Etablissement,
         verbose_name=u"Structure d'accueil",
-        help_text=u"Établissement dispensant cette formation"
+        help_text=u"Établissement dispensant cette formation",
+        blank=False
     )
 
     etablissement_emet_diplome = models.BooleanField(
@@ -175,7 +177,7 @@ class FormationModification(models.Model):
 class FormationCommentaire(models.Model):
     formation = models.ForeignKey(Formation)
     user = models.ForeignKey(User, null=True)
-    user_display = models.CharField(max_length=150)
+    user_display = models.CharField(max_length=150, blank=False)
     date = models.DateTimeField(auto_now=True)
     commentaire = models.CharField(max_length=10000)  # , widget=forms.Textarea
 
