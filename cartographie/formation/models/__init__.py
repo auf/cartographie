@@ -3,6 +3,7 @@
 # Étant donné que j'ai séparé les models dans différents fichiers,
 # les imports suivants sont nécessaires pour que l'on puisse faire
 # from models import [whatever].
+
 # http://paltman.com/2008/01/29/breaking-apart-models-in-django/
 from userRole import UserRole
 from personne import Personne
@@ -17,6 +18,8 @@ from etablissement import EtablissementComposante, \
 from formation import Formation, FormationModification, \
                               FormationCommentaire, FormationComposante
 
+# il faut absolument rajouter nos Model importés dans cette liste
+# http://stackoverflow.com/questions/44834/can-someone-explain-all-in-python
 __all__ = [
     "UserRole", "Personne", "Acces", "Displine", "NiveauDiplome",
     "TypeDiplome", "DelivranceDiplome", "NiveauUniversitaire", "Vocation",
