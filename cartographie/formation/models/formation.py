@@ -163,6 +163,8 @@ class Formation(models.Model):
     class Meta:
         verbose_name = u"Formation"
         verbose_name_plural = u"Formations"
+        app_label = "formation"
+        db_table = "formation_formation"
 
     def __unicode__(self):
         return u""
@@ -185,6 +187,8 @@ class FormationModification(models.Model):
     class Meta:
         verbose_name = u"Modification d'une formation"
         verbose_name_plural = u"Modifications d'une formation"
+        app_label = "formation"
+        db_table = "formation_formationmodification"
 
     def __unicode__(self):
         return u"%s" % self.etablissement
@@ -200,6 +204,8 @@ class FormationCommentaire(models.Model):
     class Meta:
         verbose_name = u"Commentaire"
         verbose_name_plural = u"Commentaires"
+        app_label = "formation"
+        db_table = "formation_formationcommentaire"
 
     def __unicode__(self):
         return u"%s" % self.commentaire
@@ -234,6 +240,8 @@ class FormationComposante(models.Model):
     class Meta:
         verbose_name = u""
         verbose_name_plural = u""
+        app_label = "formation"
+        db_table = "formation_formationcomposante"
 
     def __unicode__(self):
         return u""
@@ -255,7 +263,15 @@ class FormationPartenaireAUF(models.Model):
             u"pour cette formation"
         ])
     )
-    pass
+
+    class Meta:
+        verbose_name = u""
+        verbose_name_plural = u""
+        app_label = "formation"
+        db_table = "formation_formationpartenaireauf"
+
+    def __unicode__(self):
+        return u""
 
 
 class FormationPartenaireAutre(models.Model):
@@ -271,4 +287,12 @@ class FormationPartenaireAutre(models.Model):
             u"pour cette formation"
         ])
     )
-    pass
+
+    class Meta:
+        verbose_name = u""
+        verbose_name_plural = u""
+        app_label = "formation"
+        db_table = "formation_formationpartenaireautre"
+
+    def __unicode__(self):
+        return u""

@@ -25,6 +25,8 @@ class Discipline(models.Model):
     class Meta:
         verbose_name = u"Discipline"
         verbose_name_plural = u"Disciplines"
+        app_label = "formation"
+        db_table = "formation_discipline"
 
     def __unicode__(self):
         return u"%s %s" % (self.code, self.nom)
@@ -34,6 +36,8 @@ class NiveauDiplome(AbstractNomStatut):
     class Meta:
         verbose_name = u"Niveau de diplôme"
         verbose_name_plural = u"Niveaux de diplôme"
+        app_label = "formation"
+        db_table = "formation_niveaudiplome"
 
     def __unicode__(self):
         return u"%s" % (self.nom)
@@ -43,6 +47,8 @@ class TypeDiplome(AbstractNomStatut):
     class Meta:
         verbose_name = u"Type de diplôme"
         verbose_name_plural = u"Types de diplôme"
+        app_label = "formation"
+        db_table = "formation_typediplome"
 
     def __unicode__(self):
         return u"%s" % (self.nom)
@@ -52,6 +58,8 @@ class DelivranceDiplome(AbstractNomStatut):
     class Meta:
         verbose_name = u"Délivrance de diplôme"
         verbose_name_plural = u"Délivrances de diplôme"
+        app_label = "formation"
+        db_table = "formation_delivrancediplome"
 
     def __unicode__(self):
         return u"%s" % (self.nom)
@@ -64,6 +72,8 @@ class NiveauUniversitaire(AbstractNomStatut):
     class Meta:
         verbose_name = u"Niveau universitaire"
         verbose_name_plural = u"Niveaux universitaire"
+        app_label = "formation"
+        db_table = "formation_niveauuniversitaire"
 
     def __unicode__(self):
         return u"%s" % (self.nom)
@@ -74,6 +84,8 @@ class Vocation(AbstractNomStatut):
     class Meta:
         verbose_name = u"Vocation"
         verbose_name_plural = u"Vocations"
+        app_label = "formation"
+        db_table = "formation_vocation"
 
     def __unicode__(self):
         return u"%s" % (self.nom)
@@ -83,6 +95,8 @@ class TypeFormation(AbstractNomStatut):
     class Meta:
         verbose_name = u"Type de formation"
         verbose_name_plural = u"Types de formation"
+        app_label = "formation"
+        db_table = "formation_typeformation"
 
     def __unicode__(self):
         return u"%s" % (self.nom)
@@ -92,6 +106,8 @@ class Langue(AbstractNomStatut):
     class Meta:
         verbose_name = u"Langue"
         verbose_name_plural = u"Langues"
+        app_label = "formation"
+        db_table = "formation_langue"
 
     def __unicode__(self):
         return u"%s" % (self.nom)

@@ -3,15 +3,27 @@
 # Étant donné que j'ai séparé les models dans différents fichiers,
 # les imports suivants sont nécessaires pour que l'on puisse faire
 # from models import [whatever].
+# http://paltman.com/2008/01/29/breaking-apart-models-in-django/
 from userRole import UserRole
 from personne import Personne
 from acces import Acces
-from etablissement import EtablissementComposante, EtablissementAutre
-from formation import Formation, FormationModification, FormationCommentaire, \
-                      FormationComposante
-from configuration import Discipline, NiveauDiplome, TypeDiplome, \
-                          DelivranceDiplome, NiveauUniversitaire, \
-                          Vocation, TypeFormation
+from configuration import Discipline, NiveauDiplome, \
+                          TypeDiplome, DelivranceDiplome, \
+                          NiveauUniversitaire, Vocation, TypeFormation
+
+from etablissement import EtablissementComposante, \
+                                  EtablissementAutre
+
+from formation import Formation, FormationModification, \
+                              FormationCommentaire, FormationComposante
+
+__all__ = [
+    "UserRole", "Personne", "Acces", "Displine", "NiveauDiplome",
+    "TypeDiplome", "DelivranceDiplome", "NiveauUniversitaire", "Vocation",
+    "TypeFormation", "EtablissementComposante", "EtablissementAutre",
+    "Formation", "FormationModification", "FormationCommentaire",
+    "FormationComposante"
+]
 
 if __name__ == '__main__':
     """

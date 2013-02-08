@@ -30,6 +30,15 @@ class UserRole(models.Model, Role):
         related_name='roles'
     )
 
+    class Meta:
+        verbose_name = u"Rôle d'usager"
+        verbose_name_plural = u"Rôles d'usager"
+        app_label = "formation"
+        db_table = "formation_userrole"
+
+    def __unicode__(self):
+        return u""
+
     def has_perm(self, perm):
         return perm in self.perms[self.type]
 

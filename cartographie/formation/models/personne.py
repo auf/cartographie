@@ -38,6 +38,8 @@ class Personne(models.Model):
     class Meta:
         verbose_name = u"Personne"
         verbose_name_plural = u"Personnes"
+        app_label = "formation"
+        db_table = "formation_personne"
 
     def __unicode__(self):
         return u"%s %s" % (self.prenom, self.nom)

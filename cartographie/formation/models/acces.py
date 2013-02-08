@@ -22,6 +22,8 @@ class Acces(models.Model):
     class Meta:
         verbose_name = u"Code d'accès"
         verbose_name_plural = u"Codes d'accès"
+        app_label = "formation"
+        db_table = "formation_userrole"
 
     def __unicode__(self):
         return u"%s" % self.etablissement

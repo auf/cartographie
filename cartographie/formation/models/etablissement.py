@@ -48,6 +48,8 @@ class EtablissementComposante(models.Model):
     class Meta:
         verbose_name = u""
         verbose_name_plural = u""
+        app_label = "formation"
+        db_table = "formation_etablissementcomposante"
 
     def __unicode__(self):
         return u""
@@ -90,3 +92,12 @@ class EtablissementAutre(models.Model):
     url = models.URLField(
         help_text=u"Site Internet de l'établissement non membre de l'AUF"
     )
+
+    class Meta:
+        verbose_name = u""
+        verbose_name_plural = u""
+        app_label = "formation"
+        db_table = "formation_etablissementautre"
+
+    def __unicode__(self):
+        return u""
