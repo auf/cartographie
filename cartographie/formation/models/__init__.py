@@ -4,13 +4,14 @@
 # les imports suivants sont nécessaires pour que l'on puisse faire
 # from models import [whatever].
 from userRole import UserRole
-from discipline import Discipline
 from personne import Personne
 from acces import Acces
 from etablissement import EtablissementComposante, EtablissementAutre
 from formation import Formation, FormationModification, FormationCommentaire, \
                       FormationComposante, RoleComposante
-
+from configuration import Discipline, NiveauDiplome, TypeDiplome, \
+                          DelivranceDiplome, NiveauUniversitaire, \
+                          Vocation, TypeFormation
 
 if __name__ == '__main__':
     """
@@ -23,7 +24,6 @@ if __name__ == '__main__':
         Bernard Chhun <bernard.chhun@savoirfairelinux.com>
     """
     u = UserRole()
-    d = Discipline()
     p = Personne()
     a = Acces()
     ec = EtablissementComposante()
@@ -33,3 +33,10 @@ if __name__ == '__main__':
     fc = FormationCommentaire()
     fcc = FormationComposante()
     rc = RoleComposante()
+    d = Discipline()
+    nd = NiveauDiplome()
+    tp = TypeDiplome()
+    dd = DelivranceDiplome()
+    nu = NiveauUniversitaire()
+    v = Vocation()
+    tf = TypeFormation()
