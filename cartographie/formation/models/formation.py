@@ -42,9 +42,9 @@ class Formation(models.Model):
     url = models.URLField(
         help_text=u"Lien Internet vers une page présentant la formation"
     )
-    discipline_1 = models.ForeignKey(Discipline, blank=False)
-    discipline_2 = models.ForeignKey(Discipline, null=True)
-    discipline_3 = models.ForeignKey(Discipline, null=True)
+    discipline_1 = models.ForeignKey(Discipline, blank=False, related_name="+")
+    discipline_2 = models.ForeignKey(Discipline, null=True, related_name="+")
+    discipline_3 = models.ForeignKey(Discipline, null=True, related_name="+")
 
     # etablissement(s)
     etablissement = models.ForeignKey(
@@ -64,56 +64,62 @@ class Formation(models.Model):
 
     etablissement_composante = models.ManyToManyField(
         "FormationComposante",
-        # through=""
+        related_name="+"
     )
 
     # TODO: quel through ?
     partenaires_auf = models.ManyToManyField(
         "FormationPartenaireAUF",
-        # through=""
+        related_name="+"
     )
 
     # TODO: quel through ?
     partenaires_autres = models.ManyToManyField(
         "FormationPartenaireAutre",
-        # through=""
+        related_name="+"
     )
 
     # Diplôme
     niveau_diplome = models.ForeignKey(
         NiveauDiplome,
+        related_name="+",
         limit_choices_to={"actif": True}
     )
 
     type_diplome = models.ForeignKey(
         TypeDiplome,
         verbose_name=u"Type de diplôme",
-        limit_choices_to={"actif": True}
+        limit_choices_to={"actif": True},
+        related_name="+"
     )
 
     delivrance_diplome = models.ForeignKey(
         DelivranceDiplome,
         verbose_name=u"Délivrance du diplôme",
-        limit_choices_to={"actif": True}
+        limit_choices_to={"actif": True},
+        related_name="+"
     )
 
     niveau_entree = models.ManyToManyField(
         NiveauUniversitaire,
         verbose_name=u"Niveau d'entrée",
         help_text=u"Nombre d'années d'enseignement supérieur",
-        limit_choices_to={"actif": True}
+        limit_choices_to={"actif": True},
+        related_name="niveau_entree+"
     )
 
     niveau_sortie = models.ManyToManyField(
         NiveauUniversitaire,
         verbose_name=u"Niveau de sortie",
         help_text=u"Nombre d'années d'enseignement supérieur",
-        limit_choices_to={"actif": True}
+        limit_choices_to={"actif": True},
+        related_name="niveau_sortie+"
     )
 
     vocation = models.ManyToManyField(
         Vocation,
-        limit_choices_to={"actif": True}
+        limit_choices_to={"actif": True},
+        related_name="vocation+"
     )
 
     # Organisation de la formation
@@ -128,11 +134,13 @@ class Formation(models.Model):
     type_formation = models.ForeignKey(
         "TypeFormation",
         verbose_name=u"Type de formation",
-        limit_choices_to={"actif": True}
+        limit_choices_to={"actif": True},
+        related_name="type_formation+"
     )
     langue = models.ManyToManyField(
         "langue", verbose_name=u"Langue(s) d'enseignement",
-        limit_choices_to={"actif": True}
+        limit_choices_to={"actif": True},
+        related_name="langue+"
     )
     duree = models.IntegerField(verbose_name=u"Durée de la formation en heure")
 
@@ -143,7 +151,8 @@ class Formation(models.Model):
         limit_choices_to={
             "actif": True,
             # "personne__etablissement": self.etablissement
-        }
+        },
+        related_name="responsables+"
     )
 
     contacts = models.ManyToManyField(
@@ -151,14 +160,21 @@ class Formation(models.Model):
         limit_choices_to={
             "actif": True,
             # "personne__etablissement": self.etablissement
-        }
+        },
+        related_name="contacts+"
     )
 
     # gestion
     date_creation = models.DateTimeField(editable=False)
     date_modification = models.DateTimeField(editable=False)
-    modifications = models.ManyToManyField("FormationModification")
-    commentaires = models.ManyToManyField("FormationCommentaire")
+    # modifications = models.ManyToManyField(
+    #     FormationModification,
+    #     related_name="modifications+"
+    # )
+    # commentaires = models.ManyToManyField(
+    #     FormationCommentaire,
+    #     related_name="commentaires+"
+    # )
 
     class Meta:
         verbose_name = u"Formation"
@@ -181,7 +197,7 @@ class Formation(models.Model):
 
 class FormationModification(models.Model):
     formation = models.ForeignKey(Formation)
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, related_name="+")
     date = models.DateTimeField(auto_now=True)
 
     class Meta:
@@ -195,8 +211,8 @@ class FormationModification(models.Model):
 
 
 class FormationCommentaire(models.Model):
-    formation = models.ForeignKey(Formation)
-    user = models.ForeignKey(User, null=True)
+    formation = models.ForeignKey(Formation, related_name="+")
+    user = models.ForeignKey(User, null=True, related_name="+")
     user_display = models.CharField(max_length=150, blank=False)
     date = models.DateTimeField(auto_now=True)
     commentaire = models.CharField(max_length=10000)  # , widget=forms.Textarea
@@ -227,6 +243,7 @@ class FormationComposante(models.Model):
         # limit_choices_to={
         #     BaseModel.formation.etablissement: BaseModel.etablissementComposante.etablissement
         # }
+        related_name="+"
     )
 
     etablissement_composante_emet_diplome = models.BooleanField(
@@ -248,12 +265,13 @@ class FormationComposante(models.Model):
 
 
 class FormationPartenaireAUF(models.Model):
-    formation = models.ForeignKey(Formation)
+    formation = models.ForeignKey(Formation, related_name="+")
     etablissement = models.ForeignKey(
         ref.Etablissement,
         limit_choices_to={
             "membre": True, "actif": True
-        }
+        },
+        related_name="+"
     )
     partenaire_auf_emet_diplome = models.BooleanField(
         default=False,
@@ -275,9 +293,9 @@ class FormationPartenaireAUF(models.Model):
 
 
 class FormationPartenaireAutre(models.Model):
-    formation = models.ForeignKey(Formation)
+    formation = models.ForeignKey(Formation, related_name="+")
     etablissement = models.ForeignKey(
-        EtablissementAutre
+        EtablissementAutre, related_name="+"
     )
     partenaire_autre_emet_diplome = models.BooleanField(
         default=False,
