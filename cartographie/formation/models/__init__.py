@@ -12,11 +12,10 @@ from configuration import Discipline, NiveauDiplome, \
                           TypeDiplome, DelivranceDiplome, \
                           NiveauUniversitaire, Vocation, TypeFormation
 
-from etablissement import EtablissementComposante, \
-                                  EtablissementAutre
+from etablissement import EtablissementComposante, EtablissementAutre
 
 from formation import Formation, FormationModification, \
-                              FormationCommentaire, FormationComposante
+                      FormationCommentaire, FormationComposante
 
 # il faut absolument rajouter nos Model importés dans cette liste
 # http://stackoverflow.com/questions/44834/can-someone-explain-all-in-python

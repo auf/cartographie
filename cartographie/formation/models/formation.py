@@ -42,6 +42,7 @@ class Formation(models.Model):
     url = models.URLField(
         help_text=u"Lien Internet vers une page présentant la formation"
     )
+
     discipline_1 = models.ForeignKey(Discipline, blank=False, related_name="+")
     discipline_2 = models.ForeignKey(Discipline, null=True, related_name="+")
     discipline_3 = models.ForeignKey(Discipline, null=True, related_name="+")
@@ -63,27 +64,28 @@ class Formation(models.Model):
     )
 
     etablissement_composante = models.ManyToManyField(
-        "FormationComposante",
-        related_name="+"
+        EtablissementComposante,
+        related_name="+",
+        through="FormationComposante"
     )
 
-    # TODO: quel through ?
     partenaires_auf = models.ManyToManyField(
-        "FormationPartenaireAUF",
-        related_name="+"
+        ref.Etablissement,
+        related_name="+",
+        through="FormationPartenaireAUF"
     )
 
-    # TODO: quel through ?
     partenaires_autres = models.ManyToManyField(
-        "FormationPartenaireAutre",
-        related_name="+"
+        EtablissementAutre,
+        related_name="+",
+        through="FormationPartenaireAutre"
     )
 
     # Diplôme
     niveau_diplome = models.ForeignKey(
         NiveauDiplome,
-        related_name="+",
-        limit_choices_to={"actif": True}
+        limit_choices_to={"actif": True},
+        related_name="+"
     )
 
     type_diplome = models.ForeignKey(
@@ -132,13 +134,14 @@ class Formation(models.Model):
         ])
     )
     type_formation = models.ForeignKey(
-        "TypeFormation",
+        TypeFormation,
         verbose_name=u"Type de formation",
         limit_choices_to={"actif": True},
         related_name="type_formation+"
     )
     langue = models.ManyToManyField(
-        "langue", verbose_name=u"Langue(s) d'enseignement",
+        Langue,
+        verbose_name=u"Langue(s) d'enseignement",
         limit_choices_to={"actif": True},
         related_name="langue+"
     )
@@ -167,14 +170,16 @@ class Formation(models.Model):
     # gestion
     date_creation = models.DateTimeField(editable=False)
     date_modification = models.DateTimeField(editable=False)
-    # modifications = models.ManyToManyField(
-    #     FormationModification,
-    #     related_name="modifications+"
-    # )
-    # commentaires = models.ManyToManyField(
-    #     FormationCommentaire,
-    #     related_name="commentaires+"
-    # )
+
+    modifications = models.ManyToManyField(
+        "FormationModification",
+        related_name="modifications+"
+    )
+
+    commentaires = models.ManyToManyField(
+        "FormationCommentaire",
+        related_name="commentaires+"
+    )
 
     class Meta:
         verbose_name = u"Formation"

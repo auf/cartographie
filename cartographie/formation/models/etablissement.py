@@ -86,7 +86,8 @@ class EtablissementAutre(models.Model):
 
     pays = models.ForeignKey(
         ref.Pays,
-        verbose_name=u"Pays", help_text=u"Pays"
+        verbose_name=u"Pays",
+        help_text=u"Pays de l'établissement non membre de l'AUF"
     )
 
     url = models.URLField(
