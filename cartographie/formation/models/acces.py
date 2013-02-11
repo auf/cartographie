@@ -23,7 +23,7 @@ class Acces(models.Model):
         verbose_name = u"Code d'accès"
         verbose_name_plural = u"Codes d'accès"
         app_label = "formation"
-        db_table = "formation_userrole"
+        db_table = "formation_acces"
 
     def __unicode__(self):
         return u"%s" % self.etablissement
