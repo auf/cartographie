@@ -23,6 +23,7 @@ class Formation(models.Model):
     # identification
     nom = models.CharField(
         max_length=250,
+        verbose_name=u"Nom",
         help_text=u"Intitulé en français de la formation",
         blank=False
     )
@@ -245,12 +246,8 @@ class FormationComposante(models.Model):
     formation = models.ForeignKey(Formation)
     etablissementComposante = models.ForeignKey(
         EtablissementComposante,
-        # limit_choices_to={
-        #     BaseModel.formation.etablissement: BaseModel.etablissementComposante.etablissement
-        # }
         related_name="+"
     )
-
     etablissement_composante_emet_diplome = models.BooleanField(
         default=False,
         verbose_name=u"Émet diplôme?",
@@ -260,8 +257,8 @@ class FormationComposante(models.Model):
     )
 
     class Meta:
-        verbose_name = u""
-        verbose_name_plural = u""
+        verbose_name = u"Composante de formation"
+        verbose_name_plural = u"Composantes de formation"
         app_label = "formation"
         db_table = "formation_formationcomposante"
 
@@ -288,8 +285,8 @@ class FormationPartenaireAUF(models.Model):
     )
 
     class Meta:
-        verbose_name = u""
-        verbose_name_plural = u""
+        verbose_name = u"Formation d'un partenaire membre de l'AUF"
+        verbose_name_plural = u"Formations d'un partenaire membre de l'AUF"
         app_label = "formation"
         db_table = "formation_formationpartenaireauf"
 
@@ -312,8 +309,8 @@ class FormationPartenaireAutre(models.Model):
     )
 
     class Meta:
-        verbose_name = u""
-        verbose_name_plural = u""
+        verbose_name = u"Formation de partenaire autres"
+        verbose_name_plural = u"Formations de partenaire autres"
         app_label = "formation"
         db_table = "formation_formationpartenaireautre"
 

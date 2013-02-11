@@ -11,6 +11,7 @@ from django.core.exceptions import PermissionDenied
 from .formation.models import UserRole
 from cartographie.formation.models import *
 
+
 class ModelAdmin(ModelAdmin):
     """
     * Ajout d'une stack pour supprimer l'affichage de l'application dans
@@ -154,10 +155,69 @@ class UserAdmin(DjangoUserAdmin, GuardedModelAdmin):
     )
     list_filter = DjangoUserAdmin.list_filter + ('groups',)
 
+
+class FormationPartenaireAutreInline(TabularInline):
+    model = FormationPartenaireAutre
+    extra = 2
+
+
+class FormationPartenaireAUFInline(TabularInline):
+    model = FormationPartenaireAUF
+    extra = 2
+
+
+class FormationComposanteInline(TabularInline):
+    model = FormationComposante
+    extra = 2
+
+
+class FormationAdminFieldset(ModelAdmin):
+    inlines = [
+        FormationComposanteInline,
+        FormationPartenaireAUFInline,
+        FormationPartenaireAutreInline
+    ]
+
+    fieldsets = (
+        (u"Identification", {
+            "fields": (
+                "nom", "nom_origine", "sigle", "url",
+                "discipline_1", "discipline_2", "discipline_3"
+            )
+        }),
+        (u"Établissement(s)", {
+            "fields": (
+                "etablissement",
+                "etablissement_emet_diplome",
+                # "etablissement_composante",
+                # "partenaires_auf",
+                # "partenaires_autres"
+            )
+        }),
+        (u"Diplôme", {
+            "fields": (
+                "niveau_diplome", "type_diplome", "delivrance_diplome",
+                "niveau_entree", "niveau_sortie", "vocation"
+            )
+        }),
+        (u"Organisation de la formation", {
+            "fields": (
+                "presentation", "type_formation", "langue", "duree",
+                "responsables", "contacts"
+            )
+        }),
+        (u"Gestion", {
+            "fields": (
+                "modifications", "commentaires"
+            )
+        }),
+    )
+    pass
+
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 
-admin.site.register(Formation)
+admin.site.register(Formation, FormationAdminFieldset)
 admin.site.register(EtablissementComposante)
 admin.site.register(EtablissementAutre)
 admin.site.register(Personne)

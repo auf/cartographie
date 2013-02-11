@@ -16,7 +16,8 @@ from configuration import Discipline, NiveauDiplome, \
 from etablissement import EtablissementComposante, EtablissementAutre
 
 from formation import Formation, FormationModification, \
-                      FormationCommentaire, FormationComposante
+                      FormationCommentaire, FormationComposante, \
+                      FormationPartenaireAutre, FormationPartenaireAUF
 
 # il faut absolument rajouter nos Model importés dans cette liste
 # http://stackoverflow.com/questions/44834/can-someone-explain-all-in-python
@@ -25,7 +26,8 @@ __all__ = [
     "TypeDiplome", "DelivranceDiplome", "NiveauUniversitaire", "Vocation",
     "TypeFormation", "EtablissementComposante", "EtablissementAutre",
     "Formation", "FormationModification", "FormationCommentaire",
-    "FormationComposante", "Langue",
+    "FormationComposante", "FormationPartenaireAutre", "FormationPartenaireAUF",
+    "Langue",
 ]
 
 if __name__ == '__main__':
