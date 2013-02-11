@@ -15,6 +15,9 @@ class AbstractNomStatut(models.Model):
 
     class Meta:
         abstract = True
+        
+    def __unicode__(self):
+        return u"%s" % (self.nom)
 
 
 class Discipline(models.Model):
@@ -39,9 +42,6 @@ class NiveauDiplome(AbstractNomStatut):
         app_label = "formation"
         db_table = "formation_niveaudiplome"
 
-    def __unicode__(self):
-        return u"%s" % (self.nom)
-
 
 class TypeDiplome(AbstractNomStatut):
     class Meta:
@@ -50,9 +50,6 @@ class TypeDiplome(AbstractNomStatut):
         app_label = "formation"
         db_table = "formation_typediplome"
 
-    def __unicode__(self):
-        return u"%s" % (self.nom)
-
 
 class DelivranceDiplome(AbstractNomStatut):
     class Meta:
@@ -60,9 +57,6 @@ class DelivranceDiplome(AbstractNomStatut):
         verbose_name_plural = u"Délivrances de diplôme"
         app_label = "formation"
         db_table = "formation_delivrancediplome"
-
-    def __unicode__(self):
-        return u"%s" % (self.nom)
 
 
 class NiveauUniversitaire(AbstractNomStatut):
@@ -75,9 +69,6 @@ class NiveauUniversitaire(AbstractNomStatut):
         app_label = "formation"
         db_table = "formation_niveauuniversitaire"
 
-    def __unicode__(self):
-        return u"%s" % (self.nom)
-
 
 class Vocation(AbstractNomStatut):
 
@@ -87,9 +78,6 @@ class Vocation(AbstractNomStatut):
         app_label = "formation"
         db_table = "formation_vocation"
 
-    def __unicode__(self):
-        return u"%s" % (self.nom)
-
 
 class TypeFormation(AbstractNomStatut):
     class Meta:
@@ -98,9 +86,6 @@ class TypeFormation(AbstractNomStatut):
         app_label = "formation"
         db_table = "formation_typeformation"
 
-    def __unicode__(self):
-        return u"%s" % (self.nom)
-
 
 class Langue(AbstractNomStatut):
     class Meta:
@@ -108,6 +93,3 @@ class Langue(AbstractNomStatut):
         verbose_name_plural = u"Langues"
         app_label = "formation"
         db_table = "formation_langue"
-
-    def __unicode__(self):
-        return u"%s" % (self.nom)

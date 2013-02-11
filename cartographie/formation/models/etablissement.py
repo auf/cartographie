@@ -52,7 +52,7 @@ class EtablissementComposante(models.Model):
         db_table = "formation_etablissementcomposante"
 
     def __unicode__(self):
-        return u""
+        return u"%s" % (self.nom,)
 
 
 class EtablissementAutre(models.Model):
@@ -101,4 +101,4 @@ class EtablissementAutre(models.Model):
         db_table = "formation_etablissementautre"
 
     def __unicode__(self):
-        return u""
+        return u"%s" % (self.nom,)

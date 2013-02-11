@@ -42,4 +42,4 @@ class Personne(models.Model):
         db_table = "formation_personne"
 
     def __unicode__(self):
-        return u"%s %s" % (self.prenom, self.nom)
+        return u"%s %s" % (self.prenom, self.nom.upper())

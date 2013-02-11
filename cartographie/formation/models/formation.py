@@ -188,7 +188,7 @@ class Formation(models.Model):
         db_table = "formation_formation"
 
     def __unicode__(self):
-        return u""
+        return u"%s" % (self.nom,)
 
     def save(self, *args, **kwargs):
         # sauvegarder le champ de création seulement lors de la création
@@ -212,7 +212,7 @@ class FormationModification(models.Model):
         db_table = "formation_formationmodification"
 
     def __unicode__(self):
-        return u"%s" % self.etablissement
+        return u"%s" % (self.user,)
 
 
 class FormationCommentaire(models.Model):
