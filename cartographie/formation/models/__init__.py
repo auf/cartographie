@@ -10,7 +10,8 @@ from personne import Personne
 from acces import Acces
 from configuration import Discipline, NiveauDiplome, \
                           TypeDiplome, DelivranceDiplome, \
-                          NiveauUniversitaire, Vocation, TypeFormation
+                          NiveauUniversitaire, Vocation, TypeFormation, \
+                          Langue
 
 from etablissement import EtablissementComposante, EtablissementAutre
 
@@ -20,11 +21,11 @@ from formation import Formation, FormationModification, \
 # il faut absolument rajouter nos Model importés dans cette liste
 # http://stackoverflow.com/questions/44834/can-someone-explain-all-in-python
 __all__ = [
-    "UserRole", "Personne", "Acces", "Displine", "NiveauDiplome",
+    "UserRole", "Personne", "Acces", "Discipline", "NiveauDiplome",
     "TypeDiplome", "DelivranceDiplome", "NiveauUniversitaire", "Vocation",
     "TypeFormation", "EtablissementComposante", "EtablissementAutre",
     "Formation", "FormationModification", "FormationCommentaire",
-    "FormationComposante"
+    "FormationComposante", "Langue",
 ]
 
 if __name__ == '__main__':

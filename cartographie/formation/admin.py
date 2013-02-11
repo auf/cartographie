@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 
 from .formation.models import UserRole
-
+from cartographie.formation.models import *
 
 class ModelAdmin(ModelAdmin):
     """
@@ -156,3 +156,17 @@ class UserAdmin(DjangoUserAdmin, GuardedModelAdmin):
 
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
+
+admin.site.register(Formation)
+admin.site.register(EtablissementComposante)
+admin.site.register(EtablissementAutre)
+admin.site.register(Personne)
+
+admin.site.register(Discipline)
+admin.site.register(NiveauDiplome)
+admin.site.register(TypeDiplome)
+admin.site.register(DelivranceDiplome)
+admin.site.register(NiveauUniversitaire)
+admin.site.register(Vocation)
+admin.site.register(TypeFormation)
+admin.site.register(Langue)
