@@ -19,7 +19,7 @@
         <h3>Ajouter une formation</h3>
 
         <form action="{% url formation_ajouter token %}" method="post"
-              class="form-horizontal">
+              class="form-horizontal form-auf-ajouter">
             {% csrf_token %}
 
             {% for field in form %}

@@ -13,8 +13,8 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
 
-    <link href="{{ STATIC_URL }}formation/css/site.css" rel="stylesheet"
-          type="text/css" />
+    <link href="{{ STATIC_URL }}formation/chosen/chosen.css" rel="stylesheet" type="text/css" />
+    <link href="{{ STATIC_URL }}formation/css/site.css" rel="stylesheet" type="text/css" />
     <script src="{{STATIC_URL }}formation/js/vendor/modernizr-2.6.2.min.js"></script>
 </head>
 <body>
@@ -24,7 +24,8 @@
                 <div class="span12">
                     <h1 class="logo pull-left">
                         <a href="http://cartographie.auf.org">
-                            <img src="{{ STATIC_URL }}formation/img/Logo_Auf_FR.png" alt="Agence universitaire de la Francophonie">
+                            <img src="{{ STATIC_URL }}formation/img/Logo_Auf_FR.png"
+                                 alt="Agence universitaire de la Francophonie">
                         </a>
                     </h1>
                     <div class="rainbow span6 pull-right">
@@ -71,5 +72,7 @@
             '<script src="{{ STATIC_URL }}formation/js/vendor/jquery-1.9.0.min.js"><\/script>'
         )
     </script>
+    <script src="{{ STATIC_URL }}/formation/chosen/chosen.jquery.min.js"></script>
+    <script src="{{ STATIC_URL }}/formation/js/site.js"></script>
 </body>
 </html>
