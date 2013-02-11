@@ -46,8 +46,8 @@ class EtablissementComposante(models.Model):
     )
 
     class Meta:
-        verbose_name = u""
-        verbose_name_plural = u""
+        verbose_name = u"Composante d'établissement"
+        verbose_name_plural = u"Composantes d'établissement"
         app_label = "formation"
         db_table = "formation_etablissementcomposante"
 
@@ -95,8 +95,8 @@ class EtablissementAutre(models.Model):
     )
 
     class Meta:
-        verbose_name = u""
-        verbose_name_plural = u""
+        verbose_name = u"Établissement non membre"
+        verbose_name_plural = u"Établissements non membres"
         app_label = "formation"
         db_table = "formation_etablissementautre"
 
