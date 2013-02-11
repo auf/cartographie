@@ -34,7 +34,7 @@ Cela indique à Django de permettre les connexions de n'importe où sur le rése
 Exécuter les tests de l'app
 ---
 
-Il existe un TestCase pour la commande de génération des tokens
+Il existe des TestCases pour les commandes propres à l'app
 
     $ bin/django test formation
 

@@ -21,8 +21,12 @@ def liste(request, token):
         Afficher la liste de formation pour l'utilisateur courant
     """
 
+    from .viewModels.listViewModel import ListViewModel
+
     return render_to_response(
-        "liste.html", {}, RequestContext(request)
+        "liste.html",
+        ListViewModel(token).get_data(),
+        RequestContext(request)
     )
 
 
