@@ -21,11 +21,11 @@ def liste(request, token):
         Afficher la liste de formation pour l'utilisateur courant
     """
 
-    from .viewModels.listViewModel import ListViewModel
+    from .viewModels.listeViewModel import ListeViewModel
 
     return render_to_response(
         "liste.html",
-        ListViewModel(token).get_data(),
+        ListeViewModel(token).get_data(),
         RequestContext(request)
     )
 
@@ -35,8 +35,13 @@ def ajouter(request, token):
     """
         Formulaire d'ajout d'une fiche formation
     """
+
+    from .viewModels.ajouterViewModel import AjouterViewModel
+
     return render_to_response(
-        "ajouter.html", {}, RequestContext(request)
+        "ajouter.html",
+        AjouterViewModel(token).get_data(),
+        RequestContext(request)
     )
 
 

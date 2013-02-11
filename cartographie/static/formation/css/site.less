@@ -25,21 +25,6 @@ body {
     border-right: 8px solid #e9e9ea;
 }
 
-/*
-    ôter le margin left du premier element avec la classe
-    spanX dans une .row
-*/
-.row {
-    margin-left:0;
-
-    [class*=span]:first-child {
-        margin-left:0;
-    }
-}
-
-/*
-    l'arc-en-ciel AUF
- */
 .rainbow {
     overflow:hidden;
 
@@ -90,6 +75,10 @@ header {
     padding:22px;
 }
 
+.actions {
+    margin:11px 0;
+}
+
 /* Footer */
 footer {
     margin-top:6px;
@@ -98,8 +87,13 @@ footer {
         margin-bottom:15px;
     }
 
+    .content {
+        padding-top:0; padding-bottom:0;
+    }
+
     .copyright {
         font-size:0.8em;
         color: #a3a4a7;
+        margin:0 0 15px;
     }
 }

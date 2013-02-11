@@ -1,0 +1,11 @@
+# coding: utf-8
+
+from django.forms import ModelForm
+from ..models import Formation
+
+
+class FormationForm(ModelForm):
+
+    class Meta:
+        model = Formation
+        exclude = ("modifications", "commentaires")

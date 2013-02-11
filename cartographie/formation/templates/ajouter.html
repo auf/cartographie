@@ -1,6 +1,44 @@
 {% extends "base.html" %}
 {% block Contenu %}
 <span class="span12">
-    <h2>Ajouter</h2>
+    <div class="content">
+        <h2>{{ etablissement.nom }}</h2>
+
+        <ul class="breadcrumb">
+            <li>
+                <a href="{% url formation_liste token %}">
+                    Liste des formations
+                </a>
+                <span class="divider">/</span>
+            </li>
+            <li class="active">
+                Ajouter une formation
+            </li>
+        </ul>
+
+        <h3>Ajouter une formation</h3>
+
+        <form action="{% url formation_ajouter token %}" method="post"
+              class="form-horizontal">
+            {% csrf_token %}
+
+            {% for field in form %}
+            <div class="control-group">
+                <label class="control-label" for="">
+                    {{ field.label }}
+                </label>
+                <div class="controls">
+                    {{ field }}
+                </div>
+            </div>
+            {% endfor %}
+
+            <div class="actions">
+                <input type="submit" class="btn btn-primary pull-right"
+                       value="Ajouter la formation">
+                <div class="clear"></div>
+            </div>
+        </form>
+    </div>
 </span>
 {% endblock %}
