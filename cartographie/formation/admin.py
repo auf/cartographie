@@ -257,6 +257,18 @@ class AccesAdmin(ModelAdmin):
         return instance.etablissement.pays.nom
     _pays_nom.short_description = u"Pays"
 
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        # True nécessaire pour accès à liste...
+        # ... mais URL de modification pas dans liste : voir list_display_links
+        return True
+    
+    def has_delete_permission(self, request, obj=None):
+        return False
+    
+
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 
