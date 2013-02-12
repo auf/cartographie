@@ -1,7 +1,7 @@
 # coding: utf-8
 
-from ..models import Acces
-from ..forms.formation import FormationForm
+from cartographie.formation.models import Acces
+from cartographie.formation.forms.formation import FormationForm
 
 
 class AjouterViewModel(object):
@@ -16,9 +16,9 @@ class AjouterViewModel(object):
             self.etablissement = acces.etablissement
 
             if request.method == "POST":
-                form = FormationForm(request.POST)
+                form = FormationForm(self.etablissement, request.POST)
             else:
-                form = FormationForm()
+                form = FormationForm(self.etablissement)
 
             self.form = form
 
@@ -26,5 +26,8 @@ class AjouterViewModel(object):
         return {
             "token": self.token,
             "etablissement": self.etablissement,
-            "form": self.form
+            "form": self.form,
+            # "FormationComposanteFormSet": FormationComposanteFormSet(),
+            # "FormationPartenaireAufFormSet": FormationPartenaireAufFormSet(),
+            # "FormationPartenaireAutreFormSet": FormationPartenaireAutreFormSet()
         }

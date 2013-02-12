@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response
 
-from .decorators import token_required
+from cartographie.formation.decorators import token_required
 
 
 def erreur(request):
@@ -23,7 +23,7 @@ def liste(request, token):
         Afficher la liste de formation pour l'utilisateur courant
     """
 
-    from .viewModels.listeViewModel import ListeViewModel
+    from cartographie.formation.viewModels.listeViewModel import ListeViewModel
 
     return render_to_response(
         "liste.html",
@@ -38,13 +38,23 @@ def ajouter(request, token):
         Formulaire d'ajout d'une fiche formation
     """
 
-    from .viewModels.ajouterViewModel import AjouterViewModel
+    from cartographie.formation.viewModels.ajouterViewModel import AjouterViewModel
 
     # AjouterViewModel fait la vérification du POST avec le formulaire
+    # VM = ViewModel :)
     ajoutVM = AjouterViewModel(request, token)
 
     if ajoutVM.form.is_valid():
-        # sauvegarder la fiche formation
+        # pour gérer les m2m, on doit utiliser commit=False
+        # pour sauvegarder le modele de base AVANT de faire des save m2m.
+        nouvelle_formation = ajoutVM.form.save(commit=False)
+        nouvelle_formation.save()
+
+        # sauvegarder des m2m avec through via les formsets:
+        #   EtablissementComposante, ref.Etablissement, EtablissementAutre
+
+        # puis sauvegarder les m2m normaux
+        ajoutVM.form.save_m2m()
 
         return HttpResponseRedirect(
             reverse("formation_liste", args=[token])
@@ -71,10 +81,24 @@ def consulter(request, token, formation_id=None):
 
 
 @token_required
+def consulter_etablissements(request, token, formation_id=None):
+    return render_to_response(
+        "consulter_etablissements.html", {}, RequestContext(request)
+    )
+
+
+@token_required
 def modifier(request, token, formation_id=None):
     """
         Formulaire d'édition d'une fiche formation
     """
     return render_to_response(
         "modifier.html", {}, RequestContext(request)
+    )
+
+
+@token_required
+def modifier_etablissements(request, token, formation_id=None):
+    return render_to_response(
+        "modifier_etablissements.html", {}, RequestContext(request)
     )

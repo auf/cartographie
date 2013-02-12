@@ -4,7 +4,6 @@ import datetime
 
 from django.db import models
 from django.contrib.auth.models import User
-from django.utils import safestring
 
 from auf.django.references import models as ref
 
@@ -58,7 +57,7 @@ class Formation(models.Model):
         Discipline, null=True, blank=True, related_name="+"
     )
     discipline_3 = models.ForeignKey(
-        Discipline, null=True, related_name="+"
+        Discipline, null=True, blank=True, related_name="+"
     )
 
     # etablissement(s)
