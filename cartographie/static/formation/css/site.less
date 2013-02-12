@@ -79,6 +79,29 @@ header {
     margin:11px 0;
 }
 
+form {
+    .control-group {
+        @input_width: 350px;
+
+        input[type=text] {
+            width:@input_width;
+        }
+        select {
+            width:@input_width + 15;
+        }
+    }
+
+    .chzn-container-single {
+        & + .help-block {
+            margin-top: 8px;
+        }
+    }
+
+    .muted {
+        font-size:0.9em;
+    }
+}
+
 /* Footer */
 footer {
     margin-top:6px;

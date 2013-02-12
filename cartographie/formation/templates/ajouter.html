@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% load removeSelectMultipleHelpText %}
+
 {% block Contenu %}
 <span class="span12">
     <div class="content">
@@ -29,7 +31,15 @@
                 </label>
                 <div class="controls">
                     {{ field }}
+                    {% if field.help_text %}
+                        <p class="help-block">
+                            <span class="muted">
+                                {{ field.help_text|removeSelectMultipleHelpText }}
+                            </span>
+                        </p>
+                    {% endif %}
                 </div>
+
             </div>
             {% endfor %}
 
