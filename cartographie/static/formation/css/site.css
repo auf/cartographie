@@ -561,6 +561,7 @@ form.form-horizontal .control-label{width:180px;}
 form.form-horizontal .controls{margin-left:200px;}
 form .control-group input[type=text]{width:350px;}
 form .control-group select{width:365px;}
+form .control-group textarea{width:350px;}
 form .control-group .errorlist{margin:0 0 0 20px;display:inline-block;}form .control-group .errorlist li{list-style:none;color:#c09853;}
 form .control-group.warning .chzn-container .chzn-single{border-color:#c09853;}
 form .control-group.warning .chzn-container-multi .chzn-choices{border-color:#c09853;}

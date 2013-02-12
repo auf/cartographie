@@ -14,6 +14,8 @@ class ListeViewModel(object):
             acces = Acces.objects.filter(token=token)[0]
 
             self.etablissement = acces.etablissement
+
+            # filtrer les formations pour ceux de l'établissement courant
             self.formations = Formation.objects.filter(
                 etablissement=self.etablissement
             ).order_by("nom")

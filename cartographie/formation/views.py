@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response
 
-from .decorators import token_required
+from cartographie.formation.decorators import token_required
 
 
 def erreur(request):
@@ -50,8 +50,8 @@ def ajouter(request, token):
         nouvelle_formation = ajoutVM.form.save(commit=False)
         # sauvegarder le modele de base
         nouvelle_formation.save()
-        # sauvegarder les m2m avec through !
-        # EtablissementComposante, ref.Etablissement, EtablissementAutre
+        # sauvegarder des m2m avec through:
+        #   EtablissementComposante, ref.Etablissement, EtablissementAutre
 
         # puis sauvegarder les m2m !
         ajoutVM.form.save_m2m()
