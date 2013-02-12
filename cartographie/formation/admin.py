@@ -269,6 +269,23 @@ class AccesAdmin(ModelAdmin):
         return False
     
 
+class DisciplineAdmin(ModelAdmin):
+    list_display = ('code', 'nom', '_discipline_auf',)
+    list_display_links = ('nom',)
+    list_filter = (
+        'discipline__nom',
+    )
+
+    search_fields = (
+        'code',
+        'nom',
+    )
+
+    def _discipline_auf(self, instance):
+        return instance.discipline.nom
+    _discipline_auf.short_description = u"Discipline AUF"
+
+
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 
@@ -278,7 +295,7 @@ admin.site.register(EtablissementAutre)
 admin.site.register(Personne)
 admin.site.register(Acces, AccesAdmin)
 
-admin.site.register(Discipline)
+admin.site.register(Discipline, DisciplineAdmin)
 admin.site.register(NiveauDiplome)
 admin.site.register(TypeDiplome)
 admin.site.register(DelivranceDiplome)
