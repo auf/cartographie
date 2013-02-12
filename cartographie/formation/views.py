@@ -6,6 +6,9 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response
 
 from cartographie.formation.decorators import token_required
+from cartographie.formation.models import FormationComposante, \
+                                          FormationPartenaireAUF, \
+                                          FormationPartenaireAutre
 
 
 def erreur(request):
@@ -50,7 +53,7 @@ def ajouter(request, token):
         nouvelle_formation = ajoutVM.form.save(commit=False)
         nouvelle_formation.save()
 
-        # sauvegarder des m2m avec through:
+        # sauvegarder des m2m avec through via les formsets:
         #   EtablissementComposante, ref.Etablissement, EtablissementAutre
 
         # puis sauvegarder les m2m normaux
@@ -81,6 +84,11 @@ def consulter(request, token, formation_id=None):
 
 
 @token_required
+def consulter_etablissements(request, token, formation_id=None):
+    pass
+
+
+@token_required
 def modifier(request, token, formation_id=None):
     """
         Formulaire d'édition d'une fiche formation
@@ -88,3 +96,8 @@ def modifier(request, token, formation_id=None):
     return render_to_response(
         "modifier.html", {}, RequestContext(request)
     )
+
+
+@token_required
+def modifier_etablissements(request, token, formation_id=None):
+    pass

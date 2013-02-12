@@ -18,6 +18,16 @@
 
         <h4>Ajouter une formation</h4>
 
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="#">Informations de base</a>
+            </li>
+            <li class="disabled">
+                <a href="javascript:void(0)">
+                    Établissement(s)
+                </a>
+            </li>
+        </ul>
         <form action="{% url formation_ajouter token %}" method="post"
               class="form-horizontal form-auf-ajouter">
             {% csrf_token %}
@@ -45,7 +55,6 @@
 
             </div>
             {% endfor %}
-
             <div class="control-group">
                 <div class="controls">
                     <input type="submit" class="btn btn-primary"

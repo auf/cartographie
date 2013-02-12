@@ -1,13 +1,22 @@
 # coding: utf-8
 
 from django.forms import ModelForm, Textarea
-from cartographie.formation.models import Formation, Personne
+from django.forms.models import inlineformset_factory
+from cartographie.formation.models import Formation, Personne, \
+                                          FormationComposante, \
+                                          FormationPartenaireAUF, \
+                                          FormationPartenaireAutre
 
 
 class FormationForm(ModelForm):
     class Meta:
         model = Formation
-        exclude = ("modifications", "commentaires")
+        exclude = (
+            "modifications", "commentaires",
+            "etablissement_composante",
+            "partenaires_auf",
+            "partenaires_autres"
+        )
 
         widgets = {
             "presentation": Textarea(
@@ -27,3 +36,26 @@ class FormationForm(ModelForm):
             actif=True, etablissement=etablissement
         )
         pass
+
+
+class FormationComposanteForm(ModelForm):
+    class Meta:
+        model = FormationComposante
+        excludes = ("formation")
+
+
+class FormationPartenaireAufForm(ModelForm):
+    class Meta:
+        model = FormationPartenaireAUF
+        excludes = ("formation")
+
+
+class FormationPartenaireAutreForm(ModelForm):
+    class Meta:
+        model = FormationPartenaireAutre
+        excludes = ("formation")
+
+# formsets pour le formulaire d'une fiche formation
+# FormationComposanteFormSet = inlineformset_factory(FormationComposanteForm)
+# FormationPartenaireAufFormSet = inlineformset_factory(FormationPartenaireAufForm)
+# FormationPartenaireAutreFormSet = inlineformset_factory(FormationPartenaireAutre)
