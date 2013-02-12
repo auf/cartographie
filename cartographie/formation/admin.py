@@ -8,7 +8,6 @@ from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 
-from .formation.models import UserRole
 from cartographie.formation.models import *
 
 
@@ -214,6 +213,50 @@ class FormationAdminFieldset(ModelAdmin):
     )
     pass
 
+class AccesAdmin(ModelAdmin):
+    list_display = ('_etablissement_id', '_etablissement_nom', 'token', 
+                    '_url', '_pays_nom', )
+    list_display_links = ('_etablissement_nom',)
+    list_filter = (
+        'etablissement__region',
+        'etablissement__pays',
+    )
+
+    search_fields = (
+        'etablissement__id',
+        'etablissement__nom',
+    )
+
+    def _get_url(self, instance):
+        return "/etablissement/%s" % instance.token
+        
+    def _get_link(self, instance, text):
+        url = self._get_url(instance)
+        link = u"""<a title="Accueil établissement" href='%s'>
+                  %s</a>""" % (url, text)
+        return link
+
+    def _etablissement_id(self, instance):
+        return instance.etablissement.id
+    _etablissement_id.short_description = u"Id"
+        
+    def _etablissement_nom(self, instance):
+        text = instance.etablissement.nom
+        return self._get_link(instance, text)
+    _etablissement_nom.allow_tags = True
+    _etablissement_nom.short_description = u"Établissement"
+        
+    def _url(self, instance):
+        # TODO : virer hardcode domain (basse priorité)
+        text = "http://cartographie.auf.org%s" % self._get_url(instance)
+        return self._get_link(instance, text)
+    _url.allow_tags = True
+    _url.short_description = u"URL"
+    
+    def _pays_nom(self, instance):
+        return instance.etablissement.pays.nom
+    _pays_nom.short_description = u"Pays"
+
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 
@@ -221,6 +264,7 @@ admin.site.register(Formation, FormationAdminFieldset)
 admin.site.register(EtablissementComposante)
 admin.site.register(EtablissementAutre)
 admin.site.register(Personne)
+admin.site.register(Acces, AccesAdmin)
 
 admin.site.register(Discipline)
 admin.site.register(NiveauDiplome)
