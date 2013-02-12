@@ -6,7 +6,8 @@
         <h4>Liste des formations</h4>
         <div class="clear"></div>
         <div class="actions pull-right">
-                <a href="{% url formation_ajouter token %}" class="btn btn-info pull-right">
+            <a href="{% url formation_ajouter token %}" class="btn btn-info pull-right">
+                <i class="icon icon-plus icon-white"></i>
                 Ajouter une formation
             </a>
         </div>
@@ -18,10 +19,37 @@
             <thead>
                 <tr>
                     <th>
-
+                        Formation
+                    </th>
+                    <th>
+                        Actions
                     </th>
                 </tr>
             </thead>
+            <tbody>
+                {% for f in formations %}
+                <tr>
+                    <td>
+                        <a href="{% url formation_consulter token f.id %}">
+                            {{ f.nom }}
+                        </a>
+                    </td>
+                    <td>
+                        <a class="btn"
+                            href="{% url formation_consulter token f.id %}">
+                            <i class="icon icon-eye-open"></i>
+                            Consulter
+                        </a>
+                        &nbsp;
+                        <a class="btn"
+                           href="{% url formation_modifier token f.id %}">
+                           <i class="icon icon-pencil"></i>
+                            Modifier
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
         </table>
         {% else %}
         <div class="alert alert-info">

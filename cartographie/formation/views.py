@@ -41,10 +41,20 @@ def ajouter(request, token):
     from .viewModels.ajouterViewModel import AjouterViewModel
 
     # AjouterViewModel fait la vérification du POST avec le formulaire
+    # VM = ViewModel :)
+
     ajoutVM = AjouterViewModel(request, token)
 
     if ajoutVM.form.is_valid():
-        # sauvegarder la fiche formation
+        # pour gérer les m2m, on doit utiliser commit=False
+        nouvelle_formation = ajoutVM.form.save(commit=False)
+        # sauvegarder le modele de base
+        nouvelle_formation.save()
+        # sauvegarder les m2m avec through !
+        # EtablissementComposante, ref.Etablissement, EtablissementAutre
+
+        # puis sauvegarder les m2m !
+        ajoutVM.form.save_m2m()
 
         return HttpResponseRedirect(
             reverse("formation_liste", args=[token])

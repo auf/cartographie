@@ -3,14 +3,12 @@
 
 {% block Contenu %}
 <span class="span12">
-    <div class="content">
+    <div class="content" data-etablissement-id="{{ etablissement.id }}">
         <h3>{{ etablissement.nom }}</h3>
 
         <ul class="breadcrumb">
             <li>
-                <a href="{% url formation_liste token %}">
-                    Liste des formations
-                </a>
+                <a href="{% url formation_liste token %}">Liste des formations</a>
                 <span class="divider">/</span>
             </li>
             <li class="active">

@@ -28,9 +28,22 @@ AUF.formation = function(){
         init: function(){
             console.log("AUF.formation.init()");
 
+            this.selectCurrentEtablissement();
             this.beautifulSelects();
         },
+        selectCurrentEtablissement: function(){
+            console.log("AUF.formation.selectCurrentEtablissement()");
+            var id = $(".content").data("etablissement-id");
+
+            $("#id_etablissement option[value=" + id + "]").attr(
+                "selected", "selected"
+            )
+        },
         beautifulSelects : function(){
+            /*
+                Utilisation de chosen pour augmenter l'utilisabilité
+                des SELECT à choix unique et multiple
+             */
             console.log("AUF.formation.beautifulSelects()");
 
             $(".form-auf-ajouter select").chosen({

@@ -14,6 +14,10 @@
 // Core variables and mixins
 @import "../twitter-bootstrap/less/variables.less"; // Modify this for custom colors, font-sizes, etc
 
+@baseIconPath: "/static/formation/twitter-bootstrap/img/";
+@iconSpritePath: "@{baseIconPath}glyphicons-halflings.png";
+@iconWhiteSpritePath: "@{baseIconPath}glyphicons-halflings-white.png";
+
 /* ***************** */
 /*  AUF Custom width */
 /* ***************** */
@@ -35,7 +39,7 @@
 @import "../twitter-bootstrap/less/tables.less";
 
 // Components: common
-// @import "../twitter-bootstrap/less/sprites.less";
+@import "../twitter-bootstrap/less/sprites.less";
 // @import "../twitter-bootstrap/less/dropdowns.less";
 // @import "../twitter-bootstrap/less/wells.less";
 // @import "../twitter-bootstrap/less/component-animations.less";

@@ -58,7 +58,7 @@ class Formation(models.Model):
         Discipline, null=True, blank=True, related_name="+"
     )
     discipline_3 = models.ForeignKey(
-        Discipline, null=True, related_name="+"
+        Discipline, null=True, blank=True, related_name="+"
     )
 
     # etablissement(s)
