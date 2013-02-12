@@ -31,6 +31,8 @@ class Formation(models.Model):
     nom_origine = models.CharField(
         verbose_name=u"Nom d'origine",
         max_length=250,
+        null=True,
+        blank=True,
         help_text=u" ".join([
             u"Intitulé de la formation dans la langue d'origine",
             u"si ce n'est pas le français"
@@ -38,16 +40,26 @@ class Formation(models.Model):
     )
     sigle = models.CharField(
         max_length=50,
+        null=True,
+        blank=True,
         verbose_name=u"Sigle de la formation",
         help_text=u"Abbréviation du nom de la formation"
     )
     url = models.URLField(
+        null=True,
+        blank=True,
         help_text=u"Lien Internet vers une page présentant la formation"
     )
 
-    discipline_1 = models.ForeignKey(Discipline, blank=False, related_name="+")
-    discipline_2 = models.ForeignKey(Discipline, null=True, related_name="+")
-    discipline_3 = models.ForeignKey(Discipline, null=True, related_name="+")
+    discipline_1 = models.ForeignKey(
+        Discipline, blank=False, related_name="+"
+    )
+    discipline_2 = models.ForeignKey(
+        Discipline, null=True, blank=True, related_name="+"
+    )
+    discipline_3 = models.ForeignKey(
+        Discipline, null=True, related_name="+"
+    )
 
     # etablissement(s)
     etablissement = models.ForeignKey(
@@ -68,6 +80,8 @@ class Formation(models.Model):
     etablissement_composante = models.ManyToManyField(
         EtablissementComposante,
         related_name="+",
+        null=True,
+        blank=True,
         through="FormationComposante",
         verbose_name=u"Composante d'établissement",
         help_text=u"Texte d'aide"
@@ -76,6 +90,8 @@ class Formation(models.Model):
     partenaires_auf = models.ManyToManyField(
         ref.Etablissement,
         related_name="+",
+        null=True,
+        blank=True,
         through="FormationPartenaireAUF",
         verbose_name=u"Partenaires membre de l'AUF",
         help_text=u"Texte d'aide"
@@ -84,6 +100,8 @@ class Formation(models.Model):
     partenaires_autres = models.ManyToManyField(
         EtablissementAutre,
         related_name="+",
+        null=True,
+        blank=True,
         through="FormationPartenaireAutre",
         verbose_name=u"Partenaires <strong class='text-info'>non membre</strong> de l'AUF",
         help_text=u"Texte d'aide"
@@ -92,6 +110,8 @@ class Formation(models.Model):
     # Diplôme
     niveau_diplome = models.ForeignKey(
         NiveauDiplome,
+        null=True,
+        blank=True,
         limit_choices_to={"actif": True},
         related_name="+",
         verbose_name=u"Niveau de diplôme"
@@ -99,6 +119,8 @@ class Formation(models.Model):
 
     type_diplome = models.ForeignKey(
         TypeDiplome,
+        null=True,
+        blank=True,
         limit_choices_to={"actif": True},
         related_name="+",
         verbose_name=u"Type de diplôme"
@@ -106,6 +128,8 @@ class Formation(models.Model):
 
     delivrance_diplome = models.ForeignKey(
         DelivranceDiplome,
+        null=True,
+        blank=True,
         limit_choices_to={"actif": True},
         related_name="+",
         verbose_name=u"Délivrance du diplôme",
@@ -113,6 +137,8 @@ class Formation(models.Model):
 
     niveau_entree = models.ManyToManyField(
         NiveauUniversitaire,
+        null=True,
+        blank=True,
         limit_choices_to={"actif": True},
         related_name="niveau_entree+",
         verbose_name=u"Niveau d'entrée",
@@ -121,6 +147,8 @@ class Formation(models.Model):
 
     niveau_sortie = models.ManyToManyField(
         NiveauUniversitaire,
+        null=True,
+        blank=True,
         verbose_name=u"Niveau de sortie",
         help_text=u"Nombre d'années d'enseignement supérieur",
         limit_choices_to={"actif": True},
@@ -129,6 +157,8 @@ class Formation(models.Model):
 
     vocation = models.ManyToManyField(
         Vocation,
+        null=True,
+        blank=True,
         limit_choices_to={"actif": True},
         related_name="vocation+"
     )
@@ -136,6 +166,8 @@ class Formation(models.Model):
     # Organisation de la formation
     presentation = models.CharField(
         max_length=500,
+        null=True,
+        blank=True,
         verbose_name=u"Présentation de la formation",
         help_text=u" ".join([
             u"Informations clés pour valoriser la formation",
@@ -144,31 +176,45 @@ class Formation(models.Model):
     )
     type_formation = models.ForeignKey(
         TypeFormation,
+        null=True,
+        blank=True,
         verbose_name=u"Type de formation",
         limit_choices_to={"actif": True},
         related_name="type_formation+"
     )
     langue = models.ManyToManyField(
         Langue,
+        null=True,
+        blank=True,
         verbose_name=u"Langue(s) d'enseignement",
         limit_choices_to={"actif": True},
         related_name="langue+"
     )
-    duree = models.IntegerField(verbose_name=u"Durée de la formation en heure")
+    duree = models.IntegerField(
+        null=True,
+        blank=True,
+        verbose_name=u"Durée de la formation",
+        help_text=u"En heure"
+    )
 
     # limiter les responsables et les contacts au personne du meme
     # etablissement que la formation courante
     responsables = models.ManyToManyField(
         Personne,
+        null=True,
+        blank=True,
         limit_choices_to={
             "actif": True,
             # "personne__etablissement": self.etablissement
         },
         related_name="responsables+"
+
     )
 
     contacts = models.ManyToManyField(
         Personne,
+        null=True,
+        blank=True,
         limit_choices_to={
             "actif": True,
             # "personne__etablissement": self.etablissement
@@ -182,11 +228,15 @@ class Formation(models.Model):
 
     modifications = models.ManyToManyField(
         "FormationModification",
+        null=True,
+        blank=True,
         related_name="modifications+"
     )
 
     commentaires = models.ManyToManyField(
         "FormationCommentaire",
+        null=True,
+        blank=True,
         related_name="commentaires+"
     )
 
