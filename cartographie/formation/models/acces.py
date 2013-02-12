@@ -14,7 +14,8 @@ class Acces(models.Model):
     """
 
     etablissement = models.ForeignKey(ref.Etablissement)
-    token = models.CharField(max_length=128, unique=True, null=False)
+    token = models.CharField(max_length=128, unique=True, null=False,
+              verbose_name="Code d'accès")
     active = models.NullBooleanField()
 
     token_charset = "abcdefghiklmnopqrstuvwxyz01234567890"

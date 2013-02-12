@@ -251,7 +251,7 @@ class AccesAdmin(ModelAdmin):
         text = "http://cartographie.auf.org%s" % self._get_url(instance)
         return self._get_link(instance, text)
     _url.allow_tags = True
-    _url.short_description = u"URL"
+    _url.short_description = u"URL secrète"
     
     def _pays_nom(self, instance):
         return instance.etablissement.pays.nom
