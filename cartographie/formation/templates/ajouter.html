@@ -4,7 +4,7 @@
 {% block Contenu %}
 <span class="span12">
     <div class="content">
-        <h2>{{ etablissement.nom }}</h2>
+        <h3>{{ etablissement.nom }}</h3>
 
         <ul class="breadcrumb">
             <li>
@@ -18,7 +18,7 @@
             </li>
         </ul>
 
-        <h3>Ajouter une formation</h3>
+        <h4>Ajouter une formation</h4>
 
         <form action="{% url formation_ajouter token %}" method="post"
               class="form-horizontal form-auf-ajouter">
