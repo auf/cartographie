@@ -6,9 +6,6 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response
 
 from cartographie.formation.decorators import token_required
-from cartographie.formation.models import FormationComposante, \
-                                          FormationPartenaireAUF, \
-                                          FormationPartenaireAutre
 
 
 def erreur(request):
@@ -85,7 +82,9 @@ def consulter(request, token, formation_id=None):
 
 @token_required
 def consulter_etablissements(request, token, formation_id=None):
-    pass
+    return render_to_response(
+        "consulter_etablissements.html", {}, RequestContext(request)
+    )
 
 
 @token_required
@@ -100,4 +99,6 @@ def modifier(request, token, formation_id=None):
 
 @token_required
 def modifier_etablissements(request, token, formation_id=None):
-    pass
+    return render_to_response(
+        "modifier_etablissements.html", {}, RequestContext(request)
+    )
