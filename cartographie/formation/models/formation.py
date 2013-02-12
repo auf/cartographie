@@ -4,6 +4,7 @@ import datetime
 
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import safestring
 
 from auf.django.references import models as ref
 
@@ -67,48 +68,55 @@ class Formation(models.Model):
     etablissement_composante = models.ManyToManyField(
         EtablissementComposante,
         related_name="+",
-        through="FormationComposante"
+        through="FormationComposante",
+        verbose_name=u"Composante d'établissement",
+        help_text=u"Texte d'aide"
     )
 
     partenaires_auf = models.ManyToManyField(
         ref.Etablissement,
         related_name="+",
-        through="FormationPartenaireAUF"
+        through="FormationPartenaireAUF",
+        verbose_name=u"Partenaires membre de l'AUF",
+        help_text=u"Texte d'aide"
     )
 
     partenaires_autres = models.ManyToManyField(
         EtablissementAutre,
         related_name="+",
-        through="FormationPartenaireAutre"
+        through="FormationPartenaireAutre",
+        verbose_name=u"Partenaires <strong class='text-info'>non membre</strong> de l'AUF",
+        help_text=u"Texte d'aide"
     )
 
     # Diplôme
     niveau_diplome = models.ForeignKey(
         NiveauDiplome,
         limit_choices_to={"actif": True},
-        related_name="+"
+        related_name="+",
+        verbose_name=u"Niveau de diplôme"
     )
 
     type_diplome = models.ForeignKey(
         TypeDiplome,
-        verbose_name=u"Type de diplôme",
         limit_choices_to={"actif": True},
-        related_name="+"
+        related_name="+",
+        verbose_name=u"Type de diplôme"
     )
 
     delivrance_diplome = models.ForeignKey(
         DelivranceDiplome,
-        verbose_name=u"Délivrance du diplôme",
         limit_choices_to={"actif": True},
-        related_name="+"
+        related_name="+",
+        verbose_name=u"Délivrance du diplôme",
     )
 
     niveau_entree = models.ManyToManyField(
         NiveauUniversitaire,
+        limit_choices_to={"actif": True},
+        related_name="niveau_entree+",
         verbose_name=u"Niveau d'entrée",
         help_text=u"Nombre d'années d'enseignement supérieur",
-        limit_choices_to={"actif": True},
-        related_name="niveau_entree+"
     )
 
     niveau_sortie = models.ManyToManyField(

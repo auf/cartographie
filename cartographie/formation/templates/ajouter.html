@@ -26,8 +26,8 @@
 
             {% for field in form %}
             <div class="control-group">
-                <label class="control-label" for="">
-                    {{ field.label }}
+                <label class="control-label" for="id_{{ field.html_name }}">
+                    {{ field.label|safe }}
                 </label>
                 <div class="controls">
                     {{ field }}

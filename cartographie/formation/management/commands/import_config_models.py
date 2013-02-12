@@ -1,9 +1,9 @@
 #coding: utf-8
 
 from django.core.management.base import BaseCommand
-from .models import Discipline, NiveauDiplome, TypeDiplome, \
+from formation.models import Discipline, NiveauDiplome, TypeDiplome, \
                     DelivranceDiplome, NiveauUniversitaire, \
-                    Vocation, TypeFormation
+                    Vocation, TypeFormation, Langue
 
 # Données de base pour les models qui feront parti de l'admin Django
 # de cet app.
@@ -69,3 +69,5 @@ class Command(BaseCommand):
         ajouter_data_au_modele(Vocation, vocations)
         self.stdout.write("Importation: TypeFormation\n")
         ajouter_data_au_modele(TypeFormation, types_formation)
+        self.stdout.write("Importation: Langue\n")
+        ajouter_data_au_modele(Langue, langues)

@@ -80,6 +80,17 @@ header {
 }
 
 form {
+    &.form-horizontal {
+        @label_width:180px;
+
+        .control-label {
+            width:@label_width;
+        }
+        .controls {
+            margin-left: @label_width + 20;
+        }
+    }
+
     .control-group {
         @input_width: 350px;
 

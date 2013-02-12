@@ -414,6 +414,8 @@ header{height:125px;overflow:hidden;}header .logo{margin:0;}
 header .rainbow{margin:0 22px 0 0;}
 .content{padding:22px;}
 .actions{margin:11px 0;}
+form.form-horizontal .control-label{width:180px;}
+form.form-horizontal .controls{margin-left:200px;}
 form .control-group input[type=text]{width:350px;}
 form .control-group select{width:365px;}
 form .chzn-container-single +.help-block{margin-top:8px;}
