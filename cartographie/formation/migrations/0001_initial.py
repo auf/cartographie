@@ -47,7 +47,7 @@ class Migration(SchemaMigration):
         db.send_create_signal('formation', ['Acces'])
 
         # Adding model 'Discipline'
-        db.create_table('formation_discipline', (
+        db.create_table('formation_config_discipline', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('code', self.gf('django.db.models.fields.CharField')(max_length=100)),
             ('nom', self.gf('django.db.models.fields.CharField')(max_length=150)),
@@ -56,7 +56,7 @@ class Migration(SchemaMigration):
         db.send_create_signal('formation', ['Discipline'])
 
         # Adding model 'NiveauDiplome'
-        db.create_table('formation_niveaudiplome', (
+        db.create_table('formation_config_niveaudiplome', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('nom', self.gf('django.db.models.fields.CharField')(max_length=150)),
             ('actif', self.gf('django.db.models.fields.BooleanField')(default=True)),
@@ -64,7 +64,7 @@ class Migration(SchemaMigration):
         db.send_create_signal('formation', ['NiveauDiplome'])
 
         # Adding model 'TypeDiplome'
-        db.create_table('formation_typediplome', (
+        db.create_table('formation_config_typediplome', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('nom', self.gf('django.db.models.fields.CharField')(max_length=150)),
             ('actif', self.gf('django.db.models.fields.BooleanField')(default=True)),
@@ -72,7 +72,7 @@ class Migration(SchemaMigration):
         db.send_create_signal('formation', ['TypeDiplome'])
 
         # Adding model 'DelivranceDiplome'
-        db.create_table('formation_delivrancediplome', (
+        db.create_table('formation_config_delivrancediplome', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('nom', self.gf('django.db.models.fields.CharField')(max_length=150)),
             ('actif', self.gf('django.db.models.fields.BooleanField')(default=True)),
@@ -80,7 +80,7 @@ class Migration(SchemaMigration):
         db.send_create_signal('formation', ['DelivranceDiplome'])
 
         # Adding model 'NiveauUniversitaire'
-        db.create_table('formation_niveauuniversitaire', (
+        db.create_table('formation_config_niveauuniversitaire', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('nom', self.gf('django.db.models.fields.CharField')(max_length=150)),
             ('actif', self.gf('django.db.models.fields.BooleanField')(default=True)),
@@ -88,7 +88,7 @@ class Migration(SchemaMigration):
         db.send_create_signal('formation', ['NiveauUniversitaire'])
 
         # Adding model 'Vocation'
-        db.create_table('formation_vocation', (
+        db.create_table('formation_config_vocation', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('nom', self.gf('django.db.models.fields.CharField')(max_length=150)),
             ('actif', self.gf('django.db.models.fields.BooleanField')(default=True)),
@@ -96,7 +96,7 @@ class Migration(SchemaMigration):
         db.send_create_signal('formation', ['Vocation'])
 
         # Adding model 'TypeFormation'
-        db.create_table('formation_typeformation', (
+        db.create_table('formation_config_typeformation', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('nom', self.gf('django.db.models.fields.CharField')(max_length=150)),
             ('actif', self.gf('django.db.models.fields.BooleanField')(default=True)),
@@ -104,7 +104,7 @@ class Migration(SchemaMigration):
         db.send_create_signal('formation', ['TypeFormation'])
 
         # Adding model 'Langue'
-        db.create_table('formation_langue', (
+        db.create_table('formation_config_langue', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('nom', self.gf('django.db.models.fields.CharField')(max_length=150)),
             ('actif', self.gf('django.db.models.fields.BooleanField')(default=True)),
@@ -140,20 +140,20 @@ class Migration(SchemaMigration):
         db.create_table('formation_formation', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('nom', self.gf('django.db.models.fields.CharField')(max_length=250)),
-            ('nom_origine', self.gf('django.db.models.fields.CharField')(max_length=250)),
-            ('sigle', self.gf('django.db.models.fields.CharField')(max_length=50)),
-            ('url', self.gf('django.db.models.fields.URLField')(max_length=200)),
+            ('nom_origine', self.gf('django.db.models.fields.CharField')(max_length=250, null=True, blank=True)),
+            ('sigle', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
+            ('url', self.gf('django.db.models.fields.URLField')(max_length=200, null=True, blank=True)),
             ('discipline_1', self.gf('django.db.models.fields.related.ForeignKey')(related_name='+', to=orm['formation.Discipline'])),
-            ('discipline_2', self.gf('django.db.models.fields.related.ForeignKey')(related_name='+', null=True, to=orm['formation.Discipline'])),
-            ('discipline_3', self.gf('django.db.models.fields.related.ForeignKey')(related_name='+', null=True, to=orm['formation.Discipline'])),
+            ('discipline_2', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['formation.Discipline'])),
+            ('discipline_3', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['formation.Discipline'])),
             ('etablissement', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['references.Etablissement'])),
             ('etablissement_emet_diplome', self.gf('django.db.models.fields.BooleanField')(default=True)),
-            ('niveau_diplome', self.gf('django.db.models.fields.related.ForeignKey')(related_name='+', to=orm['formation.NiveauDiplome'])),
-            ('type_diplome', self.gf('django.db.models.fields.related.ForeignKey')(related_name='+', to=orm['formation.TypeDiplome'])),
-            ('delivrance_diplome', self.gf('django.db.models.fields.related.ForeignKey')(related_name='+', to=orm['formation.DelivranceDiplome'])),
-            ('presentation', self.gf('django.db.models.fields.CharField')(max_length=500)),
-            ('type_formation', self.gf('django.db.models.fields.related.ForeignKey')(related_name='type_formation+', to=orm['formation.TypeFormation'])),
-            ('duree', self.gf('django.db.models.fields.IntegerField')()),
+            ('niveau_diplome', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['formation.NiveauDiplome'])),
+            ('type_diplome', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['formation.TypeDiplome'])),
+            ('delivrance_diplome', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['formation.DelivranceDiplome'])),
+            ('presentation', self.gf('django.db.models.fields.CharField')(max_length=500, null=True, blank=True)),
+            ('type_formation', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='type_formation+', null=True, to=orm['formation.TypeFormation'])),
+            ('duree', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
             ('date_creation', self.gf('django.db.models.fields.DateTimeField')()),
             ('date_modification', self.gf('django.db.models.fields.DateTimeField')()),
         ))
@@ -285,28 +285,28 @@ class Migration(SchemaMigration):
         db.delete_table('formation_acces')
 
         # Deleting model 'Discipline'
-        db.delete_table('formation_discipline')
+        db.delete_table('formation_config_discipline')
 
         # Deleting model 'NiveauDiplome'
-        db.delete_table('formation_niveaudiplome')
+        db.delete_table('formation_config_niveaudiplome')
 
         # Deleting model 'TypeDiplome'
-        db.delete_table('formation_typediplome')
+        db.delete_table('formation_config_typediplome')
 
         # Deleting model 'DelivranceDiplome'
-        db.delete_table('formation_delivrancediplome')
+        db.delete_table('formation_config_delivrancediplome')
 
         # Deleting model 'NiveauUniversitaire'
-        db.delete_table('formation_niveauuniversitaire')
+        db.delete_table('formation_config_niveauuniversitaire')
 
         # Deleting model 'Vocation'
-        db.delete_table('formation_vocation')
+        db.delete_table('formation_config_vocation')
 
         # Deleting model 'TypeFormation'
-        db.delete_table('formation_typeformation')
+        db.delete_table('formation_config_typeformation')
 
         # Deleting model 'Langue'
-        db.delete_table('formation_langue')
+        db.delete_table('formation_config_langue')
 
         # Deleting model 'EtablissementComposante'
         db.delete_table('formation_etablissementcomposante')
@@ -402,13 +402,13 @@ class Migration(SchemaMigration):
             'token': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '128'})
         },
         'formation.delivrancediplome': {
-            'Meta': {'object_name': 'DelivranceDiplome'},
+            'Meta': {'object_name': 'DelivranceDiplome', 'db_table': "'formation_config_delivrancediplome'"},
             'actif': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'nom': ('django.db.models.fields.CharField', [], {'max_length': '150'})
         },
         'formation.discipline': {
-            'Meta': {'object_name': 'Discipline'},
+            'Meta': {'object_name': 'Discipline', 'db_table': "'formation_config_discipline'"},
             'code': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'discipline': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['references.Discipline']", 'null': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
@@ -437,35 +437,35 @@ class Migration(SchemaMigration):
         },
         'formation.formation': {
             'Meta': {'object_name': 'Formation'},
-            'commentaires': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'commentaires+'", 'symmetrical': 'False', 'to': "orm['formation.FormationCommentaire']"}),
-            'contacts': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'contacts+'", 'symmetrical': 'False', 'to': "orm['formation.Personne']"}),
+            'commentaires': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'commentaires+'", 'null': 'True', 'symmetrical': 'False', 'to': "orm['formation.FormationCommentaire']"}),
+            'contacts': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'contacts+'", 'null': 'True', 'symmetrical': 'False', 'to': "orm['formation.Personne']"}),
             'date_creation': ('django.db.models.fields.DateTimeField', [], {}),
             'date_modification': ('django.db.models.fields.DateTimeField', [], {}),
-            'delivrance_diplome': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'+'", 'to': "orm['formation.DelivranceDiplome']"}),
+            'delivrance_diplome': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'to': "orm['formation.DelivranceDiplome']"}),
             'discipline_1': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'+'", 'to': "orm['formation.Discipline']"}),
-            'discipline_2': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'+'", 'null': 'True', 'to': "orm['formation.Discipline']"}),
-            'discipline_3': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'+'", 'null': 'True', 'to': "orm['formation.Discipline']"}),
-            'duree': ('django.db.models.fields.IntegerField', [], {}),
+            'discipline_2': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'to': "orm['formation.Discipline']"}),
+            'discipline_3': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'to': "orm['formation.Discipline']"}),
+            'duree': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'etablissement': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['references.Etablissement']"}),
-            'etablissement_composante': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'+'", 'symmetrical': 'False', 'through': "orm['formation.FormationComposante']", 'to': "orm['formation.EtablissementComposante']"}),
+            'etablissement_composante': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'+'", 'to': "orm['formation.EtablissementComposante']", 'through': "orm['formation.FormationComposante']", 'blank': 'True', 'symmetrical': 'False', 'null': 'True'}),
             'etablissement_emet_diplome': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'langue': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'langue+'", 'symmetrical': 'False', 'to': "orm['formation.Langue']"}),
-            'modifications': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'modifications+'", 'symmetrical': 'False', 'to': "orm['formation.FormationModification']"}),
-            'niveau_diplome': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'+'", 'to': "orm['formation.NiveauDiplome']"}),
-            'niveau_entree': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'niveau_entree+'", 'symmetrical': 'False', 'to': "orm['formation.NiveauUniversitaire']"}),
-            'niveau_sortie': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'niveau_sortie+'", 'symmetrical': 'False', 'to': "orm['formation.NiveauUniversitaire']"}),
+            'langue': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'langue+'", 'null': 'True', 'symmetrical': 'False', 'to': "orm['formation.Langue']"}),
+            'modifications': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'modifications+'", 'null': 'True', 'symmetrical': 'False', 'to': "orm['formation.FormationModification']"}),
+            'niveau_diplome': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'to': "orm['formation.NiveauDiplome']"}),
+            'niveau_entree': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'niveau_entree+'", 'null': 'True', 'symmetrical': 'False', 'to': "orm['formation.NiveauUniversitaire']"}),
+            'niveau_sortie': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'niveau_sortie+'", 'null': 'True', 'symmetrical': 'False', 'to': "orm['formation.NiveauUniversitaire']"}),
             'nom': ('django.db.models.fields.CharField', [], {'max_length': '250'}),
-            'nom_origine': ('django.db.models.fields.CharField', [], {'max_length': '250'}),
-            'partenaires_auf': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'+'", 'symmetrical': 'False', 'through': "orm['formation.FormationPartenaireAUF']", 'to': "orm['references.Etablissement']"}),
-            'partenaires_autres': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'+'", 'symmetrical': 'False', 'through': "orm['formation.FormationPartenaireAutre']", 'to': "orm['formation.EtablissementAutre']"}),
-            'presentation': ('django.db.models.fields.CharField', [], {'max_length': '500'}),
-            'responsables': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'responsables+'", 'symmetrical': 'False', 'to': "orm['formation.Personne']"}),
-            'sigle': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
-            'type_diplome': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'+'", 'to': "orm['formation.TypeDiplome']"}),
-            'type_formation': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'type_formation+'", 'to': "orm['formation.TypeFormation']"}),
-            'url': ('django.db.models.fields.URLField', [], {'max_length': '200'}),
-            'vocation': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'vocation+'", 'symmetrical': 'False', 'to': "orm['formation.Vocation']"})
+            'nom_origine': ('django.db.models.fields.CharField', [], {'max_length': '250', 'null': 'True', 'blank': 'True'}),
+            'partenaires_auf': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'+'", 'to': "orm['references.Etablissement']", 'through': "orm['formation.FormationPartenaireAUF']", 'blank': 'True', 'symmetrical': 'False', 'null': 'True'}),
+            'partenaires_autres': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'+'", 'to': "orm['formation.EtablissementAutre']", 'through': "orm['formation.FormationPartenaireAutre']", 'blank': 'True', 'symmetrical': 'False', 'null': 'True'}),
+            'presentation': ('django.db.models.fields.CharField', [], {'max_length': '500', 'null': 'True', 'blank': 'True'}),
+            'responsables': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'responsables+'", 'null': 'True', 'symmetrical': 'False', 'to': "orm['formation.Personne']"}),
+            'sigle': ('django.db.models.fields.CharField', [], {'max_length': '50', 'null': 'True', 'blank': 'True'}),
+            'type_diplome': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'to': "orm['formation.TypeDiplome']"}),
+            'type_formation': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'type_formation+'", 'null': 'True', 'to': "orm['formation.TypeFormation']"}),
+            'url': ('django.db.models.fields.URLField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
+            'vocation': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'vocation+'", 'null': 'True', 'symmetrical': 'False', 'to': "orm['formation.Vocation']"})
         },
         'formation.formationcommentaire': {
             'Meta': {'object_name': 'FormationCommentaire'},
@@ -505,19 +505,19 @@ class Migration(SchemaMigration):
             'partenaire_autre_emet_diplome': ('django.db.models.fields.BooleanField', [], {'default': 'False'})
         },
         'formation.langue': {
-            'Meta': {'object_name': 'Langue'},
+            'Meta': {'object_name': 'Langue', 'db_table': "'formation_config_langue'"},
             'actif': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'nom': ('django.db.models.fields.CharField', [], {'max_length': '150'})
         },
         'formation.niveaudiplome': {
-            'Meta': {'object_name': 'NiveauDiplome'},
+            'Meta': {'object_name': 'NiveauDiplome', 'db_table': "'formation_config_niveaudiplome'"},
             'actif': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'nom': ('django.db.models.fields.CharField', [], {'max_length': '150'})
         },
         'formation.niveauuniversitaire': {
-            'Meta': {'object_name': 'NiveauUniversitaire'},
+            'Meta': {'object_name': 'NiveauUniversitaire', 'db_table': "'formation_config_niveauuniversitaire'"},
             'actif': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'nom': ('django.db.models.fields.CharField', [], {'max_length': '150'})
@@ -534,13 +534,13 @@ class Migration(SchemaMigration):
             'telephone': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
         'formation.typediplome': {
-            'Meta': {'object_name': 'TypeDiplome'},
+            'Meta': {'object_name': 'TypeDiplome', 'db_table': "'formation_config_typediplome'"},
             'actif': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'nom': ('django.db.models.fields.CharField', [], {'max_length': '150'})
         },
         'formation.typeformation': {
-            'Meta': {'object_name': 'TypeFormation'},
+            'Meta': {'object_name': 'TypeFormation', 'db_table': "'formation_config_typeformation'"},
             'actif': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'nom': ('django.db.models.fields.CharField', [], {'max_length': '150'})
@@ -553,7 +553,7 @@ class Migration(SchemaMigration):
             'user': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'roles'", 'to': "orm['auth.User']"})
         },
         'formation.vocation': {
-            'Meta': {'object_name': 'Vocation'},
+            'Meta': {'object_name': 'Vocation', 'db_table': "'formation_config_vocation'"},
             'actif': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'nom': ('django.db.models.fields.CharField', [], {'max_length': '150'})

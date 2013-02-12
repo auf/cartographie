@@ -29,7 +29,7 @@ class Discipline(models.Model):
         verbose_name = u"Discipline"
         verbose_name_plural = u"Disciplines"
         app_label = "formation"
-        db_table = "config_discipline"
+        db_table = "formation_config_discipline"
 
     def __unicode__(self):
         return u"%s %s" % (self.code, self.nom)
@@ -40,7 +40,7 @@ class NiveauDiplome(AbstractNomStatut):
         verbose_name = u"Niveau de diplôme"
         verbose_name_plural = u"Niveaux de diplôme"
         app_label = "formation"
-        db_table = "config_niveaudiplome"
+        db_table = "formation_config_niveaudiplome"
 
 
 class TypeDiplome(AbstractNomStatut):
@@ -48,7 +48,7 @@ class TypeDiplome(AbstractNomStatut):
         verbose_name = u"Type de diplôme"
         verbose_name_plural = u"Types de diplôme"
         app_label = "formation"
-        db_table = "config_typediplome"
+        db_table = "formation_config_typediplome"
 
 
 class DelivranceDiplome(AbstractNomStatut):
@@ -56,7 +56,7 @@ class DelivranceDiplome(AbstractNomStatut):
         verbose_name = u"Délivrance de diplôme"
         verbose_name_plural = u"Délivrances de diplôme"
         app_label = "formation"
-        db_table = "config_delivrancediplome"
+        db_table = "formation_config_delivrancediplome"
 
 
 class NiveauUniversitaire(AbstractNomStatut):
@@ -67,7 +67,7 @@ class NiveauUniversitaire(AbstractNomStatut):
         verbose_name = u"Niveau universitaire"
         verbose_name_plural = u"Niveaux universitaires"
         app_label = "formation"
-        db_table = "config_niveauuniversitaire"
+        db_table = "formation_config_niveauuniversitaire"
 
 
 class Vocation(AbstractNomStatut):
@@ -76,7 +76,7 @@ class Vocation(AbstractNomStatut):
         verbose_name = u"Vocation"
         verbose_name_plural = u"Vocations"
         app_label = "formation"
-        db_table = "config_vocation"
+        db_table = "formation_config_vocation"
 
 
 class TypeFormation(AbstractNomStatut):
@@ -84,7 +84,7 @@ class TypeFormation(AbstractNomStatut):
         verbose_name = u"Type de formation"
         verbose_name_plural = u"Types de formation"
         app_label = "formation"
-        db_table = "config_typeformation"
+        db_table = "formation_config_typeformation"
 
 
 class Langue(AbstractNomStatut):
@@ -92,4 +92,4 @@ class Langue(AbstractNomStatut):
         verbose_name = u"Langue"
         verbose_name_plural = u"Langues"
         app_label = "formation"
-        db_table = "config_langue"
+        db_table = "formation_config_langue"
