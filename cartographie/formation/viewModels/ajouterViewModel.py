@@ -9,12 +9,18 @@ class AjouterViewModel(object):
     etablissement = None
     form = None
 
-    def __init__(self, token):
+    def __init__(self, request, token):
         if token:
             self.token = token
             acces = Acces.objects.filter(token=token)[0]
             self.etablissement = acces.etablissement
-            self.form = FormationForm()
+
+            if request.method == "POST":
+                form = FormationForm(request.POST)
+            else:
+                form = FormationForm()
+
+            self.form = form
 
     def get_data(self):
         return {

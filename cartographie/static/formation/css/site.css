@@ -412,13 +412,19 @@ body{font-family:Arial,Helvetica,Sans-serif;color:#616161;}
 .rainbow .rouge{background-color:#e30000;}
 header{height:125px;overflow:hidden;}header .logo{margin:0;}
 header .rainbow{margin:0 22px 0 0;}
+header h2{margin:79px 0 0 0;}
 .content{padding:22px;}
 .actions{margin:11px 0;}
 form.form-horizontal .control-label{width:180px;}
 form.form-horizontal .controls{margin-left:200px;}
 form .control-group input[type=text]{width:350px;}
 form .control-group select{width:365px;}
+form .control-group .errorlist{margin:0 0 0 20px;display:inline-block;}form .control-group .errorlist li{list-style:none;font-size:0.9em;color:#c09853;}
+form .control-group.warning .chzn-container .chzn-single{border-color:#c09853;}
+form .control-group.warning .chzn-container-multi .chzn-choices{border-color:#c09853;}
 form .chzn-container-single +.help-block{margin-top:8px;}
+form .chzn-container-multi .chzn-choices .search-field input{font-size:0.9em;}
+form .chzn-container-multi+.errorlist{position:relative;top:-10px;}
 form .muted{font-size:0.9em;}
 footer{margin-top:6px;}footer .rainbow{margin-bottom:15px;}
 footer .content{padding-top:0;padding-bottom:0;}

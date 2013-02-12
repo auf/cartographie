@@ -64,6 +64,8 @@ header {
     .rainbow {
         margin:0 22px 0 0;
     }
+
+    h2 {margin:79px 0 0 0;}
 }
 
 /* Corps */
@@ -79,39 +81,7 @@ header {
     margin:11px 0;
 }
 
-form {
-    &.form-horizontal {
-        @label_width:180px;
-
-        .control-label {
-            width:@label_width;
-        }
-        .controls {
-            margin-left: @label_width + 20;
-        }
-    }
-
-    .control-group {
-        @input_width: 350px;
-
-        input[type=text] {
-            width:@input_width;
-        }
-        select {
-            width:@input_width + 15;
-        }
-    }
-
-    .chzn-container-single {
-        & + .help-block {
-            margin-top: 8px;
-        }
-    }
-
-    .muted {
-        font-size:0.9em;
-    }
-}
+@import "form.less";
 
 /* Footer */
 footer {

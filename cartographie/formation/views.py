@@ -1,6 +1,8 @@
 # coding: utf-8
 
 from django.template import RequestContext
+from django.http import HttpResponseRedirect
+from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response
 
 from .decorators import token_required
@@ -38,9 +40,21 @@ def ajouter(request, token):
 
     from .viewModels.ajouterViewModel import AjouterViewModel
 
+    # AjouterViewModel fait la vérification du POST avec le formulaire
+    ajoutVM = AjouterViewModel(request, token)
+
+    if ajoutVM.form.is_valid():
+        # sauvegarder la fiche formation
+
+        return HttpResponseRedirect(
+            reverse("formation_liste", args=[token])
+        )
+
+    data = ajoutVM.get_data()
+
     return render_to_response(
         "ajouter.html",
-        AjouterViewModel(token).get_data(),
+        data,
         RequestContext(request)
     )
 
