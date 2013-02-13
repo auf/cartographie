@@ -100,9 +100,15 @@ def modifier(request, token, formation_id=None):
         # pas nécessaire de gérer les m2m ici, contrairement à l'ajout
         # d'une nouvelle fiche
         formation_courante = modifVM.form.save()
+
         # laisser une trace des modifications
         modif = FormationModification()
-        modif.save_modification(formation_courante.id)
+
+        if request.user.is_authenticated():
+            modif.save_modification(formation_courante.id, request.user)
+        else:
+            modif.save_modification(formation_courante.id)
+
         # obtenir les infos de nouveau pour rafraîchir la page
         modifVM = ModifierViewModel(request, token, formation_courante.id)
 
@@ -137,7 +143,7 @@ def modifier_etablissements(request, token, formation_id=None):
         modifVM.partenaireAutreFormset.save()
         formsets_sauvegarder.append(True)
 
-    # si au moins un formset a été sauvegarder, on redirige
+    # si au moins un formset a été sauvegardé, on redirige
     if True in formsets_sauvegarder:
         return HttpResponseRedirect(
             reverse("formation_modifier", args=[token, formation_id])
