@@ -314,7 +314,8 @@ class FormationComposante(models.Model):
     formation = models.ForeignKey(Formation)
     etablissementComposante = models.ForeignKey(
         EtablissementComposante,
-        related_name="+"
+        related_name="+",
+        verbose_name=u"Composante d'établissement"
     )
     etablissement_composante_emet_diplome = models.BooleanField(
         default=False,

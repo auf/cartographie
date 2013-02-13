@@ -15,7 +15,7 @@
             </li>
         </ul>
 
-        <h4>Modifier les établissements d'une formation</h4>
+        <h4>Modifier les établissements - <span class="badge">{{ formation.nom }}</span></h4>
 
         <ul class="nav nav-tabs">
             <li>
@@ -32,35 +32,39 @@
 
 
         <form action="{% url formation_modifier_etablissements token formation.id %}" method="post" class="form-auf">
+            {% csrf_token %}
+            {{ composanteFormset.management_form }}
             <h5>Composante(s) de formation</h5>
-            <table class="table striped table-bordered table-hover table-condensed">
+            <table class="table table-striped table-bordered table-condensed">
                 {% for current_form in composanteFormset.forms %}
                 <tr>
                     {% for field in current_form %}
-                        {% if field.label != "Formation" and field.label != "Id"  %}
-                            <td>
-                                <div class="control-group {% if field.errors %}warning{% endif %}">
-                                    <label class="control-label" for="id_{{ field.html_name }}">
-                                        {{ field.label|safe }}
-                                    </label>
-                                    <div class="controls">
-                                        {{ field }}
+                        <td class="{% if field.label == "Formation" or field.label == "Id"  %}hidden{% endif %}">
+                            <div class="control-group {% if field.errors %}warning{% endif %}">
+                                <label class="control-label" for="id_{{ field.html_name }}">
+                                    {{ field.label|safe }}
+                                </label>
+                                <div class="controls">
+                                    {{ field }}
 
-                                        {% if field.help_text %}
-                                            <p class="help-block">
-                                                <span class="muted">
-                                                    {{ field.help_text|removeSelectMultipleHelpText }}
-                                                </span>
-                                            </p>
-                                        {% endif %}
-                                    </div>
+                                    {% if field.help_text %}
+                                        <p class="help-block">
+                                            <span class="muted">
+                                                {{ field.help_text|removeSelectMultipleHelpText }}
+                                            </span>
+                                        </p>
+                                    {% endif %}
                                 </div>
-                            </td>
-                        {% endif %}
+                            </div>
+                        </td>
                     {% endfor %}
                 </tr>
                 {% endfor %}
             </table>
+            <div class="actions">
+                <input type="submit" class="btn btn-success"
+                           value="Modifier les composantes">
+            </div>
         </form>
     </div>
 </span>

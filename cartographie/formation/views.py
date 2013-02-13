@@ -94,6 +94,8 @@ def modifier(request, token, formation_id=None):
 
     modifVM = ModifierViewModel(request, token, formation_id)
 
+    #TODO: sauvegarder l'établissement ou structure d'accueil à la main ici
+
     if modifVM.form.is_valid():
         # pas nécessaire de gérer les m2m ici, contrairement à l'ajout
         # d'une nouvelle fiche
@@ -116,8 +118,17 @@ def modifier_etablissements(request, token, formation_id=None):
 
     from cartographie.formation.viewModels.modifier import ModifierViewModel
 
-    modifVM = ModifierViewModel(request, token, formation_id)
-    modifVM.set_formsets()
+    modifVM = ModifierViewModel(
+        request, token, formation_id, presence_formsets=True
+    )
+
+    # Verifier la validité des formsets
+    if modifVM.composanteFormset.is_valid():
+        modifVM.composanteFormset.save()
+
+        return HttpResponseRedirect(
+            reverse("formation_modifier", args=[token, formation_id])
+        )
 
     return render_to_response(
         "modifier_etablissements.html",

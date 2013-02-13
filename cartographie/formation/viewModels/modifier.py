@@ -23,41 +23,41 @@ class ModifierViewModel(object):
     partenaireAufFormset = None
     partenaireAutreFormset = None
 
-    def __init__(self, request, token, formation_id):
+    def __init__(self, request, token, formation_id, presence_formsets=False):
         if token:
             self.token = token
             self.acces = Acces.objects.get(token=token)
             self.etablissement = self.acces.etablissement
-            self.formation = Formation.objects.get(id=formation_id)
+            self.formation = Formation.objects.get(pk=formation_id)
+
+            # setup des formsets
+            composanteFormset = inlineformset_factory(Formation, FormationComposante, extra=1)
 
             if request.method == "POST":
-                form = FormationForm(
+                # gestion du formulaire de base d'une fiche
+                self.form = FormationForm(
                     self.etablissement,
                     request.POST,
                     instance=self.formation
                 )
+
+                if presence_formsets:
+                    # si ce if n'est pas présent dans le contexte ou on fait un post
+                    # sans les formsets, il nous avertit que les données
+                    # des formsets ne sont présents !
+
+                    # gestion des formsets dans l'onglet "Établissement(s)"
+                    self.composanteFormset = composanteFormset(
+                        request.POST,
+                        instance=self.formation
+                    )
             else:
-                form = FormationForm(
+                # init de base des formulaires et des formsets
+                self.form = FormationForm(
                     self.etablissement,
                     instance=self.formation
                 )
-
-            self.form = form
-
-    def set_formsets(self):
-        formset = inlineformset_factory(
-            Formation,
-            FormationComposante,
-            exclude=("id", "formation")
-        )
-        self.composanteFormset = formset(instance=self.formation)
-
-        # self.partenaireAufFormset = inlineformset_factory(
-        #     FormationPartenaireAufForm
-        # )
-        # self.partenaireAutreFormset = inlineformset_factory(
-        #     FormationPartenaireAutreForm
-        # )
+                self.composanteFormset = composanteFormset(instance=self.formation)
 
     def get_data(self):
         return {
