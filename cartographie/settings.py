@@ -32,6 +32,8 @@ STATICFILES_DIRS = (
     os.path.join(PROJECT_ROOT, 'static'),
 )
 
+ADMIN_MEDIA_PREFIX = "/static/admin/"
+
 ROOT_URLCONF = 'cartographie.urls'
 
 INSTALLED_APPS = (
