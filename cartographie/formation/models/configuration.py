@@ -23,7 +23,7 @@ class AbstractNomStatut(models.Model):
 class Discipline(models.Model):
     code = models.CharField(max_length=100, verbose_name=u"Code Erasmus")
     nom = models.CharField(max_length=150, verbose_name=u"Nom")
-    discipline = models.ForeignKey(ref.Discipline, null=True)
+    discipline = models.ForeignKey(ref.Discipline, null=True, blank=True)
 
     class Meta:
         verbose_name = u"Discipline"
