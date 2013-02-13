@@ -6,6 +6,7 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response
 
 from cartographie.formation.decorators import token_required
+from cartographie.formation.models import FormationModification
 
 
 def erreur(request):
@@ -93,6 +94,14 @@ def modifier(request, token, formation_id=None):
 
     modifVM = ModifierViewModel(request, token, formation_id)
 
+    if modifVM.form.is_valid():
+        formation_courante = modifVM.form.save()
+        # laisser une trace des modifications
+        modif = FormationModification()
+        modif.save_modification(formation_courante.id)
+        # obtenir les infos de nouveau
+        modifVM = ModifierViewModel(request, token, formation_courante.id)
+
     return render_to_response(
         "modifier.html",
         modifVM.get_data(),
@@ -102,6 +111,13 @@ def modifier(request, token, formation_id=None):
 
 @token_required
 def modifier_etablissements(request, token, formation_id=None):
+
+    from cartographie.formation.viewModels.modifier import ModifierViewModel
+
+    modifVM = ModifierViewModel(request, token, formation_id)
+
     return render_to_response(
-        "modifier_etablissements.html", {}, RequestContext(request)
+        "modifier_etablissements.html",
+        modifVM.get_data(),
+        RequestContext(request)
     )

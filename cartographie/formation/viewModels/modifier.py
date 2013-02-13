@@ -18,7 +18,11 @@ class ModifierViewModel(object):
             self.formation = Formation.objects.get(id=formation_id)
 
             if request.method == "POST":
-                form = FormationForm(self.etablissement, request.POST)
+                form = FormationForm(
+                    self.etablissement,
+                    request.POST,
+                    instance=self.formation
+                )
             else:
                 form = FormationForm(
                     self.etablissement,

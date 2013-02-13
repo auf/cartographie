@@ -260,7 +260,7 @@ class Formation(models.Model):
 
 class FormationModification(models.Model):
     formation = models.ForeignKey(Formation)
-    user = models.ForeignKey(User, related_name="+")
+    user = models.ForeignKey(User, null=True, blank=True, related_name="+")
     date = models.DateTimeField(auto_now=True)
 
     class Meta:
@@ -270,7 +270,18 @@ class FormationModification(models.Model):
         db_table = "formation_formationmodification"
 
     def __unicode__(self):
-        return u"%s" % (self.user,)
+        return u"%s" % (self.date)
+
+    def save_modification(self, formation_id, user=None):
+        """
+            Permet d'enregistrer une modification dans une fiche
+        """
+        self.formation = Formation.objects.get(id=formation_id)
+
+        if user:
+            self.user = user
+
+        self.save()
 
 
 class FormationCommentaire(models.Model):

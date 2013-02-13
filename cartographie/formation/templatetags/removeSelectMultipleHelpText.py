@@ -8,7 +8,12 @@ register = template.Library()
 
 @register.filter
 def removeSelectMultipleHelpText(value):
-    msg =  unicode(
+    """
+        Permet de supprimer le message tannant pour les selects à choix
+        multiple
+    """
+
+    msg = unicode(
         _('Hold down "Control", or "Command" on a Mac, to select more than one.')
     )
 

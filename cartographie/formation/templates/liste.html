@@ -22,6 +22,10 @@
                         Formation
                     </th>
                     <th>
+                        Nom d'origine
+                    </th>
+                    <th>Sigle</th>
+                    <th>
                         Actions
                     </th>
                 </tr>
@@ -30,17 +34,21 @@
                 {% for f in formations %}
                 <tr>
                     <td>
-                        <a href="{% url formation_consulter token f.id %}">
+                        <p><a href="{% url formation_modifier token f.id %}">
                             {{ f.nom }}
-                        </a>
+                        </a></p>
                     </td>
                     <td>
-                        <a class="btn"
-                            href="{% url formation_consulter token f.id %}">
-                            <i class="icon icon-eye-open"></i>
-                            Consulter
-                        </a>
-                        &nbsp;
+                        <p><a href="{% url formation_modifier token f.id %}">
+                            {{ f.nom_origine }}
+                        </a></p>
+                    </td>
+                    <td>
+                        <p><a href="{% url formation_modifier token f.id %}">
+                            {{ f.sigle }}
+                        </a></p>
+                    </td>
+                    <td>
                         <a class="btn"
                            href="{% url formation_modifier token f.id %}">
                            <i class="icon icon-pencil"></i>
