@@ -2,7 +2,7 @@ Explication de la présence de dossiers non communs à un projet Django
 =====================================================================
 
 viewModels
-==========
+----------
 
 C'est une class qui fait le lien entre la *view* et le *template*. Elle contient
 les données qui seront utilisés dans le template.
