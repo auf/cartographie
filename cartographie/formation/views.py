@@ -118,14 +118,27 @@ def modifier_etablissements(request, token, formation_id=None):
 
     from cartographie.formation.viewModels.modifier import ModifierViewModel
 
+    # absorber les infos de la requete
     modifVM = ModifierViewModel(
         request, token, formation_id, presence_formsets=True
     )
 
+    formsets_sauvegarder = []
     # Verifier la validité des formsets
     if modifVM.composanteFormset.is_valid():
         modifVM.composanteFormset.save()
+        formsets_sauvegarder.append(True)
 
+    if modifVM.partenaireAufFormset.is_valid():
+        modifVM.partenaireAufFormset.save()
+        formsets_sauvegarder.append(True)
+
+    if modifVM.partenaireAutreFormset.is_valid():
+        modifVM.partenaireAutreFormset.save()
+        formsets_sauvegarder.append(True)
+
+    # si au moins un formset a été sauvegarder, on redirige
+    if True in formsets_sauvegarder:
         return HttpResponseRedirect(
             reverse("formation_modifier", args=[token, formation_id])
         )

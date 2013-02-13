@@ -6,8 +6,8 @@ from auf.django.references import models as ref
 
 from cartographie.formation.models import Acces, Formation, \
                                           FormationComposante, \
-                                          EtablissementComposante, \
-                                          EtablissementAutre
+                                          FormationPartenaireAUF, \
+                                          FormationPartenaireAutre
 
 from cartographie.formation.forms.formation import FormationForm
 
@@ -31,7 +31,15 @@ class ModifierViewModel(object):
             self.formation = Formation.objects.get(pk=formation_id)
 
             # setup des formsets
-            composanteFormset = inlineformset_factory(Formation, FormationComposante, extra=1)
+            composanteFormset = inlineformset_factory(
+                Formation, FormationComposante, extra=1
+            )
+            partenaireAufFormset = inlineformset_factory(
+                Formation, FormationPartenaireAUF, extra=1
+            )
+            partenaireAutreFormset = inlineformset_factory(
+                Formation, FormationPartenaireAutre, extra=1
+            )
 
             if request.method == "POST":
                 # gestion du formulaire de base d'une fiche
@@ -49,7 +57,18 @@ class ModifierViewModel(object):
                     # gestion des formsets dans l'onglet "Établissement(s)"
                     self.composanteFormset = composanteFormset(
                         request.POST,
-                        instance=self.formation
+                        instance=self.formation,
+                        prefix="composante"
+                    )
+                    self.partenaireAufFormset = partenaireAufFormset(
+                        request.POST,
+                        instance=self.formation,
+                        prefix="partenaires-auf"
+                    )
+                    self.partenaireAutreFormset = partenaireAutreFormset(
+                        request.POST,
+                        instance=self.formation,
+                        prefix="partenaires-autre"
                     )
             else:
                 # init de base des formulaires et des formsets
@@ -57,7 +76,18 @@ class ModifierViewModel(object):
                     self.etablissement,
                     instance=self.formation
                 )
-                self.composanteFormset = composanteFormset(instance=self.formation)
+                self.composanteFormset = composanteFormset(
+                    instance=self.formation,
+                    prefix="composante"
+                )
+                self.partenaireAufFormset = partenaireAufFormset(
+                    instance=self.formation,
+                    prefix="partenaires-auf"
+                )
+                self.partenaireAutreFormset = partenaireAutreFormset(
+                    instance=self.formation,
+                    prefix="partenaires-autre"
+                )
 
     def get_data(self):
         return {
