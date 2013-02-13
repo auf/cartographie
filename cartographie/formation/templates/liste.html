@@ -22,10 +22,6 @@
                         Formation
                     </th>
                     <th>
-                        Nom d'origine
-                    </th>
-                    <th>Sigle</th>
-                    <th>
                         Actions
                     </th>
                 </tr>
@@ -36,16 +32,6 @@
                     <td>
                         <p><a href="{% url formation_modifier token f.id %}">
                             {{ f.nom }}
-                        </a></p>
-                    </td>
-                    <td>
-                        <p><a href="{% url formation_modifier token f.id %}">
-                            {{ f.nom_origine }}
-                        </a></p>
-                    </td>
-                    <td>
-                        <p><a href="{% url formation_modifier token f.id %}">
-                            {{ f.sigle }}
                         </a></p>
                     </td>
                     <td>
@@ -61,7 +47,8 @@
         </table>
         {% else %}
         <div class="alert alert-info">
-            Votre établissement ne possède pas encore de formation !
+            Aucune formation n'existe encore dans le système pour votre établissement.<br />
+            Cliquez sur le bouton <b class="text-info">Ajouter une formation</b> pour commencer la saisie.
         </div>
         {% endif %}
     </div>
