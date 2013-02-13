@@ -33,27 +33,7 @@
             {% csrf_token %}
 
             {% for field in form %}
-            <div class="control-group {% if field.errors %}warning{% endif %}">
-                <label class="control-label" for="id_{{ field.html_name }}">
-                    {{ field.label|safe }}
-                </label>
-                <div class="controls">
-
-                    {{ field }}
-                    {% if field.errors %}
-                        {{ field.errors }}
-                    {% endif %}
-
-                    {% if field.help_text %}
-                        <p class="help-block">
-                            <span class="muted">
-                                {{ field.help_text|removeSelectMultipleHelpText }}
-                            </span>
-                        </p>
-                    {% endif %}
-                </div>
-
-            </div>
+                {% include "form_field.html" with field=field %}
             {% endfor %}
             <div class="control-group">
                 <div class="controls">
