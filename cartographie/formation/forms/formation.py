@@ -33,4 +33,3 @@ class FormationForm(ModelForm):
         self.fields["contacts"].queryset = Personne.objects.filter(
             actif=True, etablissement=etablissement
         )
-        pass
