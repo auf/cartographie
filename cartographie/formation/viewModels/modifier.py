@@ -48,6 +48,7 @@ class ModifierViewModel(object):
                 # gestion du formulaire de base d'une fiche
                 self.form = FormationForm(
                     self.etablissement,
+                    True,
                     request.POST,
                     instance=self.formation
                 )
@@ -80,6 +81,7 @@ class ModifierViewModel(object):
                 # init de base des formulaires et des formsets
                 self.form = FormationForm(
                     self.etablissement,
+                    True,
                     instance=self.formation
                 )
                 self.composanteFormset = composanteFormset(

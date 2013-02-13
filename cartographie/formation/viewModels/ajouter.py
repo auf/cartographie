@@ -16,9 +16,16 @@ class AjouterViewModel(object):
             self.etablissement = acces.etablissement
 
             if request.method == "POST":
-                form = FormationForm(self.etablissement, request.POST)
+                form = FormationForm(
+                    self.etablissement,
+                    False,
+                    request.POST
+                )
+
             else:
-                form = FormationForm(self.etablissement)
+                form = FormationForm(
+                    self.etablissement, False
+                )
 
             self.form = form
 

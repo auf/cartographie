@@ -37,7 +37,9 @@ AUF.formation = function(){
 
             $("#id_etablissement option[value=" + id + "]").attr(
                 "selected", "selected"
-            )
+            );
+
+            $("#id_etablissement").attr("disabled", "disabled");
         },
         beautifulSelects : function(){
             /*

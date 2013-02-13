@@ -49,6 +49,8 @@ def ajouter(request, token):
         # pour gérer les m2m, on doit utiliser commit=False
         # pour sauvegarder le modele de base AVANT de faire des save m2m.
         nouvelle_formation = ajoutVM.form.save(commit=False)
+        # sauvegarder l'établissement à la main car la VM le connait
+        nouvelle_formation.etablissement = ajoutVM.etablissement
         nouvelle_formation.save()
         # puis sauvegarder les m2m normaux
         ajoutVM.form.save_m2m()
@@ -60,11 +62,9 @@ def ajouter(request, token):
             )
         )
 
-    data = ajoutVM.get_data()
-
     return render_to_response(
         "ajouter.html",
-        data,
+        ajoutVM.get_data(),
         RequestContext(request)
     )
 
@@ -96,8 +96,6 @@ def modifier(request, token, formation_id=None):
     from cartographie.formation.viewModels.modifier import ModifierViewModel
 
     modifVM = ModifierViewModel(request, token, formation_id)
-
-    #TODO: sauvegarder l'établissement ou structure d'accueil à la main ici
 
     if modifVM.form.is_valid():
         # pas nécessaire de gérer les m2m ici, contrairement à l'ajout
@@ -131,6 +129,18 @@ def modifier_etablissements(request, token, formation_id=None):
     modifVM = ModifierViewModel(
         request, token, formation_id, presence_formsets=True
     )
+
+    if request.method == "POST":
+        # vérifier la présence du champ "etablissement_emet_diplome"
+        # et la conserver si elle est présente
+        emet = request.POST.get("etablissement_emet_diplome", False)
+
+        if emet == "on":
+            modifVM.formation.etablissement_emet_diplome = True
+        else:
+            modifVM.formation.etablissement_emet_diplome = False
+
+        modifVM.formation.save()
 
     formsets_sauvegarder = []
     # Verifier la validité des formsets

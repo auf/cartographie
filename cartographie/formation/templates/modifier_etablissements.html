@@ -29,16 +29,23 @@
                 </a>
             </li>
         </ul>
-
-        <h5>Composante(s) de l'établissement</h5>
-        <p>
-            Composante(s) de l'établissement 
-            <b class="text-info">{{ etablissement.nom }}</b> 
-            impliquée(s) dans la formation 
-            <b class="text-info">{{ formation.nom }}</b>.
-        </p>
         <form action="{% url formation_modifier_etablissements token formation.id %}" method="post" class="form-auf">
             {% csrf_token %}
+
+            <div class="form-horizontal">
+                {% include "form_field.html" with field=form.etablissement %}
+                {% include "form_field.html" with field=form.etablissement_emet_diplome %}
+            </div>
+
+            <hr>
+
+            <h5>Composante(s) de l'établissement</h5>
+            <p>
+                Composante(s) de l'établissement
+                <b class="text-info">{{ etablissement.nom }}</b>
+                impliquée(s) dans la formation
+                <b class="text-info">{{ formation.nom }}</b>.
+            </p>
             {{ composanteFormset.management_form }}
             <table class="table table-striped table-bordered table-condensed">
                 {% for current_form in composanteFormset.forms %}
@@ -52,18 +59,19 @@
                 {% endfor %}
             </table>
             <div class="actions">
-                <input type="submit" class="btn btn-success"
-                           value="Modifier les composantes">
+                <input type="submit" class="btn btn-success" value="Modifier les composantes">
             </div>
+
             <hr>
+
             <h5>Partenaire(s) membre de l'AUF</h5>
             <p>
                 Partenaire(s) membre de l'AUF
-                impliqué(s) dans la formation 
+                impliqué(s) dans la formation
                 <b class="text-info">{{ formation.nom }}</b>.
             </p>
-            {{ partenaireAufFormset.management_form }}
 
+            {{ partenaireAufFormset.management_form }}
             <table class="table table-striped table-bordered table-condensed">
                 {% for current_form in partenaireAufFormset.forms %}
                 <tr>
@@ -76,18 +84,18 @@
                 {% endfor %}
             </table>
             <div class="actions">
-                <input type="submit" class="btn btn-success"
-                           value="Modifier les partenaires membres">
+                <input type="submit" class="btn btn-success" value="Modifier les partenaires membres">
             </div>
+
             <hr>
+
             <h5>Partenaire(s) <b class="text-info">non membre</b> de l'AUF</h5>
             <p>
-                Partenaire(s) <b class="text-info">non membre</b> de l'AUF 
-                impliqué(s) dans la formation 
+                Partenaire(s) <b class="text-info">non membre</b> de l'AUF
+                impliqué(s) dans la formation
                 <b class="text-info">{{ formation.nom }}</b>.
             </p>
             {{ partenaireAutreFormset.management_form }}
-
             <table class="table table-striped table-bordered table-condensed">
                 {% for current_form in partenaireAutreFormset.forms %}
                 <tr>
@@ -100,8 +108,7 @@
                 {% endfor %}
             </table>
             <div class="actions">
-                <input type="submit" class="btn btn-success"
-                           value="Modifier les partenaires non membres">
+                <input type="submit" class="btn btn-success" value="Modifier les partenaires non membres">
             </div>
         </form>
     </div>
