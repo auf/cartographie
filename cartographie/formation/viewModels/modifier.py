@@ -44,11 +44,13 @@ class ModifierViewModel(object):
                 Formation, FormationPartenaireAutre, extra=1
             )
 
+            presence_etablissement = presence_formsets
+
             if request.method == "POST":
                 # gestion du formulaire de base d'une fiche
                 self.form = FormationForm(
                     self.etablissement,
-                    True,
+                    presence_etablissement,
                     request.POST,
                     instance=self.formation
                 )
@@ -81,7 +83,7 @@ class ModifierViewModel(object):
                 # init de base des formulaires et des formsets
                 self.form = FormationForm(
                     self.etablissement,
-                    True,
+                    presence_etablissement,
                     instance=self.formation
                 )
                 self.composanteFormset = composanteFormset(
