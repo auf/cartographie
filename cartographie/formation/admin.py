@@ -286,6 +286,45 @@ class DisciplineAdmin(ModelAdmin):
     _discipline_auf.short_description = u"Discipline AUF"
 
 
+class FormationModificationAdmin(ModelAdmin):
+    list_display = ('date', 'user', '_formation',)
+    list_display_links = ('_formation',)
+
+    search_fields = (
+        'formation',
+    )
+    
+    def _get_url(self, instance):
+        return "/etablissement/%s" % instance.token
+        
+    def _get_link(self, instance, text):
+        url = self._get_url(instance)
+        link = u"""<a title="Accueil établissement" href='%s'>
+                  %s</a>""" % (url, text)
+        return link
+        
+    def _formation(self, instance):
+        # http://127.0.0.1:8000/etablissement/myzNNVTt3URBMA1op4ZoDSGuhUewiRMo/formation/1/modifier
+        # reverse("formation_modifier", args=[token, formation_id])
+        e = instance.formation.etablissement
+        #url = Acces.objects.get()
+        #return self._get_link(instance, text)
+        return instance.formation
+    _formation.allow_tags = True
+    _formation.short_description = u"Formation"
+    
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        # True nécessaire pour accès à liste...
+        # ... mais URL de modification pas dans liste : voir list_display_links
+        return True
+    
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 
@@ -294,6 +333,8 @@ admin.site.register(EtablissementComposante)
 admin.site.register(EtablissementAutre)
 admin.site.register(Personne)
 admin.site.register(Acces, AccesAdmin)
+
+admin.site.register(FormationModification, FormationModificationAdmin)
 
 admin.site.register(Discipline, DisciplineAdmin)
 admin.site.register(NiveauDiplome)
