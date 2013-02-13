@@ -21,4 +21,4 @@ lorsque nécessaire.
 Elle pertmet également d'écrire des UnitTests spécifiques à l'obtention et
 au formatage des données.
 
-"Références Model-View-ViewModel":http://en.wikipedia.org/wiki/Model_View_ViewModel
+Références *Model-View-ViewModel*: http://en.wikipedia.org/wiki/Model_View_ViewModel
