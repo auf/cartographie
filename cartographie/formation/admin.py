@@ -7,6 +7,7 @@ from django.contrib.admin import ModelAdmin, StackedInline, TabularInline
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
+from django.core.urlresolvers import reverse
 
 from cartographie.formation.models import *
 
@@ -226,14 +227,10 @@ class AccesAdmin(ModelAdmin):
         'etablissement__id',
         'etablissement__nom',
     )
-
-    def _get_url(self, instance):
-        return "/etablissement/%s" % instance.token
         
-    def _get_link(self, instance, text):
-        url = self._get_url(instance)
+    def _get_link(self, href, text):
         link = u"""<a title="Accueil établissement" href='%s'>
-                  %s</a>""" % (url, text)
+                  %s</a>""" % (href, text)
         return link
 
     def _etablissement_id(self, instance):
@@ -241,15 +238,17 @@ class AccesAdmin(ModelAdmin):
     _etablissement_id.short_description = u"Id"
         
     def _etablissement_nom(self, instance):
+        href = reverse("formation_liste", args=[instance.token])
         text = instance.etablissement.nom
-        return self._get_link(instance, text)
+        return self._get_link(href, text)
     _etablissement_nom.allow_tags = True
     _etablissement_nom.short_description = u"Établissement"
         
     def _url(self, instance):
         # TODO : virer hardcode domain (basse priorité)
-        text = "http://cartographie.auf.org%s" % self._get_url(instance)
-        return self._get_link(instance, text)
+        href = reverse("formation_liste", args=[instance.token])
+        text = "http://cartographie.auf.org%s" % href
+        return self._get_link(href, text)
     _url.allow_tags = True
     _url.short_description = u"URL secrète"
     
@@ -292,24 +291,18 @@ class FormationModificationAdmin(ModelAdmin):
 
     search_fields = (
         'formation',
-    )
+    )       
     
-    def _get_url(self, instance):
-        return "/etablissement/%s" % instance.token
-        
-    def _get_link(self, instance, text):
-        url = self._get_url(instance)
-        link = u"""<a title="Accueil établissement" href='%s'>
-                  %s</a>""" % (url, text)
-        return link
-        
     def _formation(self, instance):
-        # http://127.0.0.1:8000/etablissement/myzNNVTt3URBMA1op4ZoDSGuhUewiRMo/formation/1/modifier
-        # reverse("formation_modifier", args=[token, formation_id])
-        e = instance.formation.etablissement
-        #url = Acces.objects.get()
-        #return self._get_link(instance, text)
-        return instance.formation
+        formation_id = instance.formation.id
+        token = instance.formation.etablissement.acces_set.get().token
+        
+        title = instance.formation
+        href = reverse("formation_modifier", args=[token, formation_id])
+        text = instance.formation
+        link = u"""<a title="%s" href='%s'>
+                  %s</a>""" % (title, href, text)
+        return link
     _formation.allow_tags = True
     _formation.short_description = u"Formation"
     
