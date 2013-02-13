@@ -2,8 +2,6 @@
 
 from django.forms.models import inlineformset_factory
 
-from auf.django.references import models as ref
-
 from cartographie.formation.models import Acces, Formation, \
                                           FormationComposante, \
                                           FormationPartenaireAUF, \
@@ -13,6 +11,11 @@ from cartographie.formation.forms.formation import FormationForm
 
 
 class ModifierViewModel(object):
+    """
+        Les données nécessaires à la view "modifier" et "modifier_etablissements"
+        sont obtenus et gérés ici.
+    """
+
     token = None
     acces = None
     etablissement = None
@@ -49,10 +52,13 @@ class ModifierViewModel(object):
                     instance=self.formation
                 )
 
+                # l'utilisation du parametre "prefix" sur les objets
+                # {whatever}Formset est obligatoire pour des formsets multiples
+                # dans un même formulaire
                 if presence_formsets:
-                    # si ce if n'est pas présent dans le contexte ou on fait un post
-                    # sans les formsets, il nous avertit que les données
-                    # des formsets ne sont présents !
+                    # si ce if n'est pas présent dans le contexte ou on fait un
+                    # post sans les formsets, il nous avertit que les données
+                    # des formsets ne sont pas présents...
 
                     # gestion des formsets dans l'onglet "Établissement(s)"
                     self.composanteFormset = composanteFormset(

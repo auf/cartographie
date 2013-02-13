@@ -2,10 +2,7 @@
 
 from django.forms import ModelForm, Textarea
 
-from cartographie.formation.models import Formation, Personne, \
-                                          FormationComposante, \
-                                          FormationPartenaireAUF, \
-                                          FormationPartenaireAutre
+from cartographie.formation.models import Formation, Personne
 
 
 class FormationForm(ModelForm):
@@ -37,21 +34,3 @@ class FormationForm(ModelForm):
             actif=True, etablissement=etablissement
         )
         pass
-
-
-# class FormationComposanteForm(ModelForm):
-#     class Meta:
-#         model = FormationComposante
-#         excludes = ("formation", "id")
-
-
-# class FormationPartenaireAufForm(ModelForm):
-#     class Meta:
-#         model = FormationPartenaireAUF
-#         excludes = ("formation")
-
-
-# class FormationPartenaireAutreForm(ModelForm):
-#     class Meta:
-#         model = FormationPartenaireAutre
-#         excludes = ("formation")
