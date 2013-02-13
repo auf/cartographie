@@ -32,13 +32,23 @@
         <form action="{% url formation_modifier_etablissements token formation.id %}" method="post" class="form-auf">
             {% csrf_token %}
 
-            <div class="form-horizontal">
-                {% include "form_field.html" with field=form.etablissement %}
-                {% include "form_field.html" with field=form.etablissement_emet_diplome %}
+            <h5>Établissement dispensant</h5>
+            <table class="table table-stripped table-bordered table-condensed">
+                <tr>
+                    <td>
+                        {% include "form_field.html" with field=form.etablissement %}
+                    </td>
+                    <td>
+                        {% include "form_field.html" with field=form.etablissement_emet_diplome %}
+                    </td>
+                </tr>
+            </table>
+            <div class="control-group">
+                <div class="controls actions">
+                    <input type="submit" class="btn btn-success" value="Modifier">
+                </div>
             </div>
-
             <hr>
-
             <h5>Composante(s) de l'établissement</h5>
             <p>
                 Composante(s) de l'établissement
