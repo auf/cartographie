@@ -54,7 +54,10 @@ def ajouter(request, token):
         ajoutVM.form.save_m2m()
 
         return HttpResponseRedirect(
-            reverse("formation_liste", args=[token])
+            reverse(
+                "formation_modifier_etablissements",
+                args=[token, nouvelle_formation.id]
+            )
         )
 
     data = ajoutVM.get_data()
