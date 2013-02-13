@@ -29,7 +29,39 @@
                 </a>
             </li>
         </ul>
-        blabla
+
+
+        <form action="{% url formation_modifier_etablissements token formation.id %}" method="post" class="form-auf">
+            <h5>Composante(s) de formation</h5>
+            <table class="table striped table-bordered table-hover table-condensed">
+                {% for current_form in composanteFormset.forms %}
+                <tr>
+                    {% for field in current_form %}
+                        {% if field.label != "Formation" and field.label != "Id"  %}
+                            <td>
+                                <div class="control-group {% if field.errors %}warning{% endif %}">
+                                    <label class="control-label" for="id_{{ field.html_name }}">
+                                        {{ field.label|safe }}
+                                    </label>
+                                    <div class="controls">
+                                        {{ field }}
+
+                                        {% if field.help_text %}
+                                            <p class="help-block">
+                                                <span class="muted">
+                                                    {{ field.help_text|removeSelectMultipleHelpText }}
+                                                </span>
+                                            </p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </table>
+        </form>
     </div>
 </span>
 {% endblock %}

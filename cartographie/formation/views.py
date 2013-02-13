@@ -95,11 +95,13 @@ def modifier(request, token, formation_id=None):
     modifVM = ModifierViewModel(request, token, formation_id)
 
     if modifVM.form.is_valid():
+        # pas nécessaire de gérer les m2m ici, contrairement à l'ajout
+        # d'une nouvelle fiche
         formation_courante = modifVM.form.save()
         # laisser une trace des modifications
         modif = FormationModification()
         modif.save_modification(formation_courante.id)
-        # obtenir les infos de nouveau
+        # obtenir les infos de nouveau pour rafraîchir la page
         modifVM = ModifierViewModel(request, token, formation_courante.id)
 
     return render_to_response(
@@ -115,6 +117,7 @@ def modifier_etablissements(request, token, formation_id=None):
     from cartographie.formation.viewModels.modifier import ModifierViewModel
 
     modifVM = ModifierViewModel(request, token, formation_id)
+    modifVM.set_formsets()
 
     return render_to_response(
         "modifier_etablissements.html",

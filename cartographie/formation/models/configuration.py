@@ -15,7 +15,7 @@ class AbstractNomStatut(models.Model):
 
     class Meta:
         abstract = True
-        
+
     def __unicode__(self):
         return u"%s" % (self.nom)
 
@@ -32,7 +32,7 @@ class Discipline(models.Model):
         db_table = "formation_config_discipline"
 
     def __unicode__(self):
-        return u"%s %s" % (self.code, self.nom)
+        return u"%s %s - [%s]" % (self.code, self.nom, self.discipline)
 
 
 class NiveauDiplome(AbstractNomStatut):
