@@ -1,6 +1,35 @@
 {% extends "base.html" %}
+{% load removeSelectMultipleHelpText %}
+
 {% block Contenu %}
 <span class="span12">
-    <h2>Modifier établissements inlines</h2>
+    <div class="content" data-etablissement-id="{{ etablissement.id }}">
+        <h3>{{ etablissement.nom }}</h3>
+        <ul class="breadcrumb">
+            <li>
+                <a href="{% url formation_liste token %}">Liste des formations</a>
+                <span class="divider">/</span>
+            </li>
+            <li class="active">
+                {{ formation.nom }}
+            </li>
+        </ul>
+
+        <h4>Modifier les établissements d'une formation</h4>
+
+        <ul class="nav nav-tabs">
+            <li>
+                <a href="{% url formation_modifier_etablissements token formation.id %}">
+                    Informations de base
+                </a>
+            </li>
+            <li class="active">
+                <a href="javascript:void(0)">
+                    Établissement(s)
+                </a>
+            </li>
+        </ul>
+        blabla
+    </div>
 </span>
 {% endblock %}

@@ -23,7 +23,7 @@ def liste(request, token):
         Afficher la liste de formation pour l'utilisateur courant
     """
 
-    from cartographie.formation.viewModels.listeViewModel import ListeViewModel
+    from cartographie.formation.viewModels.liste import ListeViewModel
 
     return render_to_response(
         "liste.html",
@@ -38,7 +38,7 @@ def ajouter(request, token):
         Formulaire d'ajout d'une fiche formation
     """
 
-    from cartographie.formation.viewModels.ajouterViewModel import AjouterViewModel
+    from cartographie.formation.viewModels.ajouter import AjouterViewModel
 
     # AjouterViewModel fait la vérification du POST avec le formulaire
     # VM = ViewModel :)
@@ -49,10 +49,6 @@ def ajouter(request, token):
         # pour sauvegarder le modele de base AVANT de faire des save m2m.
         nouvelle_formation = ajoutVM.form.save(commit=False)
         nouvelle_formation.save()
-
-        # sauvegarder des m2m avec through via les formsets:
-        #   EtablissementComposante, ref.Etablissement, EtablissementAutre
-
         # puis sauvegarder les m2m normaux
         ajoutVM.form.save_m2m()
 
@@ -92,8 +88,15 @@ def modifier(request, token, formation_id=None):
     """
         Formulaire d'édition d'une fiche formation
     """
+
+    from cartographie.formation.viewModels.modifier import ModifierViewModel
+
+    modifVM = ModifierViewModel(request, token, formation_id)
+
     return render_to_response(
-        "modifier.html", {}, RequestContext(request)
+        "modifier.html",
+        modifVM.get_data(),
+        RequestContext(request)
     )
 
 

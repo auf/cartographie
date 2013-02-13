@@ -46,8 +46,8 @@ AUF.formation = function(){
              */
             console.log("AUF.formation.beautifulSelects()");
 
-            $(".form-auf-ajouter select").chosen({
-                placeholder_text_multiple: "Veuillez choisir une option"
+            $(".form-auf select").chosen({
+                placeholder_text_multiple: "Veuillez choisir une ou plusieurs options"
             });
         }
     }

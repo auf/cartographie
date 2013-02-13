@@ -1,6 +1,66 @@
 {% extends "base.html" %}
+{% load removeSelectMultipleHelpText %}
+
 {% block Contenu %}
 <span class="span12">
-    <h2>Modifier</h2>
+    <div class="content" data-etablissement-id="{{ etablissement.id }}">
+        <h3>{{ etablissement.nom }}</h3>
+        <ul class="breadcrumb">
+            <li>
+                <a href="{% url formation_liste token %}">Liste des formations</a>
+                <span class="divider">/</span>
+            </li>
+            <li class="active">
+                {{ formation.nom }}
+            </li>
+        </ul>
+
+        <h4>Modifier une formation</h4>
+
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="#">Informations de base</a>
+            </li>
+            <li>
+                <a href="{% url formation_modifier_etablissements token formation.id %}">
+                    Établissement(s)
+                </a>
+            </li>
+        </ul>
+        <form action="{% url formation_modifier token formation.id %}" method="post"
+              class="form-horizontal form-auf">
+            {% csrf_token %}
+
+            {% for field in form %}
+            <div class="control-group {% if field.errors %}warning{% endif %}">
+                <label class="control-label" for="id_{{ field.html_name }}">
+                    {{ field.label|safe }}
+                </label>
+                <div class="controls">
+
+                    {{ field }}
+                    {% if field.errors %}
+                        {{ field.errors }}
+                    {% endif %}
+
+                    {% if field.help_text %}
+                        <p class="help-block">
+                            <span class="muted">
+                                {{ field.help_text|removeSelectMultipleHelpText }}
+                            </span>
+                        </p>
+                    {% endif %}
+                </div>
+
+            </div>
+            {% endfor %}
+            <div class="control-group">
+                <div class="controls">
+                    <input type="submit" class="btn btn-success"
+                           value="Modifier la formation">
+                </div>
+            </div>
+        </form>
+    </div>
 </span>
 {% endblock %}

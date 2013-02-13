@@ -29,7 +29,7 @@
             </li>
         </ul>
         <form action="{% url formation_ajouter token %}" method="post"
-              class="form-horizontal form-auf-ajouter">
+              class="form-horizontal form-auf">
             {% csrf_token %}
 
             {% for field in form %}
@@ -57,7 +57,7 @@
             {% endfor %}
             <div class="control-group">
                 <div class="controls">
-                    <input type="submit" class="btn btn-primary"
+                    <input type="submit" class="btn btn-success"
                            value="Ajouter la formation">
                 </div>
             </div>
