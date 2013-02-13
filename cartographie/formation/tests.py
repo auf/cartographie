@@ -37,3 +37,11 @@ class ImportUsersTestCase(TestCase):
         opts = {}
 
         call_command("import_auf_employees", *args, **opts)
+
+
+class ImportConfigData(TestCase):
+    def test_command(self):
+        args = []
+        opts = {}
+
+        call_command("import_config_models", *args, **opts)
