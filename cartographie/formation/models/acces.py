@@ -21,8 +21,8 @@ class Acces(models.Model):
     token_charset = "abcdefghiklmnopqrstuvwxyz01234567890"
 
     class Meta:
-        verbose_name = u"Code d'accès"
-        verbose_name_plural = u"Codes d'accès"
+        verbose_name = u"Accès aux formulaires"
+        verbose_name_plural = u"Accès aux formulaires"
         app_label = "formation"
         db_table = "formation_acces"
 
