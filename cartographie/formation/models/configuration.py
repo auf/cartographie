@@ -32,7 +32,12 @@ class Discipline(models.Model):
         db_table = "formation_config_discipline"
 
     def __unicode__(self):
-        return u"%s %s - [%s]" % (self.code, self.nom, self.discipline)
+        indent = u""
+        if len(self.code) > 1 :
+            for digit in self.code:
+                indent = indent + u">"
+            indent = indent[1:] + u" "
+        return u"%s%s" % (indent, self.nom)
 
 
 class NiveauDiplome(AbstractNomStatut):
