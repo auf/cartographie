@@ -33,8 +33,5 @@ class AjouterViewModel(object):
         return {
             "token": self.token,
             "etablissement": self.etablissement,
-            "form": self.form,
-            # "FormationComposanteFormSet": FormationComposanteFormSet(),
-            # "FormationPartenaireAufFormSet": FormationPartenaireAufFormSet(),
-            # "FormationPartenaireAutreFormSet": FormationPartenaireAutreFormSet()
+            "form": self.form
         }

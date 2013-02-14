@@ -24,7 +24,7 @@ def liste(request, token):
         Afficher la liste de formation pour l'utilisateur courant
     """
 
-    from cartographie.formation.viewModels.liste import ListeViewModel
+    from cartographie.formation.viewModels.formation.liste import ListeViewModel
 
     return render_to_response(
         "liste.html",
@@ -39,7 +39,7 @@ def ajouter(request, token):
         Formulaire d'ajout d'une fiche formation
     """
 
-    from cartographie.formation.viewModels.ajouter import AjouterViewModel
+    from cartographie.formation.viewModels.formation.ajouter import AjouterViewModel
 
     # AjouterViewModel fait la vérification du POST avec le formulaire
     # VM = ViewModel :)
@@ -69,22 +69,22 @@ def ajouter(request, token):
     )
 
 
-@token_required
-def consulter(request, token, formation_id=None):
-    """
-        Voir la fiche formation sans modification possible
-    """
+# @token_required
+# def consulter(request, token, formation_id=None):
+#     """
+#         Voir la fiche formation sans modification possible
+#     """
 
-    return render_to_response(
-        "formation/consulter.html", {}, RequestContext(request)
-    )
+#     return render_to_response(
+#         "formation/consulter.html", {}, RequestContext(request)
+#     )
 
 
-@token_required
-def consulter_etablissements(request, token, formation_id=None):
-    return render_to_response(
-        "formation/consulter_etablissements.html", {}, RequestContext(request)
-    )
+# @token_required
+# def consulter_etablissements(request, token, formation_id=None):
+#     return render_to_response(
+#         "formation/consulter_etablissements.html", {}, RequestContext(request)
+#     )
 
 
 @token_required
@@ -93,7 +93,7 @@ def modifier(request, token, formation_id=None):
         Formulaire d'édition d'une fiche formation
     """
 
-    from cartographie.formation.viewModels.modifier import ModifierViewModel
+    from cartographie.formation.viewModels.formation.modifier import ModifierViewModel
 
     modifVM = ModifierViewModel(request, token, formation_id)
 
@@ -123,7 +123,7 @@ def modifier(request, token, formation_id=None):
 @token_required
 def modifier_etablissements(request, token, formation_id=None):
 
-    from cartographie.formation.viewModels.modifier import ModifierViewModel
+    from cartographie.formation.viewModels.formation.modifier import ModifierViewModel
 
     # absorber les infos de la requete
     modifVM = ModifierViewModel(
@@ -253,7 +253,7 @@ def ajouter_composante(request, token):
 
 
 @token_required
-def modifier_composante(request, token, personne_id):
+def modifier_composante(request, token, composante_id):
     return render_to_response(
         "composante/modifier.html",
         {},
