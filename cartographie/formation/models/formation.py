@@ -193,7 +193,7 @@ class Formation(models.Model):
         null=True,
         blank=True,
         verbose_name=u"Durée de la formation",
-        help_text=u"En heure"
+        #help_text=u""
     )
 
     # limiter les responsables et les contacts au personne du meme
