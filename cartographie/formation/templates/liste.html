@@ -4,8 +4,16 @@
     <div class="content">
         <h3>{{ etablissement.nom }}</h3>
         <hr>
-
+        {% comment %}
+            Rendre le bon onglet actif avec la variable "onglet_actif"
+        {% endcomment %}
         {% include "liste_onglets.html" with menu_actif=onglet_actif %}
+
+        {% comment %}
+            Concatener la variable "onglet_actif" avec "liste.html"
+            pour aller chercher la bonne liste dans les repertoires
+            de template
+        {% endcomment %}
         {% with onglet_actif|add:"/liste.html" as onglet_template %}
             {% include onglet_template  %}
         {% endwith %}
