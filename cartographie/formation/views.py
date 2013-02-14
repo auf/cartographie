@@ -28,7 +28,7 @@ def liste(request, token):
 
     return render_to_response(
         "liste.html",
-        ListeViewModel(token).get_data(),
+        ListeViewModel(token, onglet_actif="formation").get_data(),
         RequestContext(request)
     )
 
@@ -167,3 +167,96 @@ def modifier_etablissements(request, token, formation_id=None):
         modifVM.get_data(),
         RequestContext(request)
     )
+
+
+@token_required
+def liste_personne(request, token):
+
+    from cartographie.formation.viewModels.liste import ListeViewModel
+
+    return render_to_response(
+        "liste.html",
+        ListeViewModel(token, onglet_actif="personne").get_data(),
+        RequestContext(request)
+    )
+
+
+@token_required
+def ajouter_personne(request, token):
+    return render_to_response(
+        "personne/ajouter.html",
+        {},
+        RequestContext(request)
+    )
+
+
+@token_required
+def modifier_personne(request, token, personne_id):
+    return render_to_response(
+        "personne/modifier.html",
+        {},
+        RequestContext(request)
+    )
+    pass
+
+
+@token_required
+def ajouter_partenaire_autre(request, token):
+    return render_to_response(
+        "partenaire-autre/ajouter.html",
+        {},
+        RequestContext(request)
+    )
+
+
+@token_required
+def liste_partenaire_autre(request, token):
+
+    from cartographie.formation.viewModels.liste import ListeViewModel
+
+    return render_to_response(
+        "liste.html",
+        ListeViewModel(token, onglet_actif="partenaire-autre").get_data(),
+        RequestContext(request)
+    )
+
+
+@token_required
+def modifier_partenaire_autre(request, token, personne_id):
+    return render_to_response(
+        "partenaire-autre/modifier.html",
+        {},
+        RequestContext(request)
+    )
+    pass
+
+
+@token_required
+def liste_composante(request, token):
+
+    from cartographie.formation.viewModels.liste import ListeViewModel
+
+    return render_to_response(
+        "liste.html",
+        ListeViewModel(token, onglet_actif="composante").get_data(),
+        RequestContext(request)
+    )
+
+
+@token_required
+def ajouter_composante(request, token):
+    return render_to_response(
+        "composante/ajouter.html",
+        {},
+        RequestContext(request)
+    )
+
+
+@token_required
+def modifier_composante(request, token, personne_id):
+    return render_to_response(
+        "composante/modifier.html",
+        {},
+        RequestContext(request)
+    )
+    pass

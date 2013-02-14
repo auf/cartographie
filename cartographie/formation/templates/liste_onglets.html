@@ -1,0 +1,20 @@
+<ul class="nav nav-tabs">
+    <li class="{% if menu_actif == "formation" %}active{% endif %}">
+        <a href="{% url formation_liste token %}">Formations</a>
+    </li>
+    <li class="{% if menu_actif == "composante" %}active{% endif %}">
+        <a href="{% url formation_composante_liste token %}">
+            Composantes
+        </a>
+    </li>
+    <li class="{% if menu_actif == "partenaire-autre" %}active{% endif %}">
+        <a href="{% url formation_partenaire_autre_liste token %}">
+            Partenaires
+        </a>
+    </li>
+    <li class="{% if menu_actif == "personne" %}active{% endif %}">
+        <a href="{% url formation_personne_liste token %}">
+            Personnes
+        </a>
+    </li>
+</ul>

@@ -15,6 +15,7 @@ urlpatterns = patterns(
         "liste",
         name="formation_liste"
     ),
+    # ajout/edition des fiches de formation
     url(
         r"^(?P<token>\w+)/formation/ajouter$",
         "ajouter",
@@ -39,5 +40,53 @@ urlpatterns = patterns(
         r"^(?P<token>\w+)/formation/(?P<formation_id>\d+)/modifier_etablissements$",
         "modifier_etablissements",
         name="formation_modifier_etablissements"
+    ),
+    # ajout/edition des personnes
+    url(
+        r"^(?P<token>\w+)/personne/liste$",
+        "liste_personne",
+        name="formation_personne_liste"
+    ),
+    url(
+        r"^(?P<token>\w+)/personne/ajouter$",
+        "ajouter_personne",
+        name="formation_personne_ajouter"
+    ),
+    url(
+        r"^(?P<token>\w+)/personne/(?P<personne_id>\d+)/modifier$",
+        "modifier_personne",
+        name="formation_personne_modifier"
+    ),
+    # ajout/edition des partenaires non membres
+    url(
+        r"^(?P<token>\w+)/partenaire_autre/liste$",
+        "liste_partenaire_autre",
+        name="formation_partenaire_autre_liste"
+    ),
+    url(
+        r"^(?P<token>\w+)/partenaire_autre/ajouter$",
+        "ajouter_partenaire_autre",
+        name="formation_partenaire_autre_ajouter"
+    ),
+    url(
+        r"^(?P<token>\w+)/partenaire_autre/(?P<partenaire_autre_id>\d+)/modifier$",
+        "modifier_partenaire_autre",
+        name="formation_partenaire_autre_modifier"
+    ),
+    # ajout/edition des composantes
+    url(
+        r"^(?P<token>\w+)/composante/liste$",
+        "liste_composante",
+        name="formation_composante_liste"
+    ),
+    url(
+        r"^(?P<token>\w+)/composante/ajouter$",
+        "ajouter_composante",
+        name="formation_composante_ajouter"
+    ),
+    url(
+        r"^(?P<token>\w+)/composante/(?P<composante_id>\d+)/modifier$",
+        "modifier_composante",
+        name="formation_composante_modifier"
     ),
 )
