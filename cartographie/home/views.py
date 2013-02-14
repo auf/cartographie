@@ -11,9 +11,3 @@ def accueil(request):
     return render_to_response(
         "accueil.html", {}, RequestContext(request)
     )
-
-
-def test(request):
-    return render_to_response(
-        "accueil.html", {}, RequestContext(request)
-    )
