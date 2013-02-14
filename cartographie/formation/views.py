@@ -269,9 +269,22 @@ def ajouter_composante(request, token):
 
 @token_required
 def modifier_composante(request, token, composante_id):
+
+    from cartographie.formation.viewModels.composante.modifier \
+        import ModifierViewModel
+
+    vm = ModifierViewModel(request, token, composante_id)
+
+    if request.method == "POST":
+        if vm.form.is_valid():
+            vm.form.save()
+
+            return HttpResponseRedirect(
+                reverse("formation_composante_liste", args=[token])
+            )
+
     return render_to_response(
         "composante/modifier.html",
-        {},
+        vm.get_data(),
         RequestContext(request)
     )
-    pass

@@ -10,7 +10,7 @@ class BaseAjouterViewModel(object):
     def __init__(self, request, token):
         if token:
             self.token = token
-            acces = Acces.objects.filter(token=token)[0]
+            acces = Acces.objects.get(token=token)
             self.etablissement = acces.etablissement
 
     def get_data(self):
