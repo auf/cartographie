@@ -172,7 +172,7 @@ def modifier_etablissements(request, token, formation_id=None):
 @token_required
 def liste_personne(request, token):
 
-    from cartographie.formation.viewModels.liste import ListeViewModel
+    from cartographie.formation.viewModels.personne.liste import ListeViewModel
 
     return render_to_response(
         "liste.html",
@@ -212,7 +212,8 @@ def ajouter_partenaire_autre(request, token):
 @token_required
 def liste_partenaire_autre(request, token):
 
-    from cartographie.formation.viewModels.liste import ListeViewModel
+    from cartographie.formation.viewModels.partenaire_autre.liste \
+        import ListeViewModel
 
     return render_to_response(
         "liste.html",
@@ -234,7 +235,7 @@ def modifier_partenaire_autre(request, token, personne_id):
 @token_required
 def liste_composante(request, token):
 
-    from cartographie.formation.viewModels.liste import ListeViewModel
+    from cartographie.formation.viewModels.composante.liste import ListeViewModel
 
     return render_to_response(
         "liste.html",
