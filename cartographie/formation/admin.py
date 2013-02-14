@@ -215,9 +215,9 @@ class FormationAdminFieldset(ModelAdmin):
     pass
 
 class AccesAdmin(ModelAdmin):
-    list_display = ('_etablissement_id', '_etablissement_nom', 'token', 
+    list_display = ('_etablissement_id', '_etablissement_nom', '_token', 
                     '_url', '_pays_nom', )
-    list_display_links = ('_etablissement_nom',)
+    list_display_links = ('_token',)
     list_filter = (
         'etablissement__region',
         'etablissement__pays',
@@ -238,17 +238,30 @@ class AccesAdmin(ModelAdmin):
     _etablissement_id.short_description = u"Id"
         
     def _etablissement_nom(self, instance):
-        href = reverse("formation_liste", args=[instance.token])
-        text = instance.etablissement.nom
-        return self._get_link(href, text)
-    _etablissement_nom.allow_tags = True
+        return instance.etablissement.nom
     _etablissement_nom.short_description = u"Établissement"
+        
+    def _token(self, instance):
+        if instance.active == True:
+            output = instance.token
+        elif instance.active == False:
+            output =  u"Désactivé"
+        else:
+            output =  u"Non généré"            
+        return output
+    _token.short_description = u"Code d'accès"
         
     def _url(self, instance):
         # TODO : virer hardcode domain (basse priorité)
-        href = reverse("formation_liste", args=[instance.token])
-        text = "http://cartographie.auf.org%s" % href
-        return self._get_link(href, text)
+        if instance.active == True :
+            href = reverse("formation_liste", args=[instance.token])
+            text = "http://cartographie.auf.org%s" % href
+            output = self._get_link(href, text)
+        elif instance.active == False:
+            output =  u"Désactivé"
+        else:
+            output =  u"Non généré"    
+        return output
     _url.allow_tags = True
     _url.short_description = u"URL secrète"
     
