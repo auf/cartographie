@@ -32,6 +32,8 @@ STATICFILES_DIRS = (
     os.path.join(PROJECT_ROOT, 'static'),
 )
 
+ADMIN_MEDIA_PREFIX = "/static/admin/"
+
 ROOT_URLCONF = 'cartographie.urls'
 
 INSTALLED_APPS = (
@@ -46,6 +48,11 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'south',
     'raven.contrib.django',
+    # AUF
+    'home',
+    'formation',
+    'auf.django.references',
+    'auf.django.permissions',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_TEMPLATE_CONTEXT_PROCESSORS + (

@@ -1,0 +1,25 @@
+{% load removeSelectMultipleHelpText %}
+
+<div class="control-group {% if field.errors %}warning{% endif %}">
+    <label
+        class="control-label {% if field.field.required %}bold{% endif %}"
+        for="{{ field.auto_id }}">
+        {{ field.label|safe }}
+        {{ field.required }}
+    </label>
+    <div class="controls">
+        {{ field }}
+
+        {% if field.errors %}
+            {{ field.errors }}
+        {% endif %}
+
+        {% if field.help_text %}
+            <p class="help-block">
+                <span class="muted">
+                    {{ field.help_text|removeSelectMultipleHelpText }}
+                </span>
+            </p>
+        {% endif %}
+    </div>
+</div>

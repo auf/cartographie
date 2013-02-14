@@ -1,0 +1,211 @@
+1,"EDUCATION", NULL
+14,"Formation des enseignants et sciences de l'éducation", NULL
+140,"Formation des enseignants et sciences de l'éducation (programmes larges)", NULL
+1401,"Formation des enseignants, général", NULL
+1402,"Cours pédagogiques pratiques, général", NULL
+141,"Enseignement et formation", NULL
+142,"Science de l'éducation", NULL
+1421,"Didactique", NULL
+1422,"Education science", NULL
+1423,"Contrôle, évaluation et mesure des connaissances", NULL
+1424,"Recherche pédagogique", NULL
+1425,"Science pédagogiques", NULL
+143,"Formation des enseignants pré-scolaire", NULL
+1431,"Formation des enseignants de la petite enfance", NULL
+1432,"Formation des enseignants en école maternelle", NULL
+144,"Formation des enseignants niveau élémentaire", NULL
+1441,"Formation des enseignants niveau élémentaire en classe", NULL
+1442,"Formation des enseignants niveau élémentaire à domicile", NULL
+1443,"Enseignement primaire", NULL
+1444,"Formation des enseignants pour enfants besoins spécifiques", NULL
+145,"Formation d'enseignants sur un sujet de spécialisation", NULL
+1451,"Enseignement secondaire", NULL
+1452,"Formation d'enseignants sur des sujets théoriques", NULL
+1453,"Formation d'enseignants en langues étrangères", NULL
+146,"Formation d'enseignants sur des sujets professionnels", NULL
+1461,"Formation d'enseignants arts et artisanats", NULL
+1462,"Formation d'enseignants techniques commerciales", NULL
+1463,"Formation d'enseignants musique", NULL
+1464,"Formation d'enseignants soins infirmiers", NULL
+1465,"Formation d'enseignants éducation physique", NULL
+1466,"Formation d'enseignants sujets techniques", NULL
+1467,"Formation d'instructeurs d'auto-école", NULL
+1468,"Formation de formateurs professionnels intra-entreprise", NULL
+1469,"Formation de formateurs professionnels", NULL
+149,"Formation des enseignants et sciences de l'éducation (autres)", NULL
+2,"SCIENCES HUMAINES ET ARTS", NULL
+21,"Arts", NULL
+210,"Arts (programmes larges)", NULL
+211,"Beaux-arts", NULL
+212,"Musique et arts du spectacle", NULL
+2121,"Musique et musicologie", NULL
+2122,"Arts du spectacle", NULL
+213,"Arts graphiques et audiovisuels", NULL
+214,"Design", NULL
+215,"Artisanats", NULL
+219,"Arts (autres)", NULL
+22,"Lettres", NULL
+220,"Lettres (programmes larges)", NULL
+221,"Religion", NULL
+222,"Langues et Sciences philologiques", NULL
+2221,"Langues modernes CE", NULL
+2222,"Littérature générale et comparative", NULL
+2223,"Linguistique", NULL
+2224,"Traduction, Interprétation", NULL
+2225,"Philologie classique", NULL
+2226,"Langues non CE", NULL
+2227,"Langues moins largement enseignées", NULL
+2228,"Langues régionales et minoritairesa", NULL
+2229,"Autres - Langues et sciences philologiques", NULL
+223,"Langue maternelle", NULL
+224,"Histoire, philosophie et autres sujets associés", NULL
+225,"Histoire et archéologie", NULL
+226,"Philosophie et morale", NULL
+229,"Lettres (autres)", NULL
+3,"SCIENCES SOCIALES, COMMERCE ET DROIT", NULL
+31,"Sciences sociales et du comportement", NULL
+310,"Sciences sociales et du comportement (programmes larges)", NULL
+311,"Psychologie", NULL
+312,"Sociologie et études culturelles", NULL
+313,"Sciences politiques et instruction civique", NULL
+314,"Economie", NULL
+319,"Sciences sociales et du comportement (autres)", NULL
+32,"Journalisme et information", NULL
+321,"Journalisme et reportage", NULL
+3211,"Radio / Télédiffusion", NULL
+322,"Bibliothèque, information, archive", NULL
+3221,"Documentation, Archives", NULL
+3222,"Etudes de muséologie, Conservation", NULL
+329,"Journalisme et information (autres)", NULL
+34,"Commerce et administration", NULL
+340,"Commerce et administration (programmes larges)", NULL
+341,"Vente de gros et au détail", NULL
+342,"Gestion du marketing et des ventes", NULL
+343,"Finance, banque, assurance", NULL
+344,"Comptabilité et fiscalité", NULL
+345,"Gestion et administration", NULL
+346,"Secrétariat et bureautique", NULL
+347,"Vie professionnelle", NULL
+349,"Commerce et administration (autres)", NULL
+38,"Droit", NULL
+380,"Droit", NULL
+3801,"Droit comparatif, Droit avec langues", NULL
+3802,"Droit international", NULL
+3803,"Droit civil", NULL
+3804,"Droit pénal, Criminologie", NULL
+3805,"Droit constitutionnel/public", NULL
+3806,"Administration publique", NULL
+3807,"Droit communautaire / de l'UE", NULL
+3808,"Autres - Droit", NULL
+4,"SCIENCES, MATHEMATIQUES ET INFORMATIQUE", NULL
+42,"Sciences de la vie", NULL
+421,"Biologie et biochimie", NULL
+4211,"Microbiologie, Biotechnologie", NULL
+422,"Science de l'environnement", NULL
+429,"Sciences de la vie (autres)", NULL
+44,"Science physique", NULL
+440,"Science physique (programmes larges)", NULL
+441,"Physique", NULL
+4411,"Physique nucléaire et de haute énergie", NULL
+4412,"Astronomie, Astrophysique", NULL
+442,"Chimie", NULL
+4421,"Biochime", NULL
+443,"Sciences de la terre", NULL
+4431,"Géographie, Géologie", NULL
+4432,"Géographie", NULL
+4433,"Sciences de l'environnement, Ecologie", NULL
+4434,"Géologie", NULL
+4435,"Sciences de la terre et de l'eau", NULL
+4436,"Géodésie, Cartographie, Télédétection", NULL
+4437,"Météorologie", NULL
+4438,"Océanographie", NULL
+4439,"Autres -Géographie, Géologie", NULL
+449,"Science physique (autres)", NULL
+46,"Mathématiques et statistique", NULL
+461,"Mathématiques", NULL
+462,"Statistique", NULL
+4621,"Science actuarielle", NULL
+469,"Mathématiques et statistique (autres)", NULL
+48,"Informatique", NULL
+481,"Informatique", NULL
+4811,"Intelligence artificielle", NULL
+482,"Utilisation de l'informatique", NULL
+489,"Informatique (autres)", NULL
+5,"INGENIERIE, FABRICATION ET CONSTRUCTION", NULL
+52,"Ingénierie et métiers d'ingénierie", NULL
+520,"Ingénierie et métiers d'ingénierie (programmes larges)", NULL
+521,"Mécanique et travail des métaux", NULL
+522,"Electricité et énergie", NULL
+523,"Electronique et automatisation", NULL
+524,"Chimie et processus", NULL
+525,"Véhicules à moteur, navires et aéronefs", NULL
+5251,"Ingénierie aéronautique", NULL
+529,"Ingénierie et métiers d'ingénierie (autres)", NULL
+54,"Fabrication et transformation", NULL
+540,"Fabrication et transformation (programmes larges)", NULL
+541,"Transformation des aliments", NULL
+542,"Textiles, habillement, chaussures, cuir", NULL
+543,"Matériaux (bois, papier, plastique, verre)", NULL
+544,"Mines et extraction", NULL
+549,"Fabrication et transformation (autres)", NULL
+58,"Architecture et bâtiment", NULL
+581,"Architecture et urbanisme", NULL
+5811,"Architecture", NULL
+5812,"Architecture d'intérieur", NULL
+5813,"Urbanisme", NULL
+5814,"Planification régionale", NULL
+5815,"Architecture du paysage", NULL
+5816,"Etudes des transports et de la circulation", NULL
+582,"Construction et génie civil", NULL
+5821,"Science des matériaux", NULL
+589,"Architecture et bâtiment (autres)", NULL
+6,"AGRICULTURE ET VETERINAIRE", NULL
+62,"Agriculture, sylviculture et pêche", NULL
+620,"Agriculture, sylviculture et pêche (programmes larges)", NULL
+6201,"Economie agricole", NULL
+6202,"Sciences et technologies de l'alimentation", NULL
+6203,"Agriculture tropicale/subtropicale", NULL
+621,"Cultures et élevage de bétail", NULL
+622,"Horticulture", NULL
+623,"Sylviculture", NULL
+624,"Pêche", NULL
+629,"Agriculture, sylviculture et pêche (autres)", NULL
+64,"Vétérinaire", NULL
+640,"Vétérinaire", NULL
+641,"Vétérinaire", NULL
+6411,"Elevage du bétail", NULL
+7,"SANTE ET BIEN-ETRE", NULL
+72,"Santé", NULL
+720,"Santé (programmes larges)", NULL
+721,"Médecine", NULL
+7211,"Psychiatrie et Psychologie clinique", NULL
+7212,"Santé publique", NULL
+7213,"Technologie médicale", NULL
+722,"Services médicaux", NULL
+723,"Infirmiers, Sage-femmes et Physiothérapie", NULL
+724,"Etudes dentaires", NULL
+727,"Pharmacie", NULL
+729,"Santé (autres)", NULL
+8,"SERVICES", NULL
+81,"Services à la personne", NULL
+810,"Services à la personne (programmes larges)", NULL
+811,"Hotel, restaurant et traiteur", NULL
+812,"Voyage, tourisme et loisirs", NULL
+813,"Sports", NULL
+814,"Services domestiques", NULL
+815,"Services de coiffure et d'esthétique", NULL
+819,"Services à la personne (autres)", NULL
+84,"Services de transport", NULL
+840,"Services de transport", NULL
+85,"Potection de l'environnement", NULL
+850,"Protection de l'environnement (programmes larges)", NULL
+851,"Technologies de protection de l'environnement", NULL
+852,"Environnements naturels, faune et flore", NULL
+853,"Services sanitaires pour la communauté", NULL
+859,"Protection de l'environnement (autres)", NULL
+86,"Services de sécurité", NULL
+860,"Services de sécurité (programmes larges)", NULL
+861,"Protection des personnes et des biens", NULL
+862,"Santé et sécurité au travail", NULL
+863,"Militaire et défense", NULL
+869,"Services de sécurité (autres)", NULL

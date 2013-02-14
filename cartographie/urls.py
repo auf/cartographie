@@ -9,11 +9,13 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 admin.autodiscover()
 
 handler404
-handler500 # Pyflakes
+handler500  # Pyflakes
 
-urlpatterns = patterns(
-    '',
-    # admin
+urlpatterns = patterns('',
+    # app Home
+    (r'^$', include("cartographie.home.urls")),
+    # app Formation
+    (r'^etablissement/', include("cartographie.formation.urls")),
     url(r'^admin_tools/', include('admin_tools.urls')),
     (r'^admin/', include(admin.site.urls)),
 )

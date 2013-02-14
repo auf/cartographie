@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="shortcut icon" href="{{ STATIC_URL }}formation/img/favicon.ico" />
+
+    <title>AUF - Cartographie des formations</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+
+    <link href="{{ STATIC_URL }}formation/chosen/chosen.css" rel="stylesheet" type="text/css" />
+    <link href="{{ STATIC_URL }}formation/css/site.css" rel="stylesheet" type="text/css" />
+    <script src="{{STATIC_URL }}formation/js/vendor/modernizr-2.6.2.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="row">
+                <div class="span12">
+                    <h1 class="logo pull-left">
+                        <a href="http://cartographie.auf.org">
+                            <img src="{{ STATIC_URL }}formation/img/Logo_Auf_FR.png"
+                                 alt="Agence universitaire de la Francophonie">
+                        </a>
+                    </h1>
+                    <div class="rainbow span6 pull-right">
+                        <span class="elem bleu"></span>
+                        <span class="elem jaune"></span>
+                        <span class="elem vert"></span>
+                        <span class="elem mauve"></span>
+                        <span class="elem rouge"></span>
+                    </div>
+                    <h2>Cartographie des formations</h2>
+                </div>
+            </div>
+        </header>
+        <div id="main">
+            <div class="row">
+            {% block Contenu %}
+
+            {% endblock %}
+            </div>
+        </div> <!-- #main -->
+        <footer>
+            <div class="row">
+                <div class="rainbow span12">
+                    <span class="elem bleu"></span>
+                    <span class="elem jaune"></span>
+                    <span class="elem vert"></span>
+                    <span class="elem mauve"></span>
+                    <span class="elem rouge"></span>
+                </div>
+                <div class="span12">
+                    <div class="content">
+                        <p class="copyright">
+                            © AUF 2013 Tous droits réservés
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div> <!-- .container -->
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js">
+    </script>
+    <script>
+        window.jQuery || document.write(
+            '<script src="{{ STATIC_URL }}formation/js/vendor/jquery-1.9.0.min.js"><\/script>'
+        )
+    </script>
+    <script src="{{ STATIC_URL }}/formation/chosen/chosen.jquery.min.js"></script>
+    <script src="{{ STATIC_URL }}/formation/js/site.js"></script>
+</body>
+</html>

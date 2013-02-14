@@ -1,0 +1,70 @@
+form {
+    &.form-horizontal {
+        @label_width:180px;
+
+        .control-label {
+            width:@label_width;
+        }
+        .controls {
+            margin-left: @label_width + 20;
+        }
+    }
+
+    .control-group {
+        @input_width: 350px;
+
+        input[type=text] {
+            width:@input_width;
+        }
+        select {
+            width:@input_width + 15;
+        }
+        textarea {
+            width:@input_width;
+        }
+
+        .errorlist {
+            margin:0 0 0 20px;
+            display:inline-block;
+
+            li {
+                list-style:none;
+                color:#c09853;
+            }
+        }
+
+        &.warning {
+            .chzn-container {
+                .chzn-single {
+                    border-color:#c09853;
+                }
+            }
+            .chzn-container-multi {
+                .chzn-choices {
+                    border-color:#c09853;
+                }
+            }
+        }
+    }
+
+    .chzn-container-single {
+        & + .help-block {
+            margin-top: 8px;
+        }
+    }
+
+    .chzn-container-multi {
+        .chzn-choices {
+            .search-field input {font-size:0.9em;}
+        }
+    }
+
+    .chzn-container-multi + .errorlist {
+        position:relative;
+        top:-10px;
+    }
+
+    .muted {
+        font-size:0.9em;
+    }
+}

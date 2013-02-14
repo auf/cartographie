@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% load removeSelectMultipleHelpText %}
+
+{% block Contenu %}
+<span class="span12">
+    <div class="content" data-etablissement-id="{{ etablissement.id }}">
+        <h3>{{ etablissement.nom }}</h3>
+        <ul class="breadcrumb">
+            <li>
+                <a href="{% url formation_liste token %}">Liste des formations</a>
+                <span class="divider">/</span>
+            </li>
+            <li class="active">
+                {{ formation.nom }}
+            </li>
+        </ul>
+
+        <h4>Modifier les établissements - <span class="badge">{{ formation.nom }}</span></h4>
+
+        <ul class="nav nav-tabs">
+            <li>
+                <a href="{% url formation_modifier token formation.id %}">
+                    Informations de base
+                </a>
+            </li>
+            <li class="active">
+                <a href="javascript:void(0)">
+                    Établissement(s)
+                </a>
+            </li>
+        </ul>
+        <form action="{% url formation_modifier_etablissements token formation.id %}" method="post" class="form-auf">
+            {% csrf_token %}
+
+            <h5>Établissement dispensant cette formation</h5>
+            <table class="table table-stripped table-bordered table-condensed">
+                <tr>
+                    <td>
+                        {% include "form_field.html" with field=form.etablissement %}
+                    </td>
+                    <td>
+                        {% include "form_field.html" with field=form.etablissement_emet_diplome %}
+                    </td>
+                </tr>
+            </table>
+            <div class="control-group">
+                <div class="controls actions">
+                    <input type="submit" class="btn btn-success" value="Modifier">
+                </div>
+            </div>
+            <hr>
+            <h5>Composante(s) de l'établissement</h5>
+            <p>
+                Composante(s) de l'établissement
+                <b class="text-info">{{ etablissement.nom }}</b>
+                impliquée(s) dans la formation
+                <b class="text-info">{{ formation.nom }}</b>.
+            </p>
+            {{ composanteFormset.management_form }}
+            <table class="table table-striped table-bordered table-condensed">
+                {% for current_form in composanteFormset.forms %}
+                <tr>
+                    {% for field in current_form %}
+                        <td class="{% if field.label == "Formation" or field.label == "Id"  %}hidden{% endif %}">
+                            {% include "form_field.html" with field=field %}
+                        </td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </table>
+            <div class="actions">
+                <input type="submit" class="btn btn-success" value="Modifier les composantes">
+            </div>
+
+            <hr>
+
+            <h5>Partenaire(s) membre de l'AUF</h5>
+            <p>
+                Partenaire(s) membre de l'AUF
+                impliqué(s) dans la formation
+                <b class="text-info">{{ formation.nom }}</b>.
+            </p>
+
+            {{ partenaireAufFormset.management_form }}
+            <table class="table table-striped table-bordered table-condensed">
+                {% for current_form in partenaireAufFormset.forms %}
+                <tr>
+                    {% for field in current_form %}
+                        <td class="{% if field.label == "Formation" or field.label == "Id"  %}hidden{% endif %}">
+                            {% include "form_field.html" with field=field %}
+                        </td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </table>
+            <div class="actions">
+                <input type="submit" class="btn btn-success" value="Modifier les partenaires membres">
+            </div>
+
+            <hr>
+
+            <h5>Partenaire(s) <b class="text-info">non membre</b> de l'AUF</h5>
+            <p>
+                Partenaire(s) <b class="text-info">non membre</b> de l'AUF
+                impliqué(s) dans la formation
+                <b class="text-info">{{ formation.nom }}</b>.
+            </p>
+            {{ partenaireAutreFormset.management_form }}
+            <table class="table table-striped table-bordered table-condensed">
+                {% for current_form in partenaireAutreFormset.forms %}
+                <tr>
+                    {% for field in current_form %}
+                        <td class="{% if field.label == "Formation" or field.label == "Id"  %}hidden{% endif %}">
+                            {% include "form_field.html" with field=field %}
+                        </td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </table>
+            <div class="actions">
+                <input type="submit" class="btn btn-success" value="Modifier les partenaires non membres">
+            </div>
+        </form>
+    </div>
+</span>
+{% endblock %}
