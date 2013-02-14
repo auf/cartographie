@@ -220,7 +220,6 @@ class AccesAdmin(ModelAdmin):
     list_display_links = ('_token',)
     list_filter = (
         'etablissement__region',
-        'etablissement__pays',
     )
 
     search_fields = (
