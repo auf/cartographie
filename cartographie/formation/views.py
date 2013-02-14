@@ -246,9 +246,23 @@ def liste_composante(request, token):
 
 @token_required
 def ajouter_composante(request, token):
+
+    from cartographie.formation.viewModels.composante.ajouter \
+        import AjouterViewModel
+
+    vm = AjouterViewModel(request, token)
+
+    if request.method == "POST":
+        if vm.form.is_valid():
+            vm.form.save()
+
+            return HttpResponseRedirect(
+                reverse("formation_composante_liste", args=[token])
+            )
+
     return render_to_response(
         "composante/ajouter.html",
-        {},
+        vm.get_data(),
         RequestContext(request)
     )
 

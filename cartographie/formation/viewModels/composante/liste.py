@@ -2,7 +2,7 @@
 
 from cartographie.formation.viewModels.baseListeViewModel import BaseListeViewModel
 
-from cartographie.formation.models import FormationComposante
+from cartographie.formation.models import EtablissementComposante
 
 
 class ListeViewModel(BaseListeViewModel):
@@ -14,8 +14,8 @@ class ListeViewModel(BaseListeViewModel):
     def __init__(self, token, onglet_actif="composante"):
         super(ListeViewModel, self).__init__(token, onglet_actif)
 
-        self.composantes = FormationComposante.objects.all().order_by(
-            "etablissementComposante__nom"
+        self.composantes = EtablissementComposante.objects.all().order_by(
+            "nom"
         )
 
     def get_data(self):
