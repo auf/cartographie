@@ -1,9 +1,24 @@
 {% extends "base_home.html" %}
 
 {% block Contenu %}
-<div class="span12">
-    <div class="content">
-        <h3>Bienvenue !</h3>
+    <div class="span12">
+        <div class="content">
+            <h3>Bienvenue !</h3>
+
+            <div class="actions well search-form">
+                <form action="{% url home_accueil %}" method="get" class="form form-horizontal">
+                    <div class="pull-left">
+                        {% include "form_field.html" with field=form.s %}
+                    </div>
+                    <div class="actions pull-left span3">
+                        <a class="btn btn-info">
+                            <i class="icon-search icon-white"></i>
+                            Recherchez
+                        </a>
+                    </div>
+                    <div class="clear"></div>
+                </form>
+            </div>
+        </div>
     </div>
-</div>
 {% endblock %}

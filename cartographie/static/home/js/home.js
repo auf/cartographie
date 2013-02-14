@@ -3,7 +3,7 @@ var AUF = {};
 AUF.home = function(){
     return {
         init: function(){
-
+            console.log("AUF.home.init()");
         }
     };
 }();

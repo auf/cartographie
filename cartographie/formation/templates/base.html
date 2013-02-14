@@ -7,7 +7,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <link rel="shortcut icon" href="{{ STATIC_URL }}formation/img/favicon.ico" />
+    <link rel="shortcut icon" href="{{ STATIC_URL }}commun/img/favicon.ico" />
 
     <title>AUF - Cartographie des formations</title>
     <meta name="description" content="">
@@ -25,7 +25,7 @@
                 <div class="span12">
                     <h1 class="logo pull-left">
                         <a href="http://cartographie.auf.org">
-                            <img src="{{ STATIC_URL }}formation/img/Logo_Auf_FR.png"
+                            <img src="{{ STATIC_URL }}commun/img/Logo_Auf_FR.png"
                                  alt="Agence universitaire de la Francophonie">
                         </a>
                     </h1>
@@ -74,9 +74,10 @@
             '<script src="{{ STATIC_URL }}formation/js/vendor/jquery-1.9.0.min.js"><\/script>'
         )
     </script>
+    <script src="{{ STATIC_URL }}commun/js/console.js"></script>
     {% block js %}
-    <script src="{{ STATIC_URL }}/formation/chosen/chosen.jquery.min.js"></script>
-    <script src="{{ STATIC_URL }}/formation/js/site.js"></script>
+    <script src="{{ STATIC_URL }}formation/chosen/chosen.jquery.min.js"></script>
+    <script src="{{ STATIC_URL }}formation/js/site.js"></script>
     {% endblock %}
 </body>
 </html>
