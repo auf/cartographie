@@ -6,14 +6,12 @@ Application de création et d'édition de fiche de formation pour les établisse
 Explication de la présence de dossiers non communs à un projet Django
 ---------------------------------------------------------------------
 
-data
-~~~~
+**data**
 
 Ce dossier contient les CSVs de données de configuration initial pour les formations. Les *Models* qui sont utilisés pour peupler la base de données
 se retrouvent dans le fichier */formation/models/configuration.py*
 
-viewModels
-~~~~~~~~~~
+**viewModels**
 
 C'est une class qui fait le lien entre la *view* et le *template*.
 
