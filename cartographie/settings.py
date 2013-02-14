@@ -49,6 +49,7 @@ INSTALLED_APPS = (
     'south',
     'raven.contrib.django',
     # AUF
+    'home',
     'formation',
     'auf.django.references',
     'auf.django.permissions',
