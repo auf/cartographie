@@ -15,3 +15,10 @@ def accueil(request):
     return render_to_response(
         "accueil.html", vm.get_data(), RequestContext(request)
     )
+
+
+def formation(request, id, slug):
+
+    return render_to_response(
+        "formation.html", {}, RequestContext(request)
+    )
