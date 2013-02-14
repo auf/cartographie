@@ -63,7 +63,7 @@ def ajouter(request, token):
         )
 
     return render_to_response(
-        "ajouter.html",
+        "formation/ajouter.html",
         ajoutVM.get_data(),
         RequestContext(request)
     )
@@ -76,14 +76,14 @@ def consulter(request, token, formation_id=None):
     """
 
     return render_to_response(
-        "consulter.html", {}, RequestContext(request)
+        "formation/consulter.html", {}, RequestContext(request)
     )
 
 
 @token_required
 def consulter_etablissements(request, token, formation_id=None):
     return render_to_response(
-        "consulter_etablissements.html", {}, RequestContext(request)
+        "formation/consulter_etablissements.html", {}, RequestContext(request)
     )
 
 
@@ -114,7 +114,7 @@ def modifier(request, token, formation_id=None):
         modifVM = ModifierViewModel(request, token, formation_courante.id)
 
     return render_to_response(
-        "modifier.html",
+        "formation/modifier.html",
         modifVM.get_data(),
         RequestContext(request)
     )
@@ -163,7 +163,7 @@ def modifier_etablissements(request, token, formation_id=None):
         )
 
     return render_to_response(
-        "modifier_etablissements.html",
+        "formation/modifier_etablissements.html",
         modifVM.get_data(),
         RequestContext(request)
     )
