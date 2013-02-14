@@ -612,7 +612,6 @@ h5{font-size:16px;}
 .pull-left{float:left;}
 .pull-right{float:right;}
 .hidden{display:none;}
-label.bold{font-weight:bold;}label.bold:after{content:" *";}
 .clear{clear:both;width:100%;height:0;font-size:0;line-height:0;}
 .container{border-left:8px solid #e9e9ea;border-right:8px solid #e9e9ea;}
 .rainbow{overflow:hidden;}.rainbow .elem{display:block;height:5px;float:left;width:20%;}
@@ -626,19 +625,6 @@ header .rainbow{margin:0 22px 0 0;}
 header h2{margin:79px 0 0 0;}
 .nav{margin:16px 0;}
 .content{padding:22px;}
-.actions{margin:11px 0;}
-form.form-horizontal .control-label{width:180px;}
-form.form-horizontal .controls{margin-left:200px;}
-form .control-group input[type=text]{width:350px;}
-form .control-group select{width:365px;}
-form .control-group textarea{width:350px;}
-form .control-group .errorlist{margin:0 0 0 20px;display:inline-block;}form .control-group .errorlist li{list-style:none;color:#c09853;}
-form .control-group.warning .chzn-container .chzn-single{border-color:#c09853;}
-form .control-group.warning .chzn-container-multi .chzn-choices{border-color:#c09853;}
-form .chzn-container-single +.help-block{margin-top:8px;}
-form .chzn-container-multi .chzn-choices .search-field input{font-size:0.9em;}
-form .chzn-container-multi+.errorlist{position:relative;top:-10px;}
-form .muted{font-size:0.9em;}
 footer{margin-top:6px;}footer .rainbow{margin-bottom:15px;}
 footer .content{padding-top:0;padding-bottom:0;}
 footer .copyright{font-size:0.8em;color:#a3a4a7;margin:0 0 15px;}

@@ -12,9 +12,10 @@
     <title>AUF - Cartographie des formations</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
-
+    {% block css %}
     <link href="{{ STATIC_URL }}formation/chosen/chosen.css" rel="stylesheet" type="text/css" />
     <link href="{{ STATIC_URL }}formation/css/site.css" rel="stylesheet" type="text/css" />
+    {% endblock %}
     <script src="{{STATIC_URL }}formation/js/vendor/modernizr-2.6.2.min.js"></script>
 </head>
 <body>
@@ -73,7 +74,9 @@
             '<script src="{{ STATIC_URL }}formation/js/vendor/jquery-1.9.0.min.js"><\/script>'
         )
     </script>
+    {% block js %}
     <script src="{{ STATIC_URL }}/formation/chosen/chosen.jquery.min.js"></script>
     <script src="{{ STATIC_URL }}/formation/js/site.js"></script>
+    {% endblock %}
 </body>
 </html>

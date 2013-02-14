@@ -1,0 +1,108 @@
+
+@import "auf-twitter-bootstrap.less";
+
+body {
+    font-family: Arial, Helvetica, Sans-serif;
+    color: #616161;
+}
+
+h4 {
+    font-size:18px;
+}
+
+h5 {
+    font-size:16px;
+}
+
+.pull-left {float:left;}
+.pull-right {float:right;}
+.hidden {display:none;}
+
+.clear {
+    clear:both;
+    width:100%;
+    height:0;
+    font-size:0;
+    line-height:0;
+}
+
+.container {
+    border-left: 8px solid #e9e9ea;
+    border-right: 8px solid #e9e9ea;
+}
+
+.rainbow {
+    overflow:hidden;
+
+    .elem {
+        display:block;
+        height:5px;
+        float:left;
+        width:20%;
+    }
+
+    .bleu {
+        background-color: @auf_bleu;
+    }
+    .jaune {
+        background-color: @auf_jaune;
+    }
+    .vert {
+        background-color: @auf_vert;
+    }
+    .mauve {
+        background-color: @auf_mauve;
+    }
+    .rouge {
+        background-color: @auf_rouge;
+    }
+}
+
+/* Header */
+header {
+    height:125px;
+    overflow:hidden;
+
+    .logo {
+        margin:0;
+    }
+
+    .rainbow {
+        margin:0 22px 0 0;
+    }
+
+    h2 {margin:79px 0 0 0;}
+}
+
+/* Corps */
+#main {
+
+}
+
+.nav {
+    margin:16px 0;
+}
+
+.content {
+    padding:22px;
+}
+
+/* Footer */
+footer {
+    margin-top:6px;
+
+    .rainbow {
+        margin-bottom:15px;
+    }
+
+    .content {
+        padding-top:0; padding-bottom:0;
+    }
+
+    .copyright {
+        font-size:0.8em;
+        color: #a3a4a7;
+        margin:0 0 15px;
+    }
+}
+
