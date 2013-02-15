@@ -389,6 +389,27 @@ def ajouter_langue(request, token):
 
 
 @token_required
+def ajouter_langue_popup(request, token):
+    from cartographie.formation.viewModels.langue.ajouter import AjouterViewModel
+
+    vm = AjouterViewModel(request, token)
+
+    if request.method == "POST":
+        if vm.form.is_valid():
+            vm.form.save()
+
+            return HttpResponseRedirect(
+                reverse("formation_langue_liste", args=[token])
+            )
+
+    return render_to_response(
+        "langue/form.html",
+        vm.get_data(),
+        RequestContext(request)
+    )
+
+
+@token_required
 def modifier_langue(request, token, langue_id):
     from cartographie.formation.viewModels.langue.modifier import ModifierViewModel
 

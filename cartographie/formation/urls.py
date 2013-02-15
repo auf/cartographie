@@ -105,4 +105,9 @@ urlpatterns = patterns(
         "modifier_langue",
         name="formation_langue_modifier"
     ),
+    url(
+        r"^(?P<token>\w+)/langue/popup_ajouter$",
+        "ajouter_langue_popup",
+        name="formation_langue_ajouter_popup"
+    )
 )

@@ -7,6 +7,7 @@ AUF.formation = function(){
 
             this.selectCurrentEtablissement();
             this.beautifulSelects();
+            this.formPopups();
         },
         selectCurrentEtablissement: function(){
             console.log("AUF.formation.selectCurrentEtablissement()");
@@ -25,8 +26,24 @@ AUF.formation = function(){
              */
             console.log("AUF.formation.beautifulSelects()");
 
-            $(".form-auf select").chosen({
-                placeholder_text_multiple: "Veuillez choisir une ou plusieurs options"
+            if (typeof $.fn.chosen !== "undefined") {
+                $(".form-auf select").chosen({
+                    placeholder_text_multiple: "Veuillez choisir une ou plusieurs options"
+                });
+            }
+        },
+        formPopups: function(){
+            console.log("AUF.formation.formPopups()");
+
+            var options = {
+                remote: true
+            };
+
+            // popup langue
+            $("a.modal-langue").on("click", function(){
+                $("#popupFormLangue").modal(options);
+
+                return false;
             });
         }
     }
