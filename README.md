@@ -52,9 +52,22 @@ LessCSS est utilisé pour rassembler le CSS de Twitter Bootstrap en un seul fich
 
     $ lessc -x fichier.less > fichier.css
 
-Avertissements
+Installation de Vagrant et démarrer la VM sous VirtualBox
 ---
 
-Si votre système d'exploitation est Fedora, vous obtiendrez une erreur lors de l'obtention de distribute 0.6.34.
+1. Installer VirtualBox
+2. Installer Vagrant
 
-Veuillez contacter Bernard pour qu'il vous donne le fichier d'instructions Vagrant pour construire une VM avec Debian Stable, Python build essentials et MySQL.
+> $ sudo gem install vagrant vagrant-vbguest
+
+3. Se rendre dans le dossier du projet cloner
+4. Rouler la commande suivante pour créer la VM et la démarrer:
+
+> $ vagrant up
+
+5. Se connecter à la VM
+
+> $ vagrant ssh
+
+6. Vous devriez apercevoir le répertoire *cartographie* dans le home de la VM
+7. Rouler buildout et hop !
