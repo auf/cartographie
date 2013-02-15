@@ -298,12 +298,15 @@ class DisciplineAdmin(ModelAdmin):
 
 
 class FormationModificationAdmin(ModelAdmin):
-    list_display = ('date', 'user', '_formation',)
+    list_display = ('date', 'user', '_etablissement', '_formation',)
     list_display_links = ('_formation',)
 
     search_fields = (
         'formation',
-    )       
+    )
+    
+    def _etablissement(self, instance):
+        return instance.formation.etablissement
     
     def _formation(self, instance):
         formation_id = instance.formation.id

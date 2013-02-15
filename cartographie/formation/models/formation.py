@@ -286,6 +286,7 @@ class FormationModification(models.Model):
         verbose_name_plural = u"Modifications d'une formation"
         app_label = "formation"
         db_table = "formation_formationmodification"
+        ordering = ['-date']
 
     def __unicode__(self):
         return u"%s" % (self.date)
