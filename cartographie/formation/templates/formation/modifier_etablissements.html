@@ -32,7 +32,7 @@
         <form action="{% url formation_modifier_etablissements token formation.id %}" method="post" class="form-auf">
             {% csrf_token %}
 
-            <h5>Établissement dispensant cette formation</h5>
+            <h5>Établissement dispensant la formation</h5>
             <table class="table table-stripped table-bordered table-condensed">
                 <tr>
                     <td>
@@ -49,12 +49,13 @@
                 </div>
             </div>
             <hr>
-            <h5>Composante(s) de l'établissement</h5>
+            <h5>Composante(s) de l'établissement dispensant la formation</h5>
             <p>
                 Composante(s) de l'établissement
                 <b class="text-info">{{ etablissement.nom }}</b>
                 impliquée(s) dans la formation
-                <b class="text-info">{{ formation.nom }}</b>.
+                <b class="text-info">{{ formation.nom }}</b>.<br />
+                Indiquer ici si la formation est dispensée par une composante particulière de l'établissement (une faculté, une école dans une université, un laboratoire dans un centre de recherche...)
             </p>
             {{ composanteFormset.management_form }}
             <table class="table table-striped table-bordered table-condensed">
@@ -72,9 +73,12 @@
                 <input type="submit" class="btn btn-success" value="Modifier les composantes">
             </div>
 
+            <br />
+            <br />
+            <br />
             <hr>
 
-            <h5>Partenaire(s) membre de l'AUF</h5>
+            <h5>Partenaire(s) membre de l'AUF impliqué(s) dans la formation</h5>
             <p>
                 Partenaire(s) membre de l'AUF
                 impliqué(s) dans la formation
@@ -99,7 +103,7 @@
 
             <hr>
 
-            <h5>Partenaire(s) <b class="text-info">non membre</b> de l'AUF</h5>
+            <h5>Partenaire(s) <b class="text-info">non membre</b> de l'AUF impliqué(s) dans la formation</h5>
             <p>
                 Partenaire(s) <b class="text-info">non membre</b> de l'AUF
                 impliqué(s) dans la formation

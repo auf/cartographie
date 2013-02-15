@@ -23,12 +23,12 @@ class Formation(models.Model):
     # identification
     nom = models.CharField(
         max_length=250,
-        verbose_name=u"Nom",
-        help_text=u"Intitulé en français de la formation",
+        verbose_name=u"Intitulé de la formation en français",
+        help_text=u"Intitulé de la formation en français",
         blank=False
     )
     nom_origine = models.CharField(
-        verbose_name=u"Nom d'origine",
+        verbose_name=u"Intitulé de la formation dans la langue d'origine",
         max_length=250,
         null=True,
         blank=True,
@@ -42,22 +42,29 @@ class Formation(models.Model):
         null=True,
         blank=True,
         verbose_name=u"Sigle de la formation",
-        help_text=u"Abbréviation du nom de la formation"
+        help_text=u"Indiquer ici le sigle de la formation s'il existe"
     )
     url = models.URLField(
         null=True,
         blank=True,
+        verbose_name=u"Lien Internet",
         help_text=u"Lien Internet vers une page présentant la formation"
     )
 
     discipline_1 = models.ForeignKey(
-        Discipline, blank=False, related_name="+"
+        Discipline, blank=False, related_name="+",
+        help_text=u"""Indiquer une discipline minimum, trois disciplines
+                  au maximum (choisir une des valeurs proposées)"""
     )
     discipline_2 = models.ForeignKey(
-        Discipline, null=True, blank=True, related_name="+"
+        Discipline, null=True, blank=True, related_name="+",
+        help_text=u"""Indiquer une discipline minimum, trois disciplines
+                  au maximum (choisir une des valeurs proposées)"""
     )
     discipline_3 = models.ForeignKey(
-        Discipline, null=True, blank=True, related_name="+"
+        Discipline, null=True, blank=True, related_name="+",
+        help_text=u"""Indiquer une discipline minimum, trois disciplines
+                  au maximum (choisir une des valeurs proposées)"""
     )
 
     # etablissement(s)
@@ -113,7 +120,8 @@ class Formation(models.Model):
         blank=True,
         limit_choices_to={"actif": True},
         related_name="+",
-        verbose_name=u"Niveau de diplôme"
+        verbose_name=u"Niveau de diplôme",
+        help_text=u"Choisir une des valeurs proposées"
     )
 
     type_diplome = models.ForeignKey(
@@ -122,7 +130,8 @@ class Formation(models.Model):
         blank=True,
         limit_choices_to={"actif": True},
         related_name="+",
-        verbose_name=u"Type de diplôme"
+        verbose_name=u"Type de diplôme",
+        help_text=u"Choisir une des valeurs proposées"
     )
 
     delivrance_diplome = models.ForeignKey(
@@ -132,6 +141,7 @@ class Formation(models.Model):
         limit_choices_to={"actif": True},
         related_name="+",
         verbose_name=u"Délivrance du diplôme",
+        help_text=u"Choisir une des valeurs proposées"
     )
 
     niveau_entree = models.ManyToManyField(
@@ -141,7 +151,9 @@ class Formation(models.Model):
         limit_choices_to={"actif": True},
         related_name="niveau_entree+",
         verbose_name=u"Niveau d'entrée",
-        help_text=u"Nombre d'années d'enseignement supérieur",
+        help_text=u"""Niveau requis pour pouvoir s'inscrire 
+                  dans la formation souhaitée, en nombre d'année d'études
+                  dans l'enseignement supérieur""",
     )
 
     niveau_sortie = models.ManyToManyField(
@@ -149,7 +161,9 @@ class Formation(models.Model):
         null=True,
         blank=True,
         verbose_name=u"Niveau de sortie",
-        help_text=u"Nombre d'années d'enseignement supérieur",
+        help_text=u"""Niveau obtenu à l'issue de la formation souhaitée, 
+                  en nombre d'année d'études
+                  dans l'enseignement supérieur""",
         limit_choices_to={"actif": True},
         related_name="niveau_sortie+"
     )
@@ -177,7 +191,8 @@ class Formation(models.Model):
         TypeFormation,
         null=True,
         blank=True,
-        verbose_name=u"Type de formation",
+        verbose_name=u"Déroulement de la formation",
+        help_text=u"Choisir une des valeurs proposées",
         limit_choices_to={"actif": True},
         related_name="type_formation+"
     )
@@ -186,6 +201,8 @@ class Formation(models.Model):
         null=True,
         blank=True,
         verbose_name=u"Langue(s) d'enseignement",
+        help_text=u"""Indiquer la ou les langues dans lesquelles se déroulent 
+                  les enseignements de la formation""",
         limit_choices_to={"actif": True},
         related_name="langue+"
     )
@@ -193,7 +210,8 @@ class Formation(models.Model):
         null=True,
         blank=True,
         verbose_name=u"Durée de la formation",
-        #help_text=u""
+        help_text=u"""Précisez la durée minimale nécessaire pour l'obtention 
+                  du diplôme en nombre d'années d'études"""
     )
 
     # limiter les responsables et les contacts au personne du meme
