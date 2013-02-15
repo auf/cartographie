@@ -6,17 +6,17 @@
 
         <ul class="breadcrumb">
             <li>
-                <a href="{% url formation_personne_liste token %}">Liste des personnes</a>
+                <a href="{% url formation_partenaire_autre_liste token %}">Liste des partenaires non membres</a>
                 <span class="divider">/</span>
             </li>
             <li class="active">
-                Ajouter une personne
+                Modifier un partenaire non membre
             </li>
         </ul>
 
-        <h4>Ajouter une personne à votre établissement</h4>
+        <h4>Modifier un partenaire non membre - {{ partenaire_autre.nom }}</h4>
         <hr>
-        <form action="{% url formation_personne_ajouter token %}" method="post"
+        <form action="{% url formation_partenaire_autre_modifier token partenaire_autre.id %}" method="post"
               class="form-horizontal form-auf">
             {% csrf_token %}
 
@@ -27,7 +27,7 @@
             <div class="control-group">
                 <div class="controls">
                     <input type="submit" class="btn btn-success"
-                           value="Ajouter la personne">
+                           value="Modifier le partenaire non membre">
                 </div>
             </div>
         </form>

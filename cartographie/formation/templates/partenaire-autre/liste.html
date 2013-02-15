@@ -12,7 +12,13 @@
     <thead>
         <tr>
             <th>
-                Formation
+                Partenaire
+            </th>
+            <th>
+                Ville
+            </th>
+            <th>
+                Pays
             </th>
             <th>
                 Actions
@@ -24,7 +30,17 @@
         <tr>
             <td>
                 <p><a href="{% url formation_partenaire_autre_modifier token pa.id %}">
-                    {{ pa.etablissement.nom }}
+                    {{ pa.nom }}
+                </a></p>
+            </td>
+            <td>
+                <p><a href="{% url formation_partenaire_autre_modifier token pa.id %}">
+                    {{ pa.ville }}
+                </a></p>
+            </td>
+            <td>
+                <p><a href="{% url formation_partenaire_autre_modifier token pa.id %}">
+                    {{ pa.pays }}
                 </a></p>
             </td>
             <td>
