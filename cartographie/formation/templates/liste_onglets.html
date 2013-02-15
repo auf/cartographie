@@ -17,4 +17,9 @@
             Personnes
         </a>
     </li>
+    <li class="{% if menu_actif == "langue" %}active{% endif %}">
+        <a href="{% url formation_langue_liste token %}">
+            Langues
+        </a>
+    </li>
 </ul>

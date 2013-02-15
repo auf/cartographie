@@ -89,4 +89,20 @@ urlpatterns = patterns(
         "modifier_composante",
         name="formation_composante_modifier"
     ),
+    # ajout/edition des langues
+    url(
+        r"^(?P<token>\w+)/langue/liste$",
+        "liste_langue",
+        name="formation_langue_liste"
+    ),
+    url(
+        r"^(?P<token>\w+)/langue/ajouter$",
+        "ajouter_langue",
+        name="formation_langue_ajouter"
+    ),
+    url(
+        r"^(?P<token>\w+)/langue/(?P<langue_id>\d+)/modifier$",
+        "modifier_langue",
+        name="formation_langue_modifier"
+    ),
 )
