@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block Contenu %}
+<div class="span12">
+    <div class="content" data-etablissement-id="{{ etablissement.id }}">
+        <h3>{{ etablissement.nom }}</h3>
+
+        <ul class="breadcrumb">
+            <li>
+                <a href="{% url formation_partenaire_autre_liste token %}">Liste des partenaires non membres</a>
+                <span class="divider">/</span>
+            </li>
+            <li class="active">
+                Ajouter un partenaire non membre de l'AUF
+            </li>
+        </ul>
+
+        <h4>Ajouter un partenaire non membre de l'AUF</h4>
+        <hr>
+        <form action="{% url formation_partenaire_autre_ajouter token %}" method="post"
+              class="form-horizontal form-auf">
+            {% csrf_token %}
+
+            {% for field in form %}
+                {% include "form_field.html" with field=field %}
+            {% endfor %}
+
+            <div class="control-group">
+                <div class="controls">
+                    <input type="submit" class="btn btn-success"
+                           value="Ajouter le partenaire">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -15,6 +15,12 @@
                 Composante
             </th>
             <th>
+                Ville
+            </th>
+            <th>
+                Pays
+            </th>
+            <th>
                 Actions
             </th>
         </tr>
@@ -24,7 +30,17 @@
         <tr>
             <td>
                 <p><a href="{% url formation_composante_modifier token co.id %}">
-                    {{ co.etablissementComposante.nom }}
+                    {{ co.nom }}
+                </a></p>
+            </td>
+            <td>
+                <p><a href="{% url formation_composante_modifier token co.id %}">
+                    {{ co.ville }}
+                </a></p>
+            </td>
+            <td>
+                <p><a href="{% url formation_composante_modifier token co.id %}">
+                    {{ co.pays }}
                 </a></p>
             </td>
             <td>

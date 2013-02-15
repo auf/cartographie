@@ -1,8 +1,36 @@
 {% extends "base.html" %}
 {% block Contenu %}
 <div class="span12">
-    <div class="content">
-        modifier une personne
+    <div class="content" data-etablissement-id="{{ etablissement.id }}">
+        <h3>{{ etablissement.nom }}</h3>
+
+        <ul class="breadcrumb">
+            <li>
+                <a href="{% url formation_personne_liste token %}">Liste des personnes</a>
+                <span class="divider">/</span>
+            </li>
+            <li class="active">
+                {{ personne }}
+            </li>
+        </ul>
+
+        <h4>Modifier une personne - {{ personne }}</h4>
+        <hr>
+        <form action="{% url formation_personne_modifier token personne.id %}" method="post"
+              class="form-horizontal form-auf">
+            {% csrf_token %}
+
+            {% for field in form %}
+                {% include "form_field.html" with field=field %}
+            {% endfor %}
+
+            <div class="control-group">
+                <div class="controls">
+                    <input type="submit" class="btn btn-success"
+                           value="Modifier la personne">
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 {% endblock %}

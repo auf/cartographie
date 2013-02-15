@@ -1,37 +1,26 @@
 # coding: utf-8
 
-from cartographie.formation.models import Acces
+from cartographie.formation.viewModels.baseAjouterViewModel \
+    import BaseAjouterViewModel
+
 from cartographie.formation.forms.formation import FormationForm
 
 
-class AjouterViewModel(object):
-    token = None
-    etablissement = None
+class AjouterViewModel(BaseAjouterViewModel):
     form = None
 
     def __init__(self, request, token):
-        if token:
-            self.token = token
-            acces = Acces.objects.filter(token=token)[0]
-            self.etablissement = acces.etablissement
+        super(AjouterViewModel, self).__init__(request, token)
 
-            if request.method == "POST":
-                form = FormationForm(
-                    self.etablissement,
-                    False,
-                    request.POST
-                )
+        if request.method == "POST":
+            form = FormationForm(self.etablissement, False, request.POST)
+        else:
+            form = FormationForm(self.etablissement, False)
 
-            else:
-                form = FormationForm(
-                    self.etablissement, False
-                )
-
-            self.form = form
+        self.form = form
 
     def get_data(self):
-        return {
-            "token": self.token,
-            "etablissement": self.etablissement,
-            "form": self.form
-        }
+        data = super(AjouterViewModel, self).get_data()
+        data["form"] = self.form
+
+        return data

@@ -1,0 +1,34 @@
+Packages
+=======
+
+This module does nothing on its own.
+It is a dependency for package mangement for some other modules.
+It has been created because of the uniqueness requirements of Puppet regarding
+resources declaration.
+
+It is aimed at managing packages that are used in multiple modules.
+Ex: libdbd_mysql_perl, python_memcache etc...
+
+In the end, this package declares virtual pakcage statement resources.
+
+Dependencies
+------------
+
+* Stdlib git://github.com/puppetlabs/puppetlabs-stdlib.git
+* Concat git://github.com/ripienaar/puppet-concat.git
+
+Contact
+-------
+
+Bruno Leon <bruno.leon@savoirfairelinux.com>
+
+License
+-------
+
+This software is distributed under the GNU General Public License
+version 2 or any later version. See the LICENSE file for details.
+
+Copyright
+---------
+
+Copyright (C) 2011 Savoir-faire Linux Inc.

@@ -1,0 +1,26 @@
+[master]
+storeconfigs = true
+storeconfigs_backend = puppetdb
+
+<% if dnsaltnames then %>dns_alt_names= <% dnsaltnames.each do |name| -%><%= name %>,<% end %><% end %>
+<% if puppetmaster_external_node then %>
+node_terminus  = exec
+external_nodes = <%= puppetmaster_external_node_script %>
+<% end %>
+
+#Needed for passenger support
+ssl_client_header = SSL_CLIENT_S_DN
+ssl_client_verify_header = SSL_CLIENT_VERIFY
+
+modulepath  = /etc/puppet/environments/$environment/modules:/etc/puppet/environments/$environment/site
+manifest    = /etc/puppet/environments/$environment/site/site.pp
+
+<% if reports then %>
+reports = <%= reports %>
+<% if reporturl then %>
+reporturl = <%= reporturl %>
+<% end %>
+<% end %>
+<% if autosign then %>
+autosign = true
+<% end %>

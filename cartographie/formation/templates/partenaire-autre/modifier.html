@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block Contenu %}
+<div class="span12">
+    <div class="content" data-etablissement-id="{{ etablissement.id }}">
+        <h3>{{ etablissement.nom }}</h3>
+
+        <ul class="breadcrumb">
+            <li>
+                <a href="{% url formation_partenaire_autre_liste token %}">Liste des partenaires non membres</a>
+                <span class="divider">/</span>
+            </li>
+            <li class="active">
+                Modifier un partenaire non membre
+            </li>
+        </ul>
+
+        <h4>Modifier un partenaire non membre - {{ partenaire_autre.nom }}</h4>
+        <hr>
+        <form action="{% url formation_partenaire_autre_modifier token partenaire_autre.id %}" method="post"
+              class="form-horizontal form-auf">
+            {% csrf_token %}
+
+            {% for field in form %}
+                {% include "form_field.html" with field=field %}
+            {% endfor %}
+
+            <div class="control-group">
+                <div class="controls">
+                    <input type="submit" class="btn btn-success"
+                           value="Modifier le partenaire non membre">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

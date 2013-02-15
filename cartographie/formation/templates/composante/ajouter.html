@@ -1,8 +1,36 @@
 {% extends "base.html" %}
 {% block Contenu %}
 <div class="span12">
-    <div class="content">
-        ajouter une composante
+    <div class="content" data-etablissement-id="{{ etablissement.id }}">
+        <h3>{{ etablissement.nom }}</h3>
+
+        <ul class="breadcrumb">
+            <li>
+                <a href="{% url formation_composante_liste token %}">Liste des composantes</a>
+                <span class="divider">/</span>
+            </li>
+            <li class="active">
+                Ajouter une composante
+            </li>
+        </ul>
+
+        <h4>Ajouter une composante</h4>
+        <hr>
+        <form action="{% url formation_composante_ajouter token %}" method="post"
+              class="form-horizontal form-auf">
+            {% csrf_token %}
+
+            {% for field in form %}
+                {% include "form_field.html" with field=field %}
+            {% endfor %}
+
+            <div class="control-group">
+                <div class="controls">
+                    <input type="submit" class="btn btn-success"
+                           value="Ajouter la composante">
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 {% endblock %}

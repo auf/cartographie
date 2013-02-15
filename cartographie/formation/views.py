@@ -183,30 +183,54 @@ def liste_personne(request, token):
 
 @token_required
 def ajouter_personne(request, token):
+
+    from cartographie.formation.viewModels.personne.ajouter \
+        import AjouterViewModel
+
+    vm = AjouterViewModel(request, token)
+
+    if request.method == "POST":
+        if vm.form.is_valid():
+            # on ne veut pas sauvegarder le ForeignKey tout de suite
+            nouvelle_personne = vm.form.save(commit=False)
+            # on assigne automatiquement l'etablissement courant
+            # car le champ est disabled dans le formulaire
+            nouvelle_personne.etablissement = vm.etablissement
+            nouvelle_personne.save()
+
+            return HttpResponseRedirect(
+                reverse("formation_personne_liste", args=[token])
+            )
+
     return render_to_response(
         "personne/ajouter.html",
-        {},
+        vm.get_data(),
         RequestContext(request)
     )
 
 
 @token_required
 def modifier_personne(request, token, personne_id):
+
+    from cartographie.formation.viewModels.personne.modifier \
+        import ModifierViewModel
+
+    vm = ModifierViewModel(request, token, personne_id)
+
+    if request.method == "POST":
+        if vm.form.is_valid():
+            vm.form.save()
+
+            return HttpResponseRedirect(
+                reverse("formation_personne_liste", args=[token])
+            )
+
     return render_to_response(
         "personne/modifier.html",
-        {},
+        vm.get_data(),
         RequestContext(request)
     )
     pass
-
-
-@token_required
-def ajouter_partenaire_autre(request, token):
-    return render_to_response(
-        "partenaire-autre/ajouter.html",
-        {},
-        RequestContext(request)
-    )
 
 
 @token_required
@@ -223,10 +247,47 @@ def liste_partenaire_autre(request, token):
 
 
 @token_required
-def modifier_partenaire_autre(request, token, personne_id):
+def ajouter_partenaire_autre(request, token):
+
+    from cartographie.formation.viewModels.partenaire_autre.ajouter \
+        import AjouterViewModel
+
+    vm = AjouterViewModel(request, token)
+
+    if request.method == "POST":
+        if vm.form.is_valid():
+            vm.form.save()
+
+            return HttpResponseRedirect(
+                reverse("formation_partenaire_autre_liste", args=[token])
+            )
+
+    return render_to_response(
+        "partenaire-autre/ajouter.html",
+        vm.get_data(),
+        RequestContext(request)
+    )
+
+
+@token_required
+def modifier_partenaire_autre(request, token, partenaire_autre_id):
+
+    from cartographie.formation.viewModels.partenaire_autre.modifier \
+        import ModifierViewModel
+
+    vm = ModifierViewModel(request, token, partenaire_autre_id)
+
+    if request.method == "POST":
+        if vm.form.is_valid():
+            vm.form.save()
+
+            return HttpResponseRedirect(
+                reverse("formation_partenaire_autre_liste", args=[token])
+            )
+
     return render_to_response(
         "partenaire-autre/modifier.html",
-        {},
+        vm.get_data(),
         RequestContext(request)
     )
     pass
@@ -246,18 +307,45 @@ def liste_composante(request, token):
 
 @token_required
 def ajouter_composante(request, token):
+
+    from cartographie.formation.viewModels.composante.ajouter \
+        import AjouterViewModel
+
+    vm = AjouterViewModel(request, token)
+
+    if request.method == "POST":
+        if vm.form.is_valid():
+            vm.form.save()
+
+            return HttpResponseRedirect(
+                reverse("formation_composante_liste", args=[token])
+            )
+
     return render_to_response(
         "composante/ajouter.html",
-        {},
+        vm.get_data(),
         RequestContext(request)
     )
 
 
 @token_required
 def modifier_composante(request, token, composante_id):
+
+    from cartographie.formation.viewModels.composante.modifier \
+        import ModifierViewModel
+
+    vm = ModifierViewModel(request, token, composante_id)
+
+    if request.method == "POST":
+        if vm.form.is_valid():
+            vm.form.save()
+
+            return HttpResponseRedirect(
+                reverse("formation_composante_liste", args=[token])
+            )
+
     return render_to_response(
         "composante/modifier.html",
-        {},
+        vm.get_data(),
         RequestContext(request)
     )
-    pass
