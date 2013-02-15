@@ -159,7 +159,10 @@ def modifier_etablissements(request, token, formation_id=None):
     # si au moins un formset a été sauvegardé, on redirige
     if True in formsets_sauvegarder:
         return HttpResponseRedirect(
-            reverse("formation_modifier", args=[token, formation_id])
+            reverse(
+                "formation_modifier_etablissements",
+                args=[token, formation_id]
+            )
         )
 
     return render_to_response(
