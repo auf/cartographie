@@ -1,0 +1,32 @@
+[main]
+logdir      = /var/log/puppet
+vardir      = /var/lib/puppet
+ssldir      = /var/lib/puppet/ssl
+rundir      = /var/run/puppet
+factpath    = $vardir/lib/facter
+pluginsync  = true
+templatedir = $confdir/templates
+runinterval = <%= runinterval %>
+listen      = <% if kick then %>true<% else %>false<% end %>
+syslogfacility = <%= logfacility %>
+<% if @etckeeperactive then %>
+prerun_command=/etc/puppet/etckeeper-commit-pre
+postrun_command=/etc/puppet/etckeeper-commit-post
+<% end -%>
+
+certname    = <%= certname %>
+server      = <%= server %>
+masterport  = <%= masterport %>
+
+#Set the environment for THIS machine
+environment = <%= environment %>
+
+[agent]
+report = <%= report %>
+<% if splay then %>
+splay = true
+splaylimit = <%= splaylimit %>
+<% end %>
+<% if @configtimeout then %>
+configtimeout = <%= @configtimeout %>
+<% end %>

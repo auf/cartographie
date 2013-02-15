@@ -27,10 +27,8 @@ log
 parts
 tmp
 sitestatic
+
 # Vagrant pour le poste local de Bernard
-Vagrantfile*
-manifests
-puppet-modules
-/*.vagrant
 /mysql-dumps/
 /*.pdf
+/*.vagrant

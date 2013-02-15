@@ -1,0 +1,5 @@
+# Allow puppet kick access
+path    /run
+method  save
+auth    any
+allow   <%= kick_from %>
