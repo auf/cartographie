@@ -17,9 +17,16 @@
             Personnes
         </a>
     </li>
+
+    {% comment %}
+    <!--
+        à supprimer car il se trouve maintenant en popup dans le formulaire
+        d'une fiche formation
+     -->
     <li class="{% if menu_actif == "langue" %}active{% endif %}">
         <a href="{% url formation_langue_liste token %}">
             Langues
         </a>
     </li>
+    {% endcomment %}
 </ul>
