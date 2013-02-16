@@ -98,8 +98,9 @@ AUF.formation = function(){
                 Fonction utiliser par le bouton de soumission du
                 formulaire d'ajout d'un responsable ou d'un contact
              */
+
             // détection du popup actif pour déterminer quel formulaire
-            // de popup utilisé
+            // de popup utilisé pour l'envoi de données.
             var quoi = "responsable";
             if ($("div[id*=popup-form-][aria-hidden=false]").attr("id") === "popup-form-contact") {
                 quoi = "contact";
@@ -123,8 +124,8 @@ AUF.formation = function(){
                     var personne = data.personne;
 
                     if (personne.actif) {
-                        // Ajouter l'option dans la liste et
-                        // avertir Chosen que la liste a été mis à jour
+                        // Ajouter l'option dans les listes et
+                        // avertir Chosen que les listes a été mis à jour
                         $("#id_responsables, #id_contacts").append(
                             "<option value=" + personne.id + ">" +
                                 personne.prenom + " " + personne.nom.toUpperCase() +
