@@ -60,12 +60,18 @@ AUF.formation = function(){
                 data: form.serialize(),
                 dataType: "json"
             }).done(function(data){
+                console.log(data);
+
                 if (data.error === true) {
                     window.alert(data.msg)
                 }else{
                     $("#popupFormLangue").modal("hide");
-                    // TODO: add option
-                    // TODO: add to chosen UL LI
+                    var langue = data.langue;
+                    // Ajouter l'option dans la liste et
+                    // avertir Chosen que la liste a été mis à jour
+                    $("#id_langue").append(
+                        "<option value=" + langue.id + ">" + langue.nom + "</option>"
+                    ).trigger("liszt:updated");
                 }
             });
         }
