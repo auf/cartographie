@@ -53,6 +53,11 @@ urlpatterns = patterns(
         name="formation_personne_ajouter"
     ),
     url(
+        r"^(?P<token>\w+)/personne/ajouter_popup$",
+        "ajouter_personne_popup",
+        name="formation_personne_ajouter_popup"
+    ),
+    url(
         r"^(?P<token>\w+)/personne/(?P<personne_id>\d+)/modifier$",
         "modifier_personne",
         name="formation_personne_modifier"

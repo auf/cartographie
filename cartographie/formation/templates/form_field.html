@@ -22,9 +22,32 @@
             </p>
         {% endif %}
 
+        {% comment %}
+            Les liens ci-dessous activent des popups d'ajout dans le formulaire
+            de modification d'une fiche formation.
+        {% endcomment %}
+
         {% if field.auto_id == "id_langue" %}
+            <br>
             <a href="{% url formation_langue_ajouter_popup token %}" class="btn btn-small btn-info modal-langue">
-                Ajouter une langue
+                <i class="icon-plus icon-white"></i>
+                Ajouter une {{ field.label|lower }}
+            </a>
+        {% endif %}
+
+        {% if field.auto_id == "id_responsables" %}
+            <br>
+            <a href="{% url formation_personne_ajouter_popup token %}" class="btn btn-small btn-info modal-responsable">
+                <i class="icon-plus icon-white"></i>
+                Ajouter un responsable
+            </a>
+        {% endif %}
+
+        {% if field.auto_id == "id_contacts" %}
+            <br>
+            <a href="{% url formation_personne_ajouter_popup token %}" class="btn btn-small btn-info modal-contact">
+                <i class="icon-plus icon-white"></i>
+                Ajouter un contact
             </a>
         {% endif %}
     </div>

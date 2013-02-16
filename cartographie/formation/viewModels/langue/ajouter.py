@@ -16,19 +16,14 @@ class AjouterViewModel(BaseAjouterViewModel):
         super(AjouterViewModel, self).__init__(request, token)
 
         if request.method == "POST":
-            form = LangueForm(request.POST)
+            self.form = LangueForm(request.POST)
         else:
-            form = LangueForm()
-
-        print "AjouterViewModel json_request"
-        print json_request
+            self.form = LangueForm()
 
         if json_request:
             self.submit_url = reverse("formation_langue_ajouter_popup", args=[token])
         else:
             self.submit_url = reverse("formation_langue_ajouter", args=[token])
-
-        self.form = form
 
     def get_data(self):
         data = super(AjouterViewModel, self).get_data()

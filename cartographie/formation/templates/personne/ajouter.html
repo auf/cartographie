@@ -16,21 +16,7 @@
 
         <h4>Ajouter une personne à votre établissement</h4>
         <hr>
-        <form action="{% url formation_personne_ajouter token %}" method="post"
-              class="form-horizontal form-auf">
-            {% csrf_token %}
-
-            {% for field in form %}
-                {% include "form_field.html" with field=field %}
-            {% endfor %}
-
-            <div class="control-group">
-                <div class="controls">
-                    <input type="submit" class="btn btn-success"
-                           value="Ajouter la personne">
-                </div>
-            </div>
-        </form>
+        {% include "personne/form.html" %}
     </div>
 </div>
 {% endblock %}

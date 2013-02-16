@@ -17,17 +17,23 @@ class Personne(models.Model):
 
     fonction = models.CharField(
         max_length=150,
+        null=True,
+        blank=True,
         verbose_name=u"Fonction",
         help_text=u"Titre ou fonction occupée"
     )
 
     courriel = models.EmailField(
-        verbose_name=u"Courriel"
+        verbose_name=u"Courriel",
+        null=True,
+        blank=True,
     )
 
     telephone = models.CharField(
         max_length=100,
-        verbose_name=u"Téléphone"
+        verbose_name=u"Téléphone",
+        null=True,
+        blank=True,
     )
 
     actif = models.BooleanField(

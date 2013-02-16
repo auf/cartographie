@@ -214,6 +214,43 @@ def ajouter_personne(request, token):
 
 
 @token_required
+def ajouter_personne_popup(request, token):
+
+    from cartographie.formation.viewModels.personne.ajouter import AjouterViewModel
+
+    vm = AjouterViewModel(request, token, json_request=True)
+
+    if request.method == "POST":
+        if vm.form.is_valid():
+            nouvelle_personne = vm.form.save(commit=False)
+            nouvelle_personne.etablissement = vm.etablissement
+            nouvelle_personne.save()
+
+            data = {
+                "msg": "", "error": False,
+                "personne": {
+                    "id": nouvelle_personne.id,
+                    "nom": nouvelle_personne.nom,
+                    "prenom": nouvelle_personne.prenom,
+                    "actif": nouvelle_personne.actif
+                }
+            }
+        else:
+            data = {"msg": "Le champ nom et prénom sont requis", "error": True}
+
+        return HttpResponse(
+            simplejson.dumps(data), mimetype="application/json"
+        )
+
+    return render_to_response(
+        "personne/form.html",
+        vm.get_data(),
+        RequestContext(request)
+    )
+    pass
+
+
+@token_required
 def modifier_personne(request, token, personne_id):
 
     from cartographie.formation.viewModels.personne.modifier \
@@ -403,7 +440,8 @@ def ajouter_langue_popup(request, token):
                 "msg": "", "error": False,
                 "langue": {
                     "id": nouvelle_langue.id,
-                    "nom": nouvelle_langue.nom
+                    "nom": nouvelle_langue.nom,
+                    "actif": nouvelle_langue.actif
                 }
             }
         else:
