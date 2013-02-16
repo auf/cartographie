@@ -1,4 +1,4 @@
-<form action="{% url formation_langue_ajouter token %}" method="post"
+<form action="{{ submit_url }}" method="post"
       class="form-horizontal form-auf">
     {% csrf_token %}
 
@@ -8,8 +8,8 @@
 
     <div class="control-group">
         <div class="controls">
-            <input type="submit" class="btn btn-success"
-                   value="Ajouter la langue">
+            <input type="button" class="btn btn-success"
+                   value="Ajouter la langue" onclick="javascript:AUF.formation.popupLangueSubmit()">
         </div>
     </div>
 </form>

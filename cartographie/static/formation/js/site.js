@@ -35,15 +35,38 @@ AUF.formation = function(){
         formPopups: function(){
             console.log("AUF.formation.formPopups()");
 
-            var options = {
-                remote: true
-            };
-
             // popup langue
             $("a.modal-langue").on("click", function(){
-                $("#popupFormLangue").modal(options);
+                var lien = $(this);
+
+                $("#popupFormLangue").modal({
+                    remote: lien.attr("href")
+                });
 
                 return false;
+            });
+        },
+        popupLangueSubmit : function(){
+            /*
+                Fonction utiliser par le bouton de soumission du
+                formulaire d'ajout de langue
+             */
+            var form = $("#popupFormLangue form");
+            var submit_url = form.attr("action");
+
+            $.ajax({
+                url: submit_url,
+                method: "post",
+                data: form.serialize(),
+                dataType: "json"
+            }).done(function(data){
+                if (data.error === true) {
+                    window.alert(data.msg)
+                }else{
+                    $("#popupFormLangue").modal("hide");
+                    // TODO: add option
+                    // TODO: add to chosen UL LI
+                }
             });
         }
     }

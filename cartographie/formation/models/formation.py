@@ -151,7 +151,7 @@ class Formation(models.Model):
         limit_choices_to={"actif": True},
         related_name="niveau_entree+",
         verbose_name=u"Niveau d'entrée",
-        help_text=u"""Niveau requis pour pouvoir s'inscrire 
+        help_text=u"""Niveau requis pour pouvoir s'inscrire
                   dans la formation souhaitée, en nombre d'année d'études
                   dans l'enseignement supérieur""",
     )
@@ -161,7 +161,7 @@ class Formation(models.Model):
         null=True,
         blank=True,
         verbose_name=u"Niveau de sortie",
-        help_text=u"""Niveau obtenu à l'issue de la formation souhaitée, 
+        help_text=u"""Niveau obtenu à l'issue de la formation souhaitée,
                   en nombre d'année d'études
                   dans l'enseignement supérieur""",
         limit_choices_to={"actif": True},
@@ -201,16 +201,17 @@ class Formation(models.Model):
         null=True,
         blank=True,
         verbose_name=u"Langue(s) d'enseignement",
-        help_text=u"""Indiquer la ou les langues dans lesquelles se déroulent 
+        help_text=u"""Indiquer la ou les langues dans lesquelles se déroulent
                   les enseignements de la formation""",
         limit_choices_to={"actif": True},
         related_name="langue+"
     )
-    duree = models.IntegerField(
+    duree = models.CharField(
+        max_length=100,
         null=True,
         blank=True,
         verbose_name=u"Durée de la formation",
-        help_text=u"""Précisez la durée minimale nécessaire pour l'obtention 
+        help_text=u"""Précisez la durée minimale nécessaire pour l'obtention
                   du diplôme en nombre d'années d'études"""
     )
 

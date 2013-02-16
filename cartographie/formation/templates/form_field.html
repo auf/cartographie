@@ -23,19 +23,9 @@
         {% endif %}
 
         {% if field.auto_id == "id_langue" %}
-
             <a href="{% url formation_langue_ajouter_popup token %}" class="btn btn-small btn-info modal-langue">
                 Ajouter une langue
             </a>
-            <div id="popupFormLangue" class="modal hide fade" role="dialog"
-                aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h3>Ajouter une langue</h3>
-                </div>
-                <div class="modal-body">
-                </div>
-            </div>
         {% endif %}
     </div>
 </div>

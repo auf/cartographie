@@ -1,7 +1,8 @@
 # coding: utf-8
 
 from django.template import RequestContext
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
+from django.utils import simplejson
 from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response
 
@@ -392,15 +393,25 @@ def ajouter_langue(request, token):
 def ajouter_langue_popup(request, token):
     from cartographie.formation.viewModels.langue.ajouter import AjouterViewModel
 
-    vm = AjouterViewModel(request, token)
+    vm = AjouterViewModel(request, token, json_request=True)
 
     if request.method == "POST":
         if vm.form.is_valid():
-            vm.form.save()
+            nouvelle_langue = vm.form.save()
 
-            return HttpResponseRedirect(
-                reverse("formation_langue_liste", args=[token])
-            )
+            data = {
+                "msg": "", "error": False,
+                "langue": {
+                    "id": nouvelle_langue.id,
+                    "nom": nouvelle_langue.nom
+                }
+            }
+        else:
+            data = {"msg": "Le champ nom est requis", "error": True}
+
+        return HttpResponse(
+            simplejson.dumps(data), mimetype="application/json"
+        )
 
     return render_to_response(
         "langue/form.html",
