@@ -20,3 +20,6 @@ RAVEN_CONFIG = {
 
 # Optionnel
 PIWIK_TOKEN = None
+
+# rapatriement de mot de passe
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

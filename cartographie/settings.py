@@ -14,9 +14,6 @@ SERVER_EMAIL = 'ne-pas-repondre@auf.org'
 EMAIL_SUBJECT_PREFIX = '[auf_cartographie - %s] ' % socket.gethostname()
 ADMINS = ()
 
-# rapatriement de mot de passe
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
 MANAGERS = ADMINS
 
 TIME_ZONE = 'America/Montreal'

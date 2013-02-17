@@ -22,6 +22,14 @@
             </p>
         {% endif %}
 
+        {% if "DELETE" in field.auto_id %}
+            <p class="help-block">
+                <span class="muted">
+                    Cocher si vous souhaitez enlever cet établissement de la fiche formation <b class="text-info">{{ formation.nom }}</b>
+                </span>
+            </p>
+        {% endif %}
+
         {% comment %}
             Les liens ci-dessous activent des popups d'ajout dans le formulaire
             de modification d'une fiche formation.
