@@ -352,11 +352,14 @@ def ajouter_composante(request, token):
     from cartographie.formation.viewModels.composante.ajouter \
         import AjouterViewModel
 
-    vm = AjouterViewModel(request, token)
+    vm = AjouterViewModel(request, token, json_request=False)
 
     if request.method == "POST":
         if vm.form.is_valid():
-            vm.form.save()
+            nouvelle_composante = vm.form.save(commit=False)
+            # assignation forcée de l'établissement lié
+            nouvelle_composante.etablissement = vm.etablissement
+            nouvelle_composante.save()
 
             return HttpResponseRedirect(
                 reverse("formation_composante_liste", args=[token])
@@ -364,6 +367,41 @@ def ajouter_composante(request, token):
 
     return render_to_response(
         "composante/ajouter.html",
+        vm.get_data(),
+        RequestContext(request)
+    )
+
+
+@token_required
+def ajouter_composante_popup(request, token):
+    from cartographie.formation.viewModels.composante.ajouter \
+        import AjouterViewModel
+
+    vm = AjouterViewModel(request, token, json_request=True)
+
+    if request.method == "POST":
+        if vm.form.is_valid():
+            nouvelle_composante = vm.form.save(commit=False)
+            # assignation forcée de l'établissement lié
+            nouvelle_composante.etablissement = vm.etablissement
+            nouvelle_composante.save()
+
+            data = {
+                "msg": "", "error": False,
+                "composante": {
+                    "id": nouvelle_composante.id,
+                    "nom": nouvelle_composante.nom
+                }
+            }
+        else:
+            data = {"msg": "Le champ nom est requis", "error": True}
+
+        return HttpResponse(
+            simplejson.dumps(data), mimetype="application/json"
+        )
+
+    return render_to_response(
+        "composante/form.html",
         vm.get_data(),
         RequestContext(request)
     )

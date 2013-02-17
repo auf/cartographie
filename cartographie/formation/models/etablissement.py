@@ -13,8 +13,17 @@ class EtablissementComposante(models.Model):
         blank=False
     )
 
+    etablissement = models.ForeignKey(
+        ref.Etablissement,
+        verbose_name=u"Structure d'accueil",
+        help_text=u"Établissement dispensant cette formation",
+        blank=False
+    )
+
     nom_origine = models.CharField(
         max_length=150,
+        null=True,
+        blank=True,
         verbose_name=u"Nom d'origine",
         help_text=u" ".join([
             u"Intitulé de la composante dans la langue d'origine",
@@ -24,17 +33,30 @@ class EtablissementComposante(models.Model):
 
     sigle = models.CharField(
         max_length=150,
+        null=True,
+        blank=True,
         verbose_name=u"Sigle de la composante"
     )
 
     ville = models.CharField(
         max_length=150,
+        null=True,
+        blank=True,
         help_text=u"Ville de la composante (libellé en français)"
     )
 
-    pays = models.ForeignKey(ref.Pays, help_text=u"Pays de la composante")
+    pays = models.ForeignKey(
+        ref.Pays,
+        null=True,
+        blank=True,
+        help_text=u"Pays de la composante"
+    )
 
-    url = models.URLField(help_text=u"Site Internet de la composante")
+    url = models.URLField(
+        null=True,
+        blank=True,
+        help_text=u"Site Internet de la composante"
+    )
 
     diplomante = models.BooleanField(
         default=False,

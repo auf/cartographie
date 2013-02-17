@@ -7,6 +7,7 @@ from cartographie.formation.models import EtablissementComposante
 class ComposanteForm(ModelForm):
     class Meta:
         model = EtablissementComposante
+        exclude = ("etablissement")
 
     def __init__(self, *args, **kwargs):
         super(ComposanteForm, self).__init__(*args, **kwargs)

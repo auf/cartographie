@@ -90,6 +90,11 @@ urlpatterns = patterns(
         name="formation_composante_ajouter"
     ),
     url(
+        r"^(?P<token>\w+)/composante/popup_ajouter$",
+        "ajouter_composante_popup",
+        name="formation_composante_ajouter_popup"
+    ),
+    url(
         r"^(?P<token>\w+)/composante/(?P<composante_id>\d+)/modifier$",
         "modifier_composante",
         name="formation_composante_modifier"

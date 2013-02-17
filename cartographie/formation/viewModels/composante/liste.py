@@ -14,9 +14,9 @@ class ListeViewModel(BaseListeViewModel):
     def __init__(self, token, onglet_actif="composante"):
         super(ListeViewModel, self).__init__(token, onglet_actif)
 
-        self.composantes = EtablissementComposante.objects.all().order_by(
-            "nom"
-        )
+        self.composantes = EtablissementComposante.objects.filter(
+            etablissement=self.etablissement
+        ).order_by("nom")
 
     def get_data(self):
         data = super(ListeViewModel, self).get_data()

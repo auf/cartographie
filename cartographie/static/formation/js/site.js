@@ -58,6 +58,10 @@ AUF.formation = function(){
             this._formPopupsFactory("responsable");
             // popup contact
             this._formPopupsFactory("contact");
+            // popup composante
+            this._formPopupsFactory("composante");
+            // popup etablissement autre (non membre)
+            this._formPopupsFactory("etablissement-autre");
         },
         popupLangueSubmit : function(){
             console.log("AUF.formation.popupLangueSubmit()");
@@ -134,6 +138,39 @@ AUF.formation = function(){
                     }
                 }
             });
+        },
+        popupComposanteSubmit: function(){
+            console.log("AUF.formation.popupComposanteSubmit()");
+
+            var form = $("#popup-form-composante form");
+            var submit_url = form.attr("action");
+
+            $.ajax({
+                url: submit_url,
+                method: "post",
+                data: form.serialize(),
+                dataType: "json"
+            }).done(function(data){
+                console.log(data);
+
+                if (data.error === true) {
+                    window.alert(data.msg)
+                }else{
+                    $("#popup-form-composante").modal("hide");
+                    var composante = data.composante;
+
+                    if (composante) {
+                        // Ajouter l'option dans la liste et
+                        // avertir Chosen que la liste a été mis à jour
+                        $("select[id^=id_composante]").append(
+                            "<option value=" + composante.id + ">" + composante.nom + "</option>"
+                        ).trigger("liszt:updated");
+                    }
+                }
+            });
+        },
+        popupPartenaireAutreSubmit: function(){
+
         }
     }
 }();
