@@ -32,12 +32,12 @@ AUF.formation = function(){
                 });
             }
         },
-        _formPopupsFactory: function(quoi){
+        _formPopupFactory: function(quoi){
             /*
                 Ajouter l'activation d'une fenetre modal sur le clique
                 d'un lien dans la class est "a.modal-{quoi}"
              */
-            console.log("AUF.formation._formPopupsFactory()", quoi);
+            console.log("AUF.formation._formPopupFactory()", quoi);
 
             $("a.modal-" + quoi).on("click", function(){
                 var lien = $(this);
@@ -49,27 +49,14 @@ AUF.formation = function(){
                 return false;
             });
         },
-        formPopups: function(){
-            console.log("AUF.formation.formPopups()");
-
-            // popup langue
-            this._formPopupsFactory("langue");
-            // popup responsable
-            this._formPopupsFactory("responsable");
-            // popup contact
-            this._formPopupsFactory("contact");
-            // popup composante
-            this._formPopupsFactory("composante");
-            // popup partenaire autre (non membre)
-            this._formPopupsFactory("partenaire-autre");
-        },
-        popupLangueSubmit : function(){
-            console.log("AUF.formation.popupLangueSubmit()");
+        _popupSubmitFactory: function(modal_selector, done_callback){
+             console.log("AUF.formation._popupSubmitFactory()", modal_selector);
             /*
-                Fonction utiliser par le bouton de soumission du
-                formulaire d'ajout de langue
+                Fonction utiliser par le bouton de soumission d'un formulaire dans un
+                popup
              */
-            var form = $("#popup-form-langue form");
+
+            var form = $(modal_selector + " form");
             var submit_url = form.attr("action");
 
             $.ajax({
@@ -83,7 +70,35 @@ AUF.formation = function(){
                 if (data.error === true) {
                     window.alert(data.msg)
                 }else{
-                    $("#popup-form-langue").modal("hide");
+                    $(modal_selector).modal("hide");
+                    done_callback(data);
+                }
+            });
+        },
+        formPopups: function(){
+            console.log("AUF.formation.formPopups()");
+
+            // popup langue
+            this._formPopupFactory("langue");
+            // popup responsable
+            this._formPopupFactory("responsable");
+            // popup contact
+            this._formPopupFactory("contact");
+            // popup composante
+            this._formPopupFactory("composante");
+            // popup partenaire autre (non membre)
+            this._formPopupFactory("partenaire-autre");
+        },
+        popupLangueSubmit : function(){
+            console.log("AUF.formation.popupLangueSubmit()");
+            /*
+                Fonction utiliser par le bouton de soumission du
+                formulaire d'ajout de langue
+             */
+
+            this._popupSubmitFactory(
+                "#popup-form-langue",
+                function(data){
                     var langue = data.langue;
 
                     if (langue.actif) {
@@ -94,7 +109,7 @@ AUF.formation = function(){
                         ).trigger("liszt:updated");
                     }
                 }
-            });
+            );
         },
         popupPersonneSubmit: function(){
             console.log("AUF.formation.popupResponsableSubmit()");
@@ -109,22 +124,9 @@ AUF.formation = function(){
             if ($("div[id*=popup-form-][aria-hidden=false]").attr("id") === "popup-form-contact") {
                 quoi = "contact";
             }
-
-            var form = $("#popup-form-" + quoi + " form");
-            var submit_url = form.attr("action");
-
-            $.ajax({
-                url: submit_url,
-                method: "post",
-                data: form.serialize(),
-                dataType: "json"
-            }).done(function(data){
-                console.log(data);
-
-                if (data.error === true) {
-                    window.alert(data.msg);
-                }else{
-                    $("#popup-form-" + quoi).modal("hide");
+            this._popupSubmitFactory(
+                "#popup-form-" + quoi,
+                function(data){
                     var personne = data.personne;
 
                     if (personne.actif) {
@@ -137,28 +139,14 @@ AUF.formation = function(){
                         ).trigger("liszt:updated");
                     }
                 }
-            });
+            );
         },
         popupComposanteSubmit: function(){
             console.log("AUF.formation.popupComposanteSubmit()");
-
-            var form = $("#popup-form-composante form");
-            var submit_url = form.attr("action");
-
-            $.ajax({
-                url: submit_url,
-                method: "post",
-                data: form.serialize(),
-                dataType: "json"
-            }).done(function(data){
-                console.log(data);
-
-                if (data.error === true) {
-                    window.alert(data.msg)
-                }else{
-                    $("#popup-form-composante").modal("hide");
+            this._popupSubmitFactory(
+                "#popup-form-composante",
+                function(data){
                     var composante = data.composante;
-
                     if (composante) {
                         // Ajouter l'option dans la liste et
                         // avertir Chosen que la liste a été mis à jour
@@ -167,24 +155,13 @@ AUF.formation = function(){
                         ).trigger("liszt:updated");
                     }
                 }
-            });
+            );
         },
         popupPartenaireAutreSubmit: function(){
-            var form = $("#popup-form-partenaire-autre form");
-            var submit_url = form.attr("action");
-
-            $.ajax({
-                url: submit_url,
-                method: "post",
-                data: form.serialize(),
-                dataType: "json"
-            }).done(function(data){
-                console.log(data);
-
-                if (data.error === true) {
-                    window.alert(data.msg)
-                }else{
-                    $("#popup-form-partenaire-autre").modal("hide");
+            console.log("AUF.formation.popupPartenaireAutreSubmit()");
+            this._popupSubmitFactory(
+                "#popup-form-partenaire-autre",
+                function(data){
                     var partenaire_autre = data.partenaire_autre;
 
                     if (partenaire_autre) {
@@ -195,7 +172,7 @@ AUF.formation = function(){
                         ).trigger("liszt:updated");
                     }
                 }
-            });
+            );
         }
     }
 }();
