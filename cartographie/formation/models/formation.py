@@ -54,17 +54,20 @@ class Formation(models.Model):
     discipline_1 = models.ForeignKey(
         Discipline, blank=False, related_name="+",
         help_text=u"""Indiquer une discipline minimum, trois disciplines
-                  au maximum (choisir une des valeurs proposées)"""
+                  au maximum (choisir une des valeurs proposées)""",
+        limit_choices_to={"actif": True}
     )
     discipline_2 = models.ForeignKey(
         Discipline, null=True, blank=True, related_name="+",
         help_text=u"""Indiquer une discipline minimum, trois disciplines
-                  au maximum (choisir une des valeurs proposées)"""
+                  au maximum (choisir une des valeurs proposées)""",
+        limit_choices_to={"actif": True}
     )
     discipline_3 = models.ForeignKey(
         Discipline, null=True, blank=True, related_name="+",
         help_text=u"""Indiquer une discipline minimum, trois disciplines
-                  au maximum (choisir une des valeurs proposées)"""
+                  au maximum (choisir une des valeurs proposées)""",
+        limit_choices_to={"actif": True}
     )
 
     # etablissement(s)

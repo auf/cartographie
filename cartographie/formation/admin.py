@@ -215,7 +215,7 @@ class FormationAdminFieldset(ModelAdmin):
     pass
 
 class AccesAdmin(ModelAdmin):
-    list_display = ('_etablissement_id', '_etablissement_nom', '_token', 
+    list_display = ('_etablissement_id', '_etablissement_nom', '_token',
                     '_url', '_pays_nom', )
     list_display_links = ('_token',)
     list_filter = (
@@ -226,7 +226,7 @@ class AccesAdmin(ModelAdmin):
         'etablissement__id',
         'etablissement__nom',
     )
-        
+
     def _get_link(self, href, text):
         link = u"""<a title="Accueil établissement" href='%s'>
                   %s</a>""" % (href, text)
@@ -235,21 +235,21 @@ class AccesAdmin(ModelAdmin):
     def _etablissement_id(self, instance):
         return instance.etablissement.id
     _etablissement_id.short_description = u"Id"
-        
+
     def _etablissement_nom(self, instance):
         return instance.etablissement.nom
     _etablissement_nom.short_description = u"Établissement"
-        
+
     def _token(self, instance):
         if instance.active == True:
             output = instance.token
         elif instance.active == False:
             output =  u"Désactivé"
         else:
-            output =  u"Non généré"            
+            output =  u"Non généré"
         return output
     _token.short_description = u"Code d'accès"
-        
+
     def _url(self, instance):
         # TODO : virer hardcode domain (basse priorité)
         if instance.active == True :
@@ -259,11 +259,11 @@ class AccesAdmin(ModelAdmin):
         elif instance.active == False:
             output =  u"Désactivé"
         else:
-            output =  u"Non généré"    
+            output =  u"Non généré"
         return output
     _url.allow_tags = True
     _url.short_description = u"URL secrète"
-    
+
     def _pays_nom(self, instance):
         return instance.etablissement.pays.nom
     _pays_nom.short_description = u"Pays"
@@ -275,15 +275,16 @@ class AccesAdmin(ModelAdmin):
         # True nécessaire pour accès à liste...
         # ... mais URL de modification pas dans liste : voir list_display_links
         return True
-    
+
     def has_delete_permission(self, request, obj=None):
         return False
-    
+
 
 class DisciplineAdmin(ModelAdmin):
-    list_display = ('code', 'nom', '_discipline_auf',)
+    list_display = ('code', 'nom', '_discipline_auf', 'actif')
     list_display_links = ('nom',)
     list_filter = (
+        'actif',
         'discipline__nom',
     )
 
@@ -304,14 +305,14 @@ class FormationModificationAdmin(ModelAdmin):
     search_fields = (
         'formation',
     )
-    
+
     def _etablissement(self, instance):
         return instance.formation.etablissement
-    
+
     def _formation(self, instance):
         formation_id = instance.formation.id
         token = instance.formation.etablissement.acces_set.get().token
-        
+
         title = instance.formation
         href = reverse("formation_modifier", args=[token, formation_id])
         text = instance.formation
@@ -320,7 +321,7 @@ class FormationModificationAdmin(ModelAdmin):
         return link
     _formation.allow_tags = True
     _formation.short_description = u"Formation"
-    
+
     def has_add_permission(self, request):
         return False
 
@@ -328,7 +329,7 @@ class FormationModificationAdmin(ModelAdmin):
         # True nécessaire pour accès à liste...
         # ... mais URL de modification pas dans liste : voir list_display_links
         return True
-    
+
     def has_delete_permission(self, request, obj=None):
         return False
 

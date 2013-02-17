@@ -20,9 +20,8 @@ class AbstractNomStatut(models.Model):
         return u"%s" % (self.nom)
 
 
-class Discipline(models.Model):
+class Discipline(AbstractNomStatut):
     code = models.CharField(max_length=100, verbose_name=u"Code Erasmus")
-    nom = models.CharField(max_length=150, verbose_name=u"Nom")
     discipline = models.ForeignKey(ref.Discipline, null=True, blank=True)
 
     class Meta:
@@ -33,7 +32,7 @@ class Discipline(models.Model):
 
     def __unicode__(self):
         indent = u""
-        if len(self.code) > 1 :
+        if len(self.code) > 1:
             for digit in self.code:
                 indent = indent + u">"
             indent = indent[1:] + u" "
