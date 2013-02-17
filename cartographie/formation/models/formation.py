@@ -156,7 +156,7 @@ class Formation(models.Model):
                   dans l'enseignement supérieur""",
     )
 
-    niveau_sortie = models.ManyToManyField(
+    niveau_sortie = models.ForeignKey(
         NiveauUniversitaire,
         null=True,
         blank=True,
@@ -165,7 +165,7 @@ class Formation(models.Model):
                   en nombre d'année d'études
                   dans l'enseignement supérieur""",
         limit_choices_to={"actif": True},
-        related_name="niveau_sortie+"
+        # related_name="niveau_sortie+"
     )
 
     vocation = models.ManyToManyField(
