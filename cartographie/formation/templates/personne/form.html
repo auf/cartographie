@@ -1,0 +1,16 @@
+<form action="{{ submit_url }}" method="post"
+      class="form-horizontal form-auf">
+    {% csrf_token %}
+
+    {% for field in form %}
+        {% include "form_field.html" with field=field %}
+    {% endfor %}
+
+    <div class="control-group">
+        <div class="controls">
+            <input type="{% if json_request %}button{% else %}submit{% endif %}" class="btn btn-success"
+                   value="Ajouter la personne"
+                   {% if json_request %}onclick="javascript:AUF.formation.popupPersonneSubmit()"{% endif %}>
+        </div>
+    </div>
+</form>
