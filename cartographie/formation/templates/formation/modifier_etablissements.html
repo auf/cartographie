@@ -47,7 +47,7 @@
             <h5>
                 Composante(s) de l'établissement dispensant la formation
                 <a href="{% url formation_composante_ajouter_popup token %}"
-                   class="btn btn-small btn-info pull-right modal-composante">
+                   class="btn btn-info pull-right modal-composante">
                     <i class="icon-plus icon-white"></i>
                     Ajouter une composante
                 </a>
@@ -98,7 +98,8 @@
 
             <h5>
                 Partenaire(s) <b class="text-info">non membre</b> de l'AUF impliqué(s) dans la formation
-                <a href="#" class="btn btn-small btn-info pull-right modal-partenaire-autre">
+                <a href="{% url formation_partenaire_autre_ajouter_popup token %}"
+                    class="btn btn-info pull-right modal-partenaire-autre">
                     <i class="icon-plus icon-white"></i>
                     Ajouter un partenaire <b>non membre</b>
                 </a>
@@ -143,14 +144,13 @@ structure du popup pour l'ajout d'une composante !
 {% comment %}
 structure du popup pour l'ajout d'un établissement non membre de l'AUF !
 {% endcomment %}
-<div id="popup-form-etablissement-autre" class="modal hide fade" role="dialog"
+<div id="popup-form-partenaire-autre" class="modal hide fade" role="dialog"
     aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h3>Ajouter un etablissement non membre</h3>
+        <h3>Ajouter un partenaire non membre</h3>
     </div>
     <div class="modal-body">
     </div>
 </div>
-
 {% endblock %}

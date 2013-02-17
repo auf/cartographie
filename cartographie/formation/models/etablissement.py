@@ -92,28 +92,38 @@ class EtablissementAutre(models.Model):
         help_text=u" ".join([
             u"Intitulé de l'établissment non membre dans la langue d'origine",
             u"si ce n'est pas le français"
-        ])
+        ]),
+        null=True,
+        blank=True,
     )
 
     sigle = models.CharField(
         max_length=150,
+        null=True,
+        blank=True,
         verbose_name=u"Sigle de l'établissement non membre de l'AUF"
     )
 
     ville = models.CharField(
         max_length=150,
+        null=True,
+        blank=True,
         verbose_name=u"Ville",
         help_text=u"Ville (libellé en français)"
     )
 
     pays = models.ForeignKey(
         ref.Pays,
+        null=True,
+        blank=True,
         verbose_name=u"Pays",
         help_text=u"Pays de l'établissement non membre de l'AUF"
     )
 
     url = models.URLField(
-        help_text=u"Site Internet de l'établissement non membre de l'AUF"
+        help_text=u"Site Internet de l'établissement non membre de l'AUF",
+        null=True,
+        blank=True,
     )
 
     class Meta:

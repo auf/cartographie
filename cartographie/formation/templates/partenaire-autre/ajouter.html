@@ -16,21 +16,7 @@
 
         <h4>Ajouter un partenaire non membre de l'AUF</h4>
         <hr>
-        <form action="{% url formation_partenaire_autre_ajouter token %}" method="post"
-              class="form-horizontal form-auf">
-            {% csrf_token %}
-
-            {% for field in form %}
-                {% include "form_field.html" with field=field %}
-            {% endfor %}
-
-            <div class="control-group">
-                <div class="controls">
-                    <input type="submit" class="btn btn-success"
-                           value="Ajouter le partenaire">
-                </div>
-            </div>
-        </form>
+        {% include "partenaire-autre/form.html" %}
     </div>
 </div>
 {% endblock %}

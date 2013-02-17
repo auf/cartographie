@@ -60,8 +60,8 @@ AUF.formation = function(){
             this._formPopupsFactory("contact");
             // popup composante
             this._formPopupsFactory("composante");
-            // popup etablissement autre (non membre)
-            this._formPopupsFactory("etablissement-autre");
+            // popup partenaire autre (non membre)
+            this._formPopupsFactory("partenaire-autre");
         },
         popupLangueSubmit : function(){
             console.log("AUF.formation.popupLangueSubmit()");
@@ -162,7 +162,7 @@ AUF.formation = function(){
                     if (composante) {
                         // Ajouter l'option dans la liste et
                         // avertir Chosen que la liste a été mis à jour
-                        $("select[id^=id_composante]").append(
+                        $("select[id^=id_composante-]").append(
                             "<option value=" + composante.id + ">" + composante.nom + "</option>"
                         ).trigger("liszt:updated");
                     }
@@ -170,7 +170,32 @@ AUF.formation = function(){
             });
         },
         popupPartenaireAutreSubmit: function(){
+            var form = $("#popup-form-partenaire-autre form");
+            var submit_url = form.attr("action");
 
+            $.ajax({
+                url: submit_url,
+                method: "post",
+                data: form.serialize(),
+                dataType: "json"
+            }).done(function(data){
+                console.log(data);
+
+                if (data.error === true) {
+                    window.alert(data.msg)
+                }else{
+                    $("#popup-form-partenaire-autre").modal("hide");
+                    var partenaire_autre = data.partenaire_autre;
+
+                    if (partenaire_autre) {
+                        // Ajouter l'option dans la liste et
+                        // avertir Chosen que la liste a été mis à jour
+                        $("select[id^=id_partenaires-autre-]").append(
+                            "<option value=" + partenaire_autre.id + ">" + partenaire_autre.nom + "</option>"
+                        ).trigger("liszt:updated");
+                    }
+                }
+            });
         }
     }
 }();

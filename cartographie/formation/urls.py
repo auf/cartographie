@@ -74,6 +74,11 @@ urlpatterns = patterns(
         name="formation_partenaire_autre_ajouter"
     ),
     url(
+        r"^(?P<token>\w+)/partenaire_autre/ajouter_popup$",
+        "ajouter_partenaire_autre_popup",
+        name="formation_partenaire_autre_ajouter_popup"
+    ),
+    url(
         r"^(?P<token>\w+)/partenaire_autre/(?P<partenaire_autre_id>\d+)/modifier$",
         "modifier_partenaire_autre",
         name="formation_partenaire_autre_modifier"
@@ -90,7 +95,7 @@ urlpatterns = patterns(
         name="formation_composante_ajouter"
     ),
     url(
-        r"^(?P<token>\w+)/composante/popup_ajouter$",
+        r"^(?P<token>\w+)/composante/ajouter_popup$",
         "ajouter_composante_popup",
         name="formation_composante_ajouter_popup"
     ),
@@ -116,7 +121,7 @@ urlpatterns = patterns(
         name="formation_langue_modifier"
     ),
     url(
-        r"^(?P<token>\w+)/langue/popup_ajouter$",
+        r"^(?P<token>\w+)/langue/ajouter_popup$",
         "ajouter_langue_popup",
         name="formation_langue_ajouter_popup"
     )

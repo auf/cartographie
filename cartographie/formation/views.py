@@ -293,7 +293,7 @@ def ajouter_partenaire_autre(request, token):
     from cartographie.formation.viewModels.partenaire_autre.ajouter \
         import AjouterViewModel
 
-    vm = AjouterViewModel(request, token)
+    vm = AjouterViewModel(request, token, json_request=False)
 
     if request.method == "POST":
         if vm.form.is_valid():
@@ -305,6 +305,38 @@ def ajouter_partenaire_autre(request, token):
 
     return render_to_response(
         "partenaire-autre/ajouter.html",
+        vm.get_data(),
+        RequestContext(request)
+    )
+
+
+@token_required
+def ajouter_partenaire_autre_popup(request, token):
+    from cartographie.formation.viewModels.partenaire_autre.ajouter \
+        import AjouterViewModel
+
+    vm = AjouterViewModel(request, token, json_request=True)
+
+    if request.method == "POST":
+        if vm.form.is_valid():
+            nouveau_partenaire_autre = vm.form.save()
+
+            data = {
+                "msg": "", "error": False,
+                "partenaire_autre": {
+                    "id": nouveau_partenaire_autre.id,
+                    "nom": nouveau_partenaire_autre.nom
+                }
+            }
+        else:
+            data = {"msg": "Le champ nom est requis", "error": True}
+
+        return HttpResponse(
+            simplejson.dumps(data), mimetype="application/json"
+        )
+
+    return render_to_response(
+        "partenaire-autre/form.html",
         vm.get_data(),
         RequestContext(request)
     )

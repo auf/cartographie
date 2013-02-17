@@ -650,6 +650,7 @@ footer .content{padding-top:0;padding-bottom:0;}
 footer .copyright{font-size:0.8em;color:#a3a4a7;margin:0 0 15px;}
 label.bold{font-weight:bold;}label.bold:after{content:" *";}
 .actions{margin:11px 0;}
+h5 .btn{font-weight:normal;}
 form.form-horizontal .control-label{width:180px;}
 form.form-horizontal .controls{margin-left:200px;}
 form .control-group input[type=text]{width:350px;}
@@ -664,5 +665,5 @@ form .chzn-container-multi+.errorlist{position:relative;top:-10px;}
 form .muted{font-size:0.9em;}
 #popup-form-langue form.form-horizontal .control-label{width:50px;}
 #popup-form-langue form.form-horizontal .controls{margin-left:70px;}
-#popup-form-responsable form.form-horizontal .control-label,#popup-form-contact form.form-horizontal .control-label,#popup-form-composante form.form-horizontal .control-label,#popup-form-etablissement-autre form.form-horizontal .control-label{width:70px;}
-#popup-form-responsable form.form-horizontal .controls,#popup-form-contact form.form-horizontal .controls,#popup-form-composante form.form-horizontal .controls,#popup-form-etablissement-autre form.form-horizontal .controls{margin-left:90px;}
+#popup-form-responsable form.form-horizontal .control-label,#popup-form-contact form.form-horizontal .control-label,#popup-form-composante form.form-horizontal .control-label,#popup-form-partenaire-autre form.form-horizontal .control-label{width:70px;}
+#popup-form-responsable form.form-horizontal .controls,#popup-form-contact form.form-horizontal .controls,#popup-form-composante form.form-horizontal .controls,#popup-form-partenaire-autre form.form-horizontal .controls{margin-left:90px;}
