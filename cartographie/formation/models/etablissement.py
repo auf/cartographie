@@ -67,6 +67,11 @@ class EtablissementComposante(models.Model):
         ])
     )
 
+    actif = models.BooleanField(
+        default=True,
+        verbose_name=u"Actif?"
+    )
+
     class Meta:
         verbose_name = u"Composante d'établissement"
         verbose_name_plural = u"Composantes d'établissement"

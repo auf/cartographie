@@ -93,7 +93,7 @@ class Formation(models.Model):
         blank=True,
         through="FormationComposante",
         verbose_name=u"Composante d'établissement",
-        help_text=u"Texte d'aide"
+        help_text=u"Texte d'aide",
     )
 
     partenaires_auf = models.ManyToManyField(
@@ -346,8 +346,10 @@ class FormationComposante(models.Model):
     etablissementComposante = models.ForeignKey(
         EtablissementComposante,
         related_name="+",
-        verbose_name=u"Composante d'établissement"
+        verbose_name=u"Composante d'établissement",
+        limit_choices_to={"actif": True}
     )
+
     etablissement_composante_emet_diplome = models.BooleanField(
         default=False,
         verbose_name=u"Émet diplôme?",
