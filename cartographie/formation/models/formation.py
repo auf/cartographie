@@ -270,6 +270,14 @@ class Formation(models.Model):
     def __unicode__(self):
         return u"%s" % (self.nom,)
 
+    def save_modification(self, request):
+        modif = FormationModification()
+
+        if request.user.is_authenticated():
+            modif.save_modification(self.id, request.user)
+        else:
+            modif.save_modification(self.id)
+
     def save(self, *args, **kwargs):
         # sauvegarder le champ de création seulement lors de la création
         if not self.id:

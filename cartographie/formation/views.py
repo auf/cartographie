@@ -53,6 +53,7 @@ def ajouter(request, token):
         # sauvegarder l'établissement à la main car la VM le connait
         nouvelle_formation.etablissement = ajoutVM.etablissement
         nouvelle_formation.save()
+        nouvelle_formation.save_modification(request)
         # puis sauvegarder les m2m normaux
         ajoutVM.form.save_m2m()
 
@@ -70,24 +71,6 @@ def ajouter(request, token):
     )
 
 
-# @token_required
-# def consulter(request, token, formation_id=None):
-#     """
-#         Voir la fiche formation sans modification possible
-#     """
-
-#     return render_to_response(
-#         "formation/consulter.html", {}, RequestContext(request)
-#     )
-
-
-# @token_required
-# def consulter_etablissements(request, token, formation_id=None):
-#     return render_to_response(
-#         "formation/consulter_etablissements.html", {}, RequestContext(request)
-#     )
-
-
 @token_required
 def modifier(request, token, formation_id=None):
     """
@@ -102,15 +85,10 @@ def modifier(request, token, formation_id=None):
         # pas nécessaire de gérer les m2m ici, contrairement à l'ajout
         # d'une nouvelle fiche
         formation_courante = modifVM.form.save()
-
-        # laisser une trace des modifications
-        modif = FormationModification()
-
-        if request.user.is_authenticated():
-            modif.save_modification(formation_courante.id, request.user)
-        else:
-            modif.save_modification(formation_courante.id)
-
+        # TODO: overrider la fonction save du formulaire pour donner la request
+        # à la fonction save du Model. Pour l'instant, on fait le save_modification() de la ligne
+        # suivante:
+        formation_courante.save_modification(request)
         # obtenir les infos de nouveau pour rafraîchir la page
         modifVM = ModifierViewModel(request, token, formation_courante.id)
 
@@ -142,6 +120,7 @@ def modifier_etablissements(request, token, formation_id=None):
             modifVM.formation.etablissement_emet_diplome = False
 
         modifVM.formation.save()
+        modifVM.formation.save_modification(request)
 
     formsets_sauvegarder = []
     # Verifier la validité des formsets
