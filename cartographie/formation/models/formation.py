@@ -155,7 +155,7 @@ class Formation(models.Model):
         related_name="niveau_entree+",
         verbose_name=u"Niveau d'entrée",
         help_text=u"""Niveau requis pour pouvoir s'inscrire
-                  dans la formation souhaitée, en nombre d'année d'études
+                  dans la formation souhaitée, en nombre d'années d'études
                   dans l'enseignement supérieur""",
     )
 
@@ -165,7 +165,7 @@ class Formation(models.Model):
         blank=True,
         verbose_name=u"Niveau de sortie",
         help_text=u"""Niveau obtenu à l'issue de la formation souhaitée,
-                  en nombre d'année d'études
+                  en nombre d'années d'études
                   dans l'enseignement supérieur""",
         limit_choices_to={"actif": True},
         # related_name="niveau_sortie+"
