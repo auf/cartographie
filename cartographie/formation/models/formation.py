@@ -4,7 +4,6 @@ import datetime
 
 from django.db import models
 from django.contrib.auth.models import User
-
 from auf.django.references import models as ref
 
 from .configuration import Discipline, NiveauDiplome, TypeDiplome, \
@@ -205,8 +204,8 @@ class Formation(models.Model):
         blank=True,
         verbose_name=u"Langue(s) d'enseignement",
         help_text=u"""Indiquer la ou les langues dans lesquelles se déroulent
-                  les enseignements de la formation. Vous pouvez ajouter 
-                  une nouvelle langue à la liste en cliquant sur le bouton 
+                  les enseignements de la formation. Vous pouvez ajouter
+                  une nouvelle langue à la liste en cliquant sur le bouton
                   ci-dessous.""",
         limit_choices_to={"actif": True},
         related_name="langue+"

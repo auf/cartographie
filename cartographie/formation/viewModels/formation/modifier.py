@@ -2,12 +2,13 @@
 
 from django.forms.models import inlineformset_factory
 
-from cartographie.formation.models import Acces, Formation, \
-                                          FormationComposante, \
-                                          FormationPartenaireAUF, \
-                                          FormationPartenaireAutre
+from cartographie.formation.models import Acces, Formation
+from cartographie.formation.models import FormationComposante
+from cartographie.formation.models import FormationPartenaireAUF
+from cartographie.formation.models import FormationPartenaireAutre
 
 from cartographie.formation.forms.formation import FormationForm
+from cartographie.formation.forms.formation import FormationComposanteForm
 
 
 class ModifierViewModel(object):
@@ -34,9 +35,15 @@ class ModifierViewModel(object):
             self.formation = Formation.objects.get(pk=formation_id)
 
             # setup des formsets
+
+            # ici, je spécifie un form particulier car je veux limiter la liste
+            # de choix des EtablissementComposante. On ne peut le faire que dans
+            # un ModelForm lors du __init__
             composanteFormset = inlineformset_factory(
-                Formation, FormationComposante, extra=1
+                Formation, FormationComposante,
+                form=FormationComposanteForm, extra=1
             )
+
             partenaireAufFormset = inlineformset_factory(
                 Formation, FormationPartenaireAUF, extra=1
             )
