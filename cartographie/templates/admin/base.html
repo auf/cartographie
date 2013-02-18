@@ -32,7 +32,7 @@
                 {% if docsroot %}
                     <a href="{{ docsroot }}">{% trans 'Documentation' %}</a> /
                 {% endif %}
-                <strong><a href="">Test de Bernard</a></strong> /
+                <a href="{% url 'any_password_reset' %}">Modifier le mot de passe d'un usager</a> /
                 <a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a> /
                 <a href="{% url 'admin:logout' %}">{% trans 'Log out' %}</a>
             {% endblock %}
