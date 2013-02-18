@@ -51,7 +51,6 @@ INSTALLED_APPS = (
     # AUF
     'home',
     'formation',
-    'anyPwdReset',
     'auf.django.references',
     'auf.django.permissions',
 )
