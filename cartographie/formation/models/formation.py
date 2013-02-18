@@ -205,7 +205,9 @@ class Formation(models.Model):
         blank=True,
         verbose_name=u"Langue(s) d'enseignement",
         help_text=u"""Indiquer la ou les langues dans lesquelles se déroulent
-                  les enseignements de la formation""",
+                  les enseignements de la formation. Vous pouvez ajouter 
+                  une nouvelle langue à la liste en cliquant sur le bouton 
+                  ci-dessous.""",
         limit_choices_to={"actif": True},
         related_name="langue+"
     )
@@ -228,7 +230,8 @@ class Formation(models.Model):
             "actif": True,
             # "personne__etablissement": self.etablissement
         },
-        related_name="responsables+"
+        related_name="responsables+",
+        help_text=u"Sélectionnez une personne dans la liste déroulante. Vous pouvez ajouter une nouvelle personne à la liste en cliquant sur le bouton ci-dessous."
 
     )
 
@@ -240,7 +243,8 @@ class Formation(models.Model):
             "actif": True,
             # "personne__etablissement": self.etablissement
         },
-        related_name="contacts+"
+        related_name="contacts+",
+        help_text=u"Sélectionnez une personne dans la liste déroulante. Vous pouvez ajouter une nouvelle personne à la liste en cliquant sur le bouton ci-dessous."
     )
 
     # gestion

@@ -57,7 +57,9 @@
                 <b class="text-info">{{ etablissement.nom }}</b>
                 impliquée(s) dans la formation
                 <b class="text-info">{{ formation.nom }}</b>.<br />
-                Indiquer ici si la formation est dispensée par une composante particulière de l'établissement (une faculté, une école dans une université, un laboratoire dans un centre de recherche...)
+                Indiquer ici si la formation est dispensée par une composante particulière de l'établissement (une faculté, une école dans une université, un laboratoire dans un centre de recherche...).<br />
+                Sélectionnez une composante de votre établissement dans la liste déroulante.<br />
+                Vous pouvez ajouter à la liste une nouvelle composante de votre établissement en cliquant sur le bouton à droite.
             </p>
             {{ composanteFormset.management_form }}
             <table class="table table-striped table-bordered table-condensed">
@@ -107,7 +109,9 @@
             <p>
                 Partenaire(s) <b class="text-info">non membre</b> de l'AUF
                 impliqué(s) dans la formation
-                <b class="text-info">{{ formation.nom }}</b>.
+                <b class="text-info">{{ formation.nom }}</b>.<br />
+                Sélectionnez un établissement dans la liste déroulante.<br />
+                Vous pouvez ajouter à la liste un nouvel établissement non membre de l'AUF en cliquant sur le bouton à droite.
             </p>
             {{ partenaireAutreFormset.management_form }}
             <table class="table table-striped table-bordered table-condensed">
