@@ -126,6 +126,7 @@ class UserForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(UserForm, self).__init__(*args, **kwargs)
+        self.fields["password"].help_text = "<a href='./password'>Modifier le mot de passe de cet usager</a>"
 
     def save(self, commit=True):
         user = super(UserForm, self).save(commit=commit)
@@ -214,6 +215,7 @@ class FormationAdminFieldset(ModelAdmin):
     )
     pass
 
+
 class AccesAdmin(ModelAdmin):
     list_display = ('_etablissement_id', '_etablissement_nom', '_token',
                     '_url', '_pays_nom', )
@@ -244,22 +246,22 @@ class AccesAdmin(ModelAdmin):
         if instance.active == True:
             output = instance.token
         elif instance.active == False:
-            output =  u"Désactivé"
+            output = u"Désactivé"
         else:
-            output =  u"Non généré"
+            output = u"Non généré"
         return output
     _token.short_description = u"Code d'accès"
 
     def _url(self, instance):
         # TODO : virer hardcode domain (basse priorité)
-        if instance.active == True :
+        if instance.active == True:
             href = reverse("formation_liste", args=[instance.token])
             text = "http://cartographie.auf.org%s" % href
             output = self._get_link(href, text)
         elif instance.active == False:
-            output =  u"Désactivé"
+            output = u"Désactivé"
         else:
-            output =  u"Non généré"
+            output = u"Non généré"
         return output
     _url.allow_tags = True
     _url.short_description = u"URL secrète"
