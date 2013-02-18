@@ -54,5 +54,5 @@ class FormationComposanteForm(ModelForm):
             # de l'etablissement de l'instance courante de FormationComposante
             self.fields["etablissementComposante"].queryset = \
                 EtablissementComposante.objects.filter(
-                    etablissement=instance.formation.etablissement
+                    etablissement=instance.formation.etablissement, actif=True
                 )
