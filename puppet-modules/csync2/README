@@ -1,0 +1,103 @@
+= Requirements
+
+- OS: Ubuntu hardy/lucid
+- module: concat
+
+= Overview
+
+This modules install csync2. Its main aim is to be able to synchronize shard
+servers (db, web ...) when we want to deploy.  You will override the basic
+csync2 class to add your own configuration, or use the csync2::config
+
+
+==Parameters
+
+csync2::key
+- $keyfile: in the form of puppet:///path/file
+
+csync2::ssl
+- $sslcert: in the form of puppet:///path/file
+- $sslkey:  in the form of puppet:///path/file
+
+csync2::config
+- $csync2_group (default: SERVER): name of your csync2 cluster
+- $csync2_masterhosts : define the list of master(s) node(s)
+- $csync2_slavehosts : define the list of slave(s) node(s)
+- $csync2_include : define the list of directory to synchronize
+- $csync2_exclude (default: []) : define the list of directory to exclude from the global include list 
+- $csync2_backup_directory (default: /var/backups/csync2) : define a backup directory in case of a mistake
+- $csync2_backup_generation (default: 3) : define the number of old versions of a file in the backup directory
+- $csync2_auto : define the auto action followed by csync2 in case of conflicts (select none for manual conflict management)
+
+csync2::action (optional)
+- $pattern :  define the list of files that trigger action when changed by csync2
+- $cmd : define the command to run on the node when files matching $pattern change
+
+
+= Usage
+  
+1/ csync2 key
+
+  a file containing a key in /etc/puppet/files/csync2/cysnc2.key_prod
+
+2/ csync2 ssl (keep the same names as in csync2 documentation)
+
+  a file containing a ssl key in /etc/puppet/files/csync2/csync2_ssl_key.pem
+  a file containing a ssl cert in /etc/puppet/files/csync2/csync2_ssl_cert.pem
+  
+3/ node configuration example
+
+node my_server {
+  ...
+  include csync2::install
+
+# using 
+  class  { 'csync2::key':
+    keyfile => 'puppet:///modules/myproject/csync2.key',
+  }
+  class  { 'csync2::ssl':
+    sslcert => 'puppet:///modules/myproject/csync2_ssl_cert.pem',
+    sslkey  => 'puppet:///modules/myproject/csync2_ssl_key.pem',
+  }
+
+  class { 'csync2::config':
+    csync2_group             => 'my_cluster_name',
+    csync2_masterhosts       => [ ['server1'], ['server2'] ],
+    csync2_slavehosts        => [ ['server3'], ['server4'] ],
+    csync2_include           => [
+                                  ['/etc/apache2'],
+                                  ['/var/www'],
+                                  ['/etc/php5'],
+                                  ['/etc/postfix'],
+                                  ],
+    csync2_exclude           => [ ['/var/www/.*'],
+                                  ['/var/www/mysite/cache/*'],
+                                  ],
+    csync2_backup_directory  => ["/var/backups/csync2"],
+    csync2_backup_generation => 3,
+    csync2_auto              => "none",
+  }
+
+}
+
+4/ action configuration examples 
+
+  csync2::action { "apacherestart":
+    pattern => ['/etc/apache2/*','/etc/php5/*'],
+    cmd => ['/etc/init.d/apache2 restart'],
+  }
+
+  csync2::action { "postfixrestart":
+    pattern => ["/etc/postfix/*"],
+    cmd => ["/etc/init.d/postfix restart"],
+  }
+
+  
+= License
+
+ Copyright (C) 2011 Savoir-faire Linux
+ Author Bruno Léon <bruno.leon@savoirfairelinux.com>
+ Modified by Nicolas Zin <nicolas.zin@savoirfairelinux.com>
+ Port to 2.7. by Simon Piette <simon.piette@savoirfairelinux.com>
+ Licence: GPL v2
+

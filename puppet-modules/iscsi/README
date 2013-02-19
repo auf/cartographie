@@ -1,0 +1,69 @@
+= Requirements
+
+- OS: Ubuntu lucid
+
+= Overview
+
+This modules contains 2 components:
+- include iscsi::server installs a iscsi server (based on LVM)
+- include iscsi::client installs a iscsi client that can receive via puppet server volumes declaration.
+
+and 2 functions:
+- iscsi::server::exportLvmVolume to export via puppet volume for client automatic configuration
+- iscsi::client::loginVolume when you want to "manually" present iscsi volume to your OS
+
+
+== Parameters
+exportLvmVolume (to set up a iscsi volume on the iscsi server)
+- iscsi_user : login (for CHAP auth)
+- iscsi_password : password (for CHAP auth)
+- iscsi_volumegroup : LVM group
+- iscsi_volumename : LVM volume (in the group)
+- iscsi_ipaddress (default:$ipaddress): ip address exported to iscsi client via puppet to connect to
+- iscsi_exportviapuppet (default: true): specify if the configured volume should be exported via puppet
+
+iscsi::client::loginVolume (to present a Iscsi volume to the OS, not multi-path is yet supported by this puppet module, feel free to extend it...)
+- iscsi_user : login (for CHAP auth)
+- iscsi_password : password (for CHAP auth)
+- iscsi_iqn : the IQN to access the volume
+- iscsi_ipaddress: the IP of the iscsi server to connect to
+
+
+
+= Usage
+ 
+CLIENT/SERVER
+
+  node "mynode" inherihts ... {
+    include iscsi::server
+    iscsi::server::exportLvmVolume { "myvolume":
+        iscsi_user => "username",
+        iscsi_password => "password",
+        iscsi_volumegroup => "vg0",
+        iscsi_volumename => "storage_lun0"
+    }
+
+  node "mynode" inherits ... {
+    include iscsi::client
+  }
+
+At the end, the client will see in /dev/disk/by-path/ a file named ip-{iscsi_ipaddress}:3260-iscsi-iqn.2001-04.com.puppet:sto.$iscsi_volumegroup.$iscsi_volumename-lun-0 corresponding to the LVM volume exported
+
+CLIENT standalone
+
+  node "mynode" inherits ... {
+    include iscsi::client
+    iscsi::client::loginVolume { "myvoltoimport":
+		iscsi_user => "username",
+		iscsi_password => "password",
+        iscsi_iqn => "iqn.2001-04.com.puppet:sto.vg0.storage_lun0"
+        iscsi_ipaddress => "192.168.50.217"
+  }
+
+
+= License
+
+ Copyright (C) 2011 Savoir-faire Linux
+ Author Nicolas Zin <nicolas.zin@savoirfairelinux.com>
+ Licence: GPL v2
+

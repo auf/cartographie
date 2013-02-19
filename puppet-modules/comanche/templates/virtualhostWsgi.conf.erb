@@ -1,0 +1,2 @@
+<% if wsgipathfile == false %>  WSGIScriptAlias / <%= documentroot %>/<%= vhostname %>/wsgi.py
+<% else -%>  WSGIScriptAlias / <%= wsgipathfile %><% end %>

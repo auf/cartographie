@@ -1,0 +1,56 @@
+#!/bin/sh
+INCOMING=<%= apache_doc_path %>/<% if multiple_clients == true then %><%= client %>/<% end -%><%= domain %>/repository/incoming
+cd $INCOMING
+DISTRIB_LIST=`ls`
+for DISTRIB in $DISTRIB_LIST; do
+	echo "Processing packages for distribution '$DISTRIB'"
+	cd $INCOMING/$DISTRIB
+	cd ../../
+
+	#
+	#  See if we found any new packages
+	#
+	found=0
+	for i in $INCOMING/$DISTRIB/*.deb; do
+	  if [ -e $i ]; then
+		found=`expr $found + 1`
+	  fi
+	done
+
+
+	#
+	#  If we found none then exit
+	#
+	if [ "$found" -lt 1 ]; then
+	   continue
+	fi
+
+
+	#
+	#  Now import each new package that we *did* find
+	#
+	for i in $INCOMING/$DISTRIB/*.deb; do
+
+	  # Import package to distribution.
+	  reprepro -Vb . includedeb $DISTRIB $i
+
+	  # Delete the referenced files
+	  sed '1,/Files:/d' $i | sed '/BEGIN PGP SIGNATURE/,$d' \
+		   | while read MD SIZE SECTION PRIORITY NAME; do
+
+		  if [ -z "$NAME" ]; then
+			   continue
+		  fi
+
+		  #
+		  #  Delete the referenced file
+		  #
+		  if [ -f "$INCOMING/$DISTRIB/$NAME" ]; then
+			  rm "$INCOMING/$DISTRIB/$NAME"  || exit 1
+		  fi
+	  done
+
+	  # Finally delete the .changes file itself.
+	  rm  $i
+	done
+done

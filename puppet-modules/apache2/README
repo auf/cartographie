@@ -1,0 +1,46 @@
+Apache2
+=======
+
+This module configures Apache2.
+It has been developed under Ubuntu 10.04.
+
+It is able to setup:
+- apache2
+- ssl configuration for Apache
+- modules
+- create websites
+
+Conventions
+-----------
+This modules is making user of standard Debian/Ubuntu conventions for websites and modules handling (sites-enabled, mods-enabled...)
+
+However to provide a greater level of clarity, websites are organised in subfolders per domain.
+
+Depending on the value of $multiple_client, the Apache config folder tree will be either
+- true:  $apache2_root/sites-available/$client/$site_domain/$website
+- false: $apache2_root/sites-available/$domain/$website
+This is also valid for the log folder tree in /var/log/apache2
+
+Also even though modules can be managed directly using the provided define, the idea is to ensure that a website declaration indicates the module it needs to run (explicit style)
+
+Dependencies
+------------
+
+* Concat git://github.com/ripienaar/puppet-concat.git
+* SSL module if using https
+
+Contact
+-------
+
+Bruno Leon <bruno.leon@savoirfairelinux.com>
+
+License
+-------
+
+This software is distributed under the GNU General Public License
+version 2 or any later version. See the LICENSE file for details.
+
+Copyright
+---------
+
+Copyright (C) 2011 Savoir-faire Linux Inc.

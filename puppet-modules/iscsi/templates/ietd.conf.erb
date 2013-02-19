@@ -1,0 +1,110 @@
+# Example iscsi target configuration
+#
+# Everything until the first target definition belongs
+# to the global configuration.
+#
+# "iSNSServer" is the iSNS server you want your portal to register
+# with.
+#
+# "iSNSAccessControl" is for enabling initiator access control
+# through the iSNS server.
+#
+# "IncomingUser" specifies credentials the initiator has to provide -
+# several of these are supported. If mutual CHAP shall be employed,
+# "OutgoingUser" specifies the user/pass combination the target will
+# provide - only one is supported.
+#
+# Leave them alone (keep them commented out) if you don't want to use
+# authentication for discovery sessions.
+
+#iSNSServer 192.168.1.16
+#iSNSAccessControl No
+
+#IncomingUser joe secret
+#OutgoingUser jack 12charsecret
+
+# Targets definitions start with "Target" and the target name.
+# The target name must be a globally unique name, the iSCSI
+# standard defines the "iSCSI Qualified Name" as follows:
+#
+# iqn.yyyy-mm.<reversed domain name>[:identifier]
+#
+# "yyyy-mm" is the date at which the domain is valid and the identifier
+# is freely selectable. For further details please check the iSCSI spec.
+
+#Target iqn.2001-04.com.example:storage.disk2.sys1.xyz
+	# CHAP Users
+	#
+	# The same rules as for discovery users apply here.
+	#
+	# Don't set them if you don't want to use CHAP authentication.
+	#
+	#IncomingUser joe secret
+	#OutgoingUser jim 12charpasswd
+	#
+	# Logical Unit definition
+	#
+	# Block devices, regular files (fileio only), LVM, and RAID
+	# can be offered to the initiators as a block device.
+	#
+	# Lun numbers MUST start with zero (each target needs a Lun 0)
+	#
+	#Lun 0 Path=/dev/sdc,Type=fileio,ScsiId=xyz,ScsiSN=xyz
+	#
+	# Alias name for this target (Not Used)
+	#
+	#Alias Test
+	#
+	# Various iSCSI parameters
+	# (not all are used right now, see also iSCSI spec for details)
+	#
+	# Outgoing SCSI data (initiator to target user data or command
+	# parameters) is sent as either solicited data or unsolicited data.
+	# Solicited data is sent in response to R2T PDUs.  Unsolicited data
+	# can be sent as part of an iSCSI command PDU sequence
+	# ("Immediate Data") or as a separate iSCSI data PDU sequence.
+	#
+	#MaxConnections		1		# Number of connections/session
+						# We only support 1
+	#MaxSessions		0		# Number of sessions/target
+						# 0 = no explicit limit
+	#InitialR2T		Yes		# Wait first for R2T
+						# Yes = no unsolicited data
+	#ImmediateData		Yes		# Data can accompany command
+						# Yes = cmnd/data in same PDU
+	#MaxRecvDataSegmentLength 8192		# Max data per PDU to receive
+	#MaxXmitDataSegmentLength 8192		# Max data per PDU to transmit
+	#MaxBurstLength		262144		# Max data per sequence (R2T)
+	#FirstBurstLength	65536		# Max unsolicited data sequence
+	#DefaultTime2Wait	2		# Secs wait for ini to log out
+						# Not used
+	#DefaultTime2Retain	20		# Secs keep cmnds after log out
+						# Not used
+	#MaxOutstandingR2T	1		# Max outstanding R2Ts per cmnd
+	#DataPDUInOrder		Yes		# Data in PDUs is ordered
+						# We only support ordered
+	#DataSequenceInOrder	Yes		# PDUs in sequence are ordered
+						# We only support ordered
+	#ErrorRecoveryLevel	0		# We only support level 0
+	#HeaderDigest		None,CRC32C	# PDU header checksum algo list
+						# None or CRC32C
+						# If only one is set then the
+						# initiator must agree to it
+						# or the connection will fail
+	#DataDigest		None,CRC32C	# PDU data checksum algo list
+						# Same as above
+	#MaxSessions		0		# Maximum number of sessions to
+						# this target - 0 = unlimited
+	#NOPInterval		0		# Send a NOP-In ping each after
+						# that many seconds if the conn
+						# is otherwise idle - 0 = off
+	#NOPTimeout		0 		# Wait that many seconds for a
+						# response on a NOP-In ping
+						# If 0 or > NOPInterval, NOPInterval
+						# is used!
+	#
+	# Various target parameters
+	#
+	#Wthreads		8		# Number of IO threads
+	#QueuedCommands		32		# Number of queued commands
+

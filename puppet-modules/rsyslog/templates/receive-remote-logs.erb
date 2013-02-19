@@ -1,0 +1,11 @@
+if $source startswith '<%= hostname %>' and $syslogfacility-text startswith 'cron' then /var/log/remote/<%= hostname %>/cron.log
+& ~
+
+if $source startswith '<%= hostname %>' and $syslogfacility-text startswith 'auth' then /var/log/remote/<%= hostname %>/auth.log
+& ~
+
+if $source startswith '<%= hostname %>' and $syslogfacility-text startswith 'daemon' then /var/log/remote/<%= hostname %>/daemon.log
+& ~
+
+if $source startswith '<%= hostname %>' then /var/log/remote/<%= hostname %>/syslog.log
+& ~

@@ -1,0 +1,23 @@
+#This brake mod_rewrite compatibility but increase performance by 5% to 10%
+PassengerHighPerformance on
+
+#  Set to 15% more instances than what's needed. This will allow idle puppetmasterd to get recycled. The net effect is less memory will be used not more.
+PassengerMaxPoolSize 15
+
+# Set to 5 min (300 seconds) or less. The shorting this option allows for puppetmasterd to get refreshed at some interval. This option is also
+# somewhat dependent upon the amount of puppetd nodes connecting and at what interval.
+PassengerPoolIdleTime 300
+
+# Since communication with the puppetmaster from puppetd is a long process (more than 20 seconds in most cases) and will allow for processes to get recycled better
+PassengerUseGlobalQueue on
+
+#Filesystem checks (on passenger specific files) will be done at most every PassengerStatThrottleRate seconds
+PassengerStatThrottleRate 600
+
+# Whether Passenger should automatically detect whether a virtual host’s document root is a Rack application. The default is on. Because
+# RackBaseURI is set, this does not need to be on
+RackAutoDetect Off
+
+# Whether Phusion Passenger should automatically detect whether a virtual
+# host’s document root is a Ruby on Rails application. The default is on.
+RailsAutoDetect Off

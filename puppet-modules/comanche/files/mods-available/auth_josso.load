@@ -1,0 +1,1 @@
+LoadModule auth_josso_module modules/libmod_auth_josso.so

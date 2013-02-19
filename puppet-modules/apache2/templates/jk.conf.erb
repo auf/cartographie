@@ -1,0 +1,31 @@
+# mod_jk configuration
+
+JkWorkersFile	/etc/libapache2-mod-jk/workers.properties
+JkLogFile		/var/log/apache2/mod_jk.log
+JkShmFile		/var/log/apache2/jk.shm
+
+# The log level: info, warn, error, debug, trace
+JkLogLevel		<%= jkloglevel %>
+JkOptions		<% jkoptions.each do |val| -%><%= val %> <% end -%>
+
+# Should mod_jk send SSL information to Tomcat (default is On)
+JkExtractSSL On
+
+# What is the indicator for SSL (default is HTTPS)
+JkHTTPSIndicator HTTPS
+
+# What is the indicator for SSL session (default is SSL_SESSION_ID)
+JkSESSIONIndicator SSL_SESSION_ID
+
+# What is the indicator for client SSL cipher suit (default is SSL_CIPHER)
+JkCIPHERIndicator SSL_CIPHER
+
+# What is the indicator for the client SSL certificated (default is SSL_CLIENT_CERT)
+JkCERTSIndicator SSL_CLIENT_CERT
+
+<Location /server-jkstatus>
+	JkMount status
+	Order deny,allow
+	Deny from all
+	Allow from	<% apache_info_allowed.each do |address| -%><%= address %> <% end %>
+</Location>

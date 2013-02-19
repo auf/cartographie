@@ -1,0 +1,68 @@
+= Requirements
+
+- None
+
+= Overview
+
+This modules has 3 functionalities related to repos:
+- configure client (APT) repository with the apt::* (especially apt::repo and apt::key)
+- use pre-defined repositories or ppa with apt::repository::[ppa::]*
+- create a custom server repository with the apt::server::*
+
+== APT repository declaration
+This module handles APT related settings:
+- sources.list based on $my_region
+- additionnal repositories declaration
+- repositories GPG keys
+
+A list of predefined 'ready for inclusion' repositories are in the repository subfolder, use them as examples.
+
+Apart from the default sources.list file, repositories are created in /etc/apt/sources.list.d/puppet.
+A symlink pointing to them is also created, because apt does not allow to include anything else than sources.list.d.
+
+===Usage Example
+
+# normal usage, puppet will manage sources.list with your region, without deb-src
+  class { "apt":
+    my_region => "ca",
+  }
+
+# define a specific local apt mirror for ubuntu with deb-src inclusion
+  class { "apt":
+    aptGetSrc => true,
+    apt_local_mirror => "http://192.168.1.1/ubuntu",
+  }
+
+# Include medibuntu to our repository list
+
+  class apt::medibuntu inherits apt {
+	apt::repo { "medibuntu": url => "http://packages.medibuntu.org", section => 'free non-free' }
+	apt::key { "medibuntu": keyid  => "0C5A2783", ensure => present, }
+  }
+  include apt::medibuntu
+
+# Include firefox stable ppa
+  class apt::ppa::firefox::stable inherits apt {
+	apt::repo::ppa { "firefoxstable": repo  => "mozillateam/firefox-stable" }
+  }
+  include apt::ppa::firefox::stable
+
+==Local Repositories Creation
+  
+  If you want to create your own repositories to provide additional deb files:
+
+  include apt::server::install
+  # will be installed in /var/www/repositories/puppet
+  apt::server { 'puppet': repobase => '/var/www/repositories', distversions => ['hardy','lucid'] }
+  apt::server { 'rsyslog': distversions => ['hardy'] }
+  apt::server { 'ossec': distversions => ['hardy','lucid','maverick'] }
+  
+  Afterwards, you can push your own deb files with:
+    #reprepro -Vb $location codename .deb-filename
+
+= License
+
+ Copyright (C) 2010 Savoir-faire Linux
+ Modified by Stéphane Duchesneau <stephane.duchesneau@savoirfairelinux.com>
+ Author Bruno Léon <bruno.leon@savoirfairelinux.com>
+ Licence: GPL v2

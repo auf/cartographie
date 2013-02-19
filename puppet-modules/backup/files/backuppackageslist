@@ -1,0 +1,13 @@
+#!/bin/bash
+#
+# Backs up the list of installed packages in /var/backups/packageslist-AAAA-MM-DD
+# Deletes older backups
+#
+DATE=`date +%F`
+BACKUPDIR=/var/backups
+
+cd ${BACKUPDIR}
+/usr/bin/dpkg --get-selections > packageslist-${DATE}
+ln -fs packageslist-${DATE} packageslist-current 
+
+find  -maxdepth 1 -name 'packageslist-[0-9]*' -mtime +7 -delete

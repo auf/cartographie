@@ -1,0 +1,45 @@
+= Requirements
+
+- OS: Ubuntu lucid
+
+=Overview
+
+This module handles the collectd statistics collector system.
+This process is off by defautl and must be enabled explicitely. Once enabled any module that supports it will do the necessary configuration changes to collectd.
+
+The only plugins loaded by default are: cpu, load and memory.
+To add other plugins, use the collectd::plugin function.
+
+There are 2 mains classes: one for client, and one for server:
+- client (collectd::client) will setup a collectd agent and send information to the $collectd_server_hostname
+- server (collectd::server)
+
+You can install a website by declaring something similar to :
+   apache2::website { "collectdgraph.${domain}": client => "${client}", site_domain => "${domain}", confname => "collectdgraph", required_modules => ['php5'], documentroot_source => 'puppet:///modules/collectd/interface/collectd_graph_panel', apache2_allowoverride => ['AuthConfig', 'Limit'], has_awstats => false }
+
+Usually when the server is installed we are interested to also setup a drraw website (http://web.taranis.org/drraw/)
+
+
+==Parameters
+
+=Usage Example
+
+node my_collectd_server inherits common {
+  class {"collectd::server":}
+
+  #If you want the default interface which is collectd graph panel. This is not protected but does support .htaccess
+  #URL is http://collectdgraph.$domain
+  include collectd::server::defaultwebsite
+}
+
+node my_collectd_client inherits common  {
+  class {"collectd::client": collectd_server_hostname => "ip of the server"}
+}
+
+= License
+
+ Copyright (C) 2010 Savoir-faire Linux
+ Author Bruno Léon <bruno.leon@savoirfairelinux.com>
+ Author Nicolas Zin <nicolas.zin@savoirfairelinux.com>
+ Licence: GPL v2
+

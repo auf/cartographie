@@ -1,0 +1,15 @@
+action
+{
+<% pattern.each do |patternline| -%>
+  pattern "<%= patternline %>";
+<% end -%>
+<% cmd.each do |cmdline| -%>
+  exec "<%= cmdline %>";
+<% end -%>
+<% logfile.each do |logfileline| -%>
+  logfile "<%= logfileline %>";
+<% end -%>
+<% if dolocal != false then -%>
+  do-local
+<% end -%>
+}

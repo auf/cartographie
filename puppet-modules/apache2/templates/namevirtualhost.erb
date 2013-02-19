@@ -1,0 +1,9 @@
+<% if protocol == 'http' then %><% ports.each do |port| %>
+NameVirtualHost <%= name %>:<%= port %>
+<% end %><% end %><% if protocol == 'https' then %>
+<IfModule mod_ssl.c><% ports.each do |port| %>
+  NameVirtualHost <%= name %>:<%= port %><% end %>
+</IfModule>
+<IfModule mod_gnutls.c><% ports.each do |port| %>
+  NameVirtualHost <%= name %>:<%= port %><% end %>
+</IfModule><% end %>

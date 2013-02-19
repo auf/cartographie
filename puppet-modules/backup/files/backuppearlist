@@ -1,0 +1,14 @@
+#!/bin/bash
+#
+# Backs up the list of installed pear modules /var/backups/packageslist-AAAA-MM-DD
+#
+DATE=`date +%F`
+BACKUPDIR=/var/backups
+
+# will not generate an error if pear isn't installed, for non-web servers.
+test -x /usr/bin/pear || exit 0
+/usr/bin/pear -q list | egrep 'alpha|beta|stable' |awk '{print $1}' > ${BACKUPDIR}/pearlist-${DATE}
+ln -fs ${BACKUPDIR}/pearlist-${DATE} ${BACKUPDIR}/pearlist-current 
+
+find ${BACKUPDIR} -regex "${BACKUPDIR}/pearlist-[0-9]*-[0-9]*-[0-9]*" -mtime +7 -delete
+

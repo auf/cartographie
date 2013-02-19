@@ -1,0 +1,14 @@
+#!/bin/sh
+# Par Vincent de Grandpré
+# Savoir-faire Linux inc.
+# 19 janvier 2012
+
+# Sauvegarde du Wiki de Priape (MediaWiki) pour les mesures d'urgence
+
+# Transfert des fichier depuis MX1 chez Priape
+sudo -u backupwikipriape ssh 174.142.189.199 "php /var/www/wiki-priape/maintenance/dumpBackup.php --current > /var/www/wiki-priape/dumpMediaWiki.xml" && sudo -u backupwikipriape scp backupwikipriape@174.142.189.199:/var/www/wiki-priape/dumpMediaWiki.xml /var/www/wiki_backups/wiki.priape/dumpMediaWiki.xml && sudo -u backupwikipriape ssh 174.142.189.199 "rm /var/www/wiki-priape/dumpMediaWiki.xml"
+
+# Importation du contenu dans le Wiki de sauvegarde
+php /var/www/wiki_backups/wiki.priape/maintenance/importDump.php --current < /var/www/wiki_backups/wiki.priape/dumpMediaWiki.xml 2&> /dev/null
+rm /var/www/wiki_backups/wiki.priape/dumpMediaWiki.xml
+php /var/www/wiki_backups/wiki.priape/maintenance/rebuildall.php 2&> /dev/null

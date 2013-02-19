@@ -1,0 +1,30 @@
+# This file is managed by puppet.
+
+## Main repository
+deb <%= apt_url %> <%= lsbdistcodename %> <%= apt_section %>
+<% if aptGetSrc == true then %>deb-src <%= apt_url %> <%= lsbdistcodename %> <%= apt_section %><% end -%>
+
+<% if lsbdistid == 'Ubuntu' then -%>
+## Major bug fix updates produced after the final release of the distribution
+deb <%= apt_url %> <%= lsbdistcodename %>-updates <%= apt_section %>
+<% if aptGetSrc == true then %>deb-src <%= apt_url %> <%= lsbdistcodename %>-updates <%= apt_section %><% end -%>
+
+## This software is not part of Ubuntu, but is offered by Canonical and the respective vendors as a service to Ubuntu users
+deb http://archive.canonical.com/ubuntu <%= lsbdistcodename %> partner
+#There is no source available for this repository
+<% end -%>
+
+## Security Updates
+<% if lsbdistid == 'Ubuntu' then -%>
+deb <%= apt_url %> <%= lsbdistcodename %>-security <%= apt_section %>
+<% if aptGetSrc == true then %>deb-src <%= apt_url %> <%= lsbdistcodename %>-security <%= apt_section %><% end -%>
+<% end -%>
+<% if lsbdistid == 'Debian' then -%>
+deb http://security.debian.org <%= lsbdistcodename %>/updates <%= apt_section %>
+<% if aptGetSrc == true then %>deb-src <%= apt_url %> http://security.debian.org/updates <%= apt_section %><% end -%>
+<% end -%>
+
+<% if lsbdistid == 'Ubuntu' and apt_enable_proposed then -%>
+## Proposed Updates
+deb <%= apt_url %> <%= lsbdistcodename %>-proposed <%= apt_section %>
+<% end -%>

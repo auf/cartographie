@@ -1,0 +1,13 @@
+define poller{
+  poller_name     <%= name %>
+  address         <%= address %>
+  port            <%= port %>
+  spare           <%= spare %>
+  min_workers     <%= min_workers %>
+  max_workers     <%= max_workers %>
+
+  <% if realm then %>realm           <%= realm %><% end %>
+  manage_sub_realms <%= manage_sub_realms %>
+  <% if modules then -%>modules       <%= modules %><% end %>
+  <% if poller_tags then %>poller_tags          <%= poller_tags %><% end %>
+}

@@ -1,0 +1,15 @@
+<% if not apache2_listen_ips then %>
+Listen 80
+<IfModule mod_ssl.c>
+    Listen 443
+</IfModule>
+<% else %>
+<% apache2_listen_ips.each do |ip| -%>
+Listen  <%= ip %>:80
+<% end -%>
+<IfModule mod_ssl.c>
+<% apache2_listen_ips.each do |ip| -%>
+  Listen  <%= ip %>:443
+<% end -%>
+</IfModule>
+<% end -%>

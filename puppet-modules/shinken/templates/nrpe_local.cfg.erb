@@ -1,0 +1,34 @@
+### This file is managed by puppet.
+allowed_hosts=<%= allowed_hosts %>
+<% extra_nrpe_commands.each do |command| -%>
+<%= command %>
+<% end -%>
+command[check_load]             = /usr/lib/nagios/plugins/check_load -r -w <%= warning_load1 %>,<%= warning_load5 %>,<%= warning_load15 %> -c <%= critical_load1 %>,<%= critical_load5 %>,<%= critical_load15 %>
+command[check_disk]             = /usr/lib/nagios/plugins/check_disk -w <%= warning_disk %>% -c <%= critical_disk %>% -e <% ignored_disks.each do |disk| -%>-x <%= disk %> <% end %> <%= extra_disk_args %>
+command[check_disk_nofuse]      = /usr/lib/nagios/plugins/check_disk -w 15% -c 8% -e -X fuse.gvfs-fuse-daemon
+command[check_puppet_agent]     = /usr/lib/nagios/plugins/check_file_age -f /var/lib/puppet/state/state.yaml -w 43200 -c 86400
+command[check_ntp_time]         = /usr/lib/nagios/plugins/check_ntp_time -t 30 -H pool.ntp.org -q
+command[check_smtp]             = /usr/lib/nagios/plugins/check_smtp -H localhost
+command[check_ftp]              = /usr/lib/nagios/plugins/check_ftp -H localhost
+command[check_mysql]            = /usr/lib/nagios/plugins/check_mysql
+command[check_mysql_listening]  = /usr/lib/nagios/plugins/check_tcp -H localhost -p 3306
+command[check_memory]           = /usr/lib/nagios/plugins/check_mem.pl -C -f -w <%= warning_memory %> -c <%= critical_memory %>
+command[check_cron]             = /usr/lib/nagios/plugins/check_procs -C cron -w 1:99 -c 1:99
+command[check_crond]            = /usr/lib/nagios/plugins/check_procs -C crond -w 1:99 -c 1:99
+command[check_smtp_amavis]      = /usr/lib/nagios/plugins/check_smtp -H localhost -p 10024
+command[check_smtp_dkim]        = /usr/lib/nagios/plugins/check_smtp -H localhost -p 10027
+command[check_smtp_10025]       = /usr/lib/nagios/plugins/check_smtp -H localhost -p 10025
+command[check_smtp_10028]       = /usr/lib/nagios/plugins/check_smtp -H localhost -p 10028
+command[check_imap]             = /usr/lib/nagios/plugins/check_imap -H localhost -p 143 -w 0.5 -c 1
+command[check_asterisk]         = /usr/lib/nagios/plugins/check_procs -C asterisk -w 1:99 -c 1:99
+command[check_fail2ban]         = /usr/lib/nagios/plugins/check_procs -C fail2ban-server -w 1:99 -c 1:99
+command[check_freeradius]       = /usr/lib/nagios/plugins/check_procs -C freeradius -w 1:99 -c 1:99
+command[check_drbd]             = /usr/lib/nagios/plugins/check_drbd -d All
+command[check_md_raid]          = /usr/lib/nagios/plugins/check_md_raid 
+command[check_mpt_raid]         = /usr/lib/nagios/plugins/check_mpt
+command[check_mega_raid]        = /usr/lib/nagios/plugins/check_megactl
+command[check_megasasctl]       = /usr/lib/nagios/plugins/check_megasasctl
+command[check_heartbeat]        = /usr/lib/nagios/plugins/check_procs -C heartbeat
+command[check_queue]            = /usr/lib/nagios/plugins/check_queue -w <%= warning_queue_size %> -c <%= critical_queue_size %> 
+command[check_npcd]             = /usr/lib/nagios/plugins/check_procs -w 1:1 -C npcd
+command[check_cpu]              = /usr/lib/nagios/plugins/check_cpu.sh

@@ -1,0 +1,15 @@
+  ProxyRequests Off
+  ProxyPreserveHost On
+  SSLProxyEngine on
+  
+  <Proxy *>
+    Order deny,allow
+    Allow from all
+  </Proxy>
+
+
+<% rules.each do |rule| %>
+  ProxyPass <%= rule %>
+  ProxyPassReverse <%= rule %>
+<% end -%>
+

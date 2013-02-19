@@ -1,0 +1,19 @@
+= Requirements
+
+- augeas
+
+= Overview
+
+This modules allows to configure sysctl.
+
+= Usage
+  
+  sysctl::conf {
+    'kernel.printk': value => '4 4 1 7'
+  }
+
+= License
+
+Blatantly copied from the augeas documentation;
+http://projects.puppetlabs.com/projects/1/wiki/Puppet_Augeas#/etc/sysctl.conf
+Modest improvements by Simon Piette <simon.piette@savoirfairelinux.com> 2012

@@ -1,0 +1,26 @@
+<VirtualHost *:<% if confname == 'default-ssl' then %>443<% else %>80<% end %>>
+  ServerAdmin         <%= apache2_admin_email %>
+  ServerName          default
+
+  ErrorLog            <%= scope.lookupvar("apache2::variables::apache_log_path") %>/error.log
+  CustomLog           <%= scope.lookupvar("apache2::variables::apache_log_path") %>/access.log combined_with_deflate_ratio
+  LogLevel            warn
+
+  DocumentRoot        <%= scope.lookupvar("apache2::variables::apache_doc_path") %>
+
+  <Directory          />
+    Options             FollowSymLinks
+    AllowOverride       None
+    Order               Deny,Allow
+    Deny from           All
+  </Directory>
+
+  <Directory          <%= scope.lookupvar("apache2::variables::apache_doc_path") %>/ >
+    Options             -Indexes FollowSymLinks MultiViews
+    AllowOverride       None
+    Order               Deny,Allow
+    Deny from           All
+  </Directory>
+
+<% if confname == 'default-ssl' then %>   Include          /etc/ssl/services/apache2_default<% end %>
+</VirtualHost>

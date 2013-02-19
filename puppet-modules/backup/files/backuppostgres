@@ -1,0 +1,9 @@
+#!/bin/bash
+#
+# Backs up the list of installed packages in /var/backups/packageslist-AAAA-MM-DD
+# Deletes older backups
+#
+su - postgres -c "pg_dumpall | gzip >/backuplocal/postgres-all-databases-$(date +%d%m%Y).sql.gz"
+find /backuplocal -name postgres-all-databases-* -ctime +8 | xargs rm -f
+
+exit 0

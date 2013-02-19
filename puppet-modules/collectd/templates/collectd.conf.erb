@@ -1,0 +1,14 @@
+FQDNLookup true
+
+#The very first plugin to be loaded must be below one
+LoadPlugin logfile
+<Plugin logfile>
+    LogLevel <%= collectd_log_level %>
+	File "/var/log/collectd.log"
+	Timestamp true
+</Plugin>
+
+Include "/etc/collectd/conf.d/*.conf"
+
+Include "/etc/collectd/filters.conf"
+Include "/etc/collectd/thresholds.conf"

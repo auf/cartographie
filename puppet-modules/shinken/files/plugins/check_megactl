@@ -1,0 +1,51 @@
+#! /usr/bin/perl
+# check megactl MegaRAID RAID status
+# anders@fupp.net, 2009-07-27
+
+# Requires megactl utility installed. Also, put this in sudoers:
+# nagios  ALL=(root) NOPASSWD: /usr/sbin/megactl -p
+
+#megactl -p example output:
+#a0       Intel(R) RAID Controller SRCS28X chan:1 ldrv:3  batt:FAULT, module missing
+#a0d0        1TiB RAID 5   1x4  optimal
+#a0d1        1TiB RAID 5   1x4  optimal
+#a0d2      142GiB RAID 5   1x4  optimal
+
+$ENV{"PATH"} = "/usr/sbin:/usr/bin";
+$oktxt = "";
+$hmtxt = "";
+$cmd = "megactl -p";
+if ($< != 0) {
+ $cmd = "sudo -u root $cmd";
+}
+
+open(MC, "$cmd |");
+while (<MC>) {
+  next if (/RAID Controller/);
+  next if (/PERC 4e/);
+  next if (/^$/);
+  if (/^(\w+)\s+(\w+)\s+(\w+)\s+(\w+)\s+(\w+)\s+(\w+)/) {
+    $vol = $1;
+    $status = $6;
+  }
+  if ($status eq "optimal") {
+    $oktxt .= "$vol/$status ";
+  } else {
+    $hmtxt .= "$vol/$status ";
+  }
+# print;
+# print "vol=$vol status=$status\n";
+}
+close(MC);
+
+$oktxt =~ s@ $@@;
+$hmtxt =~ s@ $@@;
+
+if ($hmtxt ne "") {
+  print "$hmtxt\n";
+  exit(2);
+} else {
+  print "$oktxt\n";
+  exit(0);
+}
+

@@ -1,0 +1,48 @@
+= Requirements
+
+- OS: ubuntu, debian or centos
+
+
+= Overview
+
+This module install and configure selinux compliant apache2 configuration
+The module is constructed on top of concat, and use it heavily. In fact the module is based on 4 parts:
+- class{ 'comanche::variables': } which defines constant depending on the OS
+- comanche::virtualhost { '<name>': servername => "<vhost name>" } which defines a virtual host definition
+- comanche::module to enable a module
+- population of the virtualhost definition, via either:
+  * directly with concat (concat::fragment {"<uniq name>": target  => "${apache2_rootdir}/sites-available/${name}.conf" ... )
+  * or via predefined helper classes: comanche::virtualhost::alias, comanche::virtualhost::blob comanche::virtualhost::cgibin, comanche::virtualhost::proxy, comanche::virtualhost::rewrite, ... (that enables needed modules)
+
+
+This package doesn't install or manage php
+
+
+== Parameters
+comanche::module:
+- conffile (default false) : if true will include puppet:///comanche/mods-available/$name.conf
+- template_conffile (default false): give template file to find in comanche/template as conf file
+
+
+
+= Usage
+
+  node "mynode" inherits ... {
+    class{ 'comanche::variables': }
+    class{ 'comanche': }
+    comanche::module { 'rewrite': }
+    
+    comanche::virtualhost { '000-default': }
+    comanche::virtualhost { 'v1': vhostname => "mnyserver.mycompany.com" }
+    comanche::virtualhost::proxy{'v1': rules=> ['/ https://inforoute.test.notarius.net/']}
+    comanche::virtualhost::blob { 'v1': content => "  <FilesMatch \"\.(pdf|PDF)\">\n  ForceType application/pdf\n     Header set Content-Disposition attachment\n  </FilesMatch>\n"
+    }
+  }
+
+
+= License
+
+ Author Nicolas Zin <nicolas.zin@savoirfairelinux.com>
+ Copyright Savoir-faire Linux 2012
+ Licence: GPL v2
+

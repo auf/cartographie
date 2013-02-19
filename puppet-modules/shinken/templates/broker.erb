@@ -1,0 +1,10 @@
+define broker{
+  broker_name     <%= name %>
+  address         <%= address %>
+  port            <%= port %>
+  spare           <%= spare %>
+  <% if realm then %>realm           <%= realm %><% end %>
+  manage_sub_realms <%= manage_sub_realms %>
+  manage_arbiters <%= manage_arbiters %>
+  <% if modules then -%>modules       <%= modules %><% end %>
+}

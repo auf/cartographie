@@ -1,0 +1,9 @@
+/var/log/collectd.log {
+	daily
+	missingok
+	rotate 31
+	compress
+	notifempty
+	create 640 root adm
+}
+

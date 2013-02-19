@@ -1,0 +1,10 @@
+# This file is managed by puppet.
+<% distversions.each do |distrib| %>
+Origin: <%= reponame %>
+Label: <%= reponame %>
+Codename: <%= distrib %>
+Architectures: i386 amd64
+Components: main
+Description: This is the <%= reponame %> packages repository. It contains packages for multiple purposes, most of the time to get updated packages from standard distribution.
+
+<% end %>

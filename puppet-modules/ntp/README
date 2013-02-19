@@ -1,0 +1,43 @@
+= Requirements
+
+- OS: ubuntu, debian or centos
+- amazon::ec2::timezone if computer is on amazon (ec2_instance_id defined)
+
+
+= Overview
+
+This module install and configure ntp client daemon. 2 options: use public server or private server
+
+== Parameters
+
+Public server (class ntp(my_region)):
+- my_region (default 'europe'): used to know on which ntp server we stick. Possibe values are: europe, asia, oceania, north-america, south-america, africa
+
+Private server ( class ntp::privateserver(ntp_servers:)):
+- ntp_servers: list of ntp server to connect to
+
+
+
+= Usage
+
+PACKAGED VERSION
+
+  node "mynode" inherits ... {
+    class { 'ntp': }
+  }
+
+PRIVATE SERVER
+  node "mynode" inherits ... {
+    class { "ntp::privateserver":
+      ntp_servers=> ["firstserver","secondserver"]
+    }
+  }
+
+
+= License
+
+ Copyright (C) 2011 Savoir-faire Linux
+ Author Bruno Leon <bruno.leon@savoirfairelinux.com>
+ Author Nicolas Zin <nicolas.zin@savoirfairelinux.com>
+ Licence: GPL v2
+

@@ -1,0 +1,26 @@
+= Requirements
+
+- OS: ubuntu, debian
+
+= Overview
+
+This module install and configure polipo for disk caching. It doesn't clear
+it's cache (/var/cache/polipo), so it's perfect for pip/buildout/gem builders,
+who downloads again and again the same files.
+
+== Parameters
+
+None. Defaults are marvelous. Even config files are not provided by this module.
+
+= Usage
+
+node "..." {
+  include polipo
+}
+
+= License
+
+ Copyright (C) 2011 Savoir-faire Linux
+ Author Simon Piette <simon.piette@savoirfairelinux.com>
+ Licence: GPL v2 or later
+

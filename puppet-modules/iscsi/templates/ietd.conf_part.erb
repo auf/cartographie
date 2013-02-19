@@ -1,0 +1,5 @@
+Target iqn.2001-04.com.puppet:sto.<%= iscsi_volumegroup %>.<%= iscsi_volumename %>
+        IncomingUser <%= iscsi_user %> <%= iscsi_password %>
+        OutgoingUser
+        Lun 0 Path=/dev/<%= iscsi_volumegroup %>/<%= iscsi_volumename %>,Type=fileio
+

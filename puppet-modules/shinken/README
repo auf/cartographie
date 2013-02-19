@@ -1,0 +1,77 @@
+= USAGE
+
+== SHINKEN SERVER
+
+node ... {
+  include shinken::variables
+  include shinken::install
+  include shinken::server
+  include shinken::config
+  include shinken::config::notificationcommands
+  include shinken::config::commands
+  include shinken::config::hostgroups
+  include shinken::config::servicegroups
+  include shinken::config::timeperiods
+  include shinken::config::contactgroups
+  class{ "shinken::config::contacts":
+    admin_email => "emailaddress@example.com",
+    admin_paget => "emailaddress_for_repetitive_alerts@example.com"
+  }
+}
+
+== SHINKEN CLIENT (actually is using nagios plugins with nagios nrpe server...)
+
+node ... {
+  class { "shinken::client":
+     $allowed_hosts => "192.168.1.1",
+  }
+  include shinken::client::defaultchecks
+  @@nagios_service {
+    ...some custom definition...
+  }
+  include shinken::client::check_ftp
+}
+
+== Pre-made classes for your convenience
+
+* they are in: modules/shinken/manifests/client
+ - smtp
+ - smtplocal
+ - pop
+ - website
+ - ftp
+ - mptraid
+ - ...
+
+* call them with:  (only override the values that you want)
+class { 'shinken::client::something': 
+  fqdn              => $::fqdn,
+  hostname          => $::hostname,
+  extrahostgroup    => '+All',
+  extraservicegroup => '+All',
+  poller_tag        => 'Main',
+  business_critical => true
+}
+
+== VARIABLES
+
+* business_critical defines what templates will be used.
+
+== PROXY monitoring
+
+* Configure the poller that will go into shinken-specific.cfg:
+
+define poller{
+       poller_name     myproxypoller
+       address  192.168.50.158
+       modules          NrpeBooster
+       poller_tags myproxy
+       port     7771
+}
+
+* finally, you only have to add the poller_tag to the hosts and services!
+
+  @@nagios_service {
+    ...
+    poller_tag => "myproxy",
+  }

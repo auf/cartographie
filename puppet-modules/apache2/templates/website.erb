@@ -1,0 +1,193 @@
+<VirtualHost <% site_ips.each do |ip| -%><%= ip %>:80 <% end %>>
+  ServerAdmin     <%= apache2_admin_email %>
+  ServerName      <%= confname %>.<%= site_domain %>
+<% if apache2_aliases then %><% apache2_aliases.each do |serveralias| -%>
+  ServerAlias     <%= serveralias %>.<%= site_domain %>
+<% end -%><% end -%>
+<% if apache2_fqdnaliases then %><% apache2_fqdnaliases.each do |serveralias| -%>
+  ServerAlias     <%= serveralias %>
+<% end -%><% end -%>
+
+  CustomLog       <%= apache2_custom_log %>
+  ErrorLog        <%= apache2_error_log %>
+  LogLevel        warn
+
+  DocumentRoot    <%= apache2_document_root %>
+
+<% if apache2_directory_index then %> DirectoryIndex    <%= apache2_directory_index %><% end -%>
+<% if apache2_alias then %><% apache2_alias.each do |myalias| -%>
+  Alias       <%= myalias %>
+<% end -%><% end -%>
+<% if apache2_aliasmatch then %><% apache2_aliasmatch.each do |myalias| -%>
+  AliasMatch      <%= myalias %>
+<% end -%><% end -%>
+<% if apache2_scriptalias then %><% apache2_scriptalias.each do |myalias| -%>
+  ScriptAlias       <%= myalias %>
+<% end -%><% end -%>
+
+<% if force_ssl then -%>
+  RewriteEngine   On
+  RewriteCond     %{SERVER_PORT}  !^443$
+<% if force_ssl == 'force_remote' then %>
+<% site_ips.each do |ip| -%>RewriteCond     %{REMOTE_ADDR}  !^<%= ip %>$ [OR]<% end %><% end %>
+  RewriteRule     ^(.*)$  https://<%= title %>$1 [L,R]
+<% end -%>
+
+  <Directory      <%= apache2_document_root %>>
+    Options         <% apache2_options.each do |val| -%><%= val %> <% end -%>
+
+    AllowOverride   <% apache2_allowoverride.each do |val| -%><%= val %> <% end -%>
+
+    Order           <%= apache2_order %>
+    Allow from      <% apache2_allow_from.each do |val| -%><%= val %> <% end %>
+    Deny from       <% apache2_deny_from.each do |val| -%><%= val %> <% end %>
+  </Directory>
+<% if has_cgi then %> ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
+  <Directory /usr/lib/cgi-bin>
+    AllowOverride  None
+    Options        -Indexes +ExecCGI +FollowSymLinks
+    SetHandler     cgi-script
+    Order          <%= apache2_order %>
+    Allow from     <% apache2_allow_from.each do |val| -%><%= val %> <% end %>
+    Deny from      <% apache2_deny_from.each do |val| -%><%= val %> <% end %>
+  </Directory><% end -%>
+<% if proxy_from_to %>
+  <Proxy *>
+    Order          <%= apache2_order %>
+    Allow from     <% apache2_allow_from.each do |val| -%><%= val %> <% end %>
+    Deny from      <% apache2_deny_from.each do |val| -%><%= val %> <% end %>
+  </Proxy>
+
+  ProxyPass         <%= proxy_from_to[0] %> <%= proxy_from_to[1] %>
+  ProxyPassReverse  <%= proxy_from_to[0] %> <%= proxy_from_to[1] %>
+<% end -%>
+<% if jkmountfile then -%>  JkMountFile     <%= jkmountfile %><% end -%>
+
+<% if apache2_specific then %><% apache2_specific.each do |specific| -%>
+  <%= specific %>
+<% end -%><% end -%>
+<% if apache2_includes then %><% apache2_includes.each do |include| -%>
+  Include       <%= include %>
+<% end -%><% end %>
+<% if authuserfile then %>
+   <Location "/">
+    AuthBasicProvider file
+    AuthType Basic
+    AuthName "<%= authfilename %>"
+    AuthUserFile "<%= authuserfile %>"
+   </Location>
+<% end -%>
+<% if authldapurl then %>
+   <Location "/">
+    AuthBasicProvider ldap
+    AuthType Basic
+    AuthName "<%= authldapname %>"
+    AuthLDAPURL "<%= authldapurl %>"
+<% if authldapbinddn then %>
+    AuthLDAPBindDN <%= authldapbinddn %>
+    AuthLDAPBindPassword <%= authldapbindpassword %>
+<% end -%>
+  <% ldap_auth_require.each do |require_value| -%>
+    require <%= require_value -%>
+  <% end %>
+   </Location>
+<% end -%>
+</VirtualHost>
+
+<% if site_ips_ssl then -%>
+<VirtualHost <% site_ips_ssl.each do |ip| -%><%= ip %>:443 <% end %>>
+  Include         /etc/ssl/services/apache2_<%= name %>
+  ServerAdmin     <%= apache2_admin_email %>
+  ServerName      <%= confname %>.<%= site_domain %>
+  ServerAlias     <%= confname %>
+<% if apache2_aliases then %><% apache2_aliases.each do |serveralias| -%>
+  ServerAlias     <%= serveralias %>.<%= site_domain %>
+  ServerAlias     <%= serveralias %>
+<% end -%><% end -%>
+<% if apache2_fqdnaliases then %><% apache2_fqdnaliases.each do |serveralias| -%>
+  ServerAlias     <%= serveralias %>
+<% end -%><% end -%>
+
+  CustomLog       <%= apache2_custom_log %>
+  ErrorLog        <%= apache2_error_log %>
+  LogLevel        warn
+
+  DocumentRoot    <%= apache2_document_root %>
+
+<% if apache2_directory_index then %> DirectoryIndex    <%= apache2_directory_index %><% end -%>
+
+<% if apache2_alias then %><% apache2_alias.each do |myalias| -%>
+  Alias       <%= myalias %>
+<% end -%><% end -%>
+<% if apache2_aliasmatch then %><% apache2_aliasmatch.each do |myalias| -%>
+  AliasMatch      <%= myalias %>
+<% end -%><% end -%>
+<% if apache2_scriptalias then %><% apache2_scriptalias.each do |myalias| -%>
+  ScriptAlias       <%= myalias %>
+<% end -%><% end -%>
+  <Directory      <%= apache2_document_root %>>
+<% if apache2_rootdirectory_specific then %><% apache2_rootdirectory_specific.each do |dirspecific| -%>
+    <%= dirspecific %>
+<% end -%><% end -%>
+    Options         <% apache2_options.each do |val| -%><%= val %> <% end -%>
+
+    AllowOverride   <% apache2_allowoverride.each do |val| -%><%= val %> <% end -%>
+
+    Order           <%= apache2_order %>
+    Allow from      <% apache2_allow_from.each do |val| -%><%= val %> <% end %>
+    Deny from       <% apache2_deny_from.each do |val| -%><%= val %> <% end %>
+  </Directory>
+<% if has_cgi then %> ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
+  <Directory /usr/lib/cgi-bin>
+    AllowOverride None
+    Options     -Indexes +ExecCGI +FollowSymLinks
+    SetHandler    cgi-script
+    Order     <%= apache2_order %>
+    Allow from    <% apache2_allow_from.each do |val| -%><%= val %> <% end %>
+    Deny from   <% apache2_deny_from.each do |val| -%><%= val %> <% end %>
+  </Directory><% end -%>
+<% if proxy_from_to %>
+  <Proxy *>
+        Order           <%= apache2_order %>
+        Allow from       <% apache2_allow_from.each do |val| -%><%= val %> <% end %>
+        Deny from      <% apache2_deny_from.each do |val| -%><%= val %> <% end %>
+  </Proxy>
+
+  ProxyPass     <%= proxy_from_to[0] %> <%= proxy_from_to[1] %>
+  ProxyPassReverse  <%= proxy_from_to[0] %> <%= proxy_from_to[1] %>
+<% end -%>
+<% if apache2_ssl_proxy_engine then %>  SSLProxyEngine  <%= apache2_ssl_proxy_engine %> <% end -%>
+
+<% if jkmountfile then %> JkMountFile     <%= jkmountfile %><% end -%>
+
+<% if apache2_specific then %><% apache2_specific.each do |specific| -%>
+  <%= specific %>
+<% end -%><% end -%>
+<% if apache2_includes then %><% apache2_includes.each do |include| -%>
+  Include       <%= include %>
+<% end -%><% end -%>
+<% if authuserfile then %>
+   <Location "/">
+    AuthBasicProvider file
+    AuthType Basic
+    AuthName "<%= authfilename %>"
+    AuthUserFile "<%= authuserfile %>"
+   </Location>
+<% end -%>
+<% if authldapurl then %>
+   <Location "/">
+    AuthBasicProvider ldap
+    AuthType Basic
+    AuthName "<%= authldapname %>"
+    AuthLDAPURL "<%= authldapurl %>"
+<% if authldapbinddn then %>
+    AuthLDAPBindDN <%= authldapbinddn %>
+    AuthLDAPBindPassword <%= authldapbindpassword %>
+<% end -%>
+  <% ldap_auth_require.each do |require_value| -%>
+    require <%= require_value -%>
+  <% end %>
+   </Location>
+<% end -%>
+</VirtualHost>
+<% end -%>

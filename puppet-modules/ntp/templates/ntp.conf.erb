@@ -1,0 +1,15 @@
+server 0.<%= my_region %>.pool.ntp.org
+server 1.<%= my_region %>.pool.ntp.org
+server 2.<%= my_region %>.pool.ntp.org
+server 3.<%= my_region %>.pool.ntp.org
+# By default, exchange time with everybody, but don't allow configuration.
+restrict -4 default kod notrap nomodify nopeer noquery
+restrict -6 default kod notrap nomodify nopeer noquery
+
+# Local users may interrogate the ntp server more closely.
+restrict 127.0.0.1
+restrict ::1
+
+driftfile /var/lib/ntp/drift
+includefile /etc/ntp/crypto/pw
+keys /etc/ntp/keys

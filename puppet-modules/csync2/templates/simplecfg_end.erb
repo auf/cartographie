@@ -1,0 +1,22 @@
+
+<% csync2_masterhosts.each do |masterhost| -%>
+  host <%= masterhost %>;
+<% end -%>
+<% csync2_slavehosts.each do |slavehost| -%>
+  host (<%= slavehost %>);
+<% end -%>
+
+  key /etc/csync2.key;
+    
+<% csync2_include.each do |include| -%>
+  include <%= include %>;
+<% end -%>
+<% csync2_exclude.each do |exclude| -%>
+  exclude <%= exclude %>;
+<% end -%>
+
+  backup-directory <%= csync2_backup_directory %>;
+  backup-generations <%= csync2_backup_generation %>;
+
+  auto <%= csync2_auto %>;
+}

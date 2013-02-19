@@ -1,0 +1,205 @@
+#!/bin/bash
+
+#====================================================================================
+#:TITLE                 : check_megasasctl
+#:TYPE                  : Nagios Plugin Script
+#:AUTHOR                : r0dr1gu3z (jrod@automattic.com)
+#:COMPANY               : Automattic, Inc.
+#:VERSION               : 0.0.1-sfl1
+#:MODIFIED              : by Stephane Duchesneau
+#:CREATED               : May 13, 2010
+#:DESCRIPTION           : This script checks the local output of megasasctl under /tmp/raidstatus.txt for 
+#                         the status of each raid array, drive (online status and Media Error Counts), and BBU status.
+#:PARMS                 : N/A
+#:OPTIONS               : N/A
+#:NOTES                 : Assoc. w/: command[check_megasasctl]=/usr/local/nagios/plugins/check_megasasctl
+#:ROLE ASSOC.           : base
+#====================================================================================
+
+#====================================================================================
+# Variable Defs:
+#====================================================================================
+SCRIPT=${0##*/}
+NORMALRAIDSTATUS="optimal"
+NORMALDISKSTATUS="online"
+NORMALBBUSTATUS="good"
+SPAREDISKSTATUS="hotspare"
+CURRENTRAIDSTATUS=""
+CURRENTDISKSTATUS=""
+BADRAIDARRAYS=()
+BADDISKARRAY=()
+BADBBUARRAY=()
+STATUS="OK"
+MSG=""
+MEDIATHRESHOLD=20
+MAXMEDIATHRESHOLD=30
+HIGH_MEDIAERRORLIST=()
+MED_MEDIAERRORLIST=()
+MEGASASCTL="/usr/sbin/megasasctl"
+TEMPRAIDSTATUS=`mktemp`
+SUDO=/usr/bin/sudo
+
+#must be run as root
+if [ `id -u` != 0 ]; then
+  $SUDO $0 $*
+  exit $?
+fi
+
+#====================================================================================
+# Function Defs:
+#====================================================================================
+
+# Function to Check Raid Arrays
+function check_raid_array_status() {
+  # Get list of RAID Arrays
+  RAIDLIST=$( grep -v "bios" $TEMPRAIDSTATUS | grep "RAID" | grep '.' | sed 's/  */\ /g' | cut -d' ' -f1);
+  # Next go through raid array list and check each one for its status
+  for i in $RAIDLIST; do
+    # Log list of degraded raid arrays
+    CURRENTRAIDSTATUS=$( grep "${i} " $TEMPRAIDSTATUS | grep "RAID" | sed 's/  */\ /g'| cut -d' ' -f6 );
+    # If a RAID Array is found to be be less than optimal then record it. 
+    if [ $CURRENTRAIDSTATUS != $NORMALRAIDSTATUS ] ; then 
+        BADRAIDARRAYS=( "${BADRAIDARRAYS[@]}" "${i}" )
+    fi
+  done
+  # Check if the number of degraded arrays is greater than 0
+  if [ ${#BADRAIDARRAYS[@]} != 0 ] ; then
+    # Set Status = Critical
+    STATUS="CRITICAL"
+    # Report which arrays degraded arrays were found 
+    MSG="Degraded RAID ARRAY(s) found: ${BADRAIDARRAYS[@]}"
+  else
+    MSG="RAID ARRAYS OPTIMAL, "
+  fi
+}
+
+# Function to Check All Disk Online Status - check all disks that do not have an status of "online"
+function check_all_disk_online_status() {
+  # Get list of Disks
+  DISKLIST=$( grep -v "bios\|RAID\|row\|hot spare" $TEMPRAIDSTATUS | grep '.' | sed 's/  */\ /g'| cut -d' ' -f1 );
+  # Next go through raid array list and check each one for their status
+  for i in $DISKLIST; do
+  # Log list of degraded disks
+    CURRENTDISKSTATUS=$( grep "${i} " $TEMPRAIDSTATUS | grep -v "row\|hot spare" | sed 's/  */\ /g'| awk '{print $NF}' );
+    if [ $CURRENTDISKSTATUS != $NORMALDISKSTATUS ] ; then 
+      if [ $CURRENTDISKSTATUS != $SPAREDISKSTATUS ] ; then
+        BADDISKARRAY=( "${BADDISKARRAY[@]}" "${i}" )
+      fi
+    fi
+  done
+  # Set status information 
+  if [ ${#BADDISKARRAY[@]} != 0 ] ; then
+    # Set Status = Critical
+    STATUS="CRITICAL"
+    # Report which arrays degraded disks were found 
+    MSG="Degraded Disks found: ${BADDISKARRAY[@]}"
+  else
+    MSG="${MSG} ALL DISKS ONLINE, "
+  fi
+}
+
+# Function to check media error counts (M.E.C's) across all disks
+function check_all_media_error_status() {
+  # Get list of Disks
+  DISKLIST=$( grep -v "row\|bios\|RAID" $TEMPRAIDSTATUS | grep "errs:" | sed 's/  */\ /g' |  grep '.' | cut -d' ' -f1 );
+  # Next go through all disks and group by M.E.C 
+  for i in $DISKLIST; do
+    DISKMEDIAERRORCOUNT=$( grep "$i " $TEMPRAIDSTATUS | grep -v "row" | sed 's/  */\ /g' | cut -d: -f3 | cut -d' ' -f1 )
+    # Check to see if M.E.C's are within thresholds
+    # if the number M.E.C is greater then the max threshold record it
+    if [ $DISKMEDIAERRORCOUNT -gt $MAXMEDIATHRESHOLD ] ; then
+      HIGH_MEDIAERRORLIST=( "${HIGH_MEDIAERRORLIST[@]}" "$i:${DISKMEDIAERRORCOUNT}" )
+    # else check if to see if M.E.C's are within the allowed thresholds and record it. 
+    elif [ $DISKMEDIAERRORCOUNT -gt $MEDIATHRESHOLD ] && [ $DISKMEDIAERRORCOUNT -lt $MAXMEDIATHRESHOLD ] ; then
+      MED_MEDIAERRORLIST=( "${MED_MEDIAERRORLIST[@]}" "$i:${DISKMEDIAERRORCOUNT}" )
+    fi
+  done
+  # Set status information 
+  if [ ${#HIGH_MEDIAERRORLIST[@]} != 0 ] ; then
+    # Set Status = CRITICAL
+    STATUS="CRITICAL"
+    # Report which disks were found w/ high MEC 
+    MSG="High M.E.C. on: ${HIGH_MEDIAERRORLIST[@]}"
+  elif [ ${#MED_MEDIAERRORLIST[@]} != 0 ] ; then
+    # Set Status = WARNING
+    STATUS="WARNING"
+    # Report which disks were found w/ med MEC 
+    MSG="M.E.C. Warning on the following disks: ${MED_MEDIAERRORLIST[@]}"
+  else
+    MSG="${MSG} ALL DISKS OPTIMAL, "
+  fi
+}
+
+# Function to check the BBU status across all adapters
+function check_adapt_bbu_status() {
+  # Get Adapter Count
+  ADAPTCOUNT=$( grep -c "bios" $TEMPRAIDSTATUS )
+  # Go through each Adapter and log bad BBUs
+  for ((i=0; i<$ADAPTCOUNT; i++)) ; do
+    # Grab the BBU status for each adaptoer 
+    BBUSTATUS=$( grep "a${i} " $TEMPRAIDSTATUS | sed 's/  */\ /g' | cut -d: -f7 | cut -d/ -f1 );
+    if [ "$BBUSTATUS" != "$NORMALBBUSTATUS" ] ; then 
+      BADBBUARRAY=( "${BADBBUARRAY[@]}" "a$i" )
+    fi
+  done
+  # Check check to list of BBU's to see if the number is greater than 0
+  if [ ${#BADBBUARRAY[@]} != 0 ] ; then
+    # Set Status = Warning
+    #STATUS="WARNING"
+    # report which bad BBU's were found 
+    MSG="Bad BBU(s) found: ${BADBBUARRAY[@]}"
+  else
+    MSG="${MSG} ALL BBU(s) OK"
+  fi
+}
+
+# Function to check status as we go
+function check_status() {
+  if [ $STATUS = "CRITICAL" ] ; then 
+    # Cleanup: remove tmp raidstatus.txt file
+    rm -rf $TEMPRAIDSTATUS
+    echo "$STATUS: $MSG"
+    exit 2
+  elif [ $STATUS = "WARNING" ] ; then 
+    # Cleanup: remove tmp raidstatus.txt file
+    rm -rf $TEMPRAIDSTATUS
+    echo "$STATUS: $MSG"
+    exit 1
+  fi
+}
+
+#====================================================================================
+# MAIN:
+#====================================================================================
+
+# First, capture megasasctl tmp file
+${MEGASASCTL} -v -B > $TEMPRAIDSTATUS
+if [ ! $? -eq 0 ] && [ ! -e ${TEMPRAIDSTATUS} ] ; then 
+  echo "UNKONWN: Error running ${SCRIPT}. Please check";
+  exit 2;
+fi
+
+# Check the the status of the RAID Array
+check_raid_array_status
+check_status
+
+# Check the status of each disk on every array, 
+check_all_disk_online_status
+check_status
+
+
+# Check for Media Errors
+check_all_media_error_status
+check_status
+
+# Check BBU status across all adapters
+check_adapt_bbu_status
+check_status
+
+# Check final script status
+if [ $STATUS = "OK" ] ; then 
+  rm -rf $TEMPRAIDSTATUS
+  echo "$STATUS: $MSG"
+  exit 0 
+fi
+

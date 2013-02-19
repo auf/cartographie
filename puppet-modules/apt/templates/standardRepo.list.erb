@@ -1,0 +1,3 @@
+## <%= name %> repository
+deb <%= url %> <% if append_lsbdistcodename then %><%= forced_lsbdistcodename %><% end %><% if repo_suffix then %>-<%= repo_suffix %><% end %> <%= section %>
+<% if aptGetSrc == true then %>deb-src <%= apt_url %> <% if append_lsbdistcodename then %><%= forced_lsbdistcodename %><% end %><% if repo_suffix then %>-<%= repo_suffix %><% end %> <%= section %><% end %>

@@ -1,0 +1,8 @@
+<% ntp_servers.each do |server| %>server <%= server %>
+<% end -%>
+restrict default ignore
+restrict 127.0.0.1
+<% ntp_servers.each do |server| %>restrict <%= server %> mask 255.255.255.255 nomodify notrap noquery
+<% end -%>
+driftfile /var/lib/ntp/drift
+

@@ -1,0 +1,3 @@
+deb <%= apt_url %> <%= lsbdistcodename %>-backports main restricted universe multiverse
+<% if aptGetSrc == true then %>deb-src <%= apt_url %> <%= lsbdistcodename %>-backports main restricted universe multiverse<% end %>
+

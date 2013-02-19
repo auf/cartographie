@@ -1,0 +1,22 @@
+#!/bin/bash
+#
+# Créé par Vincent de Grandpré
+# Savoir-faire Linux Inc.
+# Montrél, le 10 janvier 2012
+#
+# Exportation du MediaWiki SFL
+# Transfert sur un hôte distant
+# Exécution de la commande d'importation sur l'hôte dista
+# Suppression des fichiers de sauvegarde
+#
+WIKI_DIR=/var/www/mediawiki
+REMOTE_HOST=192.168.50.3
+REMOTE_DIR=/var/www/wiki_backups/wiki.savoirfairelinux.net
+SAUVEGARDE_FICHIER_XML=sauvegarde_mediawiki_sfl.xml
+REMOTE_CMD="php ${REMOTE_DIR}/maintenance/importDump.php --current < ${REMOTE_DIR}/${SAUVEGARDE_FICHIER_XML} && rm ${REMOTE_DIR}/${SAUVEGARDE_FICHIER_XML} && php ${REMOTE_DIR}/maintenance/rebuildall.php  && exit"
+
+cd ${WIKI_DIR}
+php ${WIKI_DIR}/maintenance/dumpBackup.php --current > ${WIKI_DIR}/${SAUVEGARDE_FICHIER_XML}
+sudo -u backupwikisfl scp ${WIKI_DIR}/${SAUVEGARDE_FICHIER_XML} ${REMOTE_HOST}:${REMOTE_DIR}
+sudo -u backupwikisfl ssh ${REMOTE_HOST} $REMOTE_CMD
+rm ${WIKI_DIR}/${SAUVEGARDE_FICHIER_XML}

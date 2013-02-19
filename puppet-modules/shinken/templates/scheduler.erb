@@ -1,0 +1,9 @@
+define scheduler{
+  scheduler_name  <%= name %>
+  address         <%= address %>
+  port            <%= port %>
+  spare           <%= spare %>
+  <% if realm then %>realm           <%= realm %><% end %>
+  <% if modules then %>modules       <%= modules %><% end %>
+  <% if manage_sub_realms then %>manage_sub_realms      <%= manage_sub_realms %><% end %>
+}

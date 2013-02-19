@@ -1,0 +1,42 @@
+= Requirements
+
+concat
+
+= Overview
+
+Allows you to:
+
+* Set a base file for your sudoers file
+* Add some fragments to it
+
+= Usage
+
+* for default sudoers file based on distro, just include "sudo"
+ node "mynode" {
+   include sudo
+
+   # now we add a fragment
+   concat::fragment{ "sudoers_base" :
+     target  => '/etc/sudoers',
+     order   => 10,
+     content  => 'nagios      ALL=NOPASSWD: /usr/sbin/hpacucli, /usr/local/sbin/cciss_vol_status, /etc/init.d/nagios
+'
+   }
+ }
+
+* You can also choose your own sudoers file, using sudo::config instead:
+  
+  node "mynode" {
+    class { sudo::config
+      basefileurl => 'puppet:///some/url',
+    }
+  }
+
+= License
+
+Copyright (C) 2010 Savoir-faire Linux
+Authors:
+- Bruno Léon <bruno.leon@savoirfairelinux.com
+- Stéphane Duchesneau <stephane.duchesneau@savoirfairelinux.com>
+Licence: GPL v2
+

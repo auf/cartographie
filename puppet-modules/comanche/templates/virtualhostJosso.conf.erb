@@ -1,0 +1,13 @@
+  <LocationMatch "<%= location %>">
+    Order allow,deny
+    Allow from all
+    AuthType JOSSO
+    AuthName "<%= authname %>"
+<% requiredRoles.each do |role| %>
+    Require role "<%= role %>"
+<% end -%>
+    GatewayLoginUrl "<%= gatewayUrl %>/login.do"
+    GatewayLogoutUrl "<%= gatewayUrl %>/logout.do"
+    GatewayEndpoint <%= gatewayendpoint %>
+  </LocationMatch>
+

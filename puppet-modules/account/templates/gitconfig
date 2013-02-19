@@ -1,0 +1,5 @@
+<% if has_variable?('fullname') and has_variable?('email') then -%>
+[user]
+	name = <%= fullname %>
+	email = <%= email %>
+<% end %>

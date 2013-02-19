@@ -1,0 +1,8 @@
+<IfModule mod_info.c>
+	<Location /server-info>
+		SetHandler server-info
+		Order deny,allow
+		Deny from all
+		Allow from <% scope.lookupvar("apache2::apache_info_allowed").each do |address| -%><%= address %> <% end %>
+	</Location>
+</IfModule>

@@ -1,0 +1,32 @@
+<VirtualHost <%= listenip %>:443>
+  ServerAdmin webmaster@localhost
+  ServerName <%= vhostname %>
+<% vhostalias.each do |valias| %>  ServerAlias <%=valias %>
+<% end -%>
+
+  DocumentRoot <%= apachewwwdir %>
+  <Directory />
+    Options FollowSymLinks
+    AllowOverride None
+  </Directory>
+  <Directory <%= apachewwwdir %> >
+    Options Indexes FollowSymLinks MultiViews
+    AllowOverride None
+    Order allow,deny
+    allow from all
+  </Directory>
+
+  ErrorLog <%= apachelogdir %>/ssl-<%= vhostname %>.error.log
+
+  # Possible values include: debug, info, notice, warn, error, crit,
+  # alert, emerg.
+  LogLevel warn
+
+  CustomLog <%= apachelogdir %>/ssl-<%= vhostname %>.access.log combined
+  SSLEngine on
+  SSLProtocol all -SSLv2
+  SSLCipherSuite ALL:!ADH:!EXPORT:!SSLv2:RC4+RSA:+HIGH:+MEDIUM:+LOW
+  SSLCertificateFile <%= sslcrt %>
+  SSLCertificateKeyFile <%= sslkey %>
+  <% if sslchain != false %> SSLCertificateChainFile <%= sslchain %><%end%>
+

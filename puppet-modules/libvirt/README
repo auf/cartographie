@@ -1,0 +1,21 @@
+= Requirements
+
+- OS: Redhat/Centos/Scientific Linux
+
+
+= Overview
+
+This module install and configure basically kvm/libvirt
+
+= Usage
+
+  node "mynode" inherits ... {
+    class { 'libvirt': }
+  }
+
+= License
+
+ Copyright (C) 2012 Savoir-faire Linux
+ Author Nicolas Zin <nicolas.zin@savoirfairelinux.com>
+ Licence: GPL v2
+

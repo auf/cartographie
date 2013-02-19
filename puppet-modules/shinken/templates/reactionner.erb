@@ -1,0 +1,10 @@
+define reactionner{
+  reactionner_name     <%= name %>
+  address         <%= address %>
+  port            <%= port %>
+  spare           <%= spare %>
+  <% if realm then %>realm           <%= realm %><% end %>
+  manage_sub_realms <%= manage_sub_realms %>
+  <% if modules then -%>modules       <%= modules %><% end %>
+  <% if reactionner_tags then %>reactionner_tags          <%= reactionner_tags %><% end %>
+}

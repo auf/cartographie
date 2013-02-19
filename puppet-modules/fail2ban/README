@@ -1,0 +1,27 @@
+= Requirements
+
+- OS: ubuntu, debian or centos
+
+
+= Overview
+
+This module install and configure fail2ban to ban ssh DoS
+
+== Parameters
+
+- ignoreip : list of ip that fail2ban must not filter
+
+
+= Usage
+
+  node "mynode" inherits ... {
+    class { 'fail2ban': ignoreip => ['208.88.110.46']  }
+  }
+
+
+= License
+
+ Copyright (C) 2013 Savoir-faire Linux
+ Author Nicolas Zin <nicolas.zin@savoirfairelinux.com>
+ Licence: GPL v2
+

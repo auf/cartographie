@@ -1,0 +1,9 @@
+<IfModule mod_status.c>
+	ExtendedStatus On
+	<Location /server-status>
+		SetHandler server-status
+		Order deny,allow
+		Deny from all
+		Allow from <% scope.lookupvar("apache2::apache_info_allowed").each do |address| -%><%= address %> <% end %>
+	</Location>
+</IfModule>

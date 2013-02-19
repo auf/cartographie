@@ -1,0 +1,9 @@
+<% rules.each do |r| -%>
+<% uri = r.split(":")[0] -%>
+<% path = r.split(":")[1] -%>
+  ScriptAlias <%= uri %> <%= path %>
+  <Directory <%= path %>>
+    Options +ExecCGI
+  </Directory>
+<% end-%>
+  AddHandler cgi-script .cgi .pl

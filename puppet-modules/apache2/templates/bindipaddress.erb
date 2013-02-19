@@ -1,0 +1,9 @@
+<% if protocol == 'http' then %><% ports.each do |port| %>
+Listen  <%= name %>:<%= port %> <%= protocol %>
+<% end %><% end %><% if protocol == 'https' then %>
+<IfModule mod_ssl.c><% ports.each do |port| %>
+  Listen <%= name %>:<%= port %> <%= protocol %><% end %>
+</IfModule>
+<IfModule mod_gnutls.c><% ports.each do |port| %>
+  Listen <%= name %>:<%= port %> <%= protocol %><% end %>
+</IfModule><% end %>

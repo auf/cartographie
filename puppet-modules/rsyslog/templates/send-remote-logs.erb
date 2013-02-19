@@ -1,0 +1,5 @@
+<% if has_variable?("rsyslog_send_everything") then %>
+*.* @<%= rsyslog_server %>
+<% else %>
+authpriv.* @<%= rsyslog_server %>
+<% end %>

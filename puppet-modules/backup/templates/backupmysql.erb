@@ -1,0 +1,50 @@
+#!/bin/bash
+#
+#   Backs up every mysql db to a single file
+#   Using defaults-file of debian
+
+DUMPPATH=/var/backups/mysql
+DEFAULTSFILE=/etc/mysql/debian.cnf
+
+MYSQL="/usr/bin/mysql --defaults-file=$DEFAULTSFILE --skip-column-names"
+MYSQLDUMP="/usr/bin/mysqldump --defaults-file=$DEFAULTSFILE --opt --routines"
+FIND=/usr/bin/find
+DATE=`date +%a`
+
+LSTDB=`echo "SHOW DATABASES" | $MYSQL | grep -v "^information_schema$"`
+<% if bzip2 then -%>
+export BZIP2=--best
+COMPRESS=bzip2
+COMPRESS_EXT=bz2
+<% else -%>
+COMPRESS=gzip
+COMPRESS_EXT=gz
+<% end -%>
+
+for db in $LSTDB
+do
+  #erase old file gz if it exists
+  rm -f $DUMPPATH/$db-$DATE.sql.gz
+  rm -f $DUMPPATH/$db-$DATE.sql.bz2
+  # default case. rt3 will be treated differently later.
+  if [ "$db" != "rt3" ]; then
+<% if delay_compress then -%>
+     #done in two steps because it causes less downtime
+     $MYSQLDUMP $db > $DUMPPATH/$db-$DATE.sql
+     $COMPRESS $DUMPPATH/$db-$DATE.sql
+<% else -%>
+     #done in a single step to prevent too much disk usage
+     $MYSQLDUMP $db | $COMPRESS -c > $DUMPPATH/$db-$DATE.sql.$COMPRESS_EXT
+<% end -%>
+    ln -sf $DUMPPATH/$db-$DATE.sql.$COMPRESS_EXT $DUMPPATH/$db-current.sql.$COMPRESS_EXT
+  else
+    #done in a single step to prevent too much disk usage
+    $MYSQLDUMP --default-character-set=binary $db | $COMPRESS -c > $DUMPPATH/$db-$DATE.sql.$COMPRESS_EXT
+  fi
+done
+
+# remove old files of same day last week
+$FIND "$DUMPPATH" -name '*${DATE}.sql.gz' -mtime +6 -delete
+$FIND "$DUMPPATH" -name '*${DATE}.sql.bz2' -mtime +6 -delete
+
+#EOF
