@@ -3,8 +3,9 @@
 {% block Contenu %}
     <div class="span12">
         <div class="content">
-            <h2 class="pull-left">Tableau de bord</h2><h5 class="pull-right">Bienvenue {{ request.user.username }}</h5>
+            <h2 class="pull-left">Tableau de bord - Statistiques</h2><h5 class="pull-right">Bienvenue {{ request.user.username }}</h5>
             <div class="clear"></div>
+
             {% include "dashboard_liste_onglets.html" %}
 
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus animi hic deleniti eos harum qui aliquam nostrum quis mollitia dolorem aperiam aspernatur ratione sed vero ducimus ex sunt! Fuga inventore.</p>
