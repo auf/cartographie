@@ -3,7 +3,7 @@
 from django.forms.models import inlineformset_factory
 
 from cartographie.formation.models import Acces, Formation
-from cartographie.formation.models import FormationComposante
+from cartographie.formation.models import FormationComposante, EtablissementComposante
 from cartographie.formation.models import FormationPartenaireAUF
 from cartographie.formation.models import FormationPartenaireAutre
 
@@ -34,14 +34,35 @@ class ModifierViewModel(object):
             self.etablissement = self.acces.etablissement
             self.formation = Formation.objects.get(pk=formation_id)
 
-            # setup des formsets
+            etablissement_courant = self.etablissement
 
+            def limiter_choix_etablissement(field, **kwargs):
+                """
+                    Cette fonction est utilisé en callback par inlineformset_factory
+
+                    Je m'en sers pour limiter les choix d'EtablissementComposante
+                    à l'établissement courant.
+                """
+                print field
+                if field.name == 'etablissementComposante':
+                    print "modifier queryset"
+                    formfield = field.formfield()
+                    # refaire le queryset
+                    formfield.queryset = EtablissementComposante.objects.filter(
+                        etablissement=etablissement_courant, actif=True
+                    )
+                    return formfield
+
+                return field.formfield()
+
+            # setup des formsets#
             # ici, je spécifie un form particulier car je veux limiter la liste
             # de choix des EtablissementComposante. On ne peut le faire que dans
             # un ModelForm lors du __init__
             composanteFormset = inlineformset_factory(
                 Formation, FormationComposante,
-                form=FormationComposanteForm, extra=1
+                extra=1,
+                formfield_callback=limiter_choix_etablissement
             )
 
             partenaireAufFormset = inlineformset_factory(

@@ -2,9 +2,7 @@
 
 from django.forms import ModelForm, Textarea
 
-from cartographie.formation.models import Formation, Personne, \
-                                            FormationComposante, \
-                                            EtablissementComposante
+from cartographie.formation.models import Formation, Personne
 
 
 class FormationForm(ModelForm):
@@ -40,19 +38,3 @@ class FormationForm(ModelForm):
         if afficher_etablissement is False:
             del self.fields["etablissement"]
             del self.fields["etablissement_emet_diplome"]
-
-
-class FormationComposanteForm(ModelForm):
-    class Meta:
-        model = FormationComposante
-
-    def __init__(self, *args, **kwargs):
-        super(FormationComposanteForm, self).__init__(*args, **kwargs)
-        instance = kwargs.get('instance', None)
-        if instance is not None:
-            # limiter le choix des EtablissementComposante à ceux
-            # de l'etablissement de l'instance courante de FormationComposante
-            self.fields["etablissementComposante"].queryset = \
-                EtablissementComposante.objects.filter(
-                    etablissement=instance.formation.etablissement, actif=True
-                )
