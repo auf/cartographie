@@ -37,7 +37,7 @@
                         </a>
                     </h1>
                     {% if user.is_active and user.is_staff %}
-                        <a class="btn btn-small pull-right dashboard-link" href="/blah">
+                        <a class="btn btn-small pull-right dashboard-link" href="{% url dashboard_index %}">
                             <i class="icon-th"></i>
                             Consulter votre tableau de bord
                         </a>

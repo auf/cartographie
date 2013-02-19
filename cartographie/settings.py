@@ -51,6 +51,7 @@ INSTALLED_APPS = (
     # AUF
     'home',
     'formation',
+    'tableau_de_bord',
     'auf.django.references',
     'auf.django.permissions',
 )

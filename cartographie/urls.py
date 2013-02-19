@@ -14,8 +14,13 @@ handler500  # Pyflakes
 urlpatterns = patterns('',
     # app Home
     (r'^$', include("cartographie.home.urls")),
+
     # app Formation
     (r'^etablissement/', include("cartographie.formation.urls")),
+
+    # app tableau_de_bord
+    (r'^dashboard/', include("cartographie.tableau_de_bord.urls")),
+
     url(r'^admin/password_reset/$', 'django.contrib.auth.views.password_reset',
         name='formation_password_reset'
     ),
