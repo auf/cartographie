@@ -13,8 +13,6 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     {% block css %}
-    <link href="{{ STATIC_URL }}formation/chosen/chosen.css" rel="stylesheet" type="text/css" />
-    <link href="{{ STATIC_URL }}formation/css/site.css" rel="stylesheet" type="text/css" />
     {% endblock %}
     <script src="{{STATIC_URL }}formation/js/vendor/modernizr-2.6.2.min.js"></script>
 </head>
@@ -79,9 +77,7 @@ Répertoire des formations supérieures dispensées en français ou partiellemen
     </script>
     <script src="{{ STATIC_URL }}commun/js/console.js"></script>
     {% block js %}
-    <script src="{{ STATIC_URL }}formation/chosen/chosen.jquery.min.js"></script>
-    <script src="{{ STATIC_URL }}twitter-bootstrap/js/bootstrap-modal.js"></script>
-    <script src="{{ STATIC_URL }}formation/js/site.js"></script>
+
     {% endblock %}
 </body>
 </html>
