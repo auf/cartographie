@@ -8,7 +8,6 @@ from cartographie.formation.models import FormationPartenaireAUF
 from cartographie.formation.models import FormationPartenaireAutre
 
 from cartographie.formation.forms.formation import FormationForm
-from cartographie.formation.forms.formation import FormationComposanteForm
 
 
 class ModifierViewModel(object):
