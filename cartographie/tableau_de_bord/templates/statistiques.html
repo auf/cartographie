@@ -10,6 +10,36 @@
 
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus animi hic deleniti eos harum qui aliquam nostrum quis mollitia dolorem aperiam aspernatur ratione sed vero ducimus ex sunt! Fuga inventore.</p>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aperiam blanditiis sint provident minima quam suscipit enim corporis aspernatur consectetur soluta iusto dolores repellat quo dolorem iure cupiditate totam numquam!</p>
+
+            <h3>Nombre de formation total</h3>
+            <p>{{ total_nb_formations }} formations</p>
+
+            <h3>Nombre de formation par régions</h3>
+            <ul>
+                {% for stat in totaux_par_regions %}
+                <li>
+                    {{ stat.etablissement__region__nom }}: {{ stat.total }}
+                </li>
+                {% endfor %}
+            </ul>
+
+            <h3>Nombre de formation par pays</h3>
+            <ul>
+                {% for stat in totaux_par_pays %}
+                <li>
+                    {{ stat.etablissement__pays__nom }}: {{ stat.total }}
+                </li>
+                {% endfor %}
+            </ul>
+
+            <h3>Nombre de formation par établissement sous votre tutelle</h3>
+            <ul>
+                {% for stat in totaux_par_etablissements %}
+                <li>
+                    {{ stat.etablissement__nom }}: {{ stat.total }}
+                </li>
+                {% endfor %}
+            </ul>
         </div>
     </div>
 {% endblock %}
