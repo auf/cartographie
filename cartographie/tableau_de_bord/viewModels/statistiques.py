@@ -1,10 +1,6 @@
 #coding: utf-8
-
-from django.db.models import Count, Sum
-
+from django.db.models import Count
 from cartographie.formation.models import Formation, UserRole
-
-from auf.django.references import models as ref
 
 
 class StatistiquesViewModel(object):
@@ -26,19 +22,19 @@ class StatistiquesViewModel(object):
 
         self.totaux_par_regions = Formation.objects.values(
             "etablissement__region__nom"
-        ).annotate(total=Count("id")).order_by("etablissement__region__nom")
+        ).annotate(total=Count("id")).order_by("-total")
 
         self.totaux_par_pays = Formation.objects.values(
             "etablissement__pays__nom"
-        ).annotate(total=Count("id")).order_by("etablissement__pays__nom")
+        ).annotate(total=Count("id")).order_by("-total")
 
         role = UserRole.objects.get(user=request.user)
 
         self.totaux_par_etablissements = Formation.objects.filter(
             etablissement__region__in=role.regions.all()
-        ).values(
-            "etablissement__nom"
-        ).annotate(total=Count("id"))
+        ).values("etablissement__nom").annotate(
+            total=Count("id")
+        ).order_by("-total")
 
         print self.totaux_par_etablissements
 
