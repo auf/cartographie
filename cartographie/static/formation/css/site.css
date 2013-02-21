@@ -642,7 +642,9 @@ h5{font-size:16px;}
 .rainbow .rouge{background-color:#e30000;}
 header{height:125px;overflow:hidden;}header .logo{margin:0;}
 header .rainbow{margin:0 22px 0 0;}
-header h2{margin:79px 0 0 0;}
+header .dashboard-link{margin:8px 22px 0 0;}
+header .slogan{margin:-91px 22px 0 0;}header .slogan h2{margin-top:0;}
+header .slogan p{margin:0;}
 .nav{margin:16px 0;}
 .content{padding:22px;}
 footer{margin-top:6px;}footer .rainbow{margin-bottom:15px;}
