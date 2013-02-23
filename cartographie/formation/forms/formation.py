@@ -9,6 +9,7 @@ class FormationForm(ModelForm):
     class Meta:
         model = Formation
         exclude = (
+            "statut",
             "modifications",
             "commentaires",
             "etablissement_composante",
