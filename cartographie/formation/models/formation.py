@@ -11,9 +11,10 @@ from .configuration import Discipline, NiveauDiplome, TypeDiplome, \
                            Vocation, TypeFormation, Langue
 from .etablissement import EtablissementComposante, EtablissementAutre
 from .personne import Personne
+from .workflow import WorkflowMixin
 
 
-class Formation(models.Model):
+class Formation(WorkflowMixin, models.Model):
     """
         Formation entièrement ou partiellement en français dispensée par un
         établissement membre de l'AUF
