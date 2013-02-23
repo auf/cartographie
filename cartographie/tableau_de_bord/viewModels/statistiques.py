@@ -1,10 +1,13 @@
 #coding: utf-8
+
+from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Count
 from cartographie.formation.models import Formation, UserRole
 
 
 class StatistiquesViewModel(object):
     menu_actif = None
+    user_sans_region = False
     # nombre total de formations dans le système
     total_nb_formations = 0
     # nombre total de formation par région dans le système
@@ -28,15 +31,18 @@ class StatistiquesViewModel(object):
             "etablissement__pays__nom"
         ).annotate(total=Count("id")).order_by("-total")
 
-        role = UserRole.objects.get(user=request.user)
+        try:
+            role = UserRole.objects.get(user=request.user)
+        except ObjectDoesNotExist:
+            role = None
+            self.user_sans_region = True
 
-        self.totaux_par_etablissements = Formation.objects.filter(
-            etablissement__region__in=role.regions.all()
-        ).values("etablissement__nom").annotate(
-            total=Count("id")
-        ).order_by("-total")
-
-        print self.totaux_par_etablissements
+        if role:
+            self.totaux_par_etablissements = Formation.objects.filter(
+                etablissement__region__in=role.regions.all()
+            ).values("etablissement__nom").annotate(
+                total=Count("id")
+            ).order_by("-total")
 
     def get_data(self):
         return {
@@ -44,5 +50,6 @@ class StatistiquesViewModel(object):
             "total_nb_formations": self.total_nb_formations,
             "totaux_par_regions": self.totaux_par_regions,
             "totaux_par_pays": self.totaux_par_pays,
-            "totaux_par_etablissements": self.totaux_par_etablissements
+            "totaux_par_etablissements": self.totaux_par_etablissements,
+            "user_sans_region": self.user_sans_region
         }
