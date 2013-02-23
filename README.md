@@ -11,13 +11,39 @@ Rouler les commandes suivantes:
     $ python bootstrap.py
     $ bin/buildout -c devel.cfg
 
-Créer fichier conf.py à partir de conf.py.edit et y copier les informations de connexion à la BD
+Créer le fichier conf.py à partir de conf.py.edit et y copier les informations de connexion à la BD
 
+    $ cd cartographie
+    $ cp conf.py.edit conf.py
+
+    # base de données mysql
+    # user: root
+    # pwd:
 
 Comment synchroniser la base de données avec les Models
 ---
 
     $ bin/django syncdb --migrate
+
+Comment importer les données pour la base de données *datamaster*
+---
+
+    $ mysql -h localhost -u root datamaster < mysql-dumps/datamaster.sql
+
+Comment ajouter les utilisateurs de l'AUF dans la table des users django
+---
+
+    $ bin/django import_auf_employees
+
+Comment créer les données de configuration de base pour les fiches formation
+---
+
+    $ bin/django import_config_models
+
+Créer les jetons d'accès (token) pour tous les établissements membres de l'AUF
+---
+
+    $ bin/django jetonizer
 
 Comment rouler le server Django de dév.
 ---
