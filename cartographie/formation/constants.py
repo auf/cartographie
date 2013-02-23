@@ -29,7 +29,7 @@ class StatutsFormation(object):
     en_redaction_label = u"En rédaction"
 
     validee = 2
-    validee_lable = u"Validée"
+    validee_label = u"Validée"
 
     publiee = 3
     publiee_label = u"Publiée"
