@@ -2,7 +2,6 @@
 
 from django.db import models
 from cartographie.formation.constants import statuts_formation as STATUTS
-from cartographie.formation.decorators import superuser_and_editeur_only
 
 
 ETATS = [
@@ -18,16 +17,30 @@ class WorkflowException(Exception):
     pass
 
 
+def superuser_and_editeur_only(f):
+    """
+        descriptor/decorator pour vérifier qu'un user est un editeur
+    """
+    def decorator(self, request):
+        user = request.user
+
+        if user and not user.is_superadmin:
+            role = models.UserRole.objects.get(user=user)
+
+            if role.type != "editeur":
+                raise WorkflowException(u"""
+                    L'usager courant n'est pas un éditeur
+                    et ne peux pas modifier ce statut
+                """)
+        f(self, request)
+
+    return decorator
+
+
 def exception_msg_sequence(statut_label):
     return u"""
         Vous ne pouvez pas attribuer le statut %s à cette fiche
     """ % statut_label
-
-
-def exception_msg_permission(user):
-    return u"""
-        L'utilisateur %s n'a pas le droit de modifier un statut.
-    """ % user.username
 
 
 class WorkflowMixin(models.Model):

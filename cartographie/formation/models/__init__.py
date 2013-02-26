@@ -19,6 +19,8 @@ from formation import Formation, FormationModification, \
                       FormationCommentaire, FormationComposante, \
                       FormationPartenaireAutre, FormationPartenaireAUF
 
+from workflow import WorkflowMixin
+
 # il faut absolument rajouter nos Model importés dans cette liste
 # http://stackoverflow.com/questions/44834/can-someone-explain-all-in-python
 __all__ = [
@@ -27,7 +29,7 @@ __all__ = [
     "TypeFormation", "EtablissementComposante", "EtablissementAutre",
     "Formation", "FormationModification", "FormationCommentaire",
     "FormationComposante", "FormationPartenaireAutre", "FormationPartenaireAUF",
-    "Langue",
+    "Langue", "WorkflowMixin"
 ]
 
 if __name__ == '__main__':
@@ -56,3 +58,4 @@ if __name__ == '__main__':
     nu = NiveauUniversitaire()
     v = Vocation()
     tf = TypeFormation()
+    wf = Workflow()
