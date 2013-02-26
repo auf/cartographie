@@ -32,5 +32,5 @@ Vagrant::Config.run do |config|
   end
 
   # # importer le dump pour datamaster
-  # config.vm.provision :shell, :inline => "mysql -u root -h localhost datamaster < /home/vagrant/cartographie/mysql-dumps/datamaster.sql"
+  # config.vm.provision :shell, :inline => "mysql -h localhost -u root datamaster < ../../mysql-dumps/datamaster.sql"
 end
