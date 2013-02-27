@@ -1,0 +1,6 @@
+{% extends "cartographie/email/base.html" %}
+
+L'établissement {{ formation.etablissement }} a validé la formation : {{ formation.nom }}
+<br>
+Vous pouvez relire et publier cette formation à cette URL :
+{% url formation_modifier token formation.id %}

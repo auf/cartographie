@@ -1,0 +1,8 @@
+Bonjour,
+
+{% block content %}
+{% endblock %}
+
+Merci de votre collaboration,
+
+L'équipe du projet cartographie
