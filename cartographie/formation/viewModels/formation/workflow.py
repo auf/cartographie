@@ -18,6 +18,7 @@ class WorkflowViewModel(BaseAjouterViewModel):
 
         # verifier que le statut existe
         if statut_id in map(lambda st: st[0], ETATS):
+
             # obtenir la formation courante
             formation_courante = Formation.objects.get(pk=formation_id)
 
@@ -40,6 +41,7 @@ class WorkflowViewModel(BaseAjouterViewModel):
                 )
 
                 formation_courante.save()
+                formation_courante.save_modification(request)
         else:
             messages.warning(
                 request, u"Ce statut n'existe pas"

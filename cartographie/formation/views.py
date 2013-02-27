@@ -110,7 +110,7 @@ def modifier_workflow(request, token, formation_id, statut_id):
         import WorkflowViewModel
 
     # le gros du traitement se fait dans le ViewModel suivant
-    vm = WorkflowViewModel(request, token, formation_id, statut_id)
+    WorkflowViewModel(request, token, formation_id, statut_id)
     # peu importe ce qui arrive, un message a été setté dans le ViewModel
     # on redirige donc sans faire de validation
     return HttpResponseRedirect(
@@ -121,7 +121,8 @@ def modifier_workflow(request, token, formation_id, statut_id):
 @token_required
 def modifier_etablissements(request, token, formation_id=None):
 
-    from cartographie.formation.viewModels.formation.modifier import ModifierViewModel
+    from cartographie.formation.viewModels.formation.modifier \
+        import ModifierViewModel
 
     # absorber les infos de la requete
     modifVM = ModifierViewModel(
