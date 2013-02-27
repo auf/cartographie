@@ -24,7 +24,7 @@ def superuser_and_editeur_only(f):
     def decorator(self, request):
         user = request.user
 
-        if user and not user.is_superadmin:
+        if user and not user.is_superuser:
             role = models.UserRole.objects.get(user=user)
 
             if role.type != "editeur":
@@ -54,7 +54,7 @@ class WorkflowMixin(models.Model):
         abstract = True
 
     def set_abandonnee(self, request):
-        if self.statut in (STATUTS.validee, STATUTS.en_redaction):
+        if self.statut in [STATUTS.validee, STATUTS.en_redaction]:
             self.statut = STATUTS.abandonnee
         else:
             raise WorkflowException(
@@ -63,7 +63,7 @@ class WorkflowMixin(models.Model):
 
     @superuser_and_editeur_only
     def set_archivee(self, request):
-        if self.statut in (STATUTS.publiee):
+        if self.statut in [STATUTS.publiee]:
             self.statut = STATUTS.archivee
         else:
             raise WorkflowException(
@@ -71,7 +71,7 @@ class WorkflowMixin(models.Model):
             )
 
     def set_en_redaction(self, request):
-        if self.statut in (STATUTS.publiee, STATUTS.validee):
+        if self.statut in [STATUTS.publiee, STATUTS.validee, STATUTS.abandonnee]:
             # pour ramener le statut en rédaction à partir d'une
             # rédaction publiée ou validée
             self.statut = STATUTS.en_redaction
@@ -82,7 +82,7 @@ class WorkflowMixin(models.Model):
         pass
 
     def set_validee(self, request):
-        if self.statut in (STATUTS.en_redaction):
+        if self.statut in [STATUTS.en_redaction]:
             self.statut = STATUTS.validee
         else:
             raise WorkflowException(
@@ -92,10 +92,27 @@ class WorkflowMixin(models.Model):
 
     @superuser_and_editeur_only
     def set_publiee(self, request):
-        if self.statut in (STATUTS.validee):
+        if self.statut in [STATUTS.validee]:
             self.statut = STATUTS.publiee
         else:
             raise WorkflowException(
                 exception_msg_sequence(STATUTS.publiee_label)
             )
         pass
+
+    def set_statut(self, request, statut_id):
+        if statut_id == STATUTS.abandonnee:
+            self.set_abandonnee(request)
+
+        if statut_id == STATUTS.archivee:
+            self.set_archivee(request)
+
+        if statut_id == STATUTS.en_redaction:
+            self.set_en_redaction(request)
+
+        if statut_id == STATUTS.validee:
+            self.set_validee(request)
+
+        if statut_id == STATUTS.publiee:
+            self.set_publiee(request)
+

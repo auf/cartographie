@@ -101,28 +101,21 @@ def modifier(request, token, formation_id=None):
 
 
 @token_required
-def modifier_workflow(request, token, formation_id, statut):
+def modifier_workflow(request, token, formation_id, statut_id):
     """
         Modifier le statut de workflow de la fiche courante
     """
 
-    # verifier que le statut existe
-    # obtenir la formation courante
-    # modifier le statut avec les fonctions de WorkflowMixin
-    # catcher les erreurs et les afficher correctement à l'usager
-    # rediriger vers la page de modification global si réussiste
-    messages.success(
-        request, u"test du messaging django !"
-    )
+    from cartographie.formation.viewModels.formation.workflow \
+        import WorkflowViewModel
 
+    # le gros du traitement se fait dans le ViewModel suivant
+    vm = WorkflowViewModel(request, token, formation_id, statut_id)
+    # peu importe ce qui arrive, un message a été setté dans le ViewModel
+    # on redirige donc sans faire de validation
     return HttpResponseRedirect(
-        reverse(
-            "formation_modifier",
-            args=[token, formation_id]
-        )
+        reverse("formation_modifier", args=[token, formation_id])
     )
-
-    pass
 
 
 @token_required

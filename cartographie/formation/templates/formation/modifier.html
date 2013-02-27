@@ -11,14 +11,14 @@
                 <span class="divider">/</span>
             </li>
             <li class="active">
-                {{ formation.statut|statusLabel }}
+                {{ formation.nom }}
             </li>
         </ul>
         <div class="clear"></div>
         <h4 class="pull-left">
             Modifier une formation - {{ formation.nom }}
             <span class="label label-important">
-                En rédaction
+                {{ formation.statut|statusLabel }}
             </span>
         </h4>
 
