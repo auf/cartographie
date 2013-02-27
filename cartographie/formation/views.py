@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.utils import simplejson
 from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response
+from django.contrib import messages
 
 from cartographie.formation.decorators import token_required
 # from cartographie.formation.models import FormationModification
@@ -110,6 +111,16 @@ def modifier_workflow(request, token, formation_id, statut):
     # modifier le statut avec les fonctions de WorkflowMixin
     # catcher les erreurs et les afficher correctement à l'usager
     # rediriger vers la page de modification global si réussiste
+    messages.success(
+        request, u"test du messaging django !"
+    )
+
+    return HttpResponseRedirect(
+        reverse(
+            "formation_modifier",
+            args=[token, formation_id]
+        )
+    )
 
     pass
 

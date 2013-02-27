@@ -36,6 +36,9 @@
                 </a>
             </li>
         </ul>
+
+        {% include "cartographie/messages.html" %}
+
         <form action="{% url formation_modifier token formation.id %}" method="post"
               class="form-horizontal form-auf">
             {% csrf_token %}
