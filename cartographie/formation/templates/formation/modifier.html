@@ -1,4 +1,5 @@
 {% extends "base_formation.html" %}
+{% load statusLabel %}
 
 {% block Contenu %}
 <span class="span12">
@@ -10,7 +11,7 @@
                 <span class="divider">/</span>
             </li>
             <li class="active">
-                {{ formation.nom }}
+                {{ formation.statut|statusLabel }}
             </li>
         </ul>
         <div class="clear"></div>
@@ -20,7 +21,9 @@
                 En rédaction
             </span>
         </h4>
-        <a href="#" class="pull-right btn btn-primary">Publié cette fiche</a>
+
+        {% include "formation/boutons_workflow.html" %}
+
         <div class="clear"></div>
 
         <ul class="nav nav-tabs">

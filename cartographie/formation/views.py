@@ -100,6 +100,11 @@ def modifier(request, token, formation_id=None):
 
 
 @token_required
+def modifier_workflow(request, token, formation_id, statut):
+    pass
+
+
+@token_required
 def modifier_etablissements(request, token, formation_id=None):
 
     from cartographie.formation.viewModels.formation.modifier import ModifierViewModel

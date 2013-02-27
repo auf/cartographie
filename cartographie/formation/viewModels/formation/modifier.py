@@ -7,6 +7,7 @@ from cartographie.formation.models import FormationComposante, EtablissementComp
 from cartographie.formation.models import FormationPartenaireAUF
 from cartographie.formation.models import FormationPartenaireAutre
 
+from cartographie.formation.constants import statuts_formation
 from cartographie.formation.forms.formation import FormationForm
 
 
@@ -129,5 +130,6 @@ class ModifierViewModel(object):
             "formation": self.formation,
             "composanteFormset": self.composanteFormset,
             "partenaireAufFormset": self.partenaireAufFormset,
-            "partenaireAutreFormset": self.partenaireAutreFormset
+            "partenaireAutreFormset": self.partenaireAutreFormset,
+            "statuts_formation": statuts_formation
         }
