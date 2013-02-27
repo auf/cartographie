@@ -1,56 +1,56 @@
-{% with statut=statuts_formation %}
-    {% if request.user.is_superuser %}
-        {% if formation.statut == statut.abandonnee or formation.statut == statut.archivee %}
+<div class="boutons-statut pull-right">
+    {% with statut=statuts_formation %}
+        {% if request.user.is_superuser %}
+            {% if formation.statut == statut.abandonnee or formation.statut == statut.archivee %}
+                <a href="{% url formation_modifier_workflow token formation.id statut.en_redaction %}"
+                   class="btn btn-info">
+                    Retour en rédaction
+                </a>
+            {% endif %}
+        {% endif %}
+
+
+        {% if formation.statut == statut.en_redaction %}
+            {% if request.user.is_superuser or not request.user.is_authenticated %}
+            <a href="{% url formation_modifier_workflow token formation.id statut.abandonnee %}" class="btn btn-danger">
+                Abandonner la fiche
+            </a>
+            {% endif %}
+            <a href="{% url formation_modifier_workflow token formation.id statut.validee %}"
+               class="btn btn-info">
+                Valider la fiche
+            </a>
+        {% endif %}
+
+        {% if formation.statut == statut.validee %}
+            {% if request.user.is_superuser or not request.user.is_authenticated %}
+            <a href="{% url formation_modifier_workflow token formation.id statut.abandonnee %}" class="btn btn-danger">
+                Abandonner la fiche
+            </a>
+            {% endif %}
+
             <a href="{% url formation_modifier_workflow token formation.id statut.en_redaction %}"
-               class="pull-right btn btn-info">
+               class="btn btn-info">
+                Retour en rédaction
+            </a>
+
+            {% if request.user.is_authenticated %}
+                <a href="{% url formation_modifier_workflow token formation.id statut.publiee %}"
+                   class="btn btn-success">
+                    Publier la fiche
+                </a>
+            {% endif %}
+        {% endif %}
+
+        {% if formation.statut == statut.publiee %}
+            <a href="{% url formation_modifier_workflow token formation.id statut.archivee %}" class="btn btn-warning">
+                Archiver la fiche
+            </a>
+
+            <a href="{% url formation_modifier_workflow token formation.id statut.en_redaction %}"
+               class="btn btn-info">
                 Retour en rédaction
             </a>
         {% endif %}
-    {% endif %}
-
-
-    {% if formation.statut == statut.en_redaction %}
-        <a href="{% url formation_modifier_workflow token formation.id statut.validee %}"
-           class="pull-right btn btn-info">
-            Valider la fiche
-        </a>
-
-        {% if request.user.is_superuser or not request.user.is_authenticated %}
-        <a href="{% url formation_modifier_workflow token formation.id statut.abandonnee %}" class="pull-right btn btn-danger">
-            Abandonner la fiche
-        </a>
-        {% endif %}
-    {% endif %}
-
-    {% if formation.statut == statut.validee %}
-        {% if request.user.is_authenticated %}
-            <a href="{% url formation_modifier_workflow token formation.id statut.publiee %}"
-               class="pull-right btn btn-success">
-                Publier la fiche
-            </a>
-        {% endif %}
-
-        <a href="{% url formation_modifier_workflow token formation.id statut.en_redaction %}"
-           class="pull-right btn btn-info">
-            Retour en rédaction
-        </a>
-
-        {% if request.user.is_superuser or not request.user.is_authenticated %}
-        <a href="{% url formation_modifier_workflow token formation.id statut.abandonnee %}" class="pull-right btn btn-danger">
-            Abandonner la fiche
-        </a>
-        {% endif %}
-
-    {% endif %}
-
-    {% if formation.statut == statut.publiee %}
-        <a href="{% url formation_modifier_workflow token formation.id statut.en_redaction %}"
-           class="pull-right btn btn-info">
-            Retour en rédaction
-        </a>
-
-        <a href="{% url formation_modifier_workflow token formation.id statut.archivee %}" class="pull-right btn btn-warning">
-            Archiver la fiche
-        </a>
-    {% endif %}
-{% endwith %}
+    {% endwith %}
+</div>
