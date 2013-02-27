@@ -21,10 +21,17 @@ class WorkflowViewModel(BaseAjouterViewModel):
             # obtenir la formation courante
             formation_courante = Formation.objects.get(pk=formation_id)
 
+            pas_de_probleme = False
             # modifier le statut avec les fonctions de WorkflowMixin
             try:
                 formation_courante.set_statut(request, statut_id)
+                pas_de_probleme = True
+            except WorkflowException as exception:
+                messages.error(
+                    request, exception
+                )
 
+            if pas_de_probleme:
                 statut_labels = filter(lambda st: st[0] == statut_id, ETATS)
                 statut_label = statut_labels.pop()
 
@@ -33,10 +40,6 @@ class WorkflowViewModel(BaseAjouterViewModel):
                 )
 
                 formation_courante.save()
-            except WorkflowException as exception:
-                messages.warning(
-                    request, exception
-                )
         else:
             messages.warning(
                 request, u"Ce statut n'existe pas"

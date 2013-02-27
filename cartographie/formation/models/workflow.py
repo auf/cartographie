@@ -1,8 +1,10 @@
 #coding: utf-8
 
 from django.db import models
-from cartographie.formation.constants import statuts_formation as STATUTS
+from django.core.exceptions import ObjectDoesNotExist
 
+from cartographie.formation.constants import statuts_formation as STATUTS
+from cartographie.formation.models import UserRole
 
 ETATS = [
     (STATUTS.abandonnee, STATUTS.abandonnee_label),
@@ -25,12 +27,16 @@ def superuser_and_editeur_only(f):
         user = request.user
 
         if user and not user.is_superuser:
-            role = models.UserRole.objects.get(user=user)
+            try:
+                role = UserRole.objects.get(user__id=user.id)
+            except ObjectDoesNotExist:
+                raise WorkflowException(u"""
+                    Vous ne pouvez pas attribuer ce statut
+                """)
 
             if role.type != "editeur":
                 raise WorkflowException(u"""
-                    L'usager courant n'est pas un éditeur
-                    et ne peux pas modifier ce statut
+                    Vous ne pouvez pas attribuer ce statut
                 """)
         f(self, request)
 
