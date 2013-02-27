@@ -7,7 +7,7 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response
 
 from cartographie.formation.decorators import token_required
-from cartographie.formation.models import FormationModification
+# from cartographie.formation.models import FormationModification
 
 
 def erreur(request):
@@ -101,6 +101,16 @@ def modifier(request, token, formation_id=None):
 
 @token_required
 def modifier_workflow(request, token, formation_id, statut):
+    """
+        Modifier le statut de workflow de la fiche courante
+    """
+
+    # verifier que le statut existe
+    # obtenir la formation courante
+    # modifier le statut avec les fonctions de WorkflowMixin
+    # catcher les erreurs et les afficher correctement à l'usager
+    # rediriger vers la page de modification global si réussiste
+
     pass
 
 

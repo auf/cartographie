@@ -1,5 +1,6 @@
 {% extends "base_formation.html" %}
 {% load removeSelectMultipleHelpText %}
+{% load statusLabel %}
 
 {% block Contenu %}
 <div class="span12">
@@ -15,7 +16,10 @@
             </li>
         </ul>
 
-        <h4>Modifier les établissements - <span class="badge">{{ formation.nom }}</span></h4>
+        <h4>
+            Modifier les établissements - {{ formation.nom }}
+            <span class="label label-important">{{ formation.statut|statusLabel }}</span>
+        </h4>
 
         <ul class="nav nav-tabs">
             <li>
