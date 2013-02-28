@@ -20,6 +20,7 @@ def formation_is_valider(sender, instance, signal, *args, **kwargs):
         plaintext = get_template('cartographie/email/formation_validee.txt')
         htmly = get_template('cartographie/email/formation_validee.html')
 
+        # obtention du token d'acces à injecter dans le courriel
         acces = Acces.objects.get(
             etablissement__id=formation_courante.etablissement.id
         )
