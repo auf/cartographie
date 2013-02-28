@@ -18,6 +18,9 @@ class StatistiquesViewModel(object):
     # l'utilisateur connecté courant
     totaux_par_etablissements = []
 
+    # nombre de formation par statut
+    totaux_par_statut = []
+
     def __init__(self, request, menu_actif="statistiques"):
         self.menu_actif = menu_actif
 
@@ -44,6 +47,12 @@ class StatistiquesViewModel(object):
                 total=Count("id")
             ).order_by("-total")
 
+            self.totaux_par_statut = Formation.objects.filter(
+                etablissement__region__in=role.regions.all()
+            ).values("statut").annotate(
+                total=Count("id")
+            ).order_by("-total")
+
     def get_data(self):
         return {
             "menu_actif": self.menu_actif,
@@ -51,5 +60,6 @@ class StatistiquesViewModel(object):
             "totaux_par_regions": self.totaux_par_regions,
             "totaux_par_pays": self.totaux_par_pays,
             "totaux_par_etablissements": self.totaux_par_etablissements,
+            "totaux_par_statut": self.totaux_par_statut,
             "user_sans_region": self.user_sans_region
         }
