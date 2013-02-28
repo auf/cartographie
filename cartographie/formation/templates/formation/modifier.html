@@ -47,12 +47,14 @@
                 {% include "form_field.html" with field=field %}
             {% endfor %}
 
+            {% if formation.statut == statuts_formation.en_redaction %}
             <div class="control-group">
                 <div class="controls">
                     <input type="submit" class="btn btn-success"
                            value="Enregistrer">
                 </div>
             </div>
+            {% endif %}
         </form>
     </div>
 </span>

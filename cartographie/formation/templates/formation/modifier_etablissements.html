@@ -131,9 +131,12 @@
                 </tr>
                 {% endfor %}
             </table>
+
+            {% if formation.statut == statuts_formation.en_redaction %}
             <div class="actions">
                 <input type="submit" class="btn btn-success" value="Enregistrer">
             </div>
+            {% endif %}
         </form>
     </div>
 </div>
