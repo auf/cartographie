@@ -1,9 +1,6 @@
 {% extends "cartographie/email/base.html" %}
-
 {% block content %}
-
 L'établissement <i>{{ formation.etablissement }}</i> a validé la formation : <i>{{ formation.nom }}</i>
 <br>
 Vous pouvez relire et publier cette formation <a href="http://cartographie.auf.org{% url formation_modifier token formation.id %}">ici</a>.
-
 {% endblock %}
