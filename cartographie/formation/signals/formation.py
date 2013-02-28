@@ -26,9 +26,10 @@ def formation_is_valider(sender, instance, signal, *args, **kwargs):
             "token": "le token de l'établissement de la formation"
         })
 
-        subject = 'Formation %i validée: %s' % (
+        subject = u'Formation %i validée: %s' % (
             formation_courante.id, formation_courante.nom
         )
+
         from_email = 'from@example.com'
         to = 'to@example.com'
 
