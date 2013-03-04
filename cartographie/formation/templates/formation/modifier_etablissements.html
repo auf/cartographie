@@ -1,5 +1,6 @@
-{% extends "base.html" %}
+{% extends "base_formation.html" %}
 {% load removeSelectMultipleHelpText %}
+{% load statusLabel %}
 
 {% block Contenu %}
 <div class="span12">
@@ -15,8 +16,13 @@
             </li>
         </ul>
 
-        <h4>Modifier les établissements - <span class="badge">{{ formation.nom }}</span></h4>
-
+        <div class="clear"></div>
+        <h4 class="pull-left">
+            Modifier les établissements - {{ formation.nom }}
+            <span class="label label-important">{{ formation.statut|statusLabel }}</span>
+        </h4>
+        {% include "formation/boutons_workflow.html" %}
+        <div class="clear"></div>
         <ul class="nav nav-tabs">
             <li>
                 <a href="{% url formation_modifier token formation.id %}">
@@ -125,9 +131,12 @@
                 </tr>
                 {% endfor %}
             </table>
+
+            {% if formation.statut == statuts_formation.en_redaction %}
             <div class="actions">
                 <input type="submit" class="btn btn-success" value="Enregistrer">
             </div>
+            {% endif %}
         </form>
     </div>
 </div>

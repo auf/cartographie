@@ -1,0 +1,12 @@
+{% extends "cartographie/base.html" %}
+
+{% block css %}
+<link href="{{ STATIC_URL }}formation/chosen/chosen.css" rel="stylesheet" type="text/css" />
+<link href="{{ STATIC_URL }}formation/css/site.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block js %}
+<script src="{{ STATIC_URL }}formation/chosen/chosen.jquery.min.js"></script>
+<script src="{{ STATIC_URL }}twitter-bootstrap/js/bootstrap-modal.js"></script>
+<script src="{{ STATIC_URL }}formation/js/site.js"></script>
+{% endblock %}

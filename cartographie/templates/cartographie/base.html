@@ -13,8 +13,6 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     {% block css %}
-    <link href="{{ STATIC_URL }}formation/chosen/chosen.css" rel="stylesheet" type="text/css" />
-    <link href="{{ STATIC_URL }}formation/css/site.css" rel="stylesheet" type="text/css" />
     {% endblock %}
     <script src="{{STATIC_URL }}formation/js/vendor/modernizr-2.6.2.min.js"></script>
 </head>
@@ -23,12 +21,6 @@
         <header>
             <div class="row">
                 <div class="span12">
-                    <h1 class="logo pull-left">
-                        <a href="http://cartographie.auf.org">
-                            <img src="{{ STATIC_URL }}commun/img/Logo_Auf_FR.png"
-                                 alt="Agence universitaire de la Francophonie">
-                        </a>
-                    </h1>
                     <div class="rainbow span6 pull-right">
                         <span class="elem bleu"></span>
                         <span class="elem jaune"></span>
@@ -36,9 +28,26 @@
                         <span class="elem mauve"></span>
                         <span class="elem rouge"></span>
                     </div>
-                    <h2>Cartographie des formations</h2>
-                    <div>
-Répertoire des formations supérieures dispensées en français ou partiellement en français, au sein des établissements membres de l'AUF.
+                    <div class="clear"></div>
+
+                    <h1 class="logo pull-left">
+                        <a href="http://cartographie.auf.org">
+                            <img src="{{ STATIC_URL }}commun/img/Logo_Auf_FR.png"
+                                 alt="Agence universitaire de la Francophonie">
+                        </a>
+                    </h1>
+                    {% if user.is_active and user.is_staff %}
+                        <a class="btn btn-small pull-right dashboard-link" href="{% url dashboard_index %}">
+                            <i class="icon-th"></i>
+                            Consulter votre tableau de bord
+                        </a>
+                    {% endif %}
+                    <div class="clear"></div>
+                    <div class="slogan span6 pull-right">
+                        <h2>Cartographie des formations</h2>
+                        <p>
+                            Répertoire des formations supérieures dispensées en français ou partiellement en français, au sein des établissements membres de l'AUF.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -61,7 +70,7 @@ Répertoire des formations supérieures dispensées en français ou partiellemen
                 </div>
                 <div class="span12">
                     <div class="content">
-                        <p class="copyright">
+                        <p class="copyright pull-left">
                             © AUF 2013 Tous droits réservés
                         </p>
                     </div>
@@ -79,9 +88,7 @@ Répertoire des formations supérieures dispensées en français ou partiellemen
     </script>
     <script src="{{ STATIC_URL }}commun/js/console.js"></script>
     {% block js %}
-    <script src="{{ STATIC_URL }}formation/chosen/chosen.jquery.min.js"></script>
-    <script src="{{ STATIC_URL }}twitter-bootstrap/js/bootstrap-modal.js"></script>
-    <script src="{{ STATIC_URL }}formation/js/site.js"></script>
+
     {% endblock %}
 </body>
 </html>

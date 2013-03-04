@@ -13,3 +13,30 @@ class SessionConstants(object):
     erreur = "espace_formation_erreur"
 
 session_const = SessionConstants()
+
+
+class StatutsFormation(object):
+    """
+        Les différents statuts possibles pour une fiche formation
+    """
+    abandonnee = 999
+    abandonnee_label = u"Abandonnée"
+    abandonnee_msg_confirmation = u"Voulez-vous vraiment abandonner cette fiche ?"
+
+    archivee = 888
+    archivee_label = u"Archivée"
+    archivee_msg_confirmation = u"Voulez-vous vraiment archiver cette fiche ?"
+
+    en_redaction = 1
+    en_redaction_label = u"En rédaction"
+    en_redaction_msg_confirmation = u"Voulez-vous vraiment mettre cette fiche en rédaction ?"
+
+    validee = 2
+    validee_label = u"Validée"
+    validee_msg_confirmation = u"Voulez-vous vraiment valider cette fiche ?"
+
+    publiee = 3
+    publiee_label = u"Publiée"
+    publiee_msg_confirmation = u"Voulez-vous vraiment publier cette fiche ?"
+
+statuts_formation = StatutsFormation()

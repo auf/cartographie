@@ -34,6 +34,8 @@ STATICFILES_DIRS = (
 
 ADMIN_MEDIA_PREFIX = "/static/admin/"
 
+MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
+
 ROOT_URLCONF = 'cartographie.urls'
 
 INSTALLED_APPS = (
@@ -46,11 +48,13 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.admin',
     'django.contrib.staticfiles',
+    'django.contrib.messages',
     'south',
     'raven.contrib.django',
     # AUF
     'home',
     'formation',
+    'tableau_de_bord',
     'auf.django.references',
     'auf.django.permissions',
 )

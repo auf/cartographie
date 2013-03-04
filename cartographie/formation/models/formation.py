@@ -3,17 +3,22 @@
 import datetime
 
 from django.db import models
+from django.db.models import signals
 from django.contrib.auth.models import User
+
 from auf.django.references import models as ref
 
-from .configuration import Discipline, NiveauDiplome, TypeDiplome, \
-                           DelivranceDiplome, NiveauUniversitaire, \
-                           Vocation, TypeFormation, Langue
+from .configuration \
+    import Discipline, NiveauDiplome, TypeDiplome, DelivranceDiplome, \
+            NiveauUniversitaire, Vocation, TypeFormation, Langue
 from .etablissement import EtablissementComposante, EtablissementAutre
 from .personne import Personne
+from .workflow import WorkflowMixin
+
+from cartographie.formation.signals.formation import formation_is_valider
 
 
-class Formation(models.Model):
+class Formation(WorkflowMixin, models.Model):
     """
         Formation entièrement ou partiellement en français dispensée par un
         établissement membre de l'AUF
@@ -289,6 +294,11 @@ class Formation(models.Model):
         self.date_modification = datetime.datetime.now()
 
         super(Formation, self).save(*args, **kwargs)
+
+
+# utilisation d'un signal apres la sauvegarde d'une formation
+# pour envoyer un courriel lorsqu'elle est validée par un établissement
+signals.post_save.connect(formation_is_valider, sender=Formation)
 
 
 class FormationModification(models.Model):

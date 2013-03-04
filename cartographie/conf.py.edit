@@ -21,8 +21,13 @@ RAVEN_CONFIG = {
 # Optionnel
 PIWIK_TOKEN = None
 
-# Pour l'envoi de courriel du rapatriement de mot de passe
-# réf: https://docs.djangoproject.com/en/dev/topics/email/#smtp-backend
+"""
+Pour l'envoi des courriels:
+* du rapatriement de mot de passe
+* lorsqu'une fiche formation est à validée
+
+réf: https://docs.djangoproject.com/en/dev/topics/email/#smtp-backend
+"""
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = ""
 EMAIL_PORT = ""

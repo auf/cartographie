@@ -5,9 +5,10 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.utils import simplejson
 from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response
+from django.contrib import messages
 
 from cartographie.formation.decorators import token_required
-from cartographie.formation.models import FormationModification
+# from cartographie.formation.models import FormationModification
 
 
 def erreur(request):
@@ -100,9 +101,28 @@ def modifier(request, token, formation_id=None):
 
 
 @token_required
+def modifier_workflow(request, token, formation_id, statut_id):
+    """
+        Modifier le statut de workflow de la fiche courante
+    """
+
+    from cartographie.formation.viewModels.formation.workflow \
+        import WorkflowViewModel
+
+    # le gros du traitement se fait dans le ViewModel suivant
+    WorkflowViewModel(request, token, formation_id, statut_id)
+    # peu importe ce qui arrive, un message a été setté dans le ViewModel
+    # on redirige donc sans faire de validation
+    return HttpResponseRedirect(
+        reverse("formation_modifier", args=[token, formation_id])
+    )
+
+
+@token_required
 def modifier_etablissements(request, token, formation_id=None):
 
-    from cartographie.formation.viewModels.formation.modifier import ModifierViewModel
+    from cartographie.formation.viewModels.formation.modifier \
+        import ModifierViewModel
 
     # absorber les infos de la requete
     modifVM = ModifierViewModel(

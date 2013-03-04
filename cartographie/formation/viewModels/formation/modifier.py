@@ -7,6 +7,7 @@ from cartographie.formation.models import FormationComposante, EtablissementComp
 from cartographie.formation.models import FormationPartenaireAUF
 from cartographie.formation.models import FormationPartenaireAutre
 
+from cartographie.formation.constants import statuts_formation
 from cartographie.formation.forms.formation import FormationForm
 
 
@@ -42,9 +43,7 @@ class ModifierViewModel(object):
                     Je m'en sers pour limiter les choix d'EtablissementComposante
                     à l'établissement courant.
                 """
-                print field
                 if field.name == 'etablissementComposante':
-                    print "modifier queryset"
                     formfield = field.formfield()
                     # refaire le queryset
                     formfield.queryset = EtablissementComposante.objects.filter(
@@ -54,10 +53,7 @@ class ModifierViewModel(object):
 
                 return field.formfield()
 
-            # setup des formsets#
-            # ici, je spécifie un form particulier car je veux limiter la liste
-            # de choix des EtablissementComposante. On ne peut le faire que dans
-            # un ModelForm lors du __init__
+            # setup des formsets
             composanteFormset = inlineformset_factory(
                 Formation, FormationComposante,
                 extra=1,
@@ -134,5 +130,6 @@ class ModifierViewModel(object):
             "formation": self.formation,
             "composanteFormset": self.composanteFormset,
             "partenaireAufFormset": self.partenaireAufFormset,
-            "partenaireAutreFormset": self.partenaireAutreFormset
+            "partenaireAutreFormset": self.partenaireAutreFormset,
+            "statuts_formation": statuts_formation
         }

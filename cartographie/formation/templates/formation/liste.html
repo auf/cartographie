@@ -1,3 +1,5 @@
+{% load statusLabel %}
+
 <h4 class="pull-left">Liste des formations</h4>
 <div class="actions pull-right">
     <a href="{% url formation_ajouter token %}" class="btn btn-info pull-right">
@@ -15,6 +17,7 @@
             <th>
                 Formation
             </th>
+            <th>Statut</th>
             <th>
                 Actions
             </th>
@@ -27,6 +30,9 @@
                 <p><a href="{% url formation_modifier token f.id %}">
                     {{ f.nom }}
                 </a></p>
+            </td>
+            <td>
+                {{ f.statut|statusLabel }}
             </td>
             <td>
                 <a class="btn"

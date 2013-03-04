@@ -1,4 +1,5 @@
-{% extends "base.html" %}
+{% extends "base_formation.html" %}
+{% load statusLabel %}
 
 {% block Contenu %}
 <span class="span12">
@@ -13,8 +14,17 @@
                 {{ formation.nom }}
             </li>
         </ul>
+        <div class="clear"></div>
+        <h4 class="pull-left">
+            Modifier une formation - {{ formation.nom }}
+            <span class="label label-important">
+                {{ formation.statut|statusLabel }}
+            </span>
+        </h4>
 
-        <h4>Modifier une formation - {{ formation.nom }}</h4>
+        {% include "formation/boutons_workflow.html" %}
+
+        <div class="clear"></div>
 
         <ul class="nav nav-tabs">
             <li class="active">
@@ -26,6 +36,9 @@
                 </a>
             </li>
         </ul>
+
+        {% include "cartographie/messages.html" %}
+
         <form action="{% url formation_modifier token formation.id %}" method="post"
               class="form-horizontal form-auf">
             {% csrf_token %}
@@ -34,12 +47,14 @@
                 {% include "form_field.html" with field=field %}
             {% endfor %}
 
+            {% if formation.statut == statuts_formation.en_redaction %}
             <div class="control-group">
                 <div class="controls">
                     <input type="submit" class="btn btn-success"
                            value="Enregistrer">
                 </div>
             </div>
+            {% endif %}
         </form>
     </div>
 </span>
