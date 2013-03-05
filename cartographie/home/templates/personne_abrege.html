@@ -1,0 +1,10 @@
+{{ personne.prenom }} {{ personne.nom|upper }}<br />
+{% if personne.fonction %}
+  <i>{{ personne.fonction }}</i><br />
+{% endif %}
+{% if personne.courriel %}
+  <i>{{ personne.courriel }}</i><br />
+{% endif %}
+{% if personne.telephone %}
+  <i>{{ personne.telephone }}</i><br />
+{% endif %}

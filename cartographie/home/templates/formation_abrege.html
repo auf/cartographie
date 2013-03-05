@@ -1,0 +1,34 @@
+<p>
+    <a href="{% url home_formation_detail formation.id %}">{{ formation.nom }}</a>
+    {% if formation.sigle %}({{ formation.sigle }}){% endif %}
+    {% if formation.nom_origine %}
+        , <i>{{ formation.nom_origine }}</i>
+    {% endif %}
+    <br />
+    
+    <i>Discipline{% if formation.discipline_2 %}s{% endif %} : </i>
+    {{ formation.discipline_1.nom }}
+    {% if formation.discipline_2 %}, {{ formation.discipline_2.nom }}{% endif %}
+    {% if formation.discipline_3 %}, {{ formation.discipline_3.nom }}{% endif %}
+    <br />
+    
+    <i>Niveau : </i>{{ formation.niveau_diplome|default_if_none:"inconnu" }}   
+</p>
+<p>
+    <b>{{ formation.etablissement.nom }}</b>
+    {% if formation.etablissement.sigle %}
+        ({{ formation.etablissement.sigle }})
+    {% endif %},
+    {% if formation.etablissement.ville %}
+        {{ formation.etablissement.ville }}, 
+    {% endif %}
+    {{ formation.etablissement.pays.nom }}
+    <br />
+
+    {% if formation.etablissement_composante.all %}
+        {% for c in formation.etablissement_composante.all %}
+            {{ c.nom }},
+        {% endfor %}
+        <br />
+    {% endif %}
+</p>

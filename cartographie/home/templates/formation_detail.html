@@ -1,0 +1,192 @@
+{% extends "base_home.html" %}
+
+{% block Contenu_home %}
+  <h3>
+    {{ formation }}
+    {% if formation.sigle %}({{ formation.sigle }}){% endif %}
+  </h3>
+  <hr />
+  
+  <div style="float:left; width:50%">
+      {% include "formation_abrege.html" %}
+  </div>  
+  <div style="float:left;">
+    {% if formation.url %}
+        <i>Source : </i><a href="{{ formation.url }}">{{ formation }}</a><br />
+    {% endif %}
+    <i>Dernière mise à jour effectuée le : </i>{{ formation.date_modification|date:"Y-m-d" }}
+  </div>
+  <div style="clear:both"></div>
+  <hr />
+  
+  <div>
+    <h4>Informations générales</h4>      
+    <table class="table table-striped table-bordered table-hover table-condensed">
+      <tbody>
+        <tr>
+          <td>Intitulé :</td>
+          <td>{{ formation.nom }}</td>
+        </tr>
+        <tr>
+          <td>Intitulé d'origine :</td>
+          <td>{{ formation.nom_origine }}</td>
+        </tr>
+        <tr>
+          <td>Sigle :</td>
+          <td>{{ formation.sigle }}</td>
+        </tr>
+        <tr>
+          <td>Lien :</td>
+          <td><a href="{{ formation.url }}">{{ formation.url }}</a></td>
+        </tr>
+        <tr>
+          <td>Discipline(s) :</td>
+          <td>
+          {{ formation.discipline_1.nom }}
+          {% if formation.discipline_2 %}, {{ formation.discipline_2.nom }}{% endif %}
+          {% if formation.discipline_3 %}, {{ formation.discipline_3.nom }}{% endif %}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <div>
+    <h4>Diplôme</h4>
+    <table class="table table-striped table-bordered table-hover table-condensed">
+      <tbody>
+        <tr>
+          <td>Niveau de diplôme :</td>
+          <td>{{ formation.niveau_diplome }}</td>
+        </tr>
+        <tr>
+          <td>Type de diplôme :</td>
+          <td>{{ formation.type_diplome }}</td>
+        </tr>
+        <tr>
+          <td>Délivrance du diplôme :</td>
+          <td>{{ formation.delivrance_diplome }}</td>
+        </tr>
+        <tr>
+          <td>Niveaux d'entrée <i>(en années universitaires)</i> :</td>
+          <td>
+          {% for n in formation.niveau_entree.all %}
+            {{ n }},
+          {% endfor %}
+          </td>
+        </tr>
+        <tr>
+          <td>Niveau de sortie <i>(en années universitaires)</i> :</td>
+          <td>{{ formation.niveau_sortie }}</td>
+        </tr>
+        <tr>
+          <td>Vocation :</td>
+          <td>
+          {% for v in formation.vocation.all %}
+            {{ v }},
+          {% endfor %}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <div>
+    <h4>Organisation de la formation</h4>
+    <table class="table table-striped table-bordered table-hover table-condensed">
+      <tbody>
+        <tr>
+          <td>Présentation :</td>
+          <td>{{ formation.presentation }}</td>
+        </tr>
+        <tr>
+          <td>Déroulement de la formation :</td>
+          <td>{{ formation.type_formation }}</td>
+        </tr>
+        <tr>
+          <td>Langue(s) :</td>
+          <td>
+          {% for l in formation.langue.all %}
+            {{ l }},
+          {% endfor %}
+          </td>
+        </tr>
+        <tr>
+          <td>Durée minimale <i>(en années universitaires)</i> :</td>
+          <td>{{ formation.duree }}</td>
+        </tr>
+        <tr>
+          <td>Responsables :</td>
+          <td>
+          {% for personne in formation.responsables.all %}
+            <div style="float:left; padding-right:10px">{% include "personne_abrege.html" %}</div>
+          {% endfor %}
+            <div style="clear:both"></div>
+          </td>
+        </tr>
+        <tr>
+          <td>Contacts :</td>
+          <td>
+          {% for personne in formation.contacts.all %}
+            <div style="float:left; padding-right:10px">{% include "personne_abrege.html" %}</div>
+          {% endfor %}
+            <div style="clear:both"></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <div>
+    <h4>Établissements impliqués dans la formation</h4>
+    
+    <table class="table table-striped table-bordered table-hover table-condensed">
+      <thead>
+        <th></th>
+        <th></th>
+        <th>Émet le diplôme?</th>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+          Établissement dispensant la formation :<br />
+          (ou <i>Structure d'accueil</i>)
+          </td>
+          <td>{{ formation.etablissement.nom }}</td>
+          <td>{{ formation.etablissement_emet_diplome|yesno:"oui,non,inconnu" }}</td>
+        </tr>
+        <tr>
+          <td colspan="3">Composantes de l'établissement impliquées :</td>
+        </tr>
+        {% for fc in formation.formationcomposante_set.all %}
+        <tr>
+          <td></td>
+          <td>{{ fc.etablissementComposante.nom }}</td>
+          <td>{{ fc.etablissement_composante_emet_diplome|yesno:"oui,non,inconnu" }}</td>
+          </td>
+        </tr>
+        {% endfor %}
+        <tr>
+          <td colspan="3">Partenaires AUF impliqués :</td>
+        </tr>
+        {% for auf in formation.formationpartenaireauf_set.all %}
+        <tr>
+          <td></td>
+          <td>{{ auf.etablissement.nom }} ({{ auf.etablissement.pays.nom }})</td>
+          <td>{{ auf.partenaire_auf_emet_diplome|yesno:"oui,non,inconnu" }}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+          <td colspan="3">Autres partenaires impliqués (non AUF) :</td>
+        </tr>
+        {% for autre in formation.formationpartenaireautre_set.all %}
+        <tr>
+          <td></td>
+          <td>{{ autre.etablissement.nom }} ({{ autre.etablissement.pays.nom }})</td>
+          <td>{{ autre.partenaire_autre_emet_diplome|yesno:"oui,non,inconnu" }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

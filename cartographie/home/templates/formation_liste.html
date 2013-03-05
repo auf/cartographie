@@ -1,0 +1,10 @@
+{% extends "base_home.html" %}
+
+{% block Contenu_home %}
+  <h3>{{ formations.count }} formations</h3>
+  <ul>
+  {% for formation in formations %}
+    <li>{% include "formation_abrege.html" %}</li>
+  {% endfor %}
+  </ul>
+{% endblock %}

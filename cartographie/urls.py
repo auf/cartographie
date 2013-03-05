@@ -13,7 +13,7 @@ handler500  # Pyflakes
 
 urlpatterns = patterns('',
     # app Home
-    (r'^$', include("cartographie.home.urls")),
+    (r'^', include("cartographie.home.urls")),
 
     # app Formation
     (r'^etablissement/', include("cartographie.formation.urls")),

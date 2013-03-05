@@ -382,7 +382,7 @@ class FormationComposante(models.Model):
 
 
 class FormationPartenaireAUF(models.Model):
-    formation = models.ForeignKey(Formation, related_name="+")
+    formation = models.ForeignKey(Formation)
     etablissement = models.ForeignKey(
         ref.Etablissement,
         limit_choices_to={
@@ -410,7 +410,7 @@ class FormationPartenaireAUF(models.Model):
 
 
 class FormationPartenaireAutre(models.Model):
-    formation = models.ForeignKey(Formation, related_name="+")
+    formation = models.ForeignKey(Formation)
     etablissement = models.ForeignKey(
         EtablissementAutre, related_name="+"
     )
