@@ -8,6 +8,7 @@ from django.template import RequestContext
 
 from cartographie.formation.models import Formation
 
+
 def accueil(request):
 
     from cartographie.home.viewModels.accueil import AccueilViewModel
@@ -18,18 +19,25 @@ def accueil(request):
         "accueil.html", vm.get_data(), RequestContext(request)
     )
 
+
 @login_required
 def formation_liste(request):
-    formations = Formation.objects.all()
-    c = {
-        'formations':formations,
-    }
-    return render(request, "formation_liste.html", c)
+
+    from cartographie.home.viewModels.formation \
+        import FormationListeViewModel
+
+    # la gestion de la pagination se fait dans le viewModel
+    vm = FormationListeViewModel(request)
+
+    return render_to_response(
+        "formation_liste.html", vm.get_data(), RequestContext(request)
+    )
+
 
 @login_required
 def formation_detail(request, id, slug=None):
     formation = Formation.objects.get(pk=id)
     c = {
-        'formation':formation,
+        'formation': formation,
     }
     return render(request, "formation_detail.html", c)
