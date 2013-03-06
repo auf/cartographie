@@ -1,0 +1,23 @@
+{% extends "cartographie/base.html" %}
+{% block css %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}home/css/home.css">
+{% endblock %}
+{% block sous_titre %}- Erreur 404{% endblock %}
+
+{% block Contenu %}
+<div class="span12">
+    <div class="content">
+        <h2>Erreur 404</h2>
+
+        <h3>Cette page n'existe pas.</h3>
+
+        <p>
+        Oups! la page demandée n'existe pas.
+        </p>
+        <p>
+        Si vous pensez qu'il s'agit d'un erreur<br />
+        merci de bien vouloir contacter <a href="mailto:assistance-informatique@auf.org">assistance-informatique@auf.org</a>.
+        </p>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "cartographie/base.html" %}
+{% block css %}
+    <link rel="stylesheet" href="/static/home/css/home.css">
+    <style>
+        header .slogan {
+            float:right;
+            margin: -91px 22px 0 0;
+        }
+        h1.logo a {display:block; width:174px; height:125px;
+            background:url(/static/commun/img/Logo_Auf_FR.png);
+        }
+        h1.logo a img {display:none;}
+    </style>
+{% endblock %}
+{% block sous_titre %}- Erreur 500{% endblock %}
+{% block Contenu %}
+<div class="span12">
+    <div class="content">
+        <h2>Erreur 500</h2>
+        <h3>L'AUF a été avertie de ce problème.</h3>
+        <p>
+        Une erreur est survenue sur cette page, l'AUF a été avertie automatiquement.<br />
+        Vous pouvez ré-essayer d'accéder au contenu voulu à partir de la <a href="/">page d'accueil</a>.
+        </p>
+        <p>
+        Si l'erreur persiste anormalement et que cela vous apparaît une urgence...<br />
+        merci de bien vouloir contacter <a href="mailto:assistance-informatique@auf.org">assistance-informatique@auf.org</a>.
+        </p>
+    </div>
+</div>
+{% endblock %}
