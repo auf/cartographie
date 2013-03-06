@@ -10,6 +10,8 @@ class StatistiquesViewModel(object):
     user_sans_region = False
     # nombre total de formations dans le système
     total_nb_formations = 0
+    # nombre total de formation sous la gestion du user courant
+    total_nb_formations_sous_gestion = 0
     # nombre total de formation par région dans le système
     totaux_par_regions = []
     # nombre total de formation par pays dans le système
@@ -41,6 +43,10 @@ class StatistiquesViewModel(object):
             self.user_sans_region = True
 
         if role:
+            self.total_nb_formations_sous_gestion = Formation.objects.filter(
+                etablissement__region__in=role.regions.all()
+            ).count()
+
             self.totaux_par_etablissements = Formation.objects.filter(
                 etablissement__region__in=role.regions.all()
             ).values("etablissement__nom").annotate(
@@ -57,6 +63,7 @@ class StatistiquesViewModel(object):
         return {
             "menu_actif": self.menu_actif,
             "total_nb_formations": self.total_nb_formations,
+            "total_nb_formations_sous_gestion": self.total_nb_formations_sous_gestion,
             "totaux_par_regions": self.totaux_par_regions,
             "totaux_par_pays": self.totaux_par_pays,
             "totaux_par_etablissements": self.totaux_par_etablissements,
