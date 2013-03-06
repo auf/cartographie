@@ -2,13 +2,17 @@
 
 from django.forms.models import inlineformset_factory
 
-from cartographie.formation.models import Acces, Formation
+from cartographie.formation.models import Acces, Formation, FormationCommentaire
 from cartographie.formation.models import FormationComposante, EtablissementComposante
 from cartographie.formation.models import FormationPartenaireAUF
 from cartographie.formation.models import FormationPartenaireAutre
 
 from cartographie.formation.constants import statuts_formation
-from cartographie.formation.forms.formation import FormationForm
+from cartographie.formation.forms.formation \
+    import FormationForm, FormationCommentaireForm
+
+from cartographie.formation.viewModels.baseAjouterViewModel \
+    import BaseAjouterViewModel
 
 
 class ModifierViewModel(object):
@@ -133,3 +137,31 @@ class ModifierViewModel(object):
             "partenaireAutreFormset": self.partenaireAutreFormset,
             "statuts_formation": statuts_formation
         }
+
+
+class CommentaireViewModel(BaseAjouterViewModel):
+    formation = None
+    form = None
+    commentaires = []
+
+    def __init__(self, request, token, formation_id):
+        super(CommentaireViewModel, self).__init__(request, token)
+        self.formation = Formation.objects.get(pk=formation_id)
+        self.commentaires = FormationCommentaire.objects.filter(
+            formation=self.formation
+        ).order_by("date")
+
+        if request.method == "POST":
+            self.form = FormationCommentaireForm(request.POST)
+        else:
+            self.form = FormationCommentaireForm()
+
+    def get_data(self):
+        data = super(CommentaireViewModel, self).get_data()
+        data.update({
+            "formation": self.formation,
+            "statuts_formation": statuts_formation,
+            "commentaires": self.commentaires,
+            "form": self.form
+        })
+        return data

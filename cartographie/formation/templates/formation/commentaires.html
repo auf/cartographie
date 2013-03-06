@@ -1,0 +1,61 @@
+{% extends "base_formation.html" %}
+{% load statusLabel %}
+
+{% block Contenu %}
+<div class="span12">
+    <div class="content" data-etablissement-id="{{ etablissement.id }}">
+        <h3>{{ etablissement.nom }}</h3>
+        <ul class="breadcrumb">
+            <li>
+                <a href="{% url formation_liste token %}">Liste des formations</a>
+                <span class="divider">/</span>
+            </li>
+            <li class="active">
+                {{ formation.nom }}
+            </li>
+        </ul>
+
+        <div class="clear"></div>
+        <h4 class="pull-left">
+            Commentaires - {{ formation.nom }}
+            <span class="label label-important">{{ formation.statut|statusLabel }}</span>
+        </h4>
+        {% include "formation/boutons_workflow.html" %}
+        <div class="clear"></div>
+        {% include "formation/modifier_onglets.html" with active_tab="commentaires" %}
+
+        <form action="{% url formation_modifier_commentaires token formation.id %}"
+            method="post" class="form-auf">
+            {% csrf_token %}
+
+            {% for field in form %}
+                {% include "form_field.html" with field=field %}
+            {% endfor %}
+            <input type="submit" name="submit" class="btn btn-success" value="Envoyer votre commentaire">
+        </form>
+        {% if commentaires %}
+        <hr>
+        <ul class="commentaires unstyled">
+            {% for commentaire in commentaires %}
+                <li>
+                    <p class="muted">
+                        Publié
+                        {% if commentaire.user_display %}
+                            par <b>{{ commentaire.user_display }}</b>
+                        {% endif %}
+                        le {{ commentaire.date|date:"d F Y à h:m:s" }}
+                    </p>
+                    <p>
+                        {{ commentaire.commentaire }}
+                    </p>
+                </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <div class="alert alert-info">
+            Aucun commentaire pour l'instant
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

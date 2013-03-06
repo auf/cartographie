@@ -333,7 +333,10 @@ class FormationCommentaire(models.Model):
     user = models.ForeignKey(User, null=True, related_name="+")
     user_display = models.CharField(max_length=150, blank=False)
     date = models.DateTimeField(auto_now=True)
-    commentaire = models.CharField(max_length=10000)  # , widget=forms.Textarea
+    commentaire = models.CharField(
+        verbose_name=u"Ajouter un commentaire",
+        max_length=10000
+    )
 
     class Meta:
         verbose_name = u"Commentaire"
@@ -349,7 +352,7 @@ class FormationCommentaire(models.Model):
             # sauvegarder un affichage personnalisé de l'usager qui a fait
             # le commentaire
             self.user_display = u"%s %s" % (
-                self.user.firstname, self.user.lastname.upper()
+                self.user.first_name, self.user.last_name.upper()
             )
         super(FormationCommentaire, self).save(*args, **kwargs)
 

@@ -1,14 +1,13 @@
 # coding: utf-8
 
+from django.contrib.auth.models import User
 from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
 from django.utils import simplejson
 from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response
-from django.contrib import messages
 
 from cartographie.formation.decorators import token_required
-# from cartographie.formation.models import FormationModification
 
 
 def erreur(request):
@@ -41,7 +40,8 @@ def ajouter(request, token):
         Formulaire d'ajout d'une fiche formation
     """
 
-    from cartographie.formation.viewModels.formation.ajouter import AjouterViewModel
+    from cartographie.formation.viewModels.formation.ajouter \
+        import AjouterViewModel
 
     # AjouterViewModel fait la vérification du POST avec le formulaire
     # VM = ViewModel :)
@@ -78,7 +78,8 @@ def modifier(request, token, formation_id=None):
         Formulaire d'édition d'une fiche formation
     """
 
-    from cartographie.formation.viewModels.formation.modifier import ModifierViewModel
+    from cartographie.formation.viewModels.formation.modifier \
+        import ModifierViewModel
 
     modifVM = ModifierViewModel(request, token, formation_id)
 
@@ -169,6 +170,30 @@ def modifier_etablissements(request, token, formation_id=None):
         "formation/modifier_etablissements.html",
         modifVM.get_data(),
         RequestContext(request)
+    )
+
+
+@token_required
+def modifier_commentaires(request, token, formation_id=None):
+
+    from cartographie.formation.viewModels.formation.modifier \
+        import CommentaireViewModel
+
+    vm = CommentaireViewModel(request, token, formation_id)
+
+    if request.method == "POST":
+        if vm.form.is_valid():
+            commentaire = vm.form.save(commit=False)
+            commentaire.formation = vm.formation
+            commentaire.user = request.user if type(request.user) == type(User) else None
+            commentaire.save()
+
+            HttpResponseRedirect(
+                reverse("formation_modifier_commentaires", args=[token, formation_id])
+            )
+
+    return render_to_response(
+        "formation/commentaires.html", vm.get_data(), RequestContext(request)
     )
 
 

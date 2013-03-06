@@ -26,16 +26,7 @@
 
         <div class="clear"></div>
 
-        <ul class="nav nav-tabs">
-            <li class="active">
-                <a href="#">Informations de base</a>
-            </li>
-            <li>
-                <a href="{% url formation_modifier_etablissements token formation.id %}">
-                    Établissement(s) impliqué(s)
-                </a>
-            </li>
-        </ul>
+        {% include "formation/modifier_onglets.html" with active_tab="info" %}
 
         {% include "cartographie/messages.html" %}
 

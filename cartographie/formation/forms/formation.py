@@ -2,7 +2,7 @@
 
 from django.forms import ModelForm, Textarea
 
-from cartographie.formation.models import Formation, Personne
+from cartographie.formation.models import Formation, FormationCommentaire, Personne
 
 
 class FormationForm(ModelForm):
@@ -39,3 +39,17 @@ class FormationForm(ModelForm):
         if afficher_etablissement is False:
             del self.fields["etablissement"]
             del self.fields["etablissement_emet_diplome"]
+
+
+class FormationCommentaireForm(ModelForm):
+    class Meta:
+        model = FormationCommentaire
+        exclude = (
+            "formation", "user", "user_display", "date"
+        )
+
+        widgets = {
+            "commentaire": Textarea(
+                attrs={"row": 5}
+            )
+        }
