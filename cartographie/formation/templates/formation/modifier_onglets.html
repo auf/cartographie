@@ -1,0 +1,18 @@
+<ul class="nav nav-tabs">
+
+    <li class="{% if active_tab == "info" %}active{% endif %}">
+        <a href="{% if active_tab != "info" %}{% url formation_modifier token formation.id %}{% endif %}">
+            Informations de base
+        </a>
+    </li>
+    <li class="{% if active_tab == "etablissements" %}active{% endif %}">
+        <a href="{% if active_tab != "etablissements" %}{% url formation_modifier_etablissements token formation.id %}{% endif %}">
+            Établissement(s) impliqué(s)
+        </a>
+    </li>
+    <li class="{% if active_tab == "commentaires" %}active{% endif %}">
+        <a href="{% if active_tab != "commentaires" %}{% url formation_modifier_commentaires token formation.id %}{% endif %}">
+            Commentaires
+        </a>
+    </li>
+</ul>
