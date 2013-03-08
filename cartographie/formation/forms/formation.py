@@ -50,6 +50,6 @@ class FormationCommentaireForm(ModelForm):
 
         widgets = {
             "commentaire": Textarea(
-                attrs={"row": 5}
+                attrs={"row": 3}
             )
         }

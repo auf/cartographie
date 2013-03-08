@@ -1,4 +1,9 @@
-<form action="{% if is_hidden == "true" %}{% url commentaire_modifier token formation.id commentaire.id %}{% else %}{% url formation_modifier_commentaires token formation.id %}{% endif %}"
+{% comment %}
+    Ce formulaire est utilisé à la fois pour un ajout et pour une édition
+    C'est le pourquoi de l'existence du gros IF dans l'action du form
+{% endcomment %}
+
+<form action="{% if edit == "true" %}{% url commentaire_modifier token formation.id commentaire.id %}{% else %}{% url formation_modifier_commentaires token formation.id %}{% endif %}"
     method="post" class="form-auf {% if is_hidden == "true" %}hidden{% endif %}">
     {% csrf_token %}
 
@@ -6,7 +11,7 @@
         {% include "form_field.html" with field=field %}
     {% endfor %}
 
-    {% if is_hidden == "true" %}
+    {% if edit == "true" %}
         <input type="submit" name="submit" class="btn btn-success" value="Modifier votre commentaire">
         <button class="btn btn-info annuler">Annuler</button>
     {% else %}

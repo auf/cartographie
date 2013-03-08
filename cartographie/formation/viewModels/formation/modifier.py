@@ -3,14 +3,14 @@
 from django.forms.models import inlineformset_factory
 
 
-from cartographie.formation.models import Acces, Formation, FormationCommentaire
+from cartographie.formation.models import Acces, Formation
 from cartographie.formation.models import FormationComposante, EtablissementComposante
 from cartographie.formation.models import FormationPartenaireAUF
 from cartographie.formation.models import FormationPartenaireAutre
 
 from cartographie.formation.constants import statuts_formation
 from cartographie.formation.forms.formation \
-    import FormationForm, FormationCommentaireForm
+    import FormationForm
 
 
 class ModifierViewModel(object):

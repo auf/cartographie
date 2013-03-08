@@ -198,6 +198,12 @@ def modifier_commentaires(request, token, formation_id=None):
 
 
 @token_required
+def commentaire_ajouter_ajax(request, token, formation_id):
+
+    pass
+
+
+@token_required
 def commentaire_modifier(request, token, formation_id, commentaire_id):
 
     from cartographie.formation.viewModels.formation.commentaire \

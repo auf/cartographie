@@ -334,7 +334,7 @@ class FormationCommentaire(models.Model):
     user_display = models.CharField(max_length=150, blank=False)
     date = models.DateTimeField(auto_now=True)
     commentaire = models.CharField(
-        verbose_name=u"Ajouter un commentaire",
+        verbose_name=u"Commentaire",
         max_length=10000
     )
 

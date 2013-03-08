@@ -5,7 +5,7 @@ from django.contrib import messages
 from cartographie.formation.viewModels.baseAjouterViewModel \
     import BaseAjouterViewModel
 
-from cartographie.formation.models import Formation, FormationCommentaire
+from cartographie.formation.models import Formation
 from cartographie.formation.models.workflow import ETATS, WorkflowException
 
 
