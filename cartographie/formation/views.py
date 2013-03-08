@@ -176,10 +176,10 @@ def modifier_etablissements(request, token, formation_id=None):
 @token_required
 def modifier_commentaires(request, token, formation_id=None):
 
-    from cartographie.formation.viewModels.formation.modifier \
-        import CommentaireViewModel
+    from cartographie.formation.viewModels.formation.commentaire \
+        import CommentairesViewModel
 
-    vm = CommentaireViewModel(request, token, formation_id)
+    vm = CommentairesViewModel(request, token, formation_id)
 
     if request.method == "POST":
         if vm.form.is_valid():
@@ -193,14 +193,14 @@ def modifier_commentaires(request, token, formation_id=None):
             )
 
     return render_to_response(
-        "formation/commentaires.html", vm.get_data(), RequestContext(request)
+        "formation/commentaire/liste.html", vm.get_data(), RequestContext(request)
     )
 
 
 @token_required
 def commentaire_modifier(request, token, formation_id, commentaire_id):
 
-    from cartographie.formation.viewModels.formation.modifier \
+    from cartographie.formation.viewModels.formation.commentaire \
         import CommentaireModifierViewModel
 
     vm = CommentaireModifierViewModel(
@@ -227,7 +227,7 @@ def commentaire_modifier(request, token, formation_id, commentaire_id):
 @token_required
 def commentaire_supprimer(request, token, formation_id, commentaire_id):
 
-    from cartographie.formation.viewModels.formation.modifier \
+    from cartographie.formation.viewModels.formation.commentaire \
         import CommentaireSupprimerViewModel
 
     vm = CommentaireSupprimerViewModel(
@@ -242,7 +242,8 @@ def commentaire_supprimer(request, token, formation_id, commentaire_id):
 @token_required
 def liste_personne(request, token):
 
-    from cartographie.formation.viewModels.personne.liste import ListeViewModel
+    from cartographie.formation.viewModels.personne.liste \
+        import ListeViewModel
 
     return render_to_response(
         "liste.html",

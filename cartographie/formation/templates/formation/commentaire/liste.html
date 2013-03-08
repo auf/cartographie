@@ -24,15 +24,8 @@
         <div class="clear"></div>
         {% include "formation/modifier_onglets.html" with active_tab="commentaires" %}
 
-        <form action="{% url formation_modifier_commentaires token formation.id %}"
-            method="post" class="form-auf">
-            {% csrf_token %}
+        {% include "formation/commentaire/form.html" %}
 
-            {% for field in form %}
-                {% include "form_field.html" with field=field %}
-            {% endfor %}
-            <input type="submit" name="submit" class="btn btn-success" value="Envoyer votre commentaire">
-        </form>
         {% if commentaires %}
         <hr>
         <ul class="commentaires unstyled">
@@ -59,16 +52,7 @@
                     <p class="commentaire">
                         {{ commentaire.commentaire }}
                     </p>
-                    <form method="post" action="{% url commentaire_modifier token formation.id commentaire.id %}" class="hidden">
-                        {% csrf_token %}
-                        <div class="control-group">
-                            <div class="controls">
-                                <textarea id="id_commentaire" rows="10" cols="40" name="commentaire" row="5">{{ commentaire.commentaire }}</textarea>
-                            </div>
-                        </div>
-                        <input type="submit" name="submit" class="btn btn-success" value="Modifier votre commentaire">
-                        <button class="btn btn-info annuler">Annuler</button>
-                    </form>
+                    {% include "formation/commentaire/form.html" with is_hidden="true" form=None %}
                 </li>
             {% endfor %}
         </ul>

@@ -1,0 +1,16 @@
+<form action="{% url formation_modifier_commentaires token formation.id %}"
+    method="post" class="form-auf {% if is_hidden == "true" %}hidden{% endif %}">
+    {% csrf_token %}
+
+    {% for field in form %}
+        {% include "form_field.html" with field=field %}
+    {% endfor %}
+
+    {% if is_hidden == "true" %}
+        <input type="submit" name="submit" class="btn btn-success" value="Modifier votre commentaire">
+        <button class="btn btn-info annuler">Annuler</button>
+    {% else %}
+        <input type="submit" name="submit" class="btn btn-success" value="Envoyer votre commentaire">
+    {% endif %}
+
+</form>
