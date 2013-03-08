@@ -178,10 +178,19 @@ AUF.formation = function(){
         commentaire_actions: function(){
             console.log("AUF.formation.commentaire_actions()");
 
+            // afficher le formulaire d'édition d'un commentaire
             $(".commentaire_actions .modifier").click(function(){
+                $(this).parents("li").find("p.commentaire").addClass("hidden");
                 return false;
             });
 
+            // annulation de la modification d'un commentaire
+            $(".commentaires li form button.annuler").click(function(){
+                $(this).parents("li").find("p.commentaire").removeClass("hidden");
+                return false;
+            });
+
+            // suppression d'un commentaire
             $(".commentaire_actions .supprimer").click(function(){
                 if (confirm("Désirez-vous vraiment supprimer ce commentaire ?")) {
                     $.get(

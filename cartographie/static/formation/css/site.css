@@ -705,4 +705,5 @@ form .muted{font-size:0.9em;}
 #popup-form-responsable form.form-horizontal .control-label,#popup-form-contact form.form-horizontal .control-label,#popup-form-composante form.form-horizontal .control-label,#popup-form-partenaire-autre form.form-horizontal .control-label{width:70px;}
 #popup-form-responsable form.form-horizontal .controls,#popup-form-contact form.form-horizontal .controls,#popup-form-composante form.form-horizontal .controls,#popup-form-partenaire-autre form.form-horizontal .controls{margin-left:90px;}
 ul.commentaires li{border-top:1px solid #eee;padding-top:8px;}ul.commentaires li:first-child{padding-top:0;border-top:none;}
-.commentaire_actions{margin:-4px 0 0 16px;}
+ul.commentaires li .commentaire_actions{margin:-4px 0 0 16px;}
+ul.commentaires li p.commentaire.hidden+form{display:block;}

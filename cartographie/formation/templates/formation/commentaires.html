@@ -56,9 +56,19 @@
                     </div>
                     {% endif %}
                     <div class="clear"></div>
-                    <p>
+                    <p class="commentaire">
                         {{ commentaire.commentaire }}
                     </p>
+                    <form method="post" action="{% url commentaire_modifier token formation.id commentaire.id %}" class="hidden">
+                        {% csrf_token %}
+                        <div class="control-group">
+                            <div class="controls">
+                                <textarea id="id_commentaire" rows="10" cols="40" name="commentaire" row="5">{{ commentaire.commentaire }}</textarea>
+                            </div>
+                        </div>
+                        <input type="submit" name="submit" class="btn btn-success" value="Modifier votre commentaire">
+                        <button class="btn btn-info annuler">Annuler</button>
+                    </form>
                 </li>
             {% endfor %}
         </ul>

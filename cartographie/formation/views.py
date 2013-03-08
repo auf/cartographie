@@ -199,7 +199,29 @@ def modifier_commentaires(request, token, formation_id=None):
 
 @token_required
 def commentaire_modifier(request, token, formation_id, commentaire_id):
-    pass
+
+    from cartographie.formation.viewModels.formation.modifier \
+        import CommentaireModifierViewModel
+
+    vm = CommentaireModifierViewModel(
+        request, token, formation_id, commentaire_id
+    )
+    data = vm.get_data()
+
+    if request.method == "POST":
+        texte = request.POST.get("commentaire")
+        commentaire_courant = data["commentaire"]
+        commentaire_courant.commentaire = texte
+        commentaire_courant.save()
+        # pour que l'objet commentaire soit jsonisable
+        data["commentaire"] = commentaire_courant.id
+
+    return HttpResponseRedirect(
+        reverse(
+            "formation_modifier_commentaires",
+            args=[token, formation_id]
+        )
+    )
 
 
 @token_required

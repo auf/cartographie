@@ -33,9 +33,17 @@ ul.commentaires {
             padding-top:0;
             border-top:none;
         }
+
+        .commentaire_actions {
+            margin:-4px 0 0 16px;
+        }
+
+        p.commentaire {
+            &.hidden + form {
+                display:block;
+            }
+        }
     }
 }
 
-.commentaire_actions {
-    margin:-4px 0 0 16px;
-}
+

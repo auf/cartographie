@@ -177,11 +177,6 @@ class CommentaireSupprimerViewModel(BaseAjouterViewModel):
     def __init__(self, request, token, formation_id, commentaire_id):
         super(CommentaireSupprimerViewModel, self).__init__(request, token)
 
-        self.redirect_url = reverse(
-            "formation_modifier_commentaires",
-            args=[token, formation_id]
-        )
-
         try:
             commentaire_courant = FormationCommentaire.objects.get(
                 pk=commentaire_id
@@ -193,6 +188,10 @@ class CommentaireSupprimerViewModel(BaseAjouterViewModel):
             if commentaire_courant.user.id == request.user.id:
                 commentaire_courant.delete()
                 self.success = True
+                self.redirect_url = reverse(
+                    "formation_modifier_commentaires",
+                    args=[token, formation_id]
+                )
 
     def get_data(self):
         super(CommentaireSupprimerViewModel, self).get_data()
@@ -203,3 +202,29 @@ class CommentaireSupprimerViewModel(BaseAjouterViewModel):
         }
 
         return data_json
+
+
+class CommentaireModifierViewModel(BaseAjouterViewModel):
+    success = False
+    commentaire = None
+
+    def __init__(self, request, token, formation_id, commentaire_id):
+        super(CommentaireModifierViewModel, self).__init__(request, token)
+
+        try:
+            self.commentaire = FormationCommentaire.objects.get(
+                pk=commentaire_id, user=request.user
+            )
+        except ObjectDoesNotExist:
+            self.success = False
+        else:
+            self.success = True
+
+    def get_data(self):
+        super(CommentaireModifierViewModel, self).get_data()
+
+        data = {
+            "success": self.success,
+            "commentaire": self.commentaire
+        }
+        return data
