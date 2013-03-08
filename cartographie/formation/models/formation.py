@@ -347,6 +347,13 @@ class FormationCommentaire(models.Model):
     def __unicode__(self):
         return u"%s" % self.commentaire
 
+    def get_form_with_data(self):
+
+        from cartographie.formation.forms.formation \
+            import FormationCommentaireForm
+
+        return FormationCommentaireForm(instance=self)
+
     def save(self, *args, **kwargs):
         if self.user:
             # sauvegarder un affichage personnalisé de l'usager qui a fait

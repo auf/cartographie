@@ -52,7 +52,7 @@
                     <p class="commentaire">
                         {{ commentaire.commentaire }}
                     </p>
-                    {% include "formation/commentaire/form.html" with is_hidden="true" form=None %}
+                    {% include "formation/commentaire/form.html" with is_hidden="true" form=commentaire.get_form_with_data %}
                 </li>
             {% endfor %}
         </ul>
