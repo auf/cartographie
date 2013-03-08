@@ -185,7 +185,8 @@ def modifier_commentaires(request, token, formation_id=None):
         if vm.form.is_valid():
             commentaire = vm.form.save(commit=False)
             commentaire.formation = vm.formation
-            commentaire.user = request.user if type(request.user) == type(User) else None
+
+            commentaire.user = request.user if request.user.is_authenticated() else None
             commentaire.save()
 
             HttpResponseRedirect(
