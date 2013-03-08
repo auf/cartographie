@@ -185,7 +185,6 @@ def modifier_commentaires(request, token, formation_id=None):
         if vm.form.is_valid():
             commentaire = vm.form.save(commit=False)
             commentaire.formation = vm.formation
-
             commentaire.user = request.user if request.user.is_authenticated() else None
             commentaire.save()
 
@@ -195,6 +194,26 @@ def modifier_commentaires(request, token, formation_id=None):
 
     return render_to_response(
         "formation/commentaires.html", vm.get_data(), RequestContext(request)
+    )
+
+
+@token_required
+def commentaire_modifier(request, token, formation_id, commentaire_id):
+    pass
+
+
+@token_required
+def commentaire_supprimer(request, token, formation_id, commentaire_id):
+
+    from cartographie.formation.viewModels.formation.modifier \
+        import CommentaireSupprimerViewModel
+
+    vm = CommentaireSupprimerViewModel(
+        request, token, formation_id, commentaire_id
+    )
+    return HttpResponse(
+        simplejson.dumps(vm.get_data()),
+        mimetype="application/json"
     )
 
 

@@ -1,6 +1,9 @@
 # coding: utf-8
 
+from django.core.urlresolvers import reverse
+from django.core.exceptions import ObjectDoesNotExist
 from django.forms.models import inlineformset_factory
+
 
 from cartographie.formation.models import Acces, Formation, FormationCommentaire
 from cartographie.formation.models import FormationComposante, EtablissementComposante
@@ -165,3 +168,38 @@ class CommentaireViewModel(BaseAjouterViewModel):
             "form": self.form
         })
         return data
+
+
+class CommentaireSupprimerViewModel(BaseAjouterViewModel):
+    redirect_url = None
+    success = False
+
+    def __init__(self, request, token, formation_id, commentaire_id):
+        super(CommentaireSupprimerViewModel, self).__init__(request, token)
+
+        self.redirect_url = reverse(
+            "formation_modifier_commentaires",
+            args=[token, formation_id]
+        )
+
+        try:
+            commentaire_courant = FormationCommentaire.objects.get(
+                pk=commentaire_id
+            )
+        except ObjectDoesNotExist:
+            self.success = False
+        else:
+            # si l'id du user courant concorde avec l'id de l'auteur du commentaire
+            if commentaire_courant.user.id == request.user.id:
+                commentaire_courant.delete()
+                self.success = True
+
+    def get_data(self):
+        super(CommentaireSupprimerViewModel, self).get_data()
+
+        data_json = {
+            "redirect_url": self.redirect_url,
+            "success": self.success
+        }
+
+        return data_json

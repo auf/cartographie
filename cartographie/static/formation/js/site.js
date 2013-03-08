@@ -8,6 +8,7 @@ AUF.formation = function(){
             this.selectCurrentEtablissement();
             this.beautifulSelects();
             this.formPopups();
+            this.commentaire_actions();
         },
         selectCurrentEtablissement: function(){
             console.log("AUF.formation.selectCurrentEtablissement()");
@@ -173,6 +174,27 @@ AUF.formation = function(){
                     }
                 }
             );
+        },
+        commentaire_actions: function(){
+            console.log("AUF.formation.commentaire_actions()");
+
+            $(".commentaire_actions .modifier").click(function(){
+                return false;
+            });
+
+            $(".commentaire_actions .supprimer").click(function(){
+                if (confirm("Désirez-vous vraiment supprimer ce commentaire ?")) {
+                    $.get(
+                        $(this).attr("href"),
+                        function(data, textStatus, xhr, dataType){
+                            if (data.success === true) {
+                                window.location = data.redirect_url;
+                            }
+                        }
+                    );
+                }
+                return false;
+            });
         }
     }
 }();
