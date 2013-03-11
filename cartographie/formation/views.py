@@ -200,7 +200,17 @@ def modifier_commentaires(request, token, formation_id=None):
 @token_required
 def commentaire_ajouter_ajax(request, token, formation_id):
 
-    pass
+    from cartographie.formation.viewModels.formation.commentaire \
+        import CommentaireAjouterViewModel
+
+    vm = CommentaireAjouterViewModel(request, token, formation_id)
+
+    if request.method == "POST":
+        pass
+
+    return HttpResponse(
+        "formation/commentaire/form.html", vm.get_data(), RequestContext(request)
+    )
 
 
 @token_required

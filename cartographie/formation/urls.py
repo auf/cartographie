@@ -37,6 +37,11 @@ urlpatterns = patterns(
         name="formation_modifier_commentaires"
     ),
     url(
+        r"^(?P<token>\w+)/formation/(?P<formation_id>\d+)/commentaires/ajouter_ajax$",
+        "commentaire_ajouter_ajax",
+        name="commentaire_ajouter_ajax"
+    ),
+    url(
         r"^(?P<token>\w+)/formation/(?P<formation_id>\d+)/commentaires/(?P<commentaire_id>\d+)/modifier$",
         "commentaire_modifier",
         name="commentaire_modifier"

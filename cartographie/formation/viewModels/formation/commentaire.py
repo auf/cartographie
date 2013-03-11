@@ -39,6 +39,48 @@ class CommentairesViewModel(BaseAjouterViewModel):
         return data
 
 
+class CommentaireAjouterViewModel(BaseAjouterViewModel):
+    form = None
+
+    def __init__(self, request, token, formation_id):
+        super(CommentaireAjouterViewModel, self).__init__(request, token)
+        self.form = FormationCommentaireForm()
+
+    def get_data(self):
+        data = super(CommentaireAjouterViewModel, self).get_data(self)
+        data.update({
+            "form": self.form
+        })
+
+        return data
+
+
+class CommentaireModifierViewModel(BaseAjouterViewModel):
+    success = False
+    commentaire = None
+
+    def __init__(self, request, token, formation_id, commentaire_id):
+        super(CommentaireModifierViewModel, self).__init__(request, token)
+
+        try:
+            self.commentaire = FormationCommentaire.objects.get(
+                pk=commentaire_id, user=request.user
+            )
+        except ObjectDoesNotExist:
+            self.success = False
+        else:
+            self.success = True
+
+    def get_data(self):
+        super(CommentaireModifierViewModel, self).get_data()
+
+        data = {
+            "success": self.success,
+            "commentaire": self.commentaire
+        }
+        return data
+
+
 class CommentaireSupprimerViewModel(BaseAjouterViewModel):
     redirect_url = None
     success = False
@@ -72,29 +114,3 @@ class CommentaireSupprimerViewModel(BaseAjouterViewModel):
         }
 
         return data_json
-
-
-class CommentaireModifierViewModel(BaseAjouterViewModel):
-    success = False
-    commentaire = None
-
-    def __init__(self, request, token, formation_id, commentaire_id):
-        super(CommentaireModifierViewModel, self).__init__(request, token)
-
-        try:
-            self.commentaire = FormationCommentaire.objects.get(
-                pk=commentaire_id, user=request.user
-            )
-        except ObjectDoesNotExist:
-            self.success = False
-        else:
-            self.success = True
-
-    def get_data(self):
-        super(CommentaireModifierViewModel, self).get_data()
-
-        data = {
-            "success": self.success,
-            "commentaire": self.commentaire
-        }
-        return data
