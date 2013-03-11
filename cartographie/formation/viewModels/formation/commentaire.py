@@ -19,6 +19,7 @@ class CommentairesViewModel(BaseAjouterViewModel):
     def __init__(self, request, token, formation_id):
         super(CommentairesViewModel, self).__init__(request, token)
         self.formation = Formation.objects.get(pk=formation_id)
+        self.form = FormationCommentaireForm()
         self.commentaires = FormationCommentaire.objects.filter(
             formation=self.formation
         ).order_by("date")

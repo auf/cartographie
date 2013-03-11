@@ -1,6 +1,7 @@
 # coding: utf-8
 
 from django.contrib.auth.models import User
+from django.contrib import messages
 from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
 from django.utils import simplejson
@@ -188,15 +189,23 @@ def modifier_commentaires(request, token, formation_id=None):
 
 @token_required
 def commentaire_ajouter(request, token, formation_id):
-
+    """
+        Cette fonction ne sert qu'à recevoir du data via un POST
+        ou à afficher un formulaire si c'est un call ajax
+    """
     from cartographie.formation.viewModels.formation.commentaire \
         import CommentaireAjouterViewModel
 
     vm = CommentaireAjouterViewModel(request, token, formation_id)
 
-    if request.method == "POST":
-        print vm.form.is_valid()
+    if request.GET.get("ajax"):
+        return render_to_response(
+            "formation/commentaire/form.html",
+            vm.get_data(),
+            RequestContext(request)
+        )
 
+    if request.method == "POST":
         if vm.form.is_valid():
             commentaire = vm.form.save(commit=False)
             commentaire.formation = vm.formation
@@ -206,11 +215,13 @@ def commentaire_ajouter(request, token, formation_id):
             return HttpResponseRedirect(
                 reverse("formation_modifier_commentaires", args=[token, formation_id])
             )
+        else:
+            messages.warning(
+                request, u"Veuillez entrer un commentaire"
+            )
 
-    return render_to_response(
-        "formation/commentaire/form.html",
-        vm.get_data(),
-        RequestContext(request)
+    return HttpResponseRedirect(
+        reverse("formation_modifier_commentaires", args=[token, formation_id])
     )
 
 

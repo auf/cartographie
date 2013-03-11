@@ -24,6 +24,8 @@
         <div class="clear"></div>
         {% include "formation/modifier_onglets.html" with active_tab="commentaires" %}
 
+        {% include "cartographie/messages.html" %}
+
         {% include "formation/commentaire/form.html" %}
 
         {% if commentaires %}
