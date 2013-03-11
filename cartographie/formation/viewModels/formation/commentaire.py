@@ -23,11 +23,6 @@ class CommentairesViewModel(BaseAjouterViewModel):
             formation=self.formation
         ).order_by("date")
 
-        if request.method == "POST":
-            self.form = FormationCommentaireForm(request.POST)
-        else:
-            self.form = FormationCommentaireForm()
-
     def get_data(self):
         data = super(CommentairesViewModel, self).get_data()
         data.update({
@@ -41,15 +36,22 @@ class CommentairesViewModel(BaseAjouterViewModel):
 
 class CommentaireAjouterViewModel(BaseAjouterViewModel):
     form = None
+    formation = None
 
     def __init__(self, request, token, formation_id):
         super(CommentaireAjouterViewModel, self).__init__(request, token)
-        self.form = FormationCommentaireForm()
+        self.formation = Formation.objects.get(pk=formation_id)
+
+        if request.method == "POST":
+            self.form = FormationCommentaireForm(request.POST)
+        else:
+            self.form = FormationCommentaireForm()
 
     def get_data(self):
-        data = super(CommentaireAjouterViewModel, self).get_data(self)
+        data = super(CommentaireAjouterViewModel, self).get_data()
         data.update({
-            "form": self.form
+            "form": self.form,
+            "formation": self.formation
         })
 
         return data

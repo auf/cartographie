@@ -181,24 +181,13 @@ def modifier_commentaires(request, token, formation_id=None):
 
     vm = CommentairesViewModel(request, token, formation_id)
 
-    if request.method == "POST":
-        if vm.form.is_valid():
-            commentaire = vm.form.save(commit=False)
-            commentaire.formation = vm.formation
-            commentaire.user = request.user if request.user.is_authenticated() else None
-            commentaire.save()
-
-            HttpResponseRedirect(
-                reverse("formation_modifier_commentaires", args=[token, formation_id])
-            )
-
     return render_to_response(
         "formation/commentaire/liste.html", vm.get_data(), RequestContext(request)
     )
 
 
 @token_required
-def commentaire_ajouter_ajax(request, token, formation_id):
+def commentaire_ajouter(request, token, formation_id):
 
     from cartographie.formation.viewModels.formation.commentaire \
         import CommentaireAjouterViewModel
@@ -206,10 +195,22 @@ def commentaire_ajouter_ajax(request, token, formation_id):
     vm = CommentaireAjouterViewModel(request, token, formation_id)
 
     if request.method == "POST":
-        pass
+        print vm.form.is_valid()
 
-    return HttpResponse(
-        "formation/commentaire/form.html", vm.get_data(), RequestContext(request)
+        if vm.form.is_valid():
+            commentaire = vm.form.save(commit=False)
+            commentaire.formation = vm.formation
+            commentaire.user = request.user if request.user.is_authenticated() else None
+            commentaire.save()
+
+            return HttpResponseRedirect(
+                reverse("formation_modifier_commentaires", args=[token, formation_id])
+            )
+
+    return render_to_response(
+        "formation/commentaire/form.html",
+        vm.get_data(),
+        RequestContext(request)
     )
 
 

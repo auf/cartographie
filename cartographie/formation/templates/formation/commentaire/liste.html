@@ -37,16 +37,6 @@
                             par <b>{{ commentaire.user_display }}</b>
                         {% endif %}
                         le {{ commentaire.date|date:"d F Y à h:m:s" }}
-
-                        {% if request.user.id == commentaire.user.id %}
-                            <a class="btn btn-info btn-small" href="#">
-                                <i class="icon icon-pencil icon-white"></i>
-                            </a>
-                            <a class="btn btn-danger btn-small" href="#">
-                                <i class="icon icon-remove-sign icon-white"></i>
-                            </a>
-
-                        {% endif %}
                     </p>
                     {% if request.user.id == commentaire.user.id and user.is_authenticated %}
                     <div class="commentaire_actions pull-left">

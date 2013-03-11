@@ -3,7 +3,7 @@
     C'est le pourquoi de l'existence du gros IF dans l'action du form
 {% endcomment %}
 
-<form action="{% if edit == "true" %}{% url commentaire_modifier token formation.id commentaire.id %}{% else %}{% url formation_modifier_commentaires token formation.id %}{% endif %}"
+<form action="{% if edit == "true" %}{% url commentaire_modifier token formation.id commentaire.id %}{% else %}{% url commentaire_ajouter token formation.id %}{% endif %}"
     method="post" class="form-auf {% if is_hidden == "true" %}hidden{% endif %}">
     {% csrf_token %}
 
