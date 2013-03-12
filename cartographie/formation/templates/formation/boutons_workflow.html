@@ -1,7 +1,7 @@
 <div class="boutons-statut pull-right">
     {% with statut=statuts_formation %}
-        {% if request.user.is_superuser %}
-            {% if formation.statut == statut.abandonnee or formation.statut == statut.archivee %}
+        {% if formation.statut == statut.abandonnee or formation.statut == statut.archivee %}
+            {% if request.user.is_superuser or not request.user.is_authenticated %}
                 <a href="{% url formation_modifier_workflow token formation.id statut.en_redaction %}"
                    class="btn btn-info retour-en-redaction">
                     Retour en rédaction
@@ -9,17 +9,16 @@
             {% endif %}
         {% endif %}
 
-
         {% if formation.statut == statut.en_redaction %}
             {% if request.user.is_superuser or not request.user.is_authenticated %}
             <a href="{% url formation_modifier_workflow token formation.id statut.abandonnee %}" class="btn btn-danger abandoner">
                 Abandonner la fiche
             </a>
-            {% endif %}
             <a href="{% url formation_modifier_workflow token formation.id statut.validee %}"
                class="btn btn-info valider">
                 Valider la fiche
             </a>
+            {% endif %}
         {% endif %}
 
         {% if formation.statut == statut.validee %}

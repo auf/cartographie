@@ -1,6 +1,6 @@
 {% extends "cartographie/email/base.txt" %}
 {% block content %}
-L'établissement "{{ formation.etablissement }}" a validé la formation : "{{ formation.nom }}"
+L'établissement "{{ formation.etablissement.nom }}" a validé la formation : "{{ formation.nom }}"
 
 Vous pouvez relire et publier cette formation à cette URL :
 http://cartographie.auf.org{% url formation_modifier token formation.id %}

@@ -77,9 +77,8 @@ class WorkflowMixin(models.Model):
             )
 
     def set_en_redaction(self, request):
-        if self.statut in [STATUTS.publiee, STATUTS.validee, STATUTS.abandonnee]:
-            # pour ramener le statut en rédaction à partir d'une
-            # rédaction publiée ou validée
+        if self.statut in [STATUTS.publiee, STATUTS.validee, \
+            STATUTS.abandonnee, STATUTS.archivee]:
             self.statut = STATUTS.en_redaction
         else:
             raise WorkflowException(

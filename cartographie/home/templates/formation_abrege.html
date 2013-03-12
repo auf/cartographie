@@ -1,10 +1,14 @@
 <p>
-    <a href="{% url home_formation_detail formation.id %}">{{ formation.nom }}</a>
-    {% if formation.sigle %}({{ formation.sigle }}){% endif %}
+    <h4>
+        <a href="{% url home_formation_detail formation.id %}">
+            {{ formation.nom }}
+            {% if formation.sigle %}({{ formation.sigle }}){% endif %}
+        </a>
+    </h4>
+    
     {% if formation.nom_origine %}
-        , <i>{{ formation.nom_origine }}</i>
+        <i>{{ formation.nom_origine }}</i><br />
     {% endif %}
-    <br />
     
     <i>Discipline{% if formation.discipline_2 %}s{% endif %} : </i>
     {{ formation.discipline_1.nom }}
@@ -12,7 +16,9 @@
     {% if formation.discipline_3 %}, {{ formation.discipline_3.nom }}{% endif %}
     <br />
     
-    <i>Niveau : </i>{{ formation.niveau_diplome|default_if_none:"inconnu" }}   
+    {% if formation.niveau_diplome %}
+        <i>Niveau : </i>{{ formation.niveau_diplome }}
+    {% endif %} 
 </p>
 <p>
     <b>{{ formation.etablissement.nom }}</b>

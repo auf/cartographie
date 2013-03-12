@@ -5,7 +5,7 @@
     <h3>{{ formations.count }} formations</h3>
     <ul>
     {% for formation in formations %}
-        <li>{% include "formation_abrege.html" %}</li>
+        <li style="list-style-type: none; margin-bottom:20px;">{% include "formation_abrege.html" %}</li>
     {% endfor %}
     </ul>
     {% if formations.paginator.num_pages > 1 %}
