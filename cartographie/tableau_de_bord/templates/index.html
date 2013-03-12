@@ -7,7 +7,9 @@
             <div class="clear"></div>
             {% include "dashboard_liste_onglets.html" %}
 
-            {% include "msg_user_sans_region.html" %}
+            {% if user_sans_region %}
+                {% include "msg_user_sans_region.html" %}
+            {% endif %}
 
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic consectetur nisi tempora odit id totam itaque aliquid inventore assumenda qui repudiandae nobis praesentium eligendi quidem iste iure excepturi aperiam officia!</p>
         </div>

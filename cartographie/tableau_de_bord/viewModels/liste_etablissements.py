@@ -21,7 +21,10 @@ class ListeEtablissementsViewModel(object):
         if role:
             self.liste_acces = Acces.objects.filter(
                 etablissement__region__in=role.regions.all()
-            ).order_by("etablissement__nom")
+            ).order_by("etablissement__region", 
+                "etablissement__pays", 
+                "etablissement__nom"
+            )
 
     def get_data(self):
         return {

@@ -10,34 +10,42 @@
 
             {% include "dashboard_liste_onglets.html" %}
 
-            {% include "msg_user_sans_region.html" %}
-
-            <h3>Établissements sous votre gestion</h3>
-            <table class="table table-striped table-bordered table-hover table-condensed">
-                <thead>
-                    <tr>
-                        <th>Nom</th>
-                        <th>Consulter les formations</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for ac in liste_acces %}
-                    <tr>
-                        <td>
-                            <a href="{% url formation_liste ac.token %}">
-                                {{ ac.etablissement.nom }}
-                            </a>
-                        </td>
-                        <td>
-                            <a href="{% url formation_liste ac.token %}"
-                                class="btn btn-info">
-                                <i class="icon-search icon-white"></i>
-                            </a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            {% if user_sans_region %}
+                {% include "msg_user_sans_region.html" %}
+            {% else %}
+                <h3>Établissements sous votre gestion</h3>
+                <table class="table table-striped table-bordered table-hover table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Région</th>
+                            <th>Pays</th>
+                            <th>Nom</th>
+                            <th>Formations</th>
+                            <th>Consulter</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ac in liste_acces %}
+                        <tr>
+                            <td>{{ ac.etablissement.region }}</td>
+                            <td>{{ ac.etablissement.pays }}</td>
+                            <td>
+                                <a href="{% url formation_liste ac.token %}">
+                                    {{ ac.etablissement.nom }}
+                                </a>
+                            </td>
+                            <td>{{ ac.etablissement.formation_set.count }}</td>
+                            <td>
+                                <a href="{% url formation_liste ac.token %}"
+                                    class="btn btn-info">
+                                    <i class="icon-search icon-white"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
         </div>
     </div>
 {% endblock %}
