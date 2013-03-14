@@ -13,11 +13,11 @@
             {% include "dashboard_liste_onglets.html" %}
             
             {% if user_sans_region %}
-                <h3>Régions : formations sous votre gestion</h3>
+                <h3>Formations sous votre gestion</h3>
                 
                 {% include "msg_user_sans_region.html" %}
             {% else %}
-                <h3>Régions : {{ total_nb_formations_sous_gestion }} formations sous votre gestion</h3>
+                <h3>{{ total_nb_formations_sous_gestion }} formations sous votre gestion</h3>
                 
                 <h4>Par statut</h4>
                 <table class="table table-striped table-bordered table-hover table-condensed">
@@ -45,7 +45,7 @@
             {% endif %}
             <hr />
             
-            <h3>AUF : {{ total_nb_formations }} formations au total</h3>
+            <h3>{{ total_nb_formations }} formations au total dans le monde</h3>
 
             <h4>Par région</h4>
             <table class="table table-striped table-bordered table-hover table-condensed">
