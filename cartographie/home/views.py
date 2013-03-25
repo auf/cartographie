@@ -1,17 +1,15 @@
 #coding: utf-8
 
+from cartographie.formation.models import Formation
+from cartographie.home.forms.formation import FormationForm
 from django.contrib.auth.decorators import login_required
-# from django.core.urlresolvers import reverse
-# from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response, render
 from django.template import RequestContext
 
-from cartographie.formation.models import Formation
-
 
 def accueil(request):
-
-    from cartographie.home.viewModels.accueil import AccueilViewModel
+    from cartographie.home.viewModels.accueil \
+        import AccueilViewModel
 
     vm = AccueilViewModel(request)
 
@@ -39,5 +37,6 @@ def formation_detail(request, id, slug=None):
     formation = Formation.objects.get(pk=id)
     c = {
         'formation': formation,
+        'form': FormationForm(),
     }
     return render(request, "formation_detail.html", c)

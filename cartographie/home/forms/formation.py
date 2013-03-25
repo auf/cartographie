@@ -3,7 +3,7 @@
 from django import forms
 
 
-class AccueilForm(forms.Form):
+class FormationForm(forms.Form):
     s = forms.CharField(
         max_length=150,
         label=u"Recherchez une formation",

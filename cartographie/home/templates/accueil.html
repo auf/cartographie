@@ -36,36 +36,5 @@
     utilisez le lien secret qui vous a été communiqué par le personnel de l'AUF afin de renseigner les formations dispensées par votre établissement.
 </p>
 {% endcomment %}
-{% comment %}
-<p>
-    Un simple moteur de recherche est actuellement disponible pour faire une recherche dans les noms de formations déjà existantes dans le système.<br />
-    <b class="text-info">ATTENTION : Les informations sur ces formations n'ont pas été validées.</b><br /> Veuillez vous référer directement auprès des établissements pour toute information concernant les formations.
-</p>
-<div class="actions well search-form">
-    <form action="{% url home_accueil %}" method="get" class="form form-horizontal">
-        <div class="pull-left">
-            {% include "form_field.html" with field=form.s %}
-        </div>
-        <div class="actions pull-left span3">
-            <a class="btn btn-info">
-                <i class="icon-search icon-white"></i>
-                Recherchez
-            </a>
-        </div>
-        <div class="clear"></div>
-    </form>
-</div>
 
-{% if formations and terme_recherche %}
-    <h4>Résultat de la recherche</h4>
-    <table class="table">
-        {% for formation in formations %}
-        <tr>
-            <td>{{ formation.nom }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-
-{% endif %}
-{% endcomment %}
 {% endblock %}

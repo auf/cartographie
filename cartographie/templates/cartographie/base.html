@@ -28,6 +28,7 @@
                         <span class="elem mauve"></span>
                         <span class="elem rouge"></span>
                     </div>
+
                     <div class="clear"></div>
 
                     <h1 class="logo pull-left">
@@ -49,6 +50,23 @@
                             Répertoire des formations supérieures dispensées en français ou partiellement en français, au sein des établissements membres de l'AUF.
                         </p>
                     </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="offset2 span9">
+                    <form action="{% url home_formation_liste %}" method="get" class="form form-horizontal">
+                        <div class="pull-left">
+                            {% include "form_field.html" with field=form.s %}
+                        </div>
+                        <div class="actions pull-left span3">
+                            <a class="btn btn-info">
+                                <i class="icon-search icon-white"></i>
+                                Recherchez
+                            </a>
+                        </div>
+                        <div class="clear"></div>
+                    </form>
                 </div>
             </div>
         </header>

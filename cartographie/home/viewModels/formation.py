@@ -1,14 +1,30 @@
 #coding: utf-8
 
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
 from cartographie.formation.models import Formation
+from cartographie.home.forms.formation import FormationForm
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import Q
 
 
 class FormationListeViewModel(object):
+    terme_recherche = None
     formations = None
+    form = FormationForm()
 
     def __init__(self, request, *args, **kwargs):
+        if self._has_query(request):
+            self._filter_by_query(request)
+        else:
+            self._filter_by_page(request)
+
+    def get_data(self):
+        return {
+            "form": self.form,
+            "terme_recherche": self.terme_recherche,
+            "formations": self.formations
+        }
+
+    def _filter_by_page(self, request):
         self.formations = Formation.objects.all()
 
         paginator = Paginator(self.formations, 25)
@@ -23,7 +39,18 @@ class FormationListeViewModel(object):
             # If page is out of range (e.g. 9999)
             self.formations = paginator.page(paginator.num_pages)
 
-    def get_data(self):
-        return {
-            "formations": self.formations
-        }
+    def _has_query(self, request):
+        return "s" in request.GET
+
+    def _filter_by_query(self, request):
+        self.terme_recherche = request.GET["s"]
+        self.formations = Formation.objects.filter(
+            Q(nom__icontains=self.terme_recherche) | 
+            Q(discipline_1__nom__icontains=self.terme_recherche) | 
+            Q(discipline_2__nom__icontains=self.terme_recherche) | 
+            Q(discipline_3__nom__icontains=self.terme_recherche) | 
+            Q(etablissement__nom__icontains=self.terme_recherche) |
+            Q(etablissement__region__nom__icontains=self.terme_recherche) | 
+            Q(etablissement__pays__nom__icontains=self.terme_recherche) | 
+            Q(niveau_diplome__nom__icontains=self.terme_recherche)
+            ).order_by('nom')
