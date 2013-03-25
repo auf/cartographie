@@ -19,7 +19,7 @@ class FormationListeViewModel(object):
 
     def get_data(self):
         return {
-            "form": self.form,
+            "formation_form": self.form,
             "terme_recherche": self.terme_recherche,
             "formations": self.formations
         }

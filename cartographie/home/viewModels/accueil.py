@@ -11,5 +11,5 @@ class AccueilViewModel(object):
 
     def get_data(self):
         return {
-            "form": self.form,
+            "formation_form": self.form,
         }
