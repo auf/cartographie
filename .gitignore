@@ -31,4 +31,4 @@ sitestatic
 # Vagrant pour le poste local de Bernard
 /mysql-dumps/
 /*.pdf
-/*.vagrant
+.vagrant
