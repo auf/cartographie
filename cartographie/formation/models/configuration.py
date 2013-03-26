@@ -97,3 +97,32 @@ class Langue(AbstractNomStatut):
         verbose_name_plural = u"Langues"
         app_label = "formation"
         db_table = "formation_config_langue"
+        
+class EtablissementCoordonnees(models.Model):
+    etablissement = models.OneToOneField(
+        ref.Etablissement,
+        verbose_name=u"Établissement",
+        help_text=u"Établissement membre de l'AUF",
+        related_name="coordonnees"
+    )
+    latitude = models.DecimalField(
+        null=True, 
+        blank=True, 
+        max_digits=13,
+        decimal_places=10
+        )
+    longitude = models.DecimalField(
+        null=True, 
+        blank=True, 
+        max_digits=13,
+        decimal_places=10
+        )
+    
+    def __unicode__(self):
+        return u"Coordonnées pour : %s" % self.etablissement
+
+    class Meta:
+        verbose_name = u"Coordonnées d'établissement"
+        verbose_name_plural = u"Coordonnées des établissements"
+        app_label = "formation"
+        db_table = "formation_config_etablissementcoordonnees"

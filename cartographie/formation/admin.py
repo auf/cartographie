@@ -335,6 +335,45 @@ class FormationModificationAdmin(ModelAdmin):
     def has_delete_permission(self, request, obj=None):
         return False
 
+class EtablissementCoordonneesAdmin(ModelAdmin):
+    list_display = (
+        '_region', '_pays', '_etablissement_id', 
+        '_etablissement', 'latitude', 'longitude',
+    )
+    list_display_links = ('_etablissement',)
+    list_filter = (
+        'etablissement__region',
+    )
+
+    search_fields = (
+        'etablissement__id',
+        'etablissement__nom',
+    )
+
+    def _region(self, instance):
+        return instance.etablissement.region
+    _region.short_description = u"Région"
+
+    def _pays(self, instance):
+        return instance.etablissement.pays
+    _pays.short_description = u"Pays"
+
+    def _etablissement_id(self, instance):
+        return instance.etablissement.id
+    _etablissement_id.short_description = u"Id"
+
+    def _etablissement(self, instance):
+        return instance.etablissement.nom
+    _etablissement.short_description = u"Établissement"
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return True
+
+    def has_delete_permission(self, request, obj=None):
+        return False
 
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
@@ -355,3 +394,4 @@ admin.site.register(NiveauUniversitaire)
 admin.site.register(Vocation)
 admin.site.register(TypeFormation)
 admin.site.register(Langue)
+admin.site.register(EtablissementCoordonnees, EtablissementCoordonneesAdmin)

@@ -11,7 +11,7 @@ from acces import Acces
 from configuration import Discipline, NiveauDiplome, \
                           TypeDiplome, DelivranceDiplome, \
                           NiveauUniversitaire, Vocation, TypeFormation, \
-                          Langue
+                          Langue, EtablissementCoordonnees
 
 from etablissement import EtablissementComposante, EtablissementAutre
 
@@ -29,7 +29,7 @@ __all__ = [
     "TypeFormation", "EtablissementComposante", "EtablissementAutre",
     "Formation", "FormationModification", "FormationCommentaire",
     "FormationComposante", "FormationPartenaireAutre", "FormationPartenaireAUF",
-    "Langue", "WorkflowMixin"
+    "Langue", "WorkflowMixin", "EtablissementCoordonnees"
 ]
 
 if __name__ == '__main__':
