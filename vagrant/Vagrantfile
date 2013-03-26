@@ -2,7 +2,6 @@
 
 Vagrant::Config.run do |config|
   config.vm.box = "SFL-AUF-django1.4-cartographie"
-  # config.vm.box_url = "http://mathie-vagrant-boxes.s3.amazonaws.com/debian_squeeze_32.box"
   config.vm.box_url = "http://files.vagrantup.com/lucid32.box"
   config.vm.host_name = "sfl.auf.cartographie"
 
