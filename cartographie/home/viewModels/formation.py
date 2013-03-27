@@ -7,11 +7,12 @@ from django.db.models import Q
 
 
 class FormationListeViewModel(object):
-    terme_recherche = None
-    formations = None
-    form = FormationForm()
 
     def __init__(self, request, *args, **kwargs):
+        self.form = FormationForm()
+        self.formations = None
+        self.terme_recherche = None
+
         if self._has_query(request):
             self._filter_by_query(request)
         else:
@@ -44,13 +45,14 @@ class FormationListeViewModel(object):
 
     def _filter_by_query(self, request):
         self.terme_recherche = request.GET["s"]
+        self.form.initial['s'] = self.terme_recherche
         self.formations = Formation.objects.filter(
             Q(nom__icontains=self.terme_recherche) | 
-            Q(discipline_1__nom__icontains=self.terme_recherche) | 
-            Q(discipline_2__nom__icontains=self.terme_recherche) | 
-            Q(discipline_3__nom__icontains=self.terme_recherche) | 
+            Q(discipline_1__nom__icontains=self.terme_recherche) |
+            Q(discipline_2__nom__icontains=self.terme_recherche) |
+            Q(discipline_3__nom__icontains=self.terme_recherche) |
             Q(etablissement__nom__icontains=self.terme_recherche) |
-            Q(etablissement__region__nom__icontains=self.terme_recherche) | 
-            Q(etablissement__pays__nom__icontains=self.terme_recherche) | 
+            Q(etablissement__region__nom__icontains=self.terme_recherche) |
+            Q(etablissement__pays__nom__icontains=self.terme_recherche) |
             Q(niveau_diplome__nom__icontains=self.terme_recherche)
             ).order_by('nom')
