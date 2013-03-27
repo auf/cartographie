@@ -1,6 +1,6 @@
 <div class="boutons-statut pull-right">
     {% with statut=statuts_formation %}
-        {% if formation.statut == statut.abandonnee or formation.statut == statut.archivee %}
+        {% if formation.statut == statut.supprimee or formation.statut == statut.archivee %}
             {% if request.user.is_superuser or not request.user.is_authenticated %}
                 <a href="{% url formation_modifier_workflow token formation.id statut.en_redaction %}"
                    class="btn btn-info retour-en-redaction">
@@ -11,8 +11,8 @@
 
         {% if formation.statut == statut.en_redaction %}
             {% if request.user.is_superuser or not request.user.is_authenticated %}
-            <a href="{% url formation_modifier_workflow token formation.id statut.abandonnee %}" class="btn btn-danger abandoner">
-                Abandonner la fiche
+            <a href="{% url formation_modifier_workflow token formation.id statut.supprimee %}" class="btn btn-danger abandoner">
+                Supprimer la fiche
             </a>
             <a href="{% url formation_modifier_workflow token formation.id statut.validee %}"
                class="btn btn-info valider">
@@ -23,8 +23,8 @@
 
         {% if formation.statut == statut.validee %}
             {% if request.user.is_superuser or not request.user.is_authenticated %}
-            <a href="{% url formation_modifier_workflow token formation.id statut.abandonnee %}" class="btn btn-danger abandonner">
-                Abandonner la fiche
+            <a href="{% url formation_modifier_workflow token formation.id statut.supprimee %}" class="btn btn-danger abandonner">
+                Supprimer la fiche
             </a>
             {% endif %}
 

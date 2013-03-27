@@ -7,7 +7,7 @@ from cartographie.formation.constants import statuts_formation as STATUTS
 from cartographie.formation.models import UserRole
 
 ETATS = [
-    (STATUTS.abandonnee, STATUTS.abandonnee_label),
+    (STATUTS.supprimee, STATUTS.supprimee_label),
     (STATUTS.archivee, STATUTS.archivee_label),
     (STATUTS.en_redaction, STATUTS.en_redaction_label),
     (STATUTS.validee, STATUTS.validee_label),
@@ -59,12 +59,12 @@ class WorkflowMixin(models.Model):
     class Meta:
         abstract = True
 
-    def set_abandonnee(self, request):
+    def set_supprimee(self, request):
         if self.statut in [STATUTS.validee, STATUTS.en_redaction]:
-            self.statut = STATUTS.abandonnee
+            self.statut = STATUTS.supprimee
         else:
             raise WorkflowException(
-                exception_msg_sequence(STATUTS.abandonnee_label)
+                exception_msg_sequence(STATUTS.supprimee_label)
             )
 
     @superuser_and_editeur_only
@@ -78,7 +78,7 @@ class WorkflowMixin(models.Model):
 
     def set_en_redaction(self, request):
         if self.statut in [STATUTS.publiee, STATUTS.validee, \
-            STATUTS.abandonnee, STATUTS.archivee]:
+            STATUTS.supprimee, STATUTS.archivee]:
             self.statut = STATUTS.en_redaction
         else:
             raise WorkflowException(
@@ -106,8 +106,8 @@ class WorkflowMixin(models.Model):
         pass
 
     def set_statut(self, request, statut_id):
-        if statut_id == STATUTS.abandonnee:
-            self.set_abandonnee(request)
+        if statut_id == STATUTS.supprimee:
+            self.set_supprimee(request)
 
         if statut_id == STATUTS.archivee:
             self.set_archivee(request)

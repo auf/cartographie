@@ -19,9 +19,9 @@ class StatutsFormation(object):
     """
         Les différents statuts possibles pour une fiche formation
     """
-    abandonnee = 999
-    abandonnee_label = u"Abandonnée"
-    abandonnee_msg_confirmation = u"Voulez-vous vraiment abandonner cette fiche ?"
+    supprimee = 999
+    supprimee_label = u"Supprimée"
+    supprimee_msg_confirmation = u"Voulez-vous vraiment supprimer cette fiche ?"
 
     archivee = 888
     archivee_label = u"Archivée"
