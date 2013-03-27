@@ -7,16 +7,17 @@ from django.db.models import Q
 
 
 class FormationListeViewModel(object):
+    NUM_FORMATIONS_PER_PAGE = 25
 
     def __init__(self, request, *args, **kwargs):
         self.form = FormationForm()
-        self.formations = None
+        self.formations = Formation.objects.all()
         self.terme_recherche = None
 
-        if self._has_query(request):
+        if FormationListeViewModel._has_query(request):
             self._filter_by_query(request)
-        else:
-            self._filter_by_page(request)
+
+        self._paginate(request)
 
     def get_data(self):
         return {
@@ -24,24 +25,6 @@ class FormationListeViewModel(object):
             "terme_recherche": self.terme_recherche,
             "formations": self.formations
         }
-
-    def _filter_by_page(self, request):
-        self.formations = Formation.objects.all()
-
-        paginator = Paginator(self.formations, 25)
-
-        page = request.GET.get('page')
-        try:
-            self.formations = paginator.page(page)
-        except PageNotAnInteger:
-            # If page is not an integer, deliver first page.
-            self.formations = paginator.page(1)
-        except EmptyPage:
-            # If page is out of range (e.g. 9999)
-            self.formations = paginator.page(paginator.num_pages)
-
-    def _has_query(self, request):
-        return "s" in request.GET
 
     def _filter_by_query(self, request):
         self.terme_recherche = request.GET["s"]
@@ -56,3 +39,22 @@ class FormationListeViewModel(object):
             Q(etablissement__pays__nom__icontains=self.terme_recherche) |
             Q(niveau_diplome__nom__icontains=self.terme_recherche)
             ).order_by('nom')
+
+    @staticmethod
+    def _has_query(request):
+        return "s" in request.GET
+
+    def _paginate(self, request):
+        paginator = Paginator(self.formations, 
+                              FormationListeViewModel.NUM_FORMATIONS_PER_PAGE)
+
+        page = request.GET.get('page')
+
+        try:
+            self.formations = paginator.page(page)
+        except PageNotAnInteger:
+            # If page is not an integer, deliver first page.
+            self.formations = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range (e.g. 9999)
+            self.formations = paginator.page(paginator.num_pages)
