@@ -2,7 +2,7 @@
 
 {% block Contenu_home %}
 
-    <h3>{{ formations.count }} formations</h3>
+    <h3>{{ formations.paginator.count }} formations</h3>
     <ul>
     {% for formation in formations %}
         <li style="list-style-type: none; margin-bottom:20px;">{% include "formation_abrege.html" %}</li>
@@ -13,7 +13,7 @@
         <ul>
             {% if formations.has_previous %}
                 <li>
-                    <a href="?page={{ formations.previous_page_number }}">
+                    <a href="?page={{ formations.previous_page_number }}{% if terme_recherche %}&s={{ terme_recherche }}{% endif %}">
                         &laquo;
                     </a>
                 </li>
@@ -25,7 +25,7 @@
             </li>
             {% if formations.has_next %}
                 <li>
-                    <a href="?page={{ formations.next_page_number }}">
+                    <a href="?page={{ formations.next_page_number }}{% if terme_recherche %}&s={{ terme_recherche }}{% endif %}">
                         &raquo;
                     </a>
                 </li>
