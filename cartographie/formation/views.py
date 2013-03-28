@@ -1,12 +1,13 @@
 # coding: utf-8
 
+from cartographie.formation.models import Formation
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
 from django.utils import simplejson
 from django.core.urlresolvers import reverse
-from django.shortcuts import render_to_response
+from django.shortcuts import render, render_to_response
 
 from cartographie.formation.decorators import token_required
 
@@ -71,6 +72,18 @@ def ajouter(request, token):
         ajoutVM.get_data(),
         RequestContext(request)
     )
+
+@token_required
+def consulter(request, token, formation_id):
+    """
+        Fiche d'une formation
+    """
+
+    formation = Formation.objects.get(pk=formation_id)
+    c = {
+        'formation': formation
+    }
+    return render(request, "formation/formation_detail.html", c)
 
 
 @token_required

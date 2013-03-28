@@ -27,7 +27,7 @@
         {% for f in formations %}
         <tr>
             <td>
-                <p><a href="{% url formation_modifier token f.id %}">
+                <p><a href="{% url formation_consulter token f.id %}">
                     {{ f.nom }}
                 </a></p>
             </td>
@@ -35,6 +35,11 @@
                 {{ f.statut|statusLabel }}
             </td>
             <td>
+                <a class="btn"
+                   href="{% url formation_consulter token f.id %}">
+                   <i class="icon icon-search"></i>
+                    Consulter
+                </a>
                 <a class="btn"
                    href="{% url formation_modifier token f.id %}">
                    <i class="icon icon-pencil"></i>

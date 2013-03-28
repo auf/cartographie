@@ -39,4 +39,4 @@ def formation_detail(request, id, slug=None):
         'formation': formation,
         'form': FormationForm(),
     }
-    return render(request, "formation_detail.html", c)
+    return render(request, "formation/formation_detail.html", c)
