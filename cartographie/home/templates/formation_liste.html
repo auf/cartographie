@@ -8,7 +8,13 @@
         <thead>
             <tr>
                 {% for column in columns %}
-                    <th><a href="?tri={% if tri.name == column.sort_name and tri.asc %}-{% endif %}{{ column.sort_name }}{% if terme_recherche %}&s={{ terme_recherche }}{% endif %}">{{ column.name }}</a></th>
+                    <th class="span1">
+                        <a href="?tri={% if tri.name == column.sort_name and tri.asc %}-{% endif %}{{ column.sort_name }}{% if terme_recherche %}&s={{ terme_recherche }}{% endif %}">{{ column.name }}
+                        {% if tri.name == column.sort_name %}
+                            <span class="{% if tri.asc %}icon-chevron-up{% else %}icon-chevron-down{% endif %}">
+                        {% endif %}
+                        </a>
+                    </th>
                 {% endfor %}
             </tr>
         </thead>
