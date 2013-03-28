@@ -17,11 +17,19 @@
                 <table class="table table-striped table-bordered table-hover table-condensed">
                     <thead>
                         <tr>
-                            <th>Région</th>
-                            <th>Pays</th>
-                            <th>Nom</th>
-                            <th>Formations</th>
-                            <th>Consulter</th>
+                            {% for column in columns %}
+                                <th class="span1">
+                                    {% if column.sort_name %}
+                                        <a href="?tri={% if sort.name == column.sort_name and sort.asc %}-{% endif %}{{ column.sort_name }}">{{ column.name }}
+                                            {% if sort.name == column.sort_name %}
+                                            <span class="{% if sort.asc %}icon-chevron-up{% else %}icon-chevron-down{% endif %}">
+                                            {% endif %}
+                                        </a>
+                                    {% else %}
+                                        {{ column.name }}
+                                    {% endif %}
+                                </th>
+                            {% endfor %}
                         </tr>
                     </thead>
                     <tbody>
