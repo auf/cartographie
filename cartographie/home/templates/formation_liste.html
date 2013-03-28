@@ -3,17 +3,28 @@
 {% block Contenu_home %}
 
     <h3>{{ formations.paginator.count }} formations</h3>
-    <ul>
-    {% for formation in formations %}
-        <li style="list-style-type: none; margin-bottom:20px;">{% include "formation_abrege.html" %}</li>
-    {% endfor %}
-    </ul>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                {% for column in columns %}
+                    <th><a href="?tri={% if tri.name == column.sort_name and tri.asc %}-{% endif %}{{ column.sort_name }}{% if terme_recherche %}&s={{ terme_recherche }}{% endif %}">{{ column.name }}</a></th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+        {% for formation in formations %}
+            {% include "formation_abrege.html" %}
+        {% endfor %}
+        </tbody>
+    </table>
+
     {% if formations.paginator.num_pages > 1 %}
     <div class="pagination">
         <ul>
             {% if formations.has_previous %}
                 <li>
-                    <a href="?page={{ formations.previous_page_number }}{% if terme_recherche %}&s={{ terme_recherche }}{% endif %}">
+                    <a href="?page={{ formations.previous_page_number }}{% if tri %}&tri={{ tri.tri }}{% endif %}{% if terme_recherche %}&s={{ terme_recherche }}{% endif %}">
                         &laquo;
                     </a>
                 </li>
@@ -25,7 +36,7 @@
             </li>
             {% if formations.has_next %}
                 <li>
-                    <a href="?page={{ formations.next_page_number }}{% if terme_recherche %}&s={{ terme_recherche }}{% endif %}">
+                    <a href="?page={{ formations.next_page_number }}{% if tri %}&tri={{ tri.name }}{% endif %}{% if terme_recherche %}&s={{ terme_recherche }}{% endif %}">
                         &raquo;
                     </a>
                 </li>
