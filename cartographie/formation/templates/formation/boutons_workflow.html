@@ -1,6 +1,6 @@
 <div class="boutons-statut pull-right">
     {% with statut=statuts_formation %}
-        {% if formation.statut == statut.supprimee or formation.statut == statut.archivee %}
+        {% if formation.statut == statut.supprimee %}
             {% if request.user.is_superuser or not request.user.is_authenticated %}
                 <a href="{% url formation_modifier_workflow token formation.id statut.en_redaction %}"
                    class="btn btn-info retour-en-redaction">
@@ -42,8 +42,8 @@
         {% endif %}
 
         {% if formation.statut == statut.publiee %}
-            <a href="{% url formation_modifier_workflow token formation.id statut.archivee %}" class="btn btn-warning archiver">
-                Archiver la fiche
+            <a href="{% url formation_modifier_workflow token formation.id statut.validee %}" class="btn btn-warning valider">
+                Retour vers validée
             </a>
 
             <a href="{% url formation_modifier_workflow token formation.id statut.en_redaction %}"

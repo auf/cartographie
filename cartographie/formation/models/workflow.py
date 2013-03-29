@@ -8,7 +8,6 @@ from cartographie.formation.models import UserRole
 
 ETATS = [
     (STATUTS.supprimee, STATUTS.supprimee_label),
-    (STATUTS.archivee, STATUTS.archivee_label),
     (STATUTS.en_redaction, STATUTS.en_redaction_label),
     (STATUTS.validee, STATUTS.validee_label),
     (STATUTS.publiee, STATUTS.publiee_label),
@@ -67,18 +66,9 @@ class WorkflowMixin(models.Model):
                 exception_msg_sequence(STATUTS.supprimee_label)
             )
 
-    @superuser_and_editeur_only
-    def set_archivee(self, request):
-        if self.statut in [STATUTS.publiee]:
-            self.statut = STATUTS.archivee
-        else:
-            raise WorkflowException(
-                exception_msg_sequence(STATUTS.archivee_label)
-            )
-
     def set_en_redaction(self, request):
         if self.statut in [STATUTS.publiee, STATUTS.validee, \
-            STATUTS.supprimee, STATUTS.archivee]:
+            STATUTS.supprimee]:
             self.statut = STATUTS.en_redaction
         else:
             raise WorkflowException(
@@ -86,8 +76,10 @@ class WorkflowMixin(models.Model):
             )
         pass
 
+    # TODO: Seul un admin ou un éditeur peut rétrograder une formation
+    # publiée en une formation validée.
     def set_validee(self, request):
-        if self.statut in [STATUTS.en_redaction]:
+        if self.statut in [STATUTS.en_redaction, STATUTS.publiee]:
             self.statut = STATUTS.validee
         else:
             raise WorkflowException(
@@ -108,9 +100,6 @@ class WorkflowMixin(models.Model):
     def set_statut(self, request, statut_id):
         if statut_id == STATUTS.supprimee:
             self.set_supprimee(request)
-
-        if statut_id == STATUTS.archivee:
-            self.set_archivee(request)
 
         if statut_id == STATUTS.en_redaction:
             self.set_en_redaction(request)

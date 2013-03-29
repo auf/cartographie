@@ -23,10 +23,6 @@ class StatutsFormation(object):
     supprimee_label = u"Supprimée"
     supprimee_msg_confirmation = u"Voulez-vous vraiment supprimer cette fiche ?"
 
-    archivee = 888
-    archivee_label = u"Archivée"
-    archivee_msg_confirmation = u"Voulez-vous vraiment archiver cette fiche ?"
-
     en_redaction = 1
     en_redaction_label = u"En rédaction"
     en_redaction_msg_confirmation = u"Voulez-vous vraiment mettre cette fiche en rédaction ?"
