@@ -5,13 +5,16 @@ from django.conf.urls.defaults import patterns, include, \
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.core.urlresolvers import reverse_lazy
+
 
 admin.autodiscover()
 
 handler404
 handler500  # Pyflakes
 
-urlpatterns = patterns('',
+urlpatterns = patterns(
+    '',
     # app Home
     (r'^', include("cartographie.home.urls")),
     # app Formation
@@ -20,6 +23,10 @@ urlpatterns = patterns('',
     (r'^dashboard/', include("cartographie.tableau_de_bord.urls")),
     url(r'^admin_tools/', include('admin_tools.urls')),
     (r'^admin/', include(admin.site.urls)),
+    # login/logout
+    url(r'^connexion/', "django.contrib.auth.views.login", name="login"),
+    url(r'^deconnexion/', "django.contrib.auth.views.logout", 
+        {"next_page": reverse_lazy("home_accueil") }, name="logout"),
 )
 
 if settings.DEBUG:

@@ -37,11 +37,16 @@
                                  alt="Agence universitaire de la Francophonie">
                         </a>
                     </h1>
-                    {% if user.is_active and user.is_staff %}
-                        <a class="btn btn-small pull-right dashboard-link" href="{% url dashboard_statistiques %}">
-                            <i class="icon-th"></i>
-                            Consulter votre tableau de bord
-                        </a>
+                    {% if user.is_active %}
+                        <a class="pull-right dashboard-link" href="{% url logout %}">Déconnexion</a>
+                        {% if user.is_staff %}
+                            <a class="btn btn-small pull-right dashboard-link" href="{% url dashboard_statistiques %}">
+                                <i class="icon-th"></i>
+                                Consulter votre tableau de bord
+                            </a>
+                        {% endif %}
+                    {% else %}
+                        <a class="pull-right dashboard-link" href="{% url login %}">Connexion</a>
                     {% endif %}
                     <div class="clear"></div>
                     <div class="slogan span6 pull-right">

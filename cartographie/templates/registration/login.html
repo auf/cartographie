@@ -1,0 +1,39 @@
+{% extends "cartographie/base.html" %}
+{% load url from future %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}home/css/home.css">
+{% endblock %}
+
+{% block js %}
+    <script src="{{ STATIC_URL }}home/js/home.js"></script>
+{% endblock %}
+
+{% block Contenu %}
+    <div class="span5 offset4">
+        <div class="content">
+
+
+    <form method="post" action="{% url 'django.contrib.auth.views.login' %}">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td>{{ form.username.label_tag }}</td>
+                <td>{{ form.username }}</td>
+            </tr>
+            <tr>
+                <td>{{ form.password.label_tag }}</td>
+                <td>{{ form.password }}</td>
+            </tr>
+        </table>
+        {% if form.errors %}
+            <p class="text-error">Nom d'utilisateur ou mot de passe erroné. Veuillez recommencer.</p>
+        {% endif %}
+        
+        <input type="submit" value="Connexion" />
+        <input type="hidden" name="next" value="{{ next }}" />
+    </form>
+    
+        </div>
+    </div>
+{% endblock %}

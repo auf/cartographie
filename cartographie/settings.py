@@ -8,6 +8,7 @@ from django.conf.global_settings import MIDDLEWARE_CLASSES as \
         DEFAULT_MIDDLEWARE_CLASSES
 from django.conf.global_settings import AUTHENTICATION_BACKENDS as \
         DEFAULT_AUTHENTICATION_BACKENDS
+from django.core.urlresolvers import reverse_lazy
 
 # Rapports d'erreurs
 SERVER_EMAIL = 'ne-pas-repondre@auf.org'
@@ -119,3 +120,6 @@ LOGGING = {
 ADMIN_TOOLS_INDEX_DASHBOARD = 'cartographie.dashboard.CustomIndexDashboard'
 
 from conf import *
+
+LOGIN_REDIRECT_URL = reverse_lazy("dashboard_statistiques")
+LOGIN_URL = reverse_lazy("login")
