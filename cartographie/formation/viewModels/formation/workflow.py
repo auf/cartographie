@@ -21,6 +21,9 @@ class WorkflowViewModel(BaseAjouterViewModel):
 
             # obtenir la formation courante
             formation_courante = Formation.objects.get(pk=formation_id)
+            
+            self.necessite_commentaire = formation_courante\
+                .changement_necessite_commentaire(statut_id)
 
             pas_de_probleme = False
             # modifier le statut avec les fonctions de WorkflowMixin

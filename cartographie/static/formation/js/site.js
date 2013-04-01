@@ -89,6 +89,8 @@ AUF.formation = function(){
             this._formPopupFactory("composante");
             // popup partenaire autre (non membre)
             this._formPopupFactory("partenaire-autre");
+            // popup partenaire autre (non membre)
+            this._formPopupFactory("commentaire");
         },
         popupLangueSubmit : function(){
             console.log("AUF.formation.popupLangueSubmit()");
@@ -112,6 +114,21 @@ AUF.formation = function(){
                 }
             );
         },
+
+        popupCommentaireSubmit: function() {
+            console.log("AUF.formation.popupCommentaireSubmit()");
+            /*
+             * Fonction utilisée par le bouton d'envoi du formulaire
+             * d'ajout d'un commentaire 
+             */
+            this._popupSubmitFactory(
+                '#popup-form-commentaire',
+                function(data) {
+                    document.location.href = data.next_url;
+                }
+            );
+        },
+
         popupPersonneSubmit: function(){
             console.log("AUF.formation.popupResponsableSubmit()");
             /*

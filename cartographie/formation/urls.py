@@ -42,6 +42,11 @@ urlpatterns = patterns(
         name="formation_modifier_commentaires"
     ),
     url(
+        r"^(?P<token>\w+)/formation/(?P<formation_id>\d+)/(?P<nouveau_statut>\d+)/commentaires/$",
+        "commentaire_avant_changement_statut",
+        name="formation_commentaire_avant_changement_statut"
+    ),
+    url(
         r"^(?P<token>\w+)/formation/(?P<formation_id>\d+)/commentaires/ajouter$",
         "commentaire_ajouter",
         name="commentaire_ajouter"
@@ -74,7 +79,7 @@ urlpatterns = patterns(
     ),
     url(
         r"^(?P<token>\w+)/personne/ajouter_popup$",
-        "ajouter_personne_popup",
+        "personne_ajouter_popup",
         name="formation_personne_ajouter_popup"
     ),
     url(

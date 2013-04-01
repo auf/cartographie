@@ -12,6 +12,8 @@ from cartographie.formation.forms.formation \
 
 
 class CommentairesViewModel(BaseAjouterViewModel):
+    # Affiche la liste des commentaires
+
     formation = None
     form = None
     commentaires = []

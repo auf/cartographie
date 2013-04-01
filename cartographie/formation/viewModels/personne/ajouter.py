@@ -7,7 +7,6 @@ from cartographie.formation.viewModels.baseAjouterViewModel \
 
 from cartographie.formation.forms.personne import PersonneForm
 
-
 class AjouterViewModel(BaseAjouterViewModel):
     form = None
     submit_url = None

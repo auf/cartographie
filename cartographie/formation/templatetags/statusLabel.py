@@ -1,7 +1,7 @@
 #coding: utf-8
 
 from django import template
-from cartographie.formation.models.workflow import ETATS
+from cartographie.formation.models.workflow import statusIdToStatusLabel
 
 register = template.Library()
 
@@ -13,11 +13,4 @@ def statusLabel(value):
         formation en utilisant le tableau que je donne en paramètre
         choice du abstract model WorkflowMixin
     """
-    labels = filter(lambda x: x[0] == int(value), ETATS)
-
-    if len(labels) == 1:
-        lbl = labels.pop()
-
-        return lbl[1]
-
-    return ""
+    return statusIdToStatusLabel(value)

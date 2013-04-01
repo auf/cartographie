@@ -1,6 +1,7 @@
 # coding: utf-8
 
 from cartographie.formation.models import Formation
+from cartographie.formation.models.workflow import statusIdToStatusLabel
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.template import RequestContext
@@ -195,8 +196,11 @@ def modifier_commentaires(request, token, formation_id=None):
 
     vm = CommentairesViewModel(request, token, formation_id)
 
+
     return render_to_response(
-        "formation/commentaire/liste.html", vm.get_data(), RequestContext(request)
+        "formation/commentaire/liste.html", 
+        vm.get_data(),
+        RequestContext(request)
     )
 
 
@@ -210,11 +214,13 @@ def commentaire_ajouter(request, token, formation_id):
         import CommentaireAjouterViewModel
 
     vm = CommentaireAjouterViewModel(request, token, formation_id)
+    
+    form_url = reverse('commentaire_ajouter', args=[token, formation_id])
 
     if request.GET.get("ajax"):
         return render_to_response(
             "formation/commentaire/form.html",
-            vm.get_data(),
+            vm.get_data().update({'form_url': form_url}),
             RequestContext(request)
         )
 
@@ -322,7 +328,39 @@ def ajouter_personne(request, token):
 
 
 @token_required
-def ajouter_personne_popup(request, token):
+def commentaire_avant_changement_statut(request, token, formation_id, nouveau_statut):
+    from cartographie.formation.viewModels.formation.commentaire import CommentaireAjouterViewModel
+ 
+    vm = CommentaireAjouterViewModel(request, token, formation_id)
+    form_url = reverse('formation_commentaire_avant_changement_statut', args=[token, formation_id, nouveau_statut])
+    if request.method == "POST":
+        if vm.form.is_valid():
+            commentaire = vm.form.save(commit=False)
+            commentaire.formation = vm.formation
+            commentaire.user = request.user if request.user.is_authenticated() else None
+            commentaire.commentaire = "[Statut: %s] %s" % (statusIdToStatusLabel(nouveau_statut), commentaire.commentaire)
+            commentaire.save()
+            return HttpResponse(
+                simplejson.dumps({'error': False, 'next_url': reverse('formation_modifier_workflow', args=[token, formation_id, nouveau_statut])})
+                )
+        else:
+            return HttpResponse(
+                simplejson.dumps({'error': True, 'msg': 'Un commentaire est nécessaire pour ce changement de statut'}), mimetype="application/json"
+            )
+
+    data = vm.get_data()
+    data.update({'form_url': form_url, 'json_request': True})
+
+    return render_to_response(
+        "formation/commentaire/form.html",
+        data,
+        RequestContext(request)
+    )
+    
+
+
+@token_required
+def personne_ajouter_popup(request, token):
 
     from cartographie.formation.viewModels.personne.ajouter import AjouterViewModel
 

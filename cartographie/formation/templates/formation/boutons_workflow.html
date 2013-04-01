@@ -1,3 +1,5 @@
+<!-- FIXME: Si l'utilisateur est superuser ou non authentifié (??) -->
+
 <div class="boutons-statut pull-right">
     {% with statut=statuts_formation %}
         {% if formation.statut == statut.supprimee %}
@@ -11,7 +13,7 @@
 
         {% if formation.statut == statut.en_redaction %}
             {% if request.user.is_superuser or not request.user.is_authenticated %}
-            <a href="{% url formation_modifier_workflow token formation.id statut.supprimee %}" class="btn btn-danger">
+            <a href="{% url formation_commentaire_avant_changement_statut token formation.id statut.supprimee%}" class="btn btn-danger modal-commentaire">
                 Supprimer la fiche
             </a>
             <a href="{% url formation_modifier_workflow token formation.id statut.validee %}"
@@ -23,13 +25,13 @@
 
         {% if formation.statut == statut.validee %}
             {% if request.user.is_superuser or not request.user.is_authenticated %}
-            <a href="{% url formation_modifier_workflow token formation.id statut.supprimee %}" class="btn btn-danger">
+            <a href="{% url formation_commentaire_avant_changement_statut token formation.id statut.supprimee%}" class="btn btn-danger modal-commentaire">
                 Supprimer la fiche
             </a>
             {% endif %}
 
-            <a href="{% url formation_modifier_workflow token formation.id statut.en_redaction %}"
-               class="btn btn-info retour-en-redaction">
+            <a href="{% url formation_commentaire_avant_changement_statut token formation.id statut.en_redaction %}"
+               class="btn btn-info retour-en-redaction modal-commentaire">
                 Retour en rédaction
             </a>
 
@@ -42,12 +44,12 @@
         {% endif %}
 
         {% if formation.statut == statut.publiee %}
-            <a href="{% url formation_modifier_workflow token formation.id statut.validee %}" class="btn btn-warning valider">
+            <a href="{% url formation_commentaire_avant_changement_statut token formation.id statut.validee %}" class="btn btn-warning valider modal-commentaire">
                 Retour vers validée
             </a>
 
-            <a href="{% url formation_modifier_workflow token formation.id statut.en_redaction %}"
-               class="btn btn-info retour-en-redaction">
+            <a href="{% url formation_commentaire_avant_changement_statut token formation.id statut.en_redaction %}"
+               class="btn btn-info retour-en-redaction modal-commentaire">
                 Retour en rédaction
             </a>
         {% endif %}

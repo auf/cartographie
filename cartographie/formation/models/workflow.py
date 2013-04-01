@@ -13,6 +13,16 @@ ETATS = [
     (STATUTS.publiee, STATUTS.publiee_label),
 ]
 
+def statusIdToStatusLabel(value):
+    labels = filter(lambda x: x[0] == int(value), ETATS)
+
+    if len(labels) == 1:
+        lbl = labels.pop()
+
+        return lbl[1]
+
+    return ""
+
 
 class WorkflowException(Exception):
     pass
@@ -96,6 +106,18 @@ class WorkflowMixin(models.Model):
                 exception_msg_sequence(STATUTS.publiee_label)
             )
         pass
+
+    def changement_necessite_commentaire(self, statut_id):
+        return self.is_statut_precedent(statut_id)\
+          or self.is_statut_terminal(statut_id)
+
+    def is_statut_precedent(self, statut_id):
+        return statut_id == STATUTS.en_redaction
+
+    def is_statut_terminal(self, statut_id):
+        if statut_id == STATUTS.supprimee:
+                return True
+        return False
 
     def set_statut(self, request, statut_id):
         if statut_id == STATUTS.supprimee:
