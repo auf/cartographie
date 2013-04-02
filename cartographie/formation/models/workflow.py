@@ -86,10 +86,30 @@ class WorkflowMixin(models.Model):
             )
         pass
 
-    # TODO: Seul un admin ou un éditeur peut rétrograder une formation
+    # Seul un admin ou un éditeur peut rétrograder une formation
     # publiée en une formation validée.
     def set_validee(self, request):
-        if self.statut in [STATUTS.en_redaction, STATUTS.publiee]:
+        def user_can_downgrade_to_valid():
+            user = request.user
+
+            if user and not user.is_superuser:
+                try:
+                    role = UserRole.objects.get(user__id=user.id)
+                except ObjectDoesNotExist:
+                    raise WorkflowException(u"""
+                    Vous ne pouvez pas attribuer ce statut
+                """)
+
+                if role.type != "editeur":
+                    raise WorkflowException(u"""
+                    Vous ne pouvez pas attribuer ce statut
+                """)
+
+            return True
+
+        if self.statut == STATUTS.en_redaction or \
+                (self.statut == STATUTS.publiee and \
+                     user_can_downgrade_to_valid()):
             self.statut = STATUTS.validee
         else:
             raise WorkflowException(
@@ -116,7 +136,7 @@ class WorkflowMixin(models.Model):
 
     def is_statut_terminal(self, statut_id):
         if statut_id == STATUTS.supprimee:
-                return True
+            return True
         return False
 
     def set_statut(self, request, statut_id):
