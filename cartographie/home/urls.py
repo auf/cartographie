@@ -10,4 +10,6 @@ urlpatterns = patterns(
     # interfaces publiques : formation
     url(r"^formations/$", "formation_liste", name="home_formation_liste"),
     url(r"^formations/(?P<id>\d+)$", "formation_detail", name="home_formation_detail"),
+
+    url(r"^fichiers/(?P<fichier_id>\d+)$", "fichiers", name="home_fichiers"),
 )

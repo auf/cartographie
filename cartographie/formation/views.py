@@ -1,17 +1,17 @@
 # coding: utf-8
 
-from cartographie.formation.models import Formation
+from cartographie.formation.decorators import token_required, editor_of_region_required
+from cartographie.formation.models import Acces, Fichier, Formation
 from cartographie.formation.models.workflow import statusIdToStatusLabel, is_statut_final
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib import messages
-from django.template import RequestContext
-from django.http import HttpResponseRedirect, HttpResponse
-from django.utils import simplejson
 from django.core.urlresolvers import reverse
-from django.shortcuts import render, render_to_response
-
-from cartographie.formation.decorators import token_required, editor_of_region_required
+from django.http import Http404, HttpResponseRedirect, HttpResponse
+from django.shortcuts import get_object_or_404, render, render_to_response
+from django.template import RequestContext
+from django.utils import simplejson
+from sendfile import send_file
 
 
 def erreur(request):
@@ -83,7 +83,8 @@ def consulter(request, token, formation_id):
 
     formation = Formation.objects.get(pk=formation_id)
     c = {
-        'formation': formation
+        'formation': formation,
+        'files': Fichier.objects.filter(formation=formation).filter(is_public=True).order_by('nom')
     }
     return render(request, "formation/formation_detail.html", c)
 
@@ -200,6 +201,21 @@ def modifier_commentaires(request, token, formation_id=None):
 
     return render_to_response(
         "formation/commentaire/liste.html", 
+        vm.get_data(),
+        RequestContext(request)
+    )
+
+@token_required
+def modifier_fichiers(request, token, formation_id=None):
+
+    from cartographie.formation.viewModels.formation.fichier \
+        import FichierViewModel
+
+    vm = FichierViewModel(request, token, formation_id)
+
+
+    return render_to_response(
+        "formation/modifier_fichier.html", 
         vm.get_data(),
         RequestContext(request)
     )
@@ -699,3 +715,21 @@ def modifier_langue(request, token, langue_id):
         RequestContext(request)
     )
     pass
+
+@token_required
+def fichiers(request, token, formation_id=None, fichier_id=None):
+    def file_in_formation(fil, formation):
+        return fil.formation == formation
+
+    def token_is_valid(acces, formation):
+        return acces.etablissement == formation.etablissement
+
+    formation = get_object_or_404(Formation, pk=formation_id)
+    acces = get_object_or_404(Acces, token=token)
+    fil = get_object_or_404(Fichier, pk=fichier_id)
+
+    if fil.is_public or (token_is_valid(acces, formation) \
+                                        and file_in_formation(fil, formation)):
+        return send_file(fil.file)
+
+    raise Http404

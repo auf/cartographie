@@ -15,6 +15,8 @@ from configuration import Discipline, NiveauDiplome, \
 
 from etablissement import EtablissementComposante, EtablissementAutre
 
+from fichier import Fichier
+
 from formation import Formation, FormationModification, \
                       FormationCommentaire, FormationComposante, \
                       FormationPartenaireAutre, FormationPartenaireAUF
@@ -27,7 +29,7 @@ __all__ = [
     "UserRole", "Personne", "Acces", "Discipline", "NiveauDiplome",
     "TypeDiplome", "DelivranceDiplome", "NiveauUniversitaire", "Vocation",
     "TypeFormation", "EtablissementComposante", "EtablissementAutre",
-    "Formation", "FormationModification", "FormationCommentaire",
+    "Fichier", "Formation", "FormationModification", "FormationCommentaire",
     "FormationComposante", "FormationPartenaireAutre", "FormationPartenaireAUF",
     "Langue", "WorkflowMixin", "EtablissementCoordonnees"
 ]

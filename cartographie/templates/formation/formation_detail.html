@@ -224,4 +224,17 @@
         </tbody>
     </table>
 </div>
+
+{% if files %}
+<div>
+    <h4>Fichiers</h4>
+
+    <ul>
+        {% for file in files %}
+        <li><a href="{% url home_fichiers file.id %}">{{file.nom}}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
 {% endblock %}

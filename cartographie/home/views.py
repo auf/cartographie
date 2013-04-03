@@ -1,11 +1,12 @@
 #coding: utf-8
 
-from cartographie.formation.models import Formation
+from cartographie.formation.models import Fichier, Formation
+from cartographie.formation.sendfile import send_file
 from cartographie.home.forms.formation import FormationForm
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render_to_response, render
+from django.http import Http404
+from django.shortcuts import get_object_or_404, render_to_response, render
 from django.template import RequestContext
-
 
 def accueil(request):
     from cartographie.home.viewModels.accueil \
@@ -38,5 +39,15 @@ def formation_detail(request, id, slug=None):
     c = {
         'formation': formation,
         'form': FormationForm(),
+        'files': Fichier.objects.filter(formation=formation).filter(is_public=True).order_by('nom')
     }
     return render(request, "formation/formation_detail.html", c)
+
+
+def fichiers(request, fichier_id):
+    requested_file = get_object_or_404(Fichier, pk=fichier_id)
+
+    if requested_file.is_public:
+        return send_file(requested_file.file)
+
+    raise Http404

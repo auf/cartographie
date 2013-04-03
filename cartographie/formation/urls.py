@@ -42,6 +42,11 @@ urlpatterns = patterns(
         name="formation_modifier_commentaires"
     ),
     url(
+        r"^(?P<token>\w+)/formation/(?P<formation_id>\d+)/modifier_fichiers$",
+        "modifier_fichiers",
+        name="formation_modifier_fichiers"
+    ),
+    url(
         r"^(?P<token>\w+)/formation/(?P<formation_id>\d+)/(?P<nouveau_statut>\d+)/commentaires/$",
         "commentaire_avant_changement_statut",
         name="formation_commentaire_avant_changement_statut"
@@ -61,6 +66,11 @@ urlpatterns = patterns(
         "commentaire_supprimer",
         name="commentaire_supprimer"
     ),
+    url(
+        r"^(?P<token>\w+)/formation/(?P<formation_id>\d+)/fichiers/(?P<fichier_id>\d+)$",
+        "fichiers",
+        name="formation_fichiers"
+        ),
     url(
         r"^(?P<token>\w+)/formation/(?P<formation_id>\d+)/workflow/(?P<statut_id>\d+)$",
         "modifier_workflow",
@@ -149,5 +159,5 @@ urlpatterns = patterns(
         r"^(?P<token>\w+)/langue/ajouter_popup$",
         "ajouter_langue_popup",
         name="formation_langue_ajouter_popup"
-    )
+    ),
 )

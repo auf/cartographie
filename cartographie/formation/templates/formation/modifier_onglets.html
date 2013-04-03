@@ -15,4 +15,9 @@
             Commentaires
         </a>
     </li>
+    <li class="{% if active_tab == "fichiers" %}active{% endif %}">
+        <a href="{% if active_tab != "fichiers" %}{% url formation_modifier_fichiers token formation.id %}{% endif %}">
+            Fichiers
+        </a>
+    </li>
 </ul>
