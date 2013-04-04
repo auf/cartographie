@@ -443,7 +443,9 @@ def ajouter_partenaire_autre(request, token):
 
     if request.method == "POST":
         if vm.form.is_valid():
-            vm.form.save()
+            nouveau_partenaire_autre = vm.form.save(commit=False)
+            nouveau_partenaire_autre.etablissement = vm.etablissement
+            nouveau_partenaire_autre.save()
 
             return HttpResponseRedirect(
                 reverse("formation_partenaire_autre_liste", args=[token])
@@ -465,8 +467,9 @@ def ajouter_partenaire_autre_popup(request, token):
 
     if request.method == "POST":
         if vm.form.is_valid():
-            nouveau_partenaire_autre = vm.form.save()
-
+            nouveau_partenaire_autre = vm.form.save(commit=False)
+            nouveau_partenaire_autre.etablissement = vm.etablissement
+            nouveau_partenaire_autre.save()
             data = {
                 "msg": "", "error": False,
                 "partenaire_autre": {

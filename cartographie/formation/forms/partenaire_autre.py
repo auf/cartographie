@@ -7,6 +7,7 @@ from cartographie.formation.models import EtablissementAutre
 class PartenaireAutreForm(ModelForm):
     class Meta:
         model = EtablissementAutre
+        exclude = ('etablissement',)
 
     def __init__(self, *args, **kwargs):
         super(PartenaireAutreForm, self).__init__(*args, **kwargs)

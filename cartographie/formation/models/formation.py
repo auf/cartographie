@@ -3,7 +3,7 @@
 import datetime
 
 from django.db import models
-from django.db.models import signals
+from django.db.models import signals, Q
 from django.contrib.auth.models import User
 
 from auf.django.references import models as ref
@@ -422,7 +422,8 @@ class FormationPartenaireAUF(models.Model):
 class FormationPartenaireAutre(models.Model):
     formation = models.ForeignKey(Formation)
     etablissement = models.ForeignKey(
-        EtablissementAutre, related_name="+"
+        EtablissementAutre, 
+        related_name="+"
     )
     partenaire_autre_emet_diplome = models.BooleanField(
         default=False,

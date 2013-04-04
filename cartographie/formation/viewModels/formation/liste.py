@@ -13,6 +13,7 @@ class ListeViewModel(BaseListeViewModel):
         super(ListeViewModel, self).__init__(token, onglet_actif)
 
         # filtrer les formations pour ceux de l'établissement courant
+
         self.formations = Formation.objects.filter(
             etablissement=self.etablissement
         ).order_by("nom")

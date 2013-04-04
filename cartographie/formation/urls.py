@@ -99,7 +99,7 @@ urlpatterns = patterns(
         name="formation_partenaire_autre_ajouter"
     ),
     url(
-        r"^(?P<token>\w+)/partenaire_autre/ajouter_popup$",
+        r"^(?P<token>\w+)/formation/partenaire_autre/ajouter_popup$",
         "ajouter_partenaire_autre_popup",
         name="formation_partenaire_autre_ajouter_popup"
     ),

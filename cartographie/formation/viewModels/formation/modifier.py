@@ -4,7 +4,7 @@ from django.forms.models import inlineformset_factory
 
 
 from cartographie.formation.models import Acces, Formation
-from cartographie.formation.models import FormationComposante, EtablissementComposante
+from cartographie.formation.models import FormationComposante, EtablissementComposante, EtablissementAutre
 from cartographie.formation.models import FormationPartenaireAUF
 from cartographie.formation.models import FormationPartenaireAutre
 
@@ -55,6 +55,21 @@ class ModifierViewModel(object):
 
                 return field.formfield()
 
+            def limiter_choix_partenaire_autre(field, **kwargs):
+                """
+                    Limite les choix des partenaires non nembres de l'AUF
+
+                    aux partenaires qui sont associés à l'établissement qui donne
+                    la formation
+                """
+                if field.name == 'etablissement':
+                    formfield = field.formfield()
+                    # refaire le queryset
+                    formfield.queryset = EtablissementAutre.objects.filter(
+                        etablissement=etablissement_courant
+                    )
+                    return formfield
+
             # setup des formsets
             composanteFormset = inlineformset_factory(
                 Formation, FormationComposante,
@@ -66,7 +81,8 @@ class ModifierViewModel(object):
                 Formation, FormationPartenaireAUF, extra=1
             )
             partenaireAutreFormset = inlineformset_factory(
-                Formation, FormationPartenaireAutre, extra=1
+                Formation, FormationPartenaireAutre, extra=1,
+                formfield_callback=limiter_choix_partenaire_autre
             )
 
             presence_etablissement = presence_formsets

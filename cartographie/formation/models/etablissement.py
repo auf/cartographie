@@ -117,6 +117,14 @@ class EtablissementAutre(models.Model):
         help_text=u"Ville (libellé en français)"
     )
 
+    etablissement = models.ForeignKey(
+        ref.Etablissement,    
+        null=False,
+        blank=False,
+        verbose_name=u"Établissement membre de l'AUF",
+        help_text=u"Établissement de l'AUF auquel cet établissement est relié"
+    )
+
     pays = models.ForeignKey(
         ref.Pays,
         null=True,
