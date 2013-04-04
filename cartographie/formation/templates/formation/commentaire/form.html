@@ -1,7 +1,17 @@
 {% comment %}
     Ce formulaire est utilisé à la fois pour un ajout et pour une édition
     C'est le pourquoi de l'existence du gros IF dans l'action du form
-{% endcomment %}
+    {% endcomment %}
+{% if statut_final %}
+  <p class="text-error">
+    La suppression est une action définitive.<br/>
+    La fiche sera retirée du système:
+    <ul>
+        <li>Elle ne sera plus disponible à l'édition;</li>
+        <li>Elle ne sera plus affichée dans les interfaces publiques</li>
+      </ul>
+    </p>
+{% endif %}
 <form action="{{ form_url }}"
     method="post" class="form-auf {% if is_hidden == "true" %}hidden{% endif %}">
     {% csrf_token %}

@@ -13,6 +13,10 @@ ETATS = [
     (STATUTS.publiee, STATUTS.publiee_label),
 ]
 
+def is_statut_final(statut_id):
+    return int(statut_id) == int(STATUTS.supprimee)
+
+
 def statusIdToStatusLabel(value):
     labels = filter(lambda x: x[0] == int(value), ETATS)
 
