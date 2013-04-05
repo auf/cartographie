@@ -30,11 +30,18 @@ def token_required(wrapped_func):
             return HttpResponseRedirect(reverse('formation_erreur'))
 
         etab = acces.etablissement
-
-        if etab:
-            return wrapped_func(request, *args, **kwargs)
-        else:
+        if not etab:
             return HttpResponseRedirect(reverse('formation_erreur'))
+
+        if 'formation_id' in kwargs:
+            formation_id = kwargs['formation_id']
+            try:
+                formation = models.Formation.objects.get(pk=formation_id)
+                if formation.etablissement != etab:
+                    return HttpResponseRedirect(reverse('formation_erreur'))
+            except ObjectDoesNotExist, e:
+                return HttpResponseRedirect(reverse('formation_erreur'))
+        return wrapped_func(request, *args, **kwargs)
 
     return inner_decorator
 
