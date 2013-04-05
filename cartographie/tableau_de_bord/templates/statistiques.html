@@ -24,7 +24,7 @@
                     <tbody>
                         {% for stat in totaux_par_statut %}
                         <tr>
-                            <td>{{ stat.total }}</td>
+                            <td class="span1">{{ stat.total }}</td>
                             <td>{{ stat.statut|statusLabel }}</td>
                         </tr>
                         {% endfor %}
@@ -33,10 +33,10 @@
             
                 <h4>Par établissement</h4>
                 <table class="table table-striped table-bordered table-hover table-condensed">
-                    <tbody>
+                  <tbody>
                         {% for stat in totaux_par_etablissements %}
                         <tr>
-                            <td>{{ stat.total }}</td>
+                            <td class="span1">{{ stat.total }}</td>
                             <td>{{ stat.etablissement__nom }}</td>
                         </tr>
                         {% endfor %}
@@ -52,7 +52,7 @@
                 <tbody>
                     {% for stat in totaux_par_regions %}
                     <tr>
-                        <td>{{ stat.total }}</td>
+                        <td class="span1">{{ stat.total }}</td>
                         <td>{{ stat.etablissement__region__nom }}</td>
                     </tr>
                     {% endfor %}
@@ -64,7 +64,7 @@
                 <tbody>
                     {% for stat in totaux_par_pays %}
                     <tr>
-                        <td>{{ stat.total }}</td>
+                        <td class="span1">{{ stat.total }}</td>
                         <td>{{ stat.etablissement__pays__nom }}</td>
                     </tr>
                     {% endfor %}
