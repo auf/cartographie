@@ -17,7 +17,7 @@
         <div class="clear"></div>
         <h4 class="pull-left">
             Modifier une formation - {{ formation.nom }}
-            <span class="label label-important">
+            <span class="label {{ formation.statut|statusClass  }}">
                 {{ formation.statut|statusLabel }}
             </span>
         </h4>
