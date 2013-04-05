@@ -1,3 +1,4 @@
+{% load admin_urls %}
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -40,11 +41,28 @@
                     {% if user.is_active %}
                         <a class="pull-right dashboard-link" href="{% url logout %}">Déconnexion</a>
                         {% if user.is_staff %}
+                            {% comment %}
                             <a class="btn btn-small pull-right dashboard-link" href="{% url dashboard_statistiques %}">
                                 <i class="icon-th"></i>
                                 Consulter votre tableau de bord
                             </a>
+                            {% endcomment %}
+                            <a class="pull-right dashboard-link" href="{% url dashboard_statistiques %}">
+                                Tableau de bord
+                            </a>
                         {% endif %}
+                        {% if user.is_superuser %}
+                            <a class="pull-right dashboard-link" href="{% url admin:index %}">
+                                Administration
+                            </a>
+                        {% endif %}
+                        <span class="pull-right dashboard-link">
+                        {% if user.first_name and user.last_name %}
+                            {{ user.first_name }} {{ user.last_name|upper }}
+                        {% else %}
+                            {{ user }}
+                        {% endif %}
+                        </span>
                     {% else %}
                         <a class="pull-right dashboard-link" href="{% url login %}">Connexion</a>
                     {% endif %}
