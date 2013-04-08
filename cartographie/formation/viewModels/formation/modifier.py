@@ -3,7 +3,7 @@
 from django.forms.models import inlineformset_factory
 
 
-from cartographie.formation.models import Acces, Formation
+from cartographie.formation.models import Acces, Formation, UserRole
 from cartographie.formation.models import FormationComposante, EtablissementComposante, EtablissementAutre
 from cartographie.formation.models import FormationPartenaireAUF
 from cartographie.formation.models import FormationPartenaireAutre
@@ -37,6 +37,8 @@ class ModifierViewModel(object):
             self.formation = Formation.objects.get(pk=formation_id)
 
             etablissement_courant = self.etablissement
+
+            self.peut_modifier_workflow = request.user and UserRole.is_editeur_etablissement(request.user, self.etablissement)
 
             def limiter_choix_etablissement(field, **kwargs):
                 """
@@ -149,5 +151,6 @@ class ModifierViewModel(object):
             "composanteFormset": self.composanteFormset,
             "partenaireAufFormset": self.partenaireAufFormset,
             "partenaireAutreFormset": self.partenaireAutreFormset,
-            "statuts_formation": statuts_formation
+            "statuts_formation": statuts_formation,
+            "peut_modifier_workflow": self.peut_modifier_workflow
         }

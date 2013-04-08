@@ -3,6 +3,7 @@
 from cartographie.formation.models import Formation
 from cartographie.formation.models.workflow import statusIdToStatusLabel
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import user_passes_test
 from django.contrib import messages
 from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
@@ -10,7 +11,7 @@ from django.utils import simplejson
 from django.core.urlresolvers import reverse
 from django.shortcuts import render, render_to_response
 
-from cartographie.formation.decorators import token_required
+from cartographie.formation.decorators import token_required, editor_of_region_required
 
 
 def erreur(request):
@@ -116,7 +117,7 @@ def modifier(request, token, formation_id=None):
     )
 
 
-@token_required
+@editor_of_region_required
 def modifier_workflow(request, token, formation_id, statut_id):
     """
         Modifier le statut de workflow de la fiche courante

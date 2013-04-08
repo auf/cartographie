@@ -42,6 +42,15 @@ class UserRole(models.Model, Role):
     def has_perm(self, perm):
         return perm in self.perms[self.type]
 
+
+    # FIXME
+    # Pour éviter le  monkey patching. mettre dans User si on upgrade à Django 1.5
+    @staticmethod
+    def is_editeur_etablissement(user, etablissement):
+        return len(user.roles.filter(
+              regions__pk=etablissement.region.pk
+          ).filter(type=u'editeur')) > 0
+
     def get_filter_for_perm(self, perm, model):
         if perm == "manage" and self.has_perm("manage"):
             if model in [ref.Region]:

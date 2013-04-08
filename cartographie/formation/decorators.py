@@ -37,3 +37,25 @@ def token_required(wrapped_func):
             return HttpResponseRedirect(reverse('formation_erreur'))
 
     return inner_decorator
+
+
+def editor_of_region_required(wrapped_func):
+    """
+        Décorateur qui vérifie si l'utilisateur est un éditeur
+        de la région
+    """
+
+    @wraps(wrapped_func)
+    def inner_decorator(request, *args, **kwargs):
+        token = kwargs.get("token", False)
+
+        # obtention d'un etablissement à partir de la valeur du token
+        etab = models.Acces.etablissement_for_token(token)
+
+        if etab and request.user and\
+          models.UserRole.is_editeur_etablissement(request.user, etab):
+            return wrapped_func(request, *args, **kwargs)
+        else:
+            return HttpResponseRedirect(reverse('formation_erreur'))
+
+    return inner_decorator

@@ -20,6 +20,15 @@ class Acces(models.Model):
 
     token_charset = "abcdefghiklmnopqrstuvwxyz01234567890"
 
+    @staticmethod
+    def etablissement_for_token(token):
+        try:
+            acces = Acces.objects.select_related('etablissement')\
+                .get(token=token)
+            return acces.etablissement
+        except ObjectDoesNotExist:
+            return None
+
     class Meta:
         verbose_name = u"Accès aux formulaires"
         verbose_name_plural = u"Accès aux formulaires"
