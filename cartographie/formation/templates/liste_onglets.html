@@ -1,23 +1,29 @@
-<ul class="nav nav-tabs">
-    <li class="{% if menu_actif == "formation" %}active{% endif %}">
+<ul class="{% if menu_actif == "formation" %}cacher_facultatif{% endif %} nav nav-tabs">
+    <li class="onglet_facultatif {% if menu_actif == "formation" %}active{% endif %}">
         <a href="{% url formation_liste token %}">Formations</a>
     </li>
-    <li class="{% if menu_actif == "composante" %}active{% endif %}">
+    <li class="onglet_facultatif {% if menu_actif == "composante" %}active{% endif %}">
         <a href="{% url formation_composante_liste token %}">
             Composantes
         </a>
     </li>
-    <li class="{% if menu_actif == "partenaire-autre" %}active{% endif %}">
+    <li class="onglet_facultatif {% if menu_actif == "partenaire-autre" %}active{% endif %}">
         <a href="{% url formation_partenaire_autre_liste token %}">
             Partenaires
         </a>
     </li>
-    <li class="{% if menu_actif == "personne" %}active{% endif %}">
+    <li class="onglet_facultatif {% if menu_actif == "personne" %}active{% endif %}">
         <a href="{% url formation_personne_liste token %}">
             Personnes
         </a>
     </li>
-
+    {% if menu_actif == "formation" %}
+    <li class="pull-right">
+        <a href="#" onclick="$('.onglet_facultatif').show()">
+            Autres informations
+        </a>
+    </li>
+    {% endif %}
     {% comment %}
     <!--
         à supprimer car il se trouve maintenant en popup dans le formulaire

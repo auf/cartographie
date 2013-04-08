@@ -14,13 +14,15 @@ class ListeViewModel(BaseListeViewModel):
 
         # filtrer les formations pour ceux de l'établissement courant
 
+        self.cacher_onglets = True if onglet_actif == "formation" else False
+
         self.formations = Formation.objects.filter(
             etablissement=self.etablissement
         ).order_by("nom")
 
     def get_data(self):
         data = super(ListeViewModel, self).get_data()
-
+        data["cacher_onglets"] = self.cacher_onglets
         data["formations"] = self.formations
 
         return data
