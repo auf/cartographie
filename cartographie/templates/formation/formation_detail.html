@@ -83,9 +83,7 @@
               <tr>
                   <td>Niveaux d'entrée <i>(en années universitaires)</i> :</td>
                   <td>
-                  {% for n in formation.niveau_entree.all %}
-                      {{ n }},
-                  {% endfor %}
+                  {{ formation.niveau_entree.all|join:", " }}
                 </td>
               </tr>
           {% endif %}
@@ -99,9 +97,7 @@
               <tr>
                   <td>Vocation :</td>
                   <td>
-                  {% for v in formation.vocation.all %}
-                      {{ v }},
-                  {% endfor %}
+                  {{ formation.vocation.all|join:", " }}
                   </td>
               </tr>
           {% endif %}
@@ -129,9 +125,7 @@
                 <tr>
                     <td>Langue(s) d'enseignement :</td>
                     <td>
-                    {% for l in formation.langue.all %}
-                        {{ l }},
-                    {% endfor %}
+                    {{ formation.langue.all|join:", " }}
                     </td>
                 </tr>
             {% endif %}
