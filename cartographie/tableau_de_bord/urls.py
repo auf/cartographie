@@ -12,4 +12,8 @@ urlpatterns = patterns(
         r"^etablissements$",
         "liste_etablissements", name="dashboard_liste_etablissements"
     ),
+    url(
+        r"^modifications$",
+        "modifications", name="dashboard_modifications"
+    ),
 )

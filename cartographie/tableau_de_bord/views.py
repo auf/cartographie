@@ -30,3 +30,11 @@ def liste_etablissements(request):
     return render_to_response(
         "liste_etablissements.html", vm(request).get_data(), RequestContext(request)
     )
+
+@login_required
+def modifications(request):
+    from viewModels.modifications import ModificationsViewModel as vm
+
+    return render_to_response(
+        "modifications.html", vm(request).get_data(), RequestContext(request)
+    )

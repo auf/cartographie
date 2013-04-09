@@ -2,7 +2,7 @@
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Count
-from cartographie.formation.models import Formation, UserRole
+from cartographie.formation.models import Formation, FormationModification, UserRole
 
 
 class StatistiquesViewModel(object):
@@ -42,10 +42,20 @@ class StatistiquesViewModel(object):
             role = None
             self.user_sans_region = True
 
+        from pprint import pprint
+
         if role:
-            self.total_nb_formations_sous_gestion = Formation.objects.filter(
-                etablissement__region__in=role.regions.all()
-            ).count()
+            self.formations = Formation.objects.filter(etablissement__region__in=role.regions.all())
+
+            self.recent_modifications \
+                = FormationModification.objects.filter(formation__in=self.formations) \
+                .order_by("-date")[:25]
+
+            print "recent modifs"
+            pprint(self.recent_modifications)
+
+            self.total_nb_formations_sous_gestion = self.formations.count()
+
 
             self.totaux_par_etablissements = Formation.objects.filter(
                 etablissement__region__in=role.regions.all()
@@ -68,5 +78,6 @@ class StatistiquesViewModel(object):
             "totaux_par_pays": self.totaux_par_pays,
             "totaux_par_etablissements": self.totaux_par_etablissements,
             "totaux_par_statut": self.totaux_par_statut,
-            "user_sans_region": self.user_sans_region
+            "user_sans_region": self.user_sans_region,
+            "recent_modifications": self.recent_modifications,
         }

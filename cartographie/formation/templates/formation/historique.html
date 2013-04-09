@@ -1,0 +1,36 @@
+{% extends "base_formation.html" %}
+{% load statusLabel %}
+
+{% block Contenu %}
+<span class="span12">
+    <div class="content" data-etablissement-id="{{ etablissement.id }}">
+        <h3>{{ etablissement.nom }}</h3>
+        <div class="clear"></div>
+        <h4 class="pull-left">
+            {{ formation.nom }}
+        </h4>
+
+        <div class="clear"></div>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <td>Date</td>
+                    <td>Utilisateur</td>
+                </tr>
+            </thead>
+            <tbody>
+            {% for evenement in historique %}
+                <tr>
+                    <td>{{evenement.date}}</td>
+                    <td>{{evenement.user}}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+
+    </div>
+</span>
+
+{% endblock %}

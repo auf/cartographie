@@ -27,6 +27,11 @@ urlpatterns = patterns(
         name="formation_consulter"
     ),
     url(
+        r"^(?P<token>\w+)/formation/(?P<formation_id>\d+)/historique$",
+        "historique",
+        name="formation_historique"
+    ),
+    url(
         r"^(?P<token>\w+)/formation/(?P<formation_id>\d+)/modifier$",
         "modifier",
         name="formation_modifier"

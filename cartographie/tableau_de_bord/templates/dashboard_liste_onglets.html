@@ -7,4 +7,9 @@
             Établissements
         </a>
     </li>
+    <li class="{% if menu_actif == "modifications" %}active{% endif %}">
+        <a href="{% url dashboard_modifications %}">
+            Modifications
+        </a>
+    </li>
 </ul>

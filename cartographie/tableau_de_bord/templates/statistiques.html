@@ -70,6 +70,32 @@
                     {% endfor %}
                 </tbody>
             </table>
+
+            <hr />
+            
+            <h3>Ajout et modifications récentes aux formations sous votre gestion</h3>
+            <a href="{% url dashboard_modifications %}">Liste complète des ajouts et modifications</a>
+            
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <td>Date</td>
+                        <td>Formation</td>
+                        <td>Utilisateur</td>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for modif in recent_modifications %}
+                <tr>
+                    <td>{{ modif.date }}</td>
+                    <td>
+                        <a href ="{% url formation_historique modif.formation.etablissement.acces_set.get.token modif.formation.id %}">{{ modif.formation }}</a>
+                    </td>
+                    <td>{{ modif.user }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>            
         </div>
     </div>
 {% endblock %}

@@ -1,7 +1,7 @@
 # coding: utf-8
 
 from cartographie.formation.decorators import token_required, editor_of_region_required
-from cartographie.formation.models import Acces, Fichier, Formation
+from cartographie.formation.models import Acces, Fichier, Formation, FormationModification
 from cartographie.formation.models.workflow import statusIdToStatusLabel, is_statut_final
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import user_passes_test
@@ -87,6 +87,23 @@ def consulter(request, token, formation_id):
         'files': Fichier.objects.filter(formation=formation).filter(is_public=True).order_by('nom')
     }
     return render(request, "formation/formation_detail.html", c)
+
+@token_required
+def historique(request, token, formation_id):
+    """
+        Historique d'une formation
+    """
+
+    historique = FormationModification.objects.filter(formation=formation_id) \
+        .order_by("-date")
+
+    formation = Formation.objects.get(pk=formation_id)
+
+    c = {
+        'formation': formation,
+        'historique': historique,
+    }
+    return render(request, "formation/historique.html", c)
 
 
 @token_required
