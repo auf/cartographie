@@ -1,0 +1,13 @@
+{% load removeSelectMultipleHelpText %}
+
+<div class="recherche-field">
+    <label
+        class="control-label {% if field.field.required %}bold{% endif %}"
+        for="{{ field.auto_id }}">
+        {{ field.label|safe }}
+        {{ field.required }}
+    </label>
+    <div class="controls">
+        {{ field }}
+    </div>
+</div>

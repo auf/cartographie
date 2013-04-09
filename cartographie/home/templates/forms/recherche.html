@@ -1,0 +1,46 @@
+<div class="row">
+      <form action="{% url home_formation_liste %}" method="get" class="form form-horizontal form-auf">
+        <div class="offset1 span9">
+            <div class="row">
+                <div class="required span6">
+                    {% include "forms/recherche_form_field.html" with field=formation_form.s%} 
+                </div>
+                <div class="actions span3">
+                    <div class="recherche-field">
+                        <a class="btn btn-info">
+                            <i class="icon-search icon-white"></i>
+                            Recherchez
+                        </a>
+                        {% if not recherche_avancee_active %}<a href="#" class="pull-left" onclick="$('.optional').show()">Recherche avancée</a>{% endif %}
+                    </div>
+                </div>
+          </div>
+        </div>
+        <div>
+          
+          <div class="{% if not recherche_avancee_active %}optional{% endif %}"> 
+              <div class="row">
+              {% for field in formation_form %}
+                  {% if not forloop.counter == 2 and forloop.counter|divisibleby:2 %}
+                      </div>
+                      <div class="row">
+                  {% endif %}
+
+                  {% if field.auto_id != 'id_s' %}
+                  <div class="span4">{% include "forms/recherche_form_field.html" with field=field %}</div>
+                  {% endif %}
+
+              {% endfor %}
+              </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </form>
+</div>
+<div class="row">
+    <div class="offset1 span10">
+        <form action="{% url home_formation_liste %}" method="get" class="form form-horizontal">
+
+        </form>
+    </div>
+</div>

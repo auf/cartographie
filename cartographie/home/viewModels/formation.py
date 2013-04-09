@@ -22,12 +22,14 @@ class FormationListeViewModel(object):
                                  for col in columns)
                              
     def __init__(self, request, *args, **kwargs):
-        self.form = FormationForm()
+        self.form = FormationForm(request.GET)
         self.formations = Formation.objects.all()
         self.terme_recherche = None
         self.sort = None
 
-        self._filter(request.GET.get('s'))
+        self.recherche_avancee_active = False
+
+        self._filter(request.GET)
         self._sort(request.GET.get('tri'))
         self._paginate(request)
 
@@ -36,6 +38,7 @@ class FormationListeViewModel(object):
             "formation_form": self.form,
             "terme_recherche": self.terme_recherche,
             "formations": self.formations,
+            "recherche_avancee_active": self.recherche_avancee_active,
             "tri": self.sort,
             "columns": FormationListeViewModel.columns
         }
@@ -43,19 +46,42 @@ class FormationListeViewModel(object):
     def _filter(self, query):
         if not query:
             return
+        print query
 
-        self.terme_recherche = query
-        self.form.initial['s'] = self.terme_recherche
-        self.formations = Formation.objects.filter(
-            Q(nom__icontains=self.terme_recherche) | 
-            Q(discipline_1__nom__icontains=self.terme_recherche) |
-            Q(discipline_2__nom__icontains=self.terme_recherche) |
-            Q(discipline_3__nom__icontains=self.terme_recherche) |
-            Q(etablissement__nom__icontains=self.terme_recherche) |
-            Q(etablissement__region__nom__icontains=self.terme_recherche) |
-            Q(etablissement__pays__nom__icontains=self.terme_recherche) |
+        self.terme_recherche = query['s']
+
+        q_formation = Q(nom__icontains=self.terme_recherche) |\
+            Q(discipline_1__nom__icontains=self.terme_recherche) |\
+            Q(discipline_2__nom__icontains=self.terme_recherche) |\
+            Q(discipline_3__nom__icontains=self.terme_recherche) |\
+            Q(etablissement__nom__icontains=self.terme_recherche) |\
+            Q(etablissement__region__nom__icontains=self.terme_recherche) |\
+            Q(etablissement__pays__nom__icontains=self.terme_recherche) |\
             Q(niveau_diplome__nom__icontains=self.terme_recherche)
-            )
+
+        if 'niveau' in query and query['niveau']:
+            self.recherche_avancee_active = True
+            q_formation = q_formation & Q(niveau_diplome__nom__contains=query['niveau'])
+
+        if 'discipline' in query and query['discipline']:
+            self.recherche_avancee_active = True
+            q_formation = q_formation & Q(discipline_1__code__startswith=query['discipline']) |\
+                           Q(discipline_2__code__startswith=query['discipline']) |\
+                           Q(discipline_3__code__startswith=query['discipline'])
+
+        if 'region' in query and query['region']:
+            self.recherche_avancee_active = True
+            q_formation = q_formation & Q(etablissement__region__pk=query['region'])
+
+        if 'pays' in query and query['pays']:
+            self.recherche_avancee_active = True
+            q_formation = q_formation & Q(etablissement__pays__pk=query['pays'])
+
+        if 'etablissement' in query and query['etablissement']:
+            self.recherche_avancee_active = True
+            q_formation = q_formation & Q(etablissement__pk=query['etablissement'])
+
+        self.formations = self.formations.filter(q_formation)
 
     def _paginate(self, request):
         page = request.GET.get('page')

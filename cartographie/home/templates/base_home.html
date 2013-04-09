@@ -1,10 +1,12 @@
 {% extends "cartographie/base.html" %}
 
 {% block css %}
-    <link rel="stylesheet" href="{{ STATIC_URL }}home/css/home.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}home/css/home.css">
+<link href="{{ STATIC_URL }}commun/chosen/chosen.css" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block js %}
+    <script src="{{ STATIC_URL }}commun/chosen/chosen.jquery.min.js"></script>
     <script src="{{ STATIC_URL }}home/js/home.js"></script>
 {% endblock %}
 

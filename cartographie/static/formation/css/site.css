@@ -3751,9 +3751,6 @@ h5 {
   background-color: #e30000;
 }
 /* Header */
-header {
-  overflow: hidden;
-}
 header .logo {
   margin: 0;
 }
@@ -3814,13 +3811,13 @@ form.form-horizontal .controls {
   margin-left: 200px;
 }
 form .control-group input[type=text] {
-  width: 350px;
+  width: 200px;
 }
 form .control-group select {
-  width: 365px;
+  width: 215px;
 }
 form .control-group textarea {
-  width: 350px;
+  width: 200px;
 }
 form .control-group .errorlist {
   margin: 0 0 0 20px;
