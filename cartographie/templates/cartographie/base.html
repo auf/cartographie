@@ -40,7 +40,7 @@
                     </h1>
                     {% if user.is_active %}
                         <a class="pull-right dashboard-link" href="{% url logout %}">Déconnexion</a>
-                        {% if user.is_staff %}
+                        {% if user.is_authenticated %}
                             {% comment %}
                             <a class="btn btn-small pull-right dashboard-link" href="{% url dashboard_statistiques %}">
                                 <i class="icon-th"></i>
