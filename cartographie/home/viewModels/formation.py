@@ -58,9 +58,15 @@ class FormationListeViewModel(object):
             )
 
     def _paginate(self, request):
-
         page = request.GET.get('page')
-        perpage = request.GET.get('parpage', FormationListeViewModel.NUM_FORMATIONS_PER_PAGE)
+        try:
+            perpage = int(request.GET.get('parpage', FormationListeViewModel.NUM_FORMATIONS_PER_PAGE))
+        except ValueError:
+            perpage = FormationListeViewModel.NUM_FORMATIONS_PER_PAGE
+
+        if perpage <= 0:
+            perpage = FormationListeViewModel.NUM_FORMATIONS_PER_PAGE
+
         paginator = Paginator(self.formations, perpage)
         try:
             self.formations = paginator.page(page)
