@@ -18,7 +18,7 @@
         <div class="clear"></div>
         <h4 class="pull-left">
             Commentaires - {{ formation.nom }}
-            <span class="label label-important">{{ formation.statut|statusLabel }}</span>
+            <span class="label {{ formation.statut|statusClass }}">{{ formation.statut|statusLabel }}</span>
         </h4>
         {% include "formation/boutons_workflow.html" %}
         <div class="clear"></div>
