@@ -5,7 +5,7 @@
         {% if formation.statut == statut.supprimee %}
             {% if request.user.is_superuser or not request.user.is_authenticated %}
                 <a href="{% url formation_modifier_workflow token formation.id statut.en_redaction %}"
-                   class="btn btn-info retour-en-redaction">
+                   class="btn">
                     Retour en rédaction
                 </a>
             {% endif %}
@@ -31,7 +31,7 @@
             {% endif %}
 
             <a href="{% url formation_commentaire_avant_changement_statut token formation.id statut.en_redaction %}"
-               class="btn btn-info retour-en-redaction modal-commentaire">
+               class="btn retour-en-redaction modal-commentaire">
                 Retour en rédaction
             </a>
 
@@ -44,12 +44,12 @@
         {% endif %}
 
         {% if formation.statut == statut.publiee %}
-            <a href="{% url formation_commentaire_avant_changement_statut token formation.id statut.validee %}" class="btn btn-warning valider modal-commentaire">
+            <a href="{% url formation_commentaire_avant_changement_statut token formation.id statut.validee %}" class="btn btn-info valider modal-commentaire">
                 Retour vers validée
             </a>
 
             <a href="{% url formation_commentaire_avant_changement_statut token formation.id statut.en_redaction %}"
-               class="btn btn-info retour-en-redaction modal-commentaire">
+               class="btn retour-en-redaction modal-commentaire">
                 Retour en rédaction
             </a>
         {% endif %}
