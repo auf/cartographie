@@ -1,3 +1,4 @@
+from cartographie.formation.constants import statuts_formation
 from cartographie.formation.models import Fichier, Formation, UserRole
 from cartographie.formation.viewModels.baseAjouterViewModel \
     import BaseAjouterViewModel
@@ -56,13 +57,10 @@ class FichierViewModel(BaseAjouterViewModel):
     forms = None
 
     def __init__(self, request, token, formation_id):
+        super(FichierViewModel, self).__init__(request, token)
         self.formation = Formation.objects.get(pk=formation_id)
-        self.token = token
-
         self.files = Fichier.objects.filter(formation=self.formation).order_by('nom')
-
         self.peut_modifier_workflow = request.user and UserRole.is_editeur_etablissement(request.user, self.etablissement)
-
 
         # Model field -> Form field
         def callback(field, **kwargs):
@@ -87,4 +85,6 @@ class FichierViewModel(BaseAjouterViewModel):
                  'token': self.token,
                  'formset': self.formset,
                  'peut_modifier_workflow': self.peut_modifier_workflow,
+                 'etablissement': self.etablissement,
+                 'statuts_formation': statuts_formation,
                  }
