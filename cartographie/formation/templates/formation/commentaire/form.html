@@ -1,16 +1,17 @@
 {% comment %}
     Ce formulaire est utilisé à la fois pour un ajout et pour une édition
     C'est le pourquoi de l'existence du gros IF dans l'action du form
-    {% endcomment %}
+{% endcomment %}
 {% if statut_final %}
   <p class="text-error">
     La suppression est une action définitive.<br/>
-    La fiche sera retirée du système:
+    La fiche sera retirée du système :
     <ul>
-        <li>Elle ne sera plus disponible à l'édition;</li>
-        <li>Elle ne sera plus affichée dans les interfaces publiques</li>
-      </ul>
-    </p>
+        <li>Elle ne sera plus disponible à l'édition,</li>
+        <li>Elle ne sera plus affichée dans les interfaces publiques.</li>
+    </ul>
+    Un commentaire est obligatoire pour que la suppression se fasse.
+  </p>
 {% endif %}
 <form action="{{ form_url }}"
     method="post" class="form-auf {% if is_hidden == "true" %}hidden{% endif %}">
@@ -24,8 +25,7 @@
         <input type="submit" name="submit" class="btn btn-success" value="Modifier votre commentaire">
         <button class="btn btn-info annuler">Annuler</button>
     {% else %}
-    <input type="{% if json_request %}button{% else %}submit{% endif %}" name="submit" class="btn btn-success" value="Envoyer votre commentaire"
+        <input type="{% if json_request %}button{% else %}submit{% endif %}" name="submit" class="btn btn-success" value="Envoyer votre commentaire"
          {% if json_request %}onclick="javascript:AUF.formation.popupCommentaireSubmit()"{% endif %}>
     {% endif %}
-
 </form>
