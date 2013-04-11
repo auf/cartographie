@@ -368,6 +368,7 @@ def commentaire_avant_changement_statut(request, token, formation_id, nouveau_st
     data = vm.get_data()
     data.update({'form_url': form_url, 'json_request': True})
     data.update({'statut_final': is_statut_final(nouveau_statut)})
+    data['retour_arriere'] = True
 
     return render_to_response(
         "formation/commentaire/form.html",

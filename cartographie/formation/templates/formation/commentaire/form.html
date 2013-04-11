@@ -12,6 +12,8 @@
     </ul>
     Un commentaire est obligatoire pour que la suppression se fasse.
   </p>
+{% elif retour_arriere %}
+  <p>Un commentaire est obligatoire pour changer le statut de la formation.</p>
 {% endif %}
 <form action="{{ form_url }}"
     method="post" class="form-auf {% if is_hidden == "true" %}hidden{% endif %}">
