@@ -47,7 +47,7 @@ class UserRole(models.Model, Role):
     # Pour éviter le  monkey patching. mettre dans User si on upgrade à Django 1.5
     @staticmethod
     def is_editeur_etablissement(user, etablissement):
-        return len(user.roles.filter(
+        return not user.is_anonymous() and len(user.roles.filter(
               regions__pk=etablissement.region.pk
           ).filter(type=u'editeur')) > 0
 
