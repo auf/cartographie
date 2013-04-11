@@ -3885,3 +3885,6 @@ ul.commentaires li p.commentaire.hidden + form {
 ul.cacher_facultatif li.onglet_facultatif {
   display: none;
 }
+.modal-body {
+  max-height: 800px;
+}
