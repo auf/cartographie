@@ -14,7 +14,10 @@
     Pour <b>annuler</b> la suppression, fermer cette fenêtre de commentaire en haut à droite.
   </p>
 {% elif retour_arriere %}
-  <p>Un commentaire est obligatoire pour changer le statut de la formation.</p>
+  <p>
+    Un commentaire est <b>obligatoire</b> pour changer le statut de la formation.<br />
+    Pour <b>annuler</b> le changement de statut, fermer cette fenêtre de commentaire en haut à droite.
+  </p>
 {% endif %}
 <form action="{{ form_url }}"
     method="post" class="form-auf {% if is_hidden == "true" %}hidden{% endif %}">
@@ -28,7 +31,14 @@
         <input type="submit" name="submit" class="btn btn-success" value="Modifier votre commentaire">
         <button class="btn btn-info annuler">Annuler</button>
     {% else %}
-        <input type="{% if json_request %}button{% else %}submit{% endif %}" name="submit" class="btn btn-success" value="Envoyer votre commentaire"
-         {% if json_request %}onclick="javascript:AUF.formation.popupCommentaireSubmit()"{% endif %}>
+        <input type="{% if json_request %}button{% else %}submit{% endif %}" name="submit" class="btn btn-success" 
+        {% if statut_final %}
+            value="Ajouter le commentaire et supprimer la formation"
+        {% elif retour_arriere %}
+            value="Ajouter le commentaire et modifier le statut de la formation"
+        {% else %}
+            value="Ajouter un commentaire"
+        {% endif %}
+        {% if json_request %}onclick="javascript:AUF.formation.popupCommentaireSubmit()"{% endif %}>
     {% endif %}
 </form>
