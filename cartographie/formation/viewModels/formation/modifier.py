@@ -38,7 +38,7 @@ class ModifierViewModel(object):
 
             etablissement_courant = self.etablissement
 
-            self.peut_modifier_workflow = request.user and UserRole.is_editeur_etablissement(request.user, self.etablissement)
+            self.peut_modifier_workflow = UserRole.peut_modifier_workflow(request.user, self.etablissement)
 
             def limiter_choix_etablissement(field, **kwargs):
                 """

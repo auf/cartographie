@@ -53,7 +53,8 @@ def editor_of_region_required(wrapped_func):
         etab = models.Acces.etablissement_for_token(token)
 
         if etab and request.user and\
-          models.UserRole.is_editeur_etablissement(request.user, etab):
+          models.UserRole.is_editeur_etablissement(request.user, etab) or\
+          request.user.is_superuser:
             return wrapped_func(request, *args, **kwargs)
         else:
             return HttpResponseRedirect(reverse('formation_erreur'))
