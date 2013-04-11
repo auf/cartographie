@@ -123,3 +123,5 @@ from conf import *
 
 LOGIN_REDIRECT_URL = reverse_lazy("dashboard_statistiques")
 LOGIN_URL = reverse_lazy("login")
+
+UPLOAD_DIRECTORY = MEDIA_ROOT

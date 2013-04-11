@@ -5,7 +5,7 @@ from .formation import Formation
 import os.path
 
 def filename(instance, filename):
-    return os.path.join(str(instance.formation.etablissement.id), str(instance.formation.id), filename)
+    return os.path.join('etablissements', str(instance.formation.etablissement.id), 'formations', str(instance.formation.id), filename)
 
 class Fichier(models.Model):
 
