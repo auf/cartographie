@@ -34,6 +34,7 @@ class CommentairesViewModel(BaseAjouterViewModel):
             "statuts_formation": statuts_formation,
             "commentaires": self.commentaires,
             "form": self.form,
+            'form_url': reverse('commentaire_ajouter', args=[self.token, self.formation.id]),
             "peut_modifier_workflow": self.peut_modifier_workflow,
         })
         return data
@@ -83,7 +84,7 @@ class CommentaireModifierViewModel(BaseAjouterViewModel):
 
         data = {
             "success": self.success,
-            "commentaire": self.commentaire
+            "commentaire": self.commentaire,
         }
         return data
 
