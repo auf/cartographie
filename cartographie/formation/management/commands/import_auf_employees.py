@@ -41,7 +41,7 @@ class Command(BaseCommand):
             nouveau_user = DjangoUser()
             nouveau_user.first_name = e.prenom
             nouveau_user.last_name = e.nom
-            nouveau_user.is_staff = True
+            nouveau_user.is_staff = False # on veut pas accès à admin
             nouveau_user.is_active = True
             nouveau_user.username = (e.courriel.split('@')[0])
             nouveau_user.email = e.courriel
