@@ -1,3 +1,4 @@
+from cartographie.formation.constants import statuts_formation
 from cartographie.formation.models import Fichier, Formation, UserRole
 from cartographie.formation.viewModels.baseAjouterViewModel \
     import BaseAjouterViewModel
@@ -85,4 +86,5 @@ class FichierViewModel(BaseAjouterViewModel):
                  'formset': self.formset,
                  'peut_modifier_workflow': self.peut_modifier_workflow,
                  'etablissement': self.etablissement,
+                 'statuts_formation': statuts_formation,
                  }

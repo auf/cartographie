@@ -2,7 +2,15 @@
 {% load qs_helpers %}
 {% block Contenu_home %}
 
-    <h3>{{ formations.paginator.count }} formations</h3>
+    <h3>
+    {% if formations.paginator.count == 0 %}
+        0 formation
+    {% elif formations.paginator.count == 1 %}
+        1 formation
+    {% else %}
+        {{ formations.paginator.count }} formations
+    {% endif %}
+    </h3>
     <p class="pull-right">Par page: <a href="?{% qs_replace request.GET parpage=5 %}">5</a> | <a href="?{% qs_replace request.GET parpage=10 page=1%}">10</a> | <a href="?{% qs_replace request.GET parpage=15 page=1%}">15</a> | <a href="?{% qs_replace request.GET parpage=20 page=1%}">20</a></p>
     <table class="table table-striped table-bordered table-hover table-condensed">
         <thead>
