@@ -36,5 +36,3 @@ EMAIL_PORT = ""
 EMAIL_HOST_USER = ""
 EMAIL_HOST_PASSWORD = ""
 EMAIL_USE_TLS = ""
-
-UPLOAD_DIRECTORY=os.path.join(os.path.dirname(os.path.dirname(__file__)), 'fichiers')
