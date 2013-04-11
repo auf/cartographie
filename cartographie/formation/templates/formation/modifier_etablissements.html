@@ -21,7 +21,11 @@
             Modifier les établissements - {{ formation.nom }}
             <span class="label {{ formation.statut|statusClass }}">{{ formation.statut|statusLabel }}</span>
         </h4>
-        {% include "formation/boutons_workflow.html" %}
+
+        {% if peut_modifier_workflow %}
+            {% include "formation/boutons_workflow.html" %}
+        {% endif %}
+
         <div class="clear"></div>
         {% include "formation/modifier_onglets.html" with active_tab="etablissements" %}
 

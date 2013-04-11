@@ -3,7 +3,7 @@
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ObjectDoesNotExist
 
-from cartographie.formation.models import Formation, FormationCommentaire
+from cartographie.formation.models import Formation, FormationCommentaire, UserRole
 from cartographie.formation.constants import statuts_formation
 from cartographie.formation.viewModels.baseAjouterViewModel \
     import BaseAjouterViewModel
@@ -25,6 +25,7 @@ class CommentairesViewModel(BaseAjouterViewModel):
         self.commentaires = FormationCommentaire.objects.filter(
             formation=self.formation
         ).order_by("date")
+        self.peut_modifier_workflow = request.user and UserRole.is_editeur_etablissement(request.user, self.etablissement)
 
     def get_data(self):
         data = super(CommentairesViewModel, self).get_data()
@@ -32,7 +33,8 @@ class CommentairesViewModel(BaseAjouterViewModel):
             "formation": self.formation,
             "statuts_formation": statuts_formation,
             "commentaires": self.commentaires,
-            "form": self.form
+            "form": self.form,
+            "peut_modifier_workflow": self.peut_modifier_workflow,
         })
         return data
 
