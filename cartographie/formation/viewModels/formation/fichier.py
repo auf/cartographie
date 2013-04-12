@@ -49,6 +49,7 @@ class FichierForm(ModelForm):
         widgets = {
             'file': CustomClearableFileInput,
             }
+        fields = ('file', 'nom', 'is_public')
 
 
 
