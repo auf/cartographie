@@ -29,18 +29,23 @@
         {% include "formation/modifier_onglets.html" with active_tab="fichiers" %}
 
         <div>
-            <form action="" enctype="multipart/form-data" method="post">
-                {% csrf_token %}
-                {{ formset.management_form }}
                 
+                <form action="" enctype="multipart/form-data" method="post" class="form-horizontal">
+                {{ formset.management_form }}
                 {% for form in formset.forms %}
-                    <fieldset>
-                        <legend>Fichier</legend>
-                        {{form}}
-                    </fieldset>
+                        {% csrf_token %}
+                        {% for field in form %} 
+                              <div class="control-group">
+                                {% if not field.is_hidden %}<label class="control-label" for="{{ field.auto_id }}">{{ field.label }}</label>{% endif %}
+                                    <div class="controls">
+                                      {{ field }}
+                                    </div>
+                                </div>
+                                {% endfor %}
+                                <hr/>
                 {% endfor %}
                 <input type="submit" value="Envoyer">
-            </form>
+                </form>
         </div>
     </div>
 </div>
