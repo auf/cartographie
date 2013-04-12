@@ -60,7 +60,7 @@ class FichierViewModel(BaseAjouterViewModel):
         super(FichierViewModel, self).__init__(request, token)
         self.formation = Formation.objects.get(pk=formation_id)
         self.files = Fichier.objects.filter(formation=self.formation).order_by('nom')
-        self.peut_modifier_workflow = request.user and UserRole.is_editeur_etablissement(request.user, self.etablissement)
+        self.peut_modifier_workflow = UserRole.peut_modifier_workflow(request.user, self.etablissement)
 
         # Model field -> Form field
         def callback(field, **kwargs):

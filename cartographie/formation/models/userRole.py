@@ -51,6 +51,15 @@ class UserRole(models.Model, Role):
               regions__pk=etablissement.region.pk
           ).filter(type=u'editeur')) > 0
 
+    @staticmethod
+    def peut_modifier_workflow(user, etablissement):
+        """
+            Retourne True si l'utilisateur peut modifier
+            le workflow d'une formation de cet etablissement
+        """
+        return user and UserRole.is_editeur_etablissement(user, etablissement)\
+            or user.is_superuser
+
     def get_filter_for_perm(self, perm, model):
         if perm == "manage" and self.has_perm("manage"):
             if model in [ref.Region]:
