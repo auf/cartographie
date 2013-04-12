@@ -25,7 +25,7 @@ class CommentairesViewModel(BaseAjouterViewModel):
         self.commentaires = FormationCommentaire.objects.filter(
             formation=self.formation
         ).order_by("date")
-        self.peut_modifier_workflow = request.user and UserRole.is_editeur_etablissement(request.user, self.etablissement)
+        self.peut_modifier_workflow = UserRole.peut_modifier_workflow(request.user, self.etablissement)
 
     def get_data(self):
         data = super(CommentairesViewModel, self).get_data()

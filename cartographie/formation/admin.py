@@ -99,7 +99,7 @@ class GuardedAdminMixin(object):
 
     def has_change_permission(self, request, obj=None):
         return (request.user.has_perm('manage', obj) or
-                request.user.has_perm('lecture_allocataires', obj))
+                request.user.has_perm('lecture_allocataires', obj)) # TODO : allocataires vient de SIGMA...
 
     def has_add_permission(self, request):
         return request.user.has_perm('manage')
@@ -274,9 +274,8 @@ class AccesAdmin(ModelAdmin):
         return False
 
     def has_change_permission(self, request, obj=None):
-        # True nécessaire pour accès à liste...
-        # ... mais URL de modification pas dans liste : voir list_display_links
-        return True
+        # TODO : corriger ce hack pour que is_staff soit plus suffisant
+        return request.user.is_superuser
 
     def has_delete_permission(self, request, obj=None):
         return False
@@ -328,9 +327,8 @@ class FormationModificationAdmin(ModelAdmin):
         return False
 
     def has_change_permission(self, request, obj=None):
-        # True nécessaire pour accès à liste...
-        # ... mais URL de modification pas dans liste : voir list_display_links
-        return True
+        # TODO : corriger ce hack pour que is_staff soit plus suffisant
+        return request.user.is_superuser
 
     def has_delete_permission(self, request, obj=None):
         return False
@@ -370,7 +368,8 @@ class EtablissementCoordonneesAdmin(ModelAdmin):
         return False
 
     def has_change_permission(self, request, obj=None):
-        return True
+        # TODO : corriger ce hack pour que is_staff soit plus suffisant
+        return request.user.is_superuser
 
     def has_delete_permission(self, request, obj=None):
         return False
