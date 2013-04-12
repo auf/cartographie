@@ -27,6 +27,7 @@ log
 parts
 tmp
 sitestatic
+media
 
 # Vagrant pour le poste local de Bernard
 /mysql-dumps/
