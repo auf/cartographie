@@ -1,57 +1,21 @@
-<!-- FIXME: Si l'utilisateur est superuser ou non authentifié (??) -->
-
 <div class="boutons-statut pull-right">
-    {% with statut=statuts_formation %}
-        {% if formation.statut == statut.supprimee %}
-            {% if request.user.is_superuser or not request.user.is_authenticated %}
-                <a href="{% url formation_modifier_workflow token formation.id statut.en_redaction %}"
-                   class="btn">
-                    Retour en rédaction
-                </a>
-            {% endif %}
-        {% endif %}
+    {% if 'redaction' in boutons %}
+       <a href="{{boutons.redaction.url}}"
+          class="btn {{ boutons.redaction.class }}">{{ boutons.redaction.label }}</a>
+    {% endif %}
 
-        {% if formation.statut == statut.en_redaction %}
-            {% if request.user.is_superuser or not request.user.is_authenticated %}
-            <a href="{% url formation_commentaire_avant_changement_statut token formation.id statut.supprimee%}" class="btn btn-danger modal-commentaire">
-                Supprimer la fiche
-            </a>
-            <a href="{% url formation_modifier_workflow token formation.id statut.validee %}"
-               class="btn btn-info valider">
-                Valider la fiche
-            </a>
-            {% endif %}
-        {% endif %}
+    {% if 'supprimer' in boutons %}
+       <a href="{{boutons.supprimer.url}}"
+          class="btn btn-danger {{ boutons.supprimer.class }}">{{ boutons.supprimer.label }}</a>
+    {% endif %}
 
-        {% if formation.statut == statut.validee %}
-            {% if request.user.is_superuser or not request.user.is_authenticated %}
-            <a href="{% url formation_commentaire_avant_changement_statut token formation.id statut.supprimee%}" class="btn btn-danger modal-commentaire">
-                Supprimer la fiche
-            </a>
-            {% endif %}
+    {% if 'publier' in boutons %}
+       <a href="{{boutons.publier.url}}"
+          class="btn btn-success {{ boutons.publier.class }}">{{ boutons.publier.label }}</a>
+    {% endif %}
 
-            <a href="{% url formation_commentaire_avant_changement_statut token formation.id statut.en_redaction %}"
-               class="btn retour-en-redaction modal-commentaire">
-                Retour en rédaction
-            </a>
-
-            {% if request.user.is_authenticated %}
-                <a href="{% url formation_modifier_workflow token formation.id statut.publiee %}"
-                   class="btn btn-success publier">
-                    Publier la fiche
-                </a>
-            {% endif %}
-        {% endif %}
-
-        {% if formation.statut == statut.publiee %}
-            <a href="{% url formation_commentaire_avant_changement_statut token formation.id statut.validee %}" class="btn btn-info valider modal-commentaire">
-                Retour vers validée
-            </a>
-
-            <a href="{% url formation_commentaire_avant_changement_statut token formation.id statut.en_redaction %}"
-               class="btn retour-en-redaction modal-commentaire">
-                Retour en rédaction
-            </a>
-        {% endif %}
-    {% endwith %}
+    {% if 'valider' in boutons %}
+       <a href="{{boutons.valider.url}}"
+          class="btn btn-info {{ boutons.valider.class }}">{{ boutons.valider.label }}</a>
+    {% endif %}
 </div>

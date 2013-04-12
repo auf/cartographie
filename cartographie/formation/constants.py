@@ -36,3 +36,12 @@ class StatutsFormation(object):
     publiee_msg_confirmation = u"Voulez-vous vraiment publier cette fiche ?"
 
 statuts_formation = StatutsFormation()
+
+statut2label = { 
+    statuts_formation.supprimee: statuts_formation.supprimee_label,
+    statuts_formation.en_redaction: statuts_formation.en_redaction_label,
+    statuts_formation.validee: statuts_formation.validee_label,
+    statuts_formation.publiee: statuts_formation.publiee_label
+    }
+
+                 

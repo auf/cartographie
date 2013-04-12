@@ -6,7 +6,9 @@ from cartographie.formation.viewModels.baseAjouterViewModel \
     import BaseAjouterViewModel
 
 from cartographie.formation.models import Formation
-from cartographie.formation.models.workflow import ETATS, WorkflowException
+from cartographie.formation.models.workflow import ETATS
+from cartographie.formation.constants import statut2label
+from cartographie.formation.workflow import TRANSITIONS
 
 
 class WorkflowViewModel(BaseAjouterViewModel):
@@ -27,14 +29,13 @@ class WorkflowViewModel(BaseAjouterViewModel):
 
             pas_de_probleme = False
             # modifier le statut avec les fonctions de WorkflowMixin
-            try:
-                formation_courante.set_statut(request, statut_id)
-                pas_de_probleme = True
-            except WorkflowException as exception:
-                messages.error(
-                    request, exception
-                )
+            statut_modifie = formation_courante.set_statut(request.user, token, statut_id)
 
+            if statut_modifie:
+                pas_de_probleme = True
+            else:
+                messages.error(request, u"Vous ne pouvez pas attribuer le statut '%s' à cette fiche." % statut2label[statut_id])
+      
             if pas_de_probleme:
                 statut_labels = filter(lambda st: st[0] == statut_id, ETATS)
                 statut_label = statut_labels.pop()
