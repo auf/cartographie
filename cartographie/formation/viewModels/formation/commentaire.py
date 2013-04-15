@@ -10,8 +10,10 @@ from cartographie.formation.viewModels.baseAjouterViewModel \
 from cartographie.formation.forms.formation \
     import FormationCommentaireForm
 
+from .base import BaseModifierViewModel
 
-class CommentairesViewModel(BaseAjouterViewModel):
+
+class CommentairesViewModel(BaseAjouterViewModel, BaseModifierViewModel):
     # Affiche la liste des commentaires
 
     formation = None
@@ -19,23 +21,23 @@ class CommentairesViewModel(BaseAjouterViewModel):
     commentaires = []
 
     def __init__(self, request, token, formation_id):
-        super(CommentairesViewModel, self).__init__(request, token)
+        BaseAjouterViewModel.__init__(self, request, token)
+        BaseModifierViewModel.__init__(self, request, token, formation_id)
         self.formation = Formation.objects.get(pk=formation_id)
         self.form = FormationCommentaireForm()
         self.commentaires = FormationCommentaire.objects.filter(
             formation=self.formation
         ).order_by("date")
-        self.peut_modifier_workflow = UserRole.peut_modifier_workflow(request.user, self.etablissement)
 
     def get_data(self):
-        data = super(CommentairesViewModel, self).get_data()
+        data = BaseAjouterViewModel.get_data(self)
+        data.update(BaseModifierViewModel.get_data(self))
         data.update({
             "formation": self.formation,
             "statuts_formation": statuts_formation,
             "commentaires": self.commentaires,
             "form": self.form,
             'form_url': reverse('commentaire_ajouter', args=[self.token, self.formation.id]),
-            "peut_modifier_workflow": self.peut_modifier_workflow,
         })
         return data
 
@@ -80,7 +82,7 @@ class CommentaireModifierViewModel(BaseAjouterViewModel):
             self.success = True
 
     def get_data(self):
-        super(CommentaireModifierViewModel, self).get_data()
+        super(CommentaireModifierViewModel, self).get_data() # TODO: Utile?
 
         data = {
             "success": self.success,
@@ -114,7 +116,7 @@ class CommentaireSupprimerViewModel(BaseAjouterViewModel):
                 )
 
     def get_data(self):
-        super(CommentaireSupprimerViewModel, self).get_data()
+        super(CommentaireSupprimerViewModel, self).get_data() # TODO: Utile?
 
         data_json = {
             "redirect_url": self.redirect_url,

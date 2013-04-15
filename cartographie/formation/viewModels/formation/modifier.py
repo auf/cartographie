@@ -12,8 +12,10 @@ from cartographie.formation.constants import statuts_formation
 from cartographie.formation.forms.formation \
     import FormationForm
 
+from .base import BaseModifierViewModel
 
-class ModifierViewModel(object):
+
+class ModifierViewModel(BaseModifierViewModel):
     """
         Les données nécessaires à la view "modifier" et "modifier_etablissements"
         sont obtenus et gérés ici.
@@ -30,15 +32,13 @@ class ModifierViewModel(object):
     partenaireAutreFormset = None
 
     def __init__(self, request, token, formation_id, presence_formsets=False):
+        super(ModifierViewModel, self).__init__(request, token, formation_id)
         if token:
             self.token = token
             self.acces = Acces.objects.get(token=token)
             self.etablissement = self.acces.etablissement
-            self.formation = Formation.objects.get(pk=formation_id)
 
             etablissement_courant = self.etablissement
-
-            self.peut_modifier_workflow = UserRole.peut_modifier_workflow(request.user, self.etablissement)
 
             def limiter_choix_etablissement(field, **kwargs):
                 """
@@ -142,15 +142,18 @@ class ModifierViewModel(object):
                     prefix="partenaires-autre"
                 )
 
+
+
     def get_data(self):
-        return {
-            "token": self.token,
-            "etablissement": self.etablissement,
-            "form": self.form,
-            "formation": self.formation,
-            "composanteFormset": self.composanteFormset,
-            "partenaireAufFormset": self.partenaireAufFormset,
-            "partenaireAutreFormset": self.partenaireAutreFormset,
-            "statuts_formation": statuts_formation,
-            "peut_modifier_workflow": self.peut_modifier_workflow
-        }
+        data = super(ModifierViewModel, self).get_data()
+        data.update({
+                "token": self.token,
+                "etablissement": self.etablissement,
+                "form": self.form,
+                "formation": self.formation,
+                "composanteFormset": self.composanteFormset,
+                "partenaireAufFormset": self.partenaireAufFormset,
+                "partenaireAutreFormset": self.partenaireAutreFormset,
+                "statuts_formation": statuts_formation,
+                })
+        return data

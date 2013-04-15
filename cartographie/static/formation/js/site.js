@@ -91,6 +91,12 @@ AUF.formation = function(){
             this._formPopupFactory("partenaire-autre");
             // popup partenaire autre (non membre)
             this._formPopupFactory("commentaire");
+
+            $('body').on('hidden', '.modal', function () {
+                $(this).removeData('modal');
+                $('.modal-body').empty();
+            });
+
         },
         popupLangueSubmit : function(){
             console.log("AUF.formation.popupLangueSubmit()");

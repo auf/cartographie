@@ -135,7 +135,6 @@ def modifier(request, token, formation_id=None):
     )
 
 
-@editor_of_region_required
 def modifier_workflow(request, token, formation_id, statut_id):
     """
         Modifier le statut de workflow de la fiche courante

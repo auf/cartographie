@@ -10,6 +10,8 @@ from django.utils.html import escape
 from django.utils.encoding import force_unicode
 from django.core.urlresolvers import reverse
 
+from .base import BaseModifierViewModel
+
 
 class CustomClearableFileInput(ClearableFileInput):
 
@@ -49,18 +51,19 @@ class FichierForm(ModelForm):
         widgets = {
             'file': CustomClearableFileInput,
             }
+        fields = ('file', 'nom', 'is_public')
 
 
 
-class FichierViewModel(BaseAjouterViewModel):
+class FichierViewModel(BaseAjouterViewModel, BaseModifierViewModel):
     files = None
     forms = None
 
     def __init__(self, request, token, formation_id):
-        super(FichierViewModel, self).__init__(request, token)
+        BaseAjouterViewModel.__init__(self, request, token)
+        BaseModifierViewModel.__init__(self, request, token, formation_id)
         self.formation = Formation.objects.get(pk=formation_id)
         self.files = Fichier.objects.filter(formation=self.formation).order_by('nom')
-        self.peut_modifier_workflow = UserRole.peut_modifier_workflow(request.user, self.etablissement)
 
         # Model field -> Form field
         def callback(field, **kwargs):
@@ -80,11 +83,14 @@ class FichierViewModel(BaseAjouterViewModel):
         self.formset = FichierFormSet(instance=self.formation)
 
     def get_data(self):
-        return { 'files': self.files,
-                 'formation': self.formation,
-                 'token': self.token,
-                 'formset': self.formset,
-                 'peut_modifier_workflow': self.peut_modifier_workflow,
-                 'etablissement': self.etablissement,
-                 'statuts_formation': statuts_formation,
-                 }
+        data = BaseAjouterViewModel.get_data(self)
+        data.update(BaseModifierViewModel.get_data(self))
+        data.update({
+                'files': self.files,
+                'formation': self.formation,
+                'token': self.token,
+                'formset': self.formset,
+                'etablissement': self.etablissement,
+                'statuts_formation': statuts_formation,
+                })
+        return data

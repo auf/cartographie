@@ -1,11 +1,13 @@
 #coding: utf-8
 
-from django.db import models
-from django.contrib.auth.models import User
-
 from auf.django.references import models as ref
 from auf.django.permissions import Role
-
+from cartographie.formation.constants import statuts_formation as STATUTS
+from cartographie.formation.workflow import TRANSITIONS
+from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
+from django.db import models
+from .acces import Acces
 
 class UserRole(models.Model, Role):
     """
@@ -52,13 +54,53 @@ class UserRole(models.Model, Role):
           ).filter(type=u'editeur')) > 0
 
     @staticmethod
-    def peut_modifier_workflow(user, etablissement):
-        """
-            Retourne True si l'utilisateur peut modifier
-            le workflow d'une formation de cet etablissement
-        """
-        return user and UserRole.is_editeur_etablissement(user, etablissement)\
-            or user.is_superuser
+    def has_permission_for_transition(user, token, formation, final_status):
+
+        def token2etablissement(token):
+            try:
+                acces = Acces.objects.select_related('etablissement').get(token=token)
+            except ObjectDoesNotExist:
+                return None
+
+            etablissement = acces.etablissement
+            if not etablissement:
+                return None
+            return etablissement
+
+
+        try:
+            permissions = TRANSITIONS[formation.statut][final_status]['roles']
+        except KeyError:
+            return False
+
+        if user.is_active and user.is_superuser:
+            return True
+        
+        if user.is_anonymous and 'token' in permissions:
+            etablissement = token2etablissement(token)
+            if etablissement and etablissement == formation.etablissement:
+                return True
+
+        if 'editeur' in permissions:
+            if user.is_active and \
+                    UserRole.is_editeur_etablissement(user, formation.etablissement):
+                return True
+
+        return False
+
+    @staticmethod
+    def valid_status(user, token, formation):
+        status = set()
+        for statut in [STATUTS.supprimee,
+                       STATUTS.en_redaction,
+                       STATUTS.validee,
+                       STATUTS.publiee]:
+            if formation.statut != statut and \
+                    UserRole.has_permission_for_transition(user, token, formation, statut):
+                status.add(statut)
+
+        return status
+        
 
     def get_filter_for_perm(self, perm, model):
         if perm == "manage" and self.has_perm("manage"):

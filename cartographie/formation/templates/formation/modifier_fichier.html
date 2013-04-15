@@ -21,9 +21,7 @@
             <span class="label {{ formation.statut|statusClass }}">{{ formation.statut|statusLabel }}</span>
         </h4>
 
-        {% if peut_modifier_workflow %}
-            {% include "formation/boutons_workflow.html" %}
-        {% endif %}
+        {% include "formation/boutons_workflow.html" %}
 
         <div class="clear"></div>
         {% include "formation/modifier_onglets.html" with active_tab="fichiers" %}
@@ -49,4 +47,5 @@
         </div>
     </div>
 </div>
+{% include "formation/popup.html" %}
 {% endblock %}
