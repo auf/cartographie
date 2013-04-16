@@ -19,7 +19,7 @@ def disciplines_actives(formation):
         return getattr(formation, 'discipline_' + str(i))
 
     def is_active(obj):
-        return obj.actif
+        return obj and obj.actif
 
     return ', '.join(map(discipline2nom,
                          filter(is_active,
