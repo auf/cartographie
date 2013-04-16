@@ -29,6 +29,12 @@ class CommentairesViewModel(BaseAjouterViewModel, BaseModifierViewModel):
             formation=self.formation
         ).order_by("date")
 
+        for commentaire in self.commentaires:
+            commentaire.modifier_url = reverse('commentaire_modifier', 
+                                               args=[self.token, 
+                                                     self.formation.id,
+                                                     commentaire.id])
+
     def get_data(self):
         data = BaseAjouterViewModel.get_data(self)
         data.update(BaseModifierViewModel.get_data(self))

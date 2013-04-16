@@ -56,7 +56,7 @@
                     <p class="commentaire">
                         {{ commentaire.commentaire }}
                     </p>
-                    {% include "formation/commentaire/form.html" with edit="true" is_hidden="true" form=commentaire.get_form_with_data %}
+                    {% include "formation/commentaire/form.html" with form_url=commentaire.modifier_url edit="true" is_hidden="true" form=commentaire.get_form_with_data %}
                 </li>
             {% endfor %}
         </ul>
