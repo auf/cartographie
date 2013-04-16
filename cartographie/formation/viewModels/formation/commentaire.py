@@ -34,6 +34,7 @@ class CommentairesViewModel(BaseAjouterViewModel, BaseModifierViewModel):
                                                args=[self.token, 
                                                      self.formation.id,
                                                      commentaire.id])
+            commentaire.modifiable = commentaire.peut_modifier(request.user)
 
     def get_data(self):
         data = BaseAjouterViewModel.get_data(self)
@@ -80,12 +81,16 @@ class CommentaireModifierViewModel(BaseAjouterViewModel):
 
         try:
             self.commentaire = FormationCommentaire.objects.get(
-                pk=commentaire_id, user=request.user
+                pk=commentaire_id
             )
         except ObjectDoesNotExist:
             self.success = False
         else:
             self.success = True
+            if not self.commentaire.peut_modifier(request.user):
+                self.success = False
+                self.commentaire = None
+
 
     def get_data(self):
         super(CommentaireModifierViewModel, self).get_data() # TODO: Utile?
@@ -105,16 +110,17 @@ class CommentaireSupprimerViewModel(BaseAjouterViewModel):
         super(CommentaireSupprimerViewModel, self).__init__(request, token)
 
         try:
-            commentaire_courant = FormationCommentaire.objects.get(
+            commentaire = FormationCommentaire.objects.get(
                 pk=commentaire_id
             )
         except ObjectDoesNotExist:
             self.success = False
         else:
-            # si l'id du user courant concorde avec l'id de l'auteur
-            # du commentaire
-            if commentaire_courant.user.id == request.user.id:
-                commentaire_courant.delete()
+            if not commentaire.peut_modifier(request.user):
+                self.success = False
+                self.commentaire = None
+            else:
+                commentaire.delete()
                 self.success = True
                 self.redirect_url = reverse(
                     "formation_modifier_commentaires",

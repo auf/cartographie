@@ -42,7 +42,7 @@
                         {% endif %}
                         le {{ commentaire.date|date:"d F Y à h:m:s" }}
                     </p>
-                    {% if request.user.id == commentaire.user.id and user.is_authenticated %}
+                    {% if commentaire.modifiable %}
                     <div class="commentaire_actions pull-left">
                         <a class="btn btn-info btn-small modifier" href="{% url commentaire_modifier token formation.id commentaire.id %}">
                             <i class="icon icon-pencil icon-white"></i>

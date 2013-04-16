@@ -363,6 +363,9 @@ class FormationCommentaire(models.Model):
             )
         super(FormationCommentaire, self).save(*args, **kwargs)
 
+    def peut_modifier(self, user):
+        return user.is_active and (user.is_superuser or self.user == user)
+
 
 class FormationComposante(models.Model):
     formation = models.ForeignKey(Formation)
