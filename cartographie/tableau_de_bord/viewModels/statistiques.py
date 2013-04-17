@@ -23,6 +23,8 @@ class StatistiquesViewModel(object):
     # nombre de formation par statut
     totaux_par_statut = []
 
+    recent_modifications = None
+
     def __init__(self, request, menu_actif="statistiques"):
         self.menu_actif = menu_actif
 
