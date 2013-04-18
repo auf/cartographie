@@ -18,6 +18,23 @@ def accueil(request):
         "accueil.html", vm.get_data(), RequestContext(request)
     )
 
+def aide(request):
+    return render(request, "statiques/aide.html")
+
+def apropos(request):
+    return render(request, "statiques/a-propos.html")
+
+def feedback(request):
+    return render(request, "feedback.html")
+
+def legal(request):
+    return render(request, "statiques/legal.html")
+
+def contact(request):
+    return render(request, "statiques/contact.html")
+
+def credits(request):
+    return render(request, "statiques/credits.html")
 
 @login_required
 def formation_liste(request):

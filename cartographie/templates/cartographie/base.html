@@ -20,6 +20,34 @@
 <body>
     <div class="container">
         <header>
+            {% if user.is_authenticated %}
+                <div class="row" style="padding-bottom:5px; background-color:#F9F9F9">
+                    <div class="span12 pull-right">
+                        {% comment %}
+                        <a class="btn btn-small pull-right dashboard-link" href="{% url dashboard_statistiques %}">
+                            <i class="icon-th"></i>
+                            Consulter votre tableau de bord
+                        </a>
+                        {% endcomment %}
+                        <a class="pull-right dashboard-link" href="{% url dashboard_statistiques %}">
+                            Tableau de bord
+                        </a>
+                        {% if user.is_superuser %}
+                            <a class="pull-right dashboard-link" href="{% url admin:index %}">
+                                Administration
+                            </a>
+                        {% endif %}
+                        <span class="pull-right dashboard-link">
+                        {% if user.first_name and user.last_name %}
+                            {{ user.first_name }} {{ user.last_name|upper }}
+                        {% else %}
+                            {{ user }}
+                        {% endif %}
+                        </span>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            {% endif %}
             <div class="row">
                 <div class="span12">
                     <div class="rainbow span6 pull-right">
@@ -38,34 +66,14 @@
                                  alt="Agence universitaire de la Francophonie">
                         </a>
                     </h1>
-                    {% if user.is_active %}
+                    {% if user.is_authenticated %}
                         <a class="pull-right dashboard-link" href="{% url logout %}">Déconnexion</a>
-                        {% if user.is_authenticated %}
-                            {% comment %}
-                            <a class="btn btn-small pull-right dashboard-link" href="{% url dashboard_statistiques %}">
-                                <i class="icon-th"></i>
-                                Consulter votre tableau de bord
-                            </a>
-                            {% endcomment %}
-                            <a class="pull-right dashboard-link" href="{% url dashboard_statistiques %}">
-                                Tableau de bord
-                            </a>
-                        {% endif %}
-                        {% if user.is_superuser %}
-                            <a class="pull-right dashboard-link" href="{% url admin:index %}">
-                                Administration
-                            </a>
-                        {% endif %}
-                        <span class="pull-right dashboard-link">
-                        {% if user.first_name and user.last_name %}
-                            {{ user.first_name }} {{ user.last_name|upper }}
-                        {% else %}
-                            {{ user }}
-                        {% endif %}
-                        </span>
                     {% else %}
                         <a class="pull-right dashboard-link" href="{% url login %}">Connexion</a>
                     {% endif %}
+                    <a class="pull-right dashboard-link" href="{% url home_feedback %}">Donnez-nous vos impressions</a>
+                    <a class="pull-right dashboard-link" href="{% url home_a_propos %}">À propos</a>
+                    <a class="pull-right dashboard-link" href="{% url home_aide %}">Aide</a>
                     <div class="clear"></div>
                     <div class="slogan span6 pull-right">
                         <h2>Cartographie des formations</h2>
@@ -98,8 +106,19 @@
                 </div>
                 <div class="span12">
                     <div class="content">
-                        <p class="copyright pull-left">
+                        <p class="pull-left copyright">
                             © AUF 2013 Tous droits réservés
+                        </p>
+                        <p class="pull-right dahsboard-link">
+                            <a style="margin: 8px 22px 0 0;" href="{% url home_legal %}">
+                                Légal
+                            </a>
+                            <a style="margin: 8px 22px 0 0;" href="{% url home_contact %}">
+                                Contact
+                            </a>
+                            <a style="margin: 8px 22px 0 0;" href="{% url home_credits %}">
+                                Crédits
+                            </a>
                         </p>
                     </div>
                 </div>
