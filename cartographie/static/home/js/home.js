@@ -6,6 +6,44 @@ AUF.home = function(){
             console.log("AUF.home.init()");
             this.searchForm();
             this.beautifulSelects(); 
+            this.initMap();
+        },
+
+        initMap: function() {
+          var getColor = function(f) {
+              if (f) {
+                  return 'blue';
+              }
+              return 'white';
+          };
+
+
+          var style = function(feature) {
+            return {
+                fillColor: getColor(feature.properties.formations),
+                weight: 2,
+                opacity: 0,
+                color: 'white',
+                dashArray: '3',
+                fillOpacity: 0.1 
+            };
+          };
+            var map = L.map('map', {
+                maxBounds: [[-85, -180], [85, 180]]
+            }).setView([51.505, -15.09], 13);
+            map.setView(new L.LatLng(41.3, 0.7),3);
+            var osmUrl='/static/tiles/{z}/{x}/{y}.png';
+            var osm = new L.TileLayer(osmUrl, {
+                minZoom: 2,
+                maxZoom: 4,
+            });
+            map.addLayer(osm);
+              L.geoJson(countryData, {style: style,
+                onEachFeature: function(feature, layer) {
+                  if (feature.properties.formations) {
+                      l = layer.bindPopup('100 formations');
+                  }
+               }}).addTo(map);
         },
 
         beautifulSelects : function(){

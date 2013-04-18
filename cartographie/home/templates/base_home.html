@@ -3,9 +3,15 @@
 {% block css %}
 <link rel="stylesheet" href="{{ STATIC_URL }}home/css/home.css">
 <link href="{{ STATIC_URL }}commun/chosen/chosen.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.css" />
+<!--[if lte IE 8]>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.ie.css" />
+<![endif]-->
 {% endblock %}
 
 {% block js %}
+    <script src="{{ STATIC_URL }}home/js/leaflet.js"></script>
+    <script src="{{ STATIC_URL }}home/js/countries.js"></script>
     <script src="{{ STATIC_URL }}commun/chosen/chosen.jquery.min.js"></script>
     <script src="{{ STATIC_URL }}home/js/home.js"></script>
 {% endblock %}

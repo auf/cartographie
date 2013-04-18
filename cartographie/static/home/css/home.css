@@ -3788,6 +3788,9 @@ footer .copyright {
   color: #a3a4a7;
   margin: 0 0 15px;
 }
+#map {
+  height: 500px;
+}
 .search-form form,
 .search-form .control-group {
   margin: 0;
