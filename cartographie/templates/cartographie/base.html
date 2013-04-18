@@ -83,12 +83,30 @@
                     </div>
                 </div>
             </div>
-
+        </header>
+        <div id="main">
+            {% comment %}
+            100%  #0088cc bleu AUF
+            37%   #b2dbf0
+            25%   #c0e2f2
+            10%   #e6f3fa
+            {% endcomment %}
+            <div class="row" style="height:50px; background-color:#e6f3fa">
+                <div style="float:left; margin: 8px 80px 8px 45px;">
+                    Pour trouver une formation<br />
+                    <b>2 options s'offrent à vous</b>
+                </div>
+                <div style="float:left; margin: 15px 35px 0 0;">
+                    <a href="{% url home_accueil %}">CARTE</a>
+                </div>
+                <div style="float:left; margin: 15px 35px 0 0;">
+                    <a href="{% url home_formation_liste %}">RECHERCHER</a>
+                </div>
+                <div class="clear"></div>
+            </div>
             {% if formation_form %}
                 {% include "forms/recherche.html" %}
             {% endif %}
-        </header>
-        <div id="main">
             <div class="row">
             {% block Contenu %}
 
