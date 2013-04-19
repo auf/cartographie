@@ -22,11 +22,12 @@
                     <a href="?{% qs_replace request.GET discipline='' %}">Retour</a>
                     {% endif %}
 
-                    
-                    <h5>{{ discipline.nom }}</h5>
+                    {% if discipline %}
+                    <h5>{{ discipline.nom }} ({{ discipline.num_formations }})</h5>
+                    {% endif %}
                     <ul>
                         {% for enfant in enfants %}
-                        <li><a href="?{% qs_replace request.GET discipline=enfant.id %}">{{ enfant.nom }}</a></li>
+                        <li><a href="?{% qs_replace request.GET discipline=enfant.id %}">{{ enfant.nom }} ({{ enfant.num_formations }})</a></li>
                         {% endfor %}
                     </ul>
 

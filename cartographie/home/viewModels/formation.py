@@ -49,6 +49,9 @@ def disciplines_enfants(discipline):
     regex_enfants = r'^%s[0-9]$' % code
     return Discipline.objects.filter(code__regex=regex_enfants)    
 
+def num_formations(formations, discipline):
+    return formations.filter(Q(discipline_1__code__startswith=discipline.code) | Q(discipline_2__code__startswith=discipline.code) | Q(discipline_1__code__startswith=discipline.code)).count()
+
 class RechercheForm(forms.Form):
     terme = forms.CharField(
         max_length=150,
@@ -172,13 +175,17 @@ class FormationRechercheViewModel(object):
             print self.form.errors
             return
 
-        self.formations = recherche_formation(self.form)
+        self.formations = self.raw_formations = recherche_formation(self.form)
         self._sort(request.GET.get('tri'))
         self._paginate(request)
         
         self.discipline = self.form.cleaned_data['discipline']
+        if self.discipline:
+            self.discipline.num_formations = num_formations(self.raw_formations, self.discipline)
         self.parent = discipline_parent(self.discipline)
         self.enfants = disciplines_enfants(self.discipline)
+        for discipline in self.enfants:
+            discipline.num_formations = num_formations(self.raw_formations, discipline)
 
 
     def get_data(self):

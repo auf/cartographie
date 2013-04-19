@@ -1,5 +1,7 @@
 #coding: utf-8
 
+from cartographie.formation.models import Fichier, Formation
+from cartographie.formation.sendfile import send_file
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.urlresolvers import reverse
