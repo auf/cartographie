@@ -21,7 +21,7 @@ class Feedback(models.Model):
     profil = models.ForeignKey("FeedbackProfil", null=True, blank=True)
     profil_autre = models.CharField(max_length=100, null=True, blank=True,
         verbose_name=u"Autre profil",
-        help_text=u"Saisir ",
+        help_text=u"Saisir autre profil, le cas échéant",
     )
     date_envoi = models.DateField(auto_now_add=True, editable=False,
         verbose_name=u"Date d'envoi",

@@ -1,7 +1,9 @@
 #coding: utf-8
 
 from django.contrib.auth.decorators import login_required
-from django.http import Http404
+from django.contrib import messages
+from django.core.urlresolvers import reverse
+from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render_to_response, render
 from django.template import RequestContext
 
@@ -26,8 +28,19 @@ def apropos(request):
     return render(request, "statiques/a-propos.html")
 
 def feedback(request):
-    
-    return render(request, "feedback.html")
+    form = FeedbackForm()
+    if request.method == 'POST':
+        form = FeedbackForm(request.POST)
+        if form.is_valid():
+            messages.success(
+                request, u"Votre message nous a bien été envoyé. Merci!"
+            )
+            form.save()
+            # envoie courriel
+    c = {
+        'form': form,
+    }
+    return render(request, "feedback.html", c)
 
 def legal(request):
     return render(request, "statiques/legal.html")

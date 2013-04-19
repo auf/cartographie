@@ -2,8 +2,14 @@
 
 {% block Contenu_home %}
 <h3>Donnez-nous vos impressions!</h3>
+
+{% include "cartographie/messages.html" %}
+
 <p>
 Vous êtes encouragés à nous soumettre toute demande, remarque, avis ou erreur remarquée via ce simple formulaire.
 </p>
-Formulaire
+<form action="{% url home_feedback %}" method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Envoyer" />
+</form>
 {% endblock %}
