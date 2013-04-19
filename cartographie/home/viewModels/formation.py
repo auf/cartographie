@@ -153,7 +153,7 @@ def recherche_formation(form):
 
         return formations.filter(q_formation)
 
-    formations = _filter(Formation.objects.all())
+    formations = _filter(Formation.objects.exclude(statut=999)) # 999 = supprimées
     return formations
 
 class FormationRechercheViewModel(object):

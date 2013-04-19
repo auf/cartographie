@@ -16,7 +16,7 @@ class ListeViewModel(BaseListeViewModel):
 
         self.cacher_onglets = True if onglet_actif == "formation" else False
 
-        self.formations = Formation.objects.filter(
+        self.formations = Formation.objects.exclude(statut=999).filter(   # 999 = supprimée
             etablissement=self.etablissement
         ).order_by("nom")
 

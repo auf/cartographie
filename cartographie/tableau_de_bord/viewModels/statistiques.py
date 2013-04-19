@@ -28,13 +28,13 @@ class StatistiquesViewModel(object):
     def __init__(self, request, menu_actif="statistiques"):
         self.menu_actif = menu_actif
 
-        self.total_nb_formations = Formation.objects.all().count()
+        self.total_nb_formations = Formation.objects.exclude(statut=999).count()  # 999 = supprimées
 
-        self.totaux_par_regions = Formation.objects.values(
+        self.totaux_par_regions = Formation.objects.exclude(statut=999).values(
             "etablissement__region__nom"
         ).annotate(total=Count("id")).order_by("-total")
 
-        self.totaux_par_pays = Formation.objects.values(
+        self.totaux_par_pays = Formation.objects.exclude(statut=999).values(
             "etablissement__pays__nom"
         ).annotate(total=Count("id")).order_by("-total")
 
@@ -47,7 +47,8 @@ class StatistiquesViewModel(object):
         from pprint import pprint
 
         if role:
-            self.formations = Formation.objects.filter(etablissement__region__in=role.regions.all())
+            self.formations = Formation.objects.exclude(statut=999) \
+                .filter(etablissement__region__in=role.regions.all())
 
             self.recent_modifications \
                 = FormationModification.objects.filter(formation__in=self.formations) \
@@ -59,13 +60,15 @@ class StatistiquesViewModel(object):
             self.total_nb_formations_sous_gestion = self.formations.count()
 
 
-            self.totaux_par_etablissements = Formation.objects.filter(
+            self.totaux_par_etablissements = Formation.objects  \
+                .exclude(statut=999).filter(
                 etablissement__region__in=role.regions.all()
             ).values("etablissement__nom").annotate(
                 total=Count("id")
             ).order_by("-total")
 
-            self.totaux_par_statut = Formation.objects.filter(
+            self.totaux_par_statut = Formation.objects  \
+                .exclude(statut=999).filter(
                 etablissement__region__in=role.regions.all()
             ).values("statut").annotate(
                 total=Count("id")
