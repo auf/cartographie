@@ -44,8 +44,6 @@ class StatistiquesViewModel(object):
             role = None
             self.user_sans_region = True
 
-        from pprint import pprint
-
         if role:
             self.formations = Formation.objects.exclude(statut=999) \
                 .filter(etablissement__region__in=role.regions.all())
@@ -53,9 +51,6 @@ class StatistiquesViewModel(object):
             self.recent_modifications \
                 = FormationModification.objects.filter(formation__in=self.formations) \
                 .order_by("-date")[:25]
-
-            print "recent modifs"
-            pprint(self.recent_modifications)
 
             self.total_nb_formations_sous_gestion = self.formations.count()
 
