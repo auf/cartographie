@@ -12,7 +12,7 @@ class Command(BaseCommand):
     
     def handle(self, filename, **kwargs):
         data = json.load(open(filename))
-        country2num_formations = Command.num_formations_per_country()
+        country2num_formations = Formation.num_formations_per_country()
 
         for country_data in data['features']:
             code = country_data['id'].lower()
@@ -22,17 +22,3 @@ class Command(BaseCommand):
 
         json.dump(data, sys.stdout)
 
-    @staticmethod
-    def num_formations_per_country():
-
-        def result2pair(result):
-            return result['etablissement__pays__code_iso3'].lower(), result['count']
-
-        # On doit passer par Formation.objects parce que
-        # 'related_name' = '+' dans EtablissementBase pour la colonne
-        # 'pays'.
-
-        query = Formation.objects.values('etablissement__pays__code_iso3')\
-            .annotate(count=Count('etablissement__pays__code_iso3'))
-
-        return dict(map(result2pair, query))

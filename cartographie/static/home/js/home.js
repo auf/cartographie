@@ -37,13 +37,23 @@ AUF.home = function(){
                 minZoom: 2,
                 maxZoom: 4,
             });
+
             map.addLayer(osm);
-              L.geoJson(countryData, {style: style,
-                onEachFeature: function(feature, layer) {
-                  if (feature.properties.formations) {
-                      l = layer.bindPopup('100 formations');
-                  }
-               }}).addTo(map);
+            $.getJSON('/geojson/', function(data) {
+                  L.geoJson(data, {
+                    pointToLayer: function(feature, latlng) {
+                        var marker =  L.circleMarker(latlng, {radius: 8, color: 'black' });
+                        console.log(feature);
+                        marker.on('mouseover', function(evt) {
+                                evt.target.bindPopup(feature.properties.tooltip).openPopup();
+                        });
+
+                        marker.on('click', function(evt) {
+                                console.log('click!');
+                        });
+                        return marker;
+                   }}).addTo(map);
+            });
         },
 
         beautifulSelects : function(){

@@ -3,7 +3,7 @@
 import datetime
 
 from django.db import models
-from django.db.models import signals, Q
+from django.db.models import signals, Q, Count
 from django.contrib.auth.models import User
 
 from auf.django.references import models as ref
@@ -294,6 +294,22 @@ class Formation(WorkflowMixin, models.Model):
         self.date_modification = datetime.datetime.now()
 
         super(Formation, self).save(*args, **kwargs)
+
+
+    @staticmethod
+    def num_formations_per_country():
+
+        def result2pair(result):
+            return result['etablissement__pays__code_iso3'].lower(), result['count']
+
+        # On doit passer par Formation.objects parce que
+        # 'related_name' = '+' dans EtablissementBase pour la colonne
+        # 'pays'.
+
+        query = Formation.objects.values('etablissement__pays__code_iso3')\
+            .annotate(count=Count('etablissement__pays__code_iso3'))
+
+        return dict(map(result2pair, query))
 
 
 # utilisation d'un signal apres la sauvegarde d'une formation
