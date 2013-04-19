@@ -2,7 +2,6 @@
 
 from cartographie.formation.models import Formation
 from cartographie.formation.models.configuration import Discipline
-from cartographie.home.forms.formation import FormationForm
 from collections import namedtuple
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
