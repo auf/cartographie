@@ -36,21 +36,16 @@ def contact(request):
 def credits(request):
     return render(request, "statiques/credits.html")
 
-@login_required
-def formation_liste(request):
-
+def formation_recherche(request):
     from cartographie.home.viewModels.formation \
-        import FormationListeViewModel
-
-    # la gestion de la pagination se fait dans le viewModel
-    vm = FormationListeViewModel(request)
+        import FormationRechercheViewModel
+   
+    vm = FormationRechercheViewModel(request)
 
     return render_to_response(
-        "formation_liste.html", vm.get_data(), RequestContext(request)
+        "formation_recherche.html", vm.get_data(), RequestContext(request)
     )
 
-
-@login_required
 def formation_detail(request, id, slug=None):
     formation = Formation.objects.get(pk=id)
     c = {

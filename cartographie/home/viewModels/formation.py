@@ -1,97 +1,208 @@
 #coding: utf-8
 
 from cartographie.formation.models import Formation
+from cartographie.formation.models.configuration import Discipline
 from cartographie.home.forms.formation import FormationForm
 from collections import namedtuple
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
+from auf.django.references import models as ref
+from  django.core.exceptions import ObjectDoesNotExist
 
-Column = namedtuple('Column', ['sort_name', 'sort_column', 'name'])
+from django import forms
+from cartographie.formation.models.configuration import NiveauDiplome
+from cartographie.formation.models.configuration import Discipline
 
-class FormationListeViewModel(object):
-    NUM_FORMATIONS_PER_PAGE = 25
-    columns = map(lambda args: Column(*args),
-                  [('nom', 'nom', 'Nom'),
-                   ('niveau', 'niveau_diplome', 'Niveau'),
-                   ('discipline', 'discipline_1__nom', 'Discipline(s)'),
-                   ('etablissement', 'etablissement__nom', 'Établissement'),
-                   ('pays', 'etablissement__pays__nom', 'Pays'),
-                   ('region', 'etablissement__region__nom', 'Région')])
+NUM_FORMATIONS_PER_PAGE = 25
 
-    sort_name2sort_column = dict((col.sort_name, col.sort_column) 
-                                 for col in columns)
-                             
+
+Column = namedtuple('Column', ['sort_name', 'sort_name_desc', 'sort_column', 'name'])
+
+columns = map(lambda args: Column(*args),
+              [('nom', '-nom', 'nom', 'Nom'),
+               ('niveau', '-niveau', 'niveau_diplome', 'Niveau'),
+               ('discipline', '-discipline', 'discipline_1__nom', 'Discipline(s)'),
+               ('etablissement', '-etablissement', 'etablissement__nom', 'Établissement'),
+               ('pays', '-pays', 'etablissement__pays__nom', 'Pays'),
+               ('region', '-region', 'etablissement__region__nom', 'Région')])
+
+sort_name2sort_column = dict((col.sort_name, col.sort_column) 
+                             for col in columns)
+
+
+def discipline_parent(discipline):
+    if discipline is None:
+        return
+
+    code_parent = discipline.code[:-1]
+
+    if not code_parent:
+        return
+
+    try:
+        return Discipline.objects.get(code=code_parent)
+    except:
+        pass
+    
+def disciplines_enfants(discipline):
+    code = discipline.code if discipline else ''
+
+    regex_enfants = r'^%s[0-9]$' % code
+    return Discipline.objects.filter(code__regex=regex_enfants)    
+
+class RechercheForm(forms.Form):
+    terme = forms.CharField(
+        max_length=150,
+        label=u"Recherchez une formation",
+        widget=forms.TextInput(attrs={"class": "search-query input-xlarge"}),
+        required=False,
+        )
+
+    # niveau = forms.ModelChoiceField(queryset=NiveauDiplome.objects.all(),
+    #                                 empty_label=u'Tous les diplômes',
+    #                                 required=False)
+
+    discipline = forms.ModelChoiceField(queryset=Discipline.objects.all(),
+                                        empty_label=u'Toutes les disciplines', 
+                                        required=False)
+
+    region = forms.ModelChoiceField(queryset=ref.Region.objects.all(),
+                                    empty_label=u"Toutes", 
+                                    required=False,
+                                    widget=forms.Select(attrs={"class": "input-medium"}))
+
+    pays = forms.ModelChoiceField(queryset=ref.Pays.objects.all(),
+                                  empty_label=u'Tous',
+                                  required=False,
+                                  widget=forms.Select(attrs={"class": "input-medium"}))
+
+    etablissement = forms.ModelChoiceField(queryset=ref.Etablissement.objects.all(),
+                                           empty_label=u'Tous', 
+                                           required=False,
+                                           widget=forms.Select(attrs={"class": "input-medium"}))
+
+    # Affichés en tant que champs cachés.
+    tri = forms.Field(required=False)
+    parpage = forms.Field(required=False)
+    page = forms.Field(required=False)
+
+    def _post_clean(self):
+        region = self.cleaned_data['region']
+        if region:
+            self.fields['pays'].queryset = self.fields['pays'].queryset.filter(region=region)
+            self.fields['etablissement'].queryset = self.fields['etablissement'].queryset.filter(pays__region=region)
+
+        pays = self.cleaned_data['pays']
+        if pays:
+            self.fields['etablissement'].queryset = self.fields['etablissement'].queryset.filter(pays=pays)
+
+    
+
+def recherche_formation(form):
+    def _filter(formations):
+        def _contains():
+            terme = form.cleaned_data['terme']
+            if terme:
+                return Q(nom__icontains=terme) |\
+                    Q(discipline_1__nom__icontains=terme) |\
+                    Q(discipline_2__nom__icontains=terme) |\
+                    Q(discipline_3__nom__icontains=terme) |\
+                    Q(etablissement__nom__icontains=terme) |\
+                    Q(etablissement__region__nom__icontains=terme) |\
+                    Q(etablissement__pays__nom__icontains=terme) |\
+                    Q(niveau_diplome__nom__icontains=terme)
+            return Q()
+
+        def _region():
+            region = form.cleaned_data['region']
+            if region:
+                return Q(etablissement__region=region)
+            return Q()
+        
+        def _pays():
+            pays = form.cleaned_data['pays']
+            if pays:
+                return Q(etablissement__pays=pays)
+            return Q()
+
+        def _etablissement():
+            etablissement = form.cleaned_data['etablissement']
+            if etablissement:
+                return Q(etablissement=etablissement)
+            return Q()
+
+        def _discipline():
+            discipline = form.cleaned_data['discipline']
+            if discipline:
+                return Q(discipline_1__code__startswith=discipline.code) | \
+                    Q(discipline_2__code__startswith=discipline.code) | \
+                    Q(discipline_3__code__startswith=discipline.code)
+            return Q()
+
+        def _niveau_diplome():
+            niveau_diplome = form.cleaned_data['niveau']
+            if niveau_diplome:
+                return Q(niveau_diplome=niveau_diplome)
+            return Q()
+
+        q_formation = _contains()
+
+        for filter in [_region, _pays, _etablissement, _discipline# , _niveau_diplome
+                       ]:
+            q_formation &= filter()
+
+        return formations.filter(q_formation)
+
+    formations = _filter(Formation.objects.all())
+    return formations
+
+class FormationRechercheViewModel(object):
+    formations = None
+    discipline = None
+    form = None
+    parent = None
+    enfants = None
+    sort = None
+
     def __init__(self, request, *args, **kwargs):
-        self.form = FormationForm(request.GET)
-        self.formations = Formation.objects.all()
-        self.terme_recherche = None
-        self.sort = None
+        self.form = RechercheForm(request.GET)
 
-        self.recherche_avancee_active = False
+        # TODO: Quoi faire si c'est invalide?
+        if not self.form.is_valid():
+            print "FORM NON VALIDE"
+            print self.form.errors
+            return
 
-        self._filter(request.GET)
+        self.formations = recherche_formation(self.form)
         self._sort(request.GET.get('tri'))
         self._paginate(request)
+        
+        self.discipline = self.form.cleaned_data['discipline']
+        self.parent = discipline_parent(self.discipline)
+        self.enfants = disciplines_enfants(self.discipline)
+
 
     def get_data(self):
-        return {
-            "formation_form": self.form,
-            "terme_recherche": self.terme_recherche,
+        data =  {
+            "columns": columns,
             "formations": self.formations,
-            "recherche_avancee_active": self.recherche_avancee_active,
+            "discipline": self.discipline,
+            "form": self.form,
+            "parent": self.parent,
+            "enfants": self.enfants,
             "tri": self.sort,
-            "columns": FormationListeViewModel.columns
-        }
-
-    def _filter(self, query):
-        if not query:
-            return
-        print query
-
-        self.terme_recherche = query['s']
-
-        q_formation = Q(nom__icontains=self.terme_recherche) |\
-            Q(discipline_1__nom__icontains=self.terme_recherche) |\
-            Q(discipline_2__nom__icontains=self.terme_recherche) |\
-            Q(discipline_3__nom__icontains=self.terme_recherche) |\
-            Q(etablissement__nom__icontains=self.terme_recherche) |\
-            Q(etablissement__region__nom__icontains=self.terme_recherche) |\
-            Q(etablissement__pays__nom__icontains=self.terme_recherche) |\
-            Q(niveau_diplome__nom__icontains=self.terme_recherche)
-
-        if 'niveau' in query and query['niveau']:
-            self.recherche_avancee_active = True
-            q_formation = q_formation & Q(niveau_diplome__nom__contains=query['niveau'])
-
-        if 'discipline' in query and query['discipline']:
-            self.recherche_avancee_active = True
-            q_formation = q_formation & Q(discipline_1__code__startswith=query['discipline']) |\
-                           Q(discipline_2__code__startswith=query['discipline']) |\
-                           Q(discipline_3__code__startswith=query['discipline'])
-
-        if 'region' in query and query['region']:
-            self.recherche_avancee_active = True
-            q_formation = q_formation & Q(etablissement__region__pk=query['region'])
-
-        if 'pays' in query and query['pays']:
-            self.recherche_avancee_active = True
-            q_formation = q_formation & Q(etablissement__pays__pk=query['pays'])
-
-        if 'etablissement' in query and query['etablissement']:
-            self.recherche_avancee_active = True
-            q_formation = q_formation & Q(etablissement__pk=query['etablissement'])
-
-        self.formations = self.formations.filter(q_formation)
+            }
+        return data
 
     def _paginate(self, request):
         page = request.GET.get('page')
         try:
-            perpage = int(request.GET.get('parpage', FormationListeViewModel.NUM_FORMATIONS_PER_PAGE))
+            perpage = int(request.GET.get('parpage', NUM_FORMATIONS_PER_PAGE))
         except ValueError:
-            perpage = FormationListeViewModel.NUM_FORMATIONS_PER_PAGE
+            perpage = NUM_FORMATIONS_PER_PAGE
 
         if perpage <= 0:
-            perpage = FormationListeViewModel.NUM_FORMATIONS_PER_PAGE
+            perpage = NUM_FORMATIONS_PER_PAGE
 
         paginator = Paginator(self.formations, perpage)
         try:
@@ -104,8 +215,7 @@ class FormationListeViewModel(object):
             self.formations = paginator.page(paginator.num_pages)
 
     def _sort(self, sort):
-        if sort and sort.strip('-') in \
-                FormationListeViewModel.sort_name2sort_column:
+        if sort and sort.strip('-') in sort_name2sort_column:
             asc = sort[0] != '-'
             sort_name = sort.strip('-')
             prefix = '' if asc else '-'
@@ -113,7 +223,6 @@ class FormationListeViewModel(object):
                           'name': sort_name, 
                           'string': prefix + sort_name }
             self.formations = self.formations.order_by(
-                prefix + FormationListeViewModel.
-                sort_name2sort_column[sort_name])
+                prefix + sort_name2sort_column[sort_name])
         else:
             self.formations = self.formations.order_by('nom')

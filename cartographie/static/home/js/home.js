@@ -36,4 +36,8 @@ AUF.home = function(){
 
 $(document).ready(function(){
     AUF.home.init();
+
+    $("#recherche select").change(function() {
+        $("#recherche").submit();
+    });
 });

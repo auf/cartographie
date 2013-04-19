@@ -3811,13 +3811,13 @@ form.form-horizontal .controls {
   margin-left: 200px;
 }
 form .control-group input[type=text] {
-  width: 200px;
+  width: 350px;
 }
 form .control-group select {
-  width: 215px;
+  width: 365px;
 }
 form .control-group textarea {
-  width: 200px;
+  width: 350px;
 }
 form .control-group .errorlist {
   margin: 0 0 0 20px;

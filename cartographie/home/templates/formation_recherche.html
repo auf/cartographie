@@ -1,0 +1,133 @@
+{% extends "base_home.html" %}
+{% load qs_helpers %}
+{% block Contenu_home %}
+
+<div class="row">
+    <form id="recherche" class="form-inline">
+
+        {{ form.tri.as_hidden }}
+        {{ form.parpage.as_hidden }}
+        {{ form.page.as_hidden }}
+        {{ form.discipline.as_hidden }}
+        
+
+        <div class="span2">
+            <div class="row">
+                <div class="span2">
+                    <h3>Disciplines</h3>
+                    
+                    {% if parent %}
+                    <a href="?{% qs_replace request.GET discipline=parent.id %}">Retour</a>
+                    {% elif discipline %}
+                    <a href="?{% qs_replace request.GET discipline='' %}">Retour</a>
+                    {% endif %}
+
+                    
+                    <h5>{{ discipline.nom }}</h5>
+                    <ul>
+                        {% for enfant in enfants %}
+                        <li><a href="?{% qs_replace request.GET discipline=enfant.id %}">{{ enfant.nom }}</a></li>
+                        {% endfor %}
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+        <div class="span9">
+
+            <div class="row">
+                <div class="span9" id="search-bar">
+                    {{ form.terme }} 
+                    <button type="submit" class="btn">Rechercher</button>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="span9">
+                    <div class="row">
+                        <div class="span9">
+                            <span class="pull-left">Affinez vos résultats</span>
+
+                            <p class="pull-right">Par page: <a href="?{% qs_replace request.GET parpage=5 %}">5</a> | <a href="?{% qs_replace request.GET parpage=10 page=1%}">10</a> | <a href="?{% qs_replace request.GET parpage=15 page=1%}">15</a> | <a href="?{% qs_replace request.GET parpage=20 page=1%}">20</a></p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="span9" id="filter-bar">
+
+                                <div class="input-prepend pull-left">
+                                    <span class="add-on">Région</span>
+                                    {{ form.region }}
+                                </div>
+                            
+                                <div class="input-prepend">
+                                    <span class="add-on">Pays</span>
+                                    {{ form.pays }}
+                                </div>
+                            
+                                <div class="input-prepend pull-right">
+                                    <span class="add-on">Établissement</span>
+                                    {{ form.etablissement }}
+                                </div>
+                            
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="span9">
+
+                            <h5>{{ formations.paginator.count }} formations</h5>
+
+                            <table class="table table-striped table-bordered table-hover table-condensed">
+                                <thead>
+                                    <tr>
+                                        {% for column in columns %}
+                                        <th class="span1">
+                                            <a class="sort" value="foo" href=
+                                               {% if tri.name == column.sort_name and tri.asc %}"?{% qs_replace request.GET tri=column.sort_name_desc %}"{% else %}"?{% qs_replace request.GET tri=column.sort_name %}"{% endif %}>{{ column.name }}{% if tri.name == column.sort_name %} <span class="{% if tri.asc %}icon-chevron-up{% else %}icon-chevron-down{% endif %}">{% endif %}</a>
+                                        </th>
+                                        {% endfor %}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for formation in formations %}
+                                    {% include "formation_abrege.html" %}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+
+                            {% if formations.paginator.num_pages > 1 %}
+                            <div class="pagination">
+                                <ul>
+                                    {% if formations.has_previous %}
+                                    <li>
+                                        <a href="?page={{ formations.previous_page_number }}{% if tri %}&tri={{ tri.tri }}{% endif %}{% if terme_recherche %}&s={{ terme_recherche }}{% endif %}&parpage={{ formations.paginator.per_page }}">
+                                            &laquo;
+                                        </a>
+                                    </li>
+                                    {% endif %}
+                                    <li>
+                                        <span>
+                                            Page {{ formations.number }} de {{ formations.paginator.num_pages }}
+                                        </span>
+                                    </li>
+                                    {% if formations.has_next %}
+                                    <li>
+                                        <a href="?page={{ formations.next_page_number }}{% if tri %}&tri={{ tri.name }}{% endif %}{% if terme_recherche %}&s={{ terme_recherche }}{% endif %}&parpage={{ formations.paginator.per_page }}">
+                                            &raquo;
+                                        </a>
+                                    </li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    </div>
+    {% endblock %}
