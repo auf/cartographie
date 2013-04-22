@@ -68,11 +68,14 @@ def formation_rechercher(request):
         import FormationRechercheViewModel
 
     form_params = request.GET.copy()
-    try:
-        pays = int(request.GET.get('pays'))
-    except ValueError:
-        pays_iso3 = request.GET.get('pays')
-        form_params['pays'] = ref.Pays.objects.get(code_iso3=pays_iso3).pk
+
+
+    if request.GET.get('pays'):
+        try:
+            pays = int(request.GET.get('pays'))
+        except ValueError:
+            pays_iso3 = request.GET.get('pays')
+            form_params['pays'] = ref.Pays.objects.get(code_iso3=pays_iso3).pk
 
     vm = FormationRechercheViewModel(form_params)
 
