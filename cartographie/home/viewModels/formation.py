@@ -12,6 +12,9 @@ from django import forms
 from cartographie.formation.models.configuration import NiveauDiplome
 from cartographie.formation.models.configuration import Discipline
 
+import collections
+import itertools
+
 NUM_FORMATIONS_PER_PAGE = 25
 
 
@@ -49,8 +52,14 @@ def disciplines_enfants(discipline):
     regex_enfants = r'^%s[0-9]$' % code
     return Discipline.objects.filter(code__regex=regex_enfants)    
 
-def num_formations(formations, discipline):
-    return formations.filter(Q(discipline_1__code__startswith=discipline.code) | Q(discipline_2__code__startswith=discipline.code) | Q(discipline_1__code__startswith=discipline.code)).count()
+def disciplines_counter(formations):
+    counter = collections.defaultdict(int)
+    for code in filter(lambda v: v is not None,
+                             itertools.chain(*map(lambda d: d.itervalues(), 
+                                                  formations.values('discipline_1__code', 'discipline_2__code', 'discipline_3__code')))):
+        for i in range(1, len(code) + 1):
+            counter[code[:i]] += 1
+    return counter
 
 class RechercheForm(forms.Form):
     terme = forms.CharField(
@@ -178,15 +187,17 @@ class FormationRechercheViewModel(object):
         self.formations = self.raw_formations = recherche_formation(self.form)
         self._sort(request.GET.get('tri'))
         self._paginate(request)
-        
+
+        counter = disciplines_counter(self.raw_formations)
+
         self.discipline = self.form.cleaned_data['discipline']
         if self.discipline:
-            self.discipline.num_formations = num_formations(self.raw_formations, self.discipline)
+            self.discipline.num_formations = counter[self.discipline.code]
         self.parent = discipline_parent(self.discipline)
         self.enfants = disciplines_enfants(self.discipline)
         for discipline in self.enfants:
-            discipline.num_formations = num_formations(self.raw_formations, discipline)
-
+            discipline.num_formations = counter[discipline.code]
+ 
 
     def get_data(self):
         data =  {
