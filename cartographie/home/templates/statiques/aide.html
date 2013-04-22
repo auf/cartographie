@@ -4,73 +4,75 @@
 <h3>Aide</h3>
 
 <p>
-Étudiants, enseignants, chercheurs... ou grand public, ce site est pour vous!
+Étudiants et futurs étudiants, enseignants, chercheurs, responsables d'établissement, ce site est pour vous!
 </p>
 
 <hr />
 
-<h4>Étudiants, enseignants, chercheurs... ou grand public</h4>
+<h4>Étudiants et futurs étudiants, enseignants, chercheurs, responsables d'établissement</h4>
 
 <p>
-Un court film vous offre une démonstration de l'utilisation de ce site : <a href="">voir la démo</a>.<br />
-Deux options s'offrent à vous pour trouver une formation francophone.
+Vous souhaitez consulter la liste des formations francophones -<br />un court film vous offre une démonstration de l'utilisation de ce site : <a href="">voir la démo</a>.
+</p>
+<p>
+Deux options s'offrent à vous pour trouver une formation :
 </p>
 
 <h5><a href="{% url home_accueil %}">Carte</a></h5>
 <p>
-Pour trouver des formations dispensées dans un pays en particulier, simplement <a href="{% url home_accueil %}">cliquer sur le pays ou territoire concerné</a>.
+Pour trouver des formations dispensées dans un pays en particulier, <a href="{% url home_accueil %}">cliquer sur le pays ou territoire concerné</a>.
 </p>
 <p>
 Vous arriverez directement sur la page de résultats de recherche avec toutes les formations offertes pour le pays sélectionné.<br />
-Vous pourrez ensuite <b>raffiner votre recherche</b>, au besoin.
+Vous pourrez ensuite <b>affiner votre recherche</b>.
 </p>
 
-<h5><a href="">Rechercher</a></h5>
+<h5><a href="{% url home_formation_rechercher %}">Rechercher</a></h5>
 <p>
-La zone de recherche vous offre toutes les formations disponibles sur ce site.<br />
+La zone de recherche présente toutes les formations disponibles sur ce site.<br />
 Pour cibler les formations qui vous intéressent, trois options intuitives s'offrent à vous.
 </p>
 
 <h6>1. Recherche textuelle</h6>
 <div class="content-instructions" style="margin-left:20px;">
     <p>
-    Le moteur de recherche textuel actuel ne permet seulement qu'une recherche simple.<br />
+    Le moteur de recherche textuel actuel permet uniquement des recherches simples.<br />
     <b>Saisir une chaîne de caractères exacte</b>, la recherche de cette chaîne se fera dans :
     </p>
     <ul>
-        <li>le <b>libellé</b> de la formation</li>
+        <li>l'<b>intitulé</b> de la formation</li>
         <li>les <b>disciplines</b> associées à la formation</li>
         <li>le <b>niveau de diplôme</b> de la formation</li>
-        <li>le nom de l'<b>établissement membre de l'AUF</b> dispensant la formation</li>
+        <li>le nom de l'<b>établissement</b> qui dispense la formation</li>
         <li>le nom du <b>pays</b> où est dispensée la formation</li>
-        <li>le nom de la <b>région</b> AUF où est dispensée la formation</li>
+        <li>le nom de la <a href="#regions"><b>région</b>*</a> où est dispensée la formation</li>
     </ul>
 
     <p>
-    L'AUF travaille à mettre à votre disposition un moteur de recherche textuel plus puissant.
+    Nous travaillons actuellement pour mettre à votre disposition un moteur de recherche textuel plus puissant.
     </p>
 </div>
 
 <h6>2. Recherche avancée</h6>
 <div class="content-instructions" style="margin-left:20px;">
     <p>
-    Pour affiner votre recherche, <b>choisir les filtres désirés</b> parmi :
+    Pour affiner votre recherche, <b>choisir parmi les filtres</b> suivants :
     </p>
     <ul>
-        <li><b>Région</b> : la région de l'AUF où est dispensée la formation</li>
+        <li><a href="#regions"><b>Région</b>*</a> : la région où est dispensée la formation</li>
         <li><b>Pays</b> : le pays où est dispensée la formation</li>
-        <li><b>Établissement</b> : l'établissement membre de l'AUF dispensant la formation</li>
+        <li><b>Établissement</b> : l'établissement membre de l'AUF qui dispense la formation</li>
     </ul>
 </div>
 
 <h6>3. Naviguer</h6>
 <div class="content-instructions" style="margin-left:20px;">
     <p>
-    Vous pouvez aussi simplement naviguer dans les disciplines principales associées aux formations.
+    Vous pouvez également naviguer dans les disciplines principales associées aux formations.
     </p>
     <p>
     Les disciplines sont organisées hiérarchiquement.<br />
-    Pour chacune d'elle, le nombre de formations disponibles est fourni entre parenthèses<br />
+    Pour chacune d'elles, le nombre de formations disponibles est fourni entre parenthèses<br />
     (incluant les formations associées à ses sous-disciplines).<br />
     </p>
     <p>
@@ -81,33 +83,41 @@ Pour cibler les formations qui vous intéressent, trois options intuitives s'off
         <li>Afficher ses sous-disciplines pour pouvoir continuer la navigation et cibler davantage</li>
     </ul>
     <p>
-    Pour information, le référentiel utilisé pour les disciplines est le référentiel utilisé dans le cadre du projet européen Erasmus.
+    Le référentiel adopté pour cela est le classement des disciplines utilisé par le programme européen Erasmus.
     </p>
 </div>
 
 <h5>Connexion</h5>
 
 <p>
-Actuellement, aucune connexion n'est disponible pour les étudiants, enseignants, chercheurs ou le grand public.<br />
-Seuls les employés de l'AUF peuvent se connecter afin de pouvoir gérer les formations offertes.
+Actuellement, aucune connexion n'est nécessaire pour consulter le site.
 </p>
 
 <hr />
 
-<h4>Établissement membre de l'AUF</h4>
+<h4>Représentant d'un établissement membre de l'AUF</h4>
 
 <p>
-Si vous travaillez pour un établissement membre de l'AUF et que vous souhaitez<br />
+Vous travaillez pour un établissement membre de l'AUF et vous souhaitez<br />
 <b>ajouter, modifier ou supprimer des formations</b> pour votre établissement :<br />
-merci de contactez le <a href="http://www.auf.org/auf_dans_le_monde/" target="_blank">bureau régional de l'AUF</a> qui dessert votre région.
+Merci de contacter le <a href="http://www.auf.org/auf_dans_le_monde/" target="_blank">bureau régional de l'AUF</a> de votre région.
 </p>
 
 <hr />
 
-<h4>Employés AUF</h4>
+<h4>Employé AUF</h4>
 
 <p>
-Si vous êtes un employé de l'AUF et avez besoin d'aide, <a href="{% url home_contact %}">contactez l'équipe projet cartographie</a>.
+Vous êtes un employé de l'AUF et vous avez besoin d'aide, <a href="{% url home_contact %}">contactez l'équipe du projet Cartographie</a>.
 </p>
+
+<hr />
+<div>
+  <p>
+  <a name="regions"></a> 
+  * Les <a href="http://www.auf.org/auf_dans_le_monde/">régions</a> correspondent aux zones couvertes par les dix bureaux régionaux de l'AUF, 
+  voir la liste sur le <a href="http://www.auf.org/auf_dans_le_monde/">site institutionnel</a> de l'AUF.
+  </p>
+</div>
 
 {% endblock %}

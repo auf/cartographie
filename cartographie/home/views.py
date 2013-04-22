@@ -53,14 +53,14 @@ def contact(request):
 def credits(request):
     return render(request, "statiques/credits.html")
 
-def formation_recherche(request):
+def formation_rechercher(request):
     from cartographie.home.viewModels.formation \
         import FormationRechercheViewModel
    
     vm = FormationRechercheViewModel(request)
 
     return render_to_response(
-        "formation_recherche.html", vm.get_data(), RequestContext(request)
+        "formation_rechercher.html", vm.get_data(), RequestContext(request)
     )
 
 def formation_detail(request, id, slug=None):
