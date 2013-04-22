@@ -6,7 +6,6 @@ import cartographie.home
 
 from cartographie.formation.models import Fichier, Formation
 from cartographie.formation.sendfile import send_file
-from cartographie.home.forms.formation import FormationForm
 from cartographie.formation.stats import num_etablissements_per_country
 
 from auf.django.references import models as ref
