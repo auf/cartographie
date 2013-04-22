@@ -28,29 +28,34 @@ AUF.home = function(){
                 fillOpacity: 0.1 
             };
           };
+
             var map = L.map('map', {
-                maxBounds: [[-85, -180], [85, 180]]
+                maxBounds: [[-85, -180], [85, 180]],
+                attributionControl: false,
             }).setView([51.505, -15.09], 13);
+
             map.setView(new L.LatLng(41.3, 0.7),3);
+
             var osmUrl='/static/tiles/{z}/{x}/{y}.png';
             var osm = new L.TileLayer(osmUrl, {
+                attributionControl: false,
                 minZoom: 2,
-                maxZoom: 4,
+                maxZoom: 4
             });
 
             map.addLayer(osm);
             $.getJSON('/geojson/', function(data) {
                   L.geoJson(data, {
                     pointToLayer: function(feature, latlng) {
-                        var marker =  L.circleMarker(latlng, {radius: 8, color: 'black' });
+                        var marker =  L.marker(latlng);
                         console.log(feature);
+                        marker.on('click', function(evt) {
+                                window.location.href = feature.properties.url;
+                        });
                         marker.on('mouseover', function(evt) {
                                 evt.target.bindPopup(feature.properties.tooltip).openPopup();
                         });
 
-                        marker.on('click', function(evt) {
-                                console.log('click!');
-                        });
                         return marker;
                    }}).addTo(map);
             });

@@ -8,6 +8,10 @@ from cartographie.formation.models import Fichier, Formation
 from cartographie.formation.sendfile import send_file
 from cartographie.home.forms.formation import FormationForm
 from cartographie.formation.stats import num_etablissements_per_country
+
+from auf.django.references import models as ref
+
+from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.urlresolvers import reverse
@@ -62,8 +66,17 @@ def credits(request):
 def formation_rechercher(request):
     from cartographie.home.viewModels.formation \
         import FormationRechercheViewModel
-   
-    vm = FormationRechercheViewModel(request)
+
+    form_params = request.GET.copy()
+    try:
+        pays = int(request.GET.get('pays'))
+    except ValueError:
+        pays_iso3 = request.GET.get('pays')
+        form_params['pays'] = ref.Pays.objects.get(code_iso3=pays_iso3).pk
+
+    vm = FormationRechercheViewModel(form_params)
+
+
 
     return render_to_response(
         "formation_rechercher.html", vm.get_data(), RequestContext(request)
@@ -106,7 +119,8 @@ def geojson_formations(request):
                   "formations": country['formations'],
                   "etablissements": country['etablissements'],
                   "nom": country['nom'],
-                  "tooltip": t.render(Context(country))
+                  "tooltip": t.render(Context(country)),
+                  "url": "%s?pays=%s" % (reverse('home_formation_recherche'), country['code'])
               },
               "geometry": {
                 "type": "Point",
