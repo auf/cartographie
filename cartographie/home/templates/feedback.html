@@ -6,7 +6,10 @@
 {% include "cartographie/messages.html" %}
 
 <p>
-Vous êtes encouragés à nous soumettre toute demande, remarque, avis ou erreur remarquée via ce simple formulaire.
+Votre avis nous intéresse!
+</p>
+<p>
+L'équipe du projet Cartographie vous remercie pour tout avis, recommandation ou suggestion que vous pourriez nous donner en complétant ce simple formulaire.
 </p>
 <form action="{% url home_feedback %}" method="post">{% csrf_token %}
     {{ form.as_p }}
