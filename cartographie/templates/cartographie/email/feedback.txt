@@ -1,0 +1,16 @@
+{% extends "cartographie/email/base.txt" %}
+
+{% block content %}
+Un nouveau feedback a été soumis sur le site web.
+
+Nom: {{ feedback.nom|default:"(Non spécifié)" }}
+Prénom: {{ feedback.prenom|default:"(Non spécifié)" }}
+Courriel: {{ feedback.courriel }}
+Profil: {{ feedback.profil|default:"(Non spécifié)" }}
+Profil autre: {{ feedback.profil_autre|default:"(Non spécifié)" }}
+
+Sujet: {{ feedback.sujet }}
+
+Message:
+{{ feedback.contenu }}
+{% endblock %}

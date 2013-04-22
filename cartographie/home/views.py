@@ -20,7 +20,6 @@ from django.template import RequestContext, Template, Context
 
 from cartographie.formation.models import Fichier, Formation
 from cartographie.formation.sendfile import send_file
-from cartographie.home.forms.feedback import FeedbackForm
 
 def accueil(request):
     from cartographie.home.viewModels.accueil \
@@ -50,19 +49,9 @@ def apropos(request):
     return render(request, "statiques/a-propos.html", c)
 
 def feedback(request):
-    form = FeedbackForm()
-    if request.method == 'POST':
-        form = FeedbackForm(request.POST)
-        if form.is_valid():
-            messages.success(
-                request, u"Votre message nous a bien été envoyé. Merci!"
-            )
-            form.save()
-            # envoie courriel
-    c = {
-        'form': form,
-    }
-    return render(request, "feedback.html", c)
+    from cartographie.home.viewModels.feedback import FeedbackViewModel
+    vm = FeedbackViewModel(request)
+    return render(request, "feedback.html", vm.get_data())
 
 def legal(request):
     return render(request, "statiques/legal.html")
