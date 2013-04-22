@@ -36,3 +36,8 @@ EMAIL_PORT = ""
 EMAIL_HOST_USER = ""
 EMAIL_HOST_PASSWORD = ""
 EMAIL_USE_TLS = ""
+
+# Liste d'adresses de courriel qui reçoivent un courriel lorsqu'un
+# utilisateur utilise le formulaire de feedback. Exemple:
+# ['usager1@host', 'usager2@host']
+EMAIL_FEEDBACK = []
