@@ -122,7 +122,7 @@ def geojson_formations(request):
                   "etablissements": country['etablissements'],
                   "nom": country['nom'],
                   "tooltip": t.render(Context(country)),
-                  "url": "%s?pays=%s" % (reverse('home_formation_recherche'), country['code'])
+                  "url": "%s?pays=%s" % (reverse('home_formation_rechercher'), country['code'])
               },
               "geometry": {
                 "type": "Point",
