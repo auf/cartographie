@@ -27,7 +27,18 @@ def aide(request):
     return render(request, "statiques/aide.html")
 
 def apropos(request):
-    return render(request, "statiques/a-propos.html")
+    formations = Formation.objects.exclude(statut=999)  # 999 = supprimées
+    etablissements = set()
+    pays = set()
+    for f in formations:
+        etablissements.add(f.etablissement.id)
+        pays.add(f.etablissement.pays.id)
+    c = {
+        'formations_nb' : formations.count(),
+        'etablissements_nb' : len(etablissements),
+        'pays_nb' : len(pays),
+    }
+    return render(request, "statiques/a-propos.html", c)
 
 def feedback(request):
     form = FeedbackForm()

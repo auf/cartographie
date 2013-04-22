@@ -2,16 +2,31 @@
 
 {% block Contenu_home %}
 <h3>À propos</h3>
+
 <p>
-    A la demande de ses 782 établissements membres relayée par son Conseil associatif, l'Agence universitaire de la Francophonie (AUF) met en place la « Cartographie » des activités de formation et de recherche de l'ensemble des établissements membres de l'AUF.
+À la demande de ses 782 établissements membres relayée par son Conseil associatif, l'Agence universitaire de la Francophonie (AUF) met en place la « Cartographie » des activités de formation et de recherche de l'ensemble de ses établissements membres.
 </p>
 <p>
-    Toute personne dans le monde pourra, dès le mois de mai prochain, par un accès simple et convivial, connaître l'offre de formation de toutes ces institutions représentées sur une mappemonde hébergée par le site de l'AUF.
+Ce portail présente l'offre de formations de niveau master (au moins quatre années d'études supérieures) ou plus élevé dispensées en français ou partiellement en français de tous les établissements membres participant au projet. Il s'agit, à ce jour de :
+</p>
+
+<ul>
+    <li>{{ formations_nb }} formations francophones</li>
+    <li>dispensées par {{ etablissements_nb }} établissements</li>
+    <li>dans {{ pays_nb }} pays</li>
+    {% comment %}<li>sur X continents.</li>{% endcomment %}
+</ul>
+
+<p>
+C'est un outil collaboratif puissant et inédit, conçu au service de tous nos membres et vivant grâce à nos membres. Il vise à promouvoir, grâce à une visibilité locale, régionale et mondiale les activités que mènent les établissements membres de l'AUF auprès de leurs publics prioritaires – étudiants, enseignants, chercheurs. Il favorise tout autant la recherche de partenariats et la mise en place de projets universitaires et scientifiques internationaux structurants. Enfin, il permet aux responsables d'établissements de mieux faire connaître leur offre de formations dans le monde mais aussi de mieux connaître ce qui se fait ailleurs à une échelle régionale et inter-régionale.
 </p>
 <p>
-    Il s'agit d'un instrument puissant et inédit. Il est conçu au service de tous nos membres. Il vise à les promouvoir, grâce à une visibilité locale, régionale et mondiale des activités que vous menez auprès de vos publics premiers -étudiants, enseignants, chercheurs-. Il favorisera tout autant la recherche de partenariats et la mise en place de projets universitaires et scientifiques internationaux structurants.
+Dans une première étape, le projet a consisté à collecter et à rendre disponibles via ce portail les données relatives aux formations francophones ou partiellement francophones, à partir du niveau « master » ou équivalent.
 </p>
 <p>
-    Dans un premier temps, il s'agira de collecter les données relatives aux formations francophones ou partiellement francophones, à partir du niveau « master » ou équivalent, dispensées par tous les établissements membres de l'Agence et le vôtre au premier chef, pour constituer ce répertoire publié en ligne. Par la suite, le projet sera élargi aux activités de recherche des institutions membres.
+Par la suite, l'équipe du projet Cartographie comptera à nouveau sur la collaboration active des établissements membres pour répertorier les activités de recherche francophones à travers le monde.
+</p>
+<p>
+Pour en savoir plus, téléchargez la <a href="{{ STATIC_URL }}home/docs/auf-cartographie-presentation-2013-02.pdf">brochure Cartographie</a>.
 </p>
 {% endblock %}
