@@ -175,8 +175,8 @@ class FormationRechercheViewModel(object):
     enfants = None
     sort = None
 
-    def __init__(self, request, *args, **kwargs):
-        self.form = RechercheForm(request.GET)
+    def __init__(self, form_params, *args, **kwargs):
+        self.form = RechercheForm(form_params)
 
         # TODO: Quoi faire si c'est invalide?
         if not self.form.is_valid():
@@ -185,8 +185,8 @@ class FormationRechercheViewModel(object):
             return
 
         self.formations = self.raw_formations = recherche_formation(self.form)
-        self._sort(request.GET.get('tri'))
-        self._paginate(request)
+        self._sort(form_params.get('tri'))
+        self._paginate(form_params)
 
         counter = disciplines_counter(self.raw_formations)
 
@@ -211,10 +211,10 @@ class FormationRechercheViewModel(object):
             }
         return data
 
-    def _paginate(self, request):
-        page = request.GET.get('page')
+    def _paginate(self, form_params):
+        page = form_params.get('page')
         try:
-            perpage = int(request.GET.get('parpage', NUM_FORMATIONS_PER_PAGE))
+            perpage = int(form_params.get('parpage', NUM_FORMATIONS_PER_PAGE))
         except ValueError:
             perpage = NUM_FORMATIONS_PER_PAGE
 
