@@ -6,6 +6,8 @@ import cartographie.home
 
 from cartographie.formation.models import Fichier, Formation
 from cartographie.formation.sendfile import send_file
+from cartographie.home.forms.formation import FormationForm
+from cartographie.formation.stats import num_etablissements_per_country
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.urlresolvers import reverse
@@ -85,21 +87,24 @@ def fichiers(request, fichier_id):
     raise Http404
 
 def geojson_formations(request):
-    import json
     geojson = []
 
     raw_template = """<div>
+      {% load pluralize %}
       <b>{{ nom }}</b><br/>
-      <div>{{ formations }} formations</div>
-      u
+      <div>{{ formations }} formation{{ formations|pluralize_fr }}</div>
+      <div>{{ etablissements }} etablissement{{ etablissements|pluralize_fr }}</div>
     </div>"""
+
     t = Template(raw_template)
-    def get_feature(country):
+
+    def get_geojson_feature(country):
         return {
               "type": "Feature",
               "properties": {
                   "isoAlpha3": country['code'],
                   "formations": country['formations'],
+                  "etablissements": country['etablissements'],
                   "nom": country['nom'],
                   "tooltip": t.render(Context(country))
               },
@@ -110,19 +115,23 @@ def geojson_formations(request):
         }
 
     coordonnees_path = "%s/data/coordonnees.json" % cartographie.home.__path__[0]
+
+
     with open(coordonnees_path) as coords:
         lines = coords.readlines()
         coords = json.loads("".join(lines))
+        etab_per_country = num_etablissements_per_country()
         form_per_country = Formation.num_formations_per_country()
         for country in form_per_country.keys():
             isoAlpha3 = country.upper()
             feature_dict = {
               "code": isoAlpha3,
               "formations": form_per_country[country],
+              "etablissements": etab_per_country[country],
               "lat": coords[isoAlpha3]["lat"],
               "lon": coords[isoAlpha3]["lon"],
               "nom": coords[isoAlpha3]["nom"],
             }
-            geojson.append(get_feature(feature_dict))
+            geojson.append(get_geojson_feature(feature_dict))
     print geojson
     return HttpResponse(json.dumps(geojson), content_type="application/json")

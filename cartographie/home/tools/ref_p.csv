@@ -1,0 +1,198 @@
+1,AD,AND,Andorre,12,BEO,Nord,Elevé,NULL,1
+2,AE,ARE,Émirats arabes unis,8,BMO,Nord,Elevé,NULL,1
+3,AF,AFG,Afghanistan,8,BMO,Sud,Faible,NULL,1
+4,AG,ATG,Antigua-Et-Barbuda,5,BC,Sud,Intermédiaire élevé,NULL,1
+5,AL,ALB,Albanie,6,BECO,Sud,Intermédiaire faible,NULL,1
+6,AM,ARM,Arménie,6,BECO,Sud,Intermédiaire faible,NULL,1
+7,AO,AGO,Angola,1,BACGL,Sud,Intermédiaire élevé,NULL,1
+8,AR,ARG,Argentine,3,BA,Sud,Intermédiaire élevé,NULL,1
+9,AT,AUT,Autriche,12,BEO,Nord,Elevé,NULL,1
+10,AU,AUS,Australie,4,BAP,Nord,Elevé,NULL,1
+11,AZ,AZE,Azerbaïdjan,6,BECO,Sud,Intermédiaire élevé,NULL,1
+12,BA,BIH,Bosnie-Herzégovine,6,BECO,Sud,Intermédiaire élevé,NULL,1
+13,BB,BRB,Barbade,5,BC,Nord,Elevé,NULL,1
+14,BD,BGD,Bangladesh,4,BAP,Sud,Faible,NULL,1
+15,BE,BEL,Belgique,12,BEO,Nord,Elevé,NULL,1
+16,BF,BFA,Burkina Faso,2,BAO,Sud,Faible,NULL,1
+17,BG,BGR,Bulgarie,6,BECO,Sud,Intermédiaire élevé,NULL,1
+18,BH,BHR,Bahreïn,8,BMO,Nord,Elevé,NULL,1
+19,BI,BDI,Burundi,1,BACGL,Sud,Faible,NULL,1
+20,BJ,BEN,Bénin,2,BAO,Sud,Faible,NULL,1
+21,BN,BRN,Brunei Darussalam,4,BAP,Nord,Elevé,NULL,1
+22,BO,BOL,Bolivie,3,BA,Sud,Intermédiaire faible,NULL,1
+23,BR,BRA,Brésil,3,BA,Sud,Intermédiaire élevé,NULL,1
+24,BS,BHS,Bahamas,5,BC,Nord,Elevé,NULL,1
+25,BT,BTN,Bhoutan,4,BAP,Sud,Intermédiaire faible,NULL,1
+26,BW,BWA,Botswana,1,BACGL,Sud,Intermédiaire élevé,NULL,1
+27,BY,BLR,Bélarus,6,BECO,Sud,Intermédiaire élevé,NULL,1
+28,BZ,BLZ,Belize,3,BA,Sud,Intermédiaire faible,NULL,1
+29,CA,CAN,Canada,3,BA,Nord,Elevé,NULL,1
+30,CD,COD,République démocratique du Congo,1,BACGL,Sud,Faible,NULL,1
+31,CF,CAF,République centrafricaine,1,BACGL,Sud,Faible,NULL,1
+32,CG,COG,Congo,1,BACGL,Sud,Intermédiaire faible,NULL,1
+33,CH,CHE,Suisse,12,BEO,Nord,Elevé,NULL,1
+34,CI,CIV,Côte d'Ivoire,2,BAO,Sud,Intermédiaire faible,NULL,1
+35,CL,CHL,Chili,3,BA,Sud,Intermédiaire élevé,NULL,1
+36,CM,CMR,Cameroun,1,BACGL,Sud,Intermédiaire faible,NULL,1
+37,CN,CHN,Chine,4,BAP,Sud,Intermédiaire élevé,NULL,1
+38,CO,COL,Colombie,3,BA,Sud,Intermédiaire élevé,NULL,1
+39,CR,CRI,Costa Rica,3,BA,Sud,Intermédiaire élevé,NULL,1
+40,CS,SCG,Serbie-Monténégro (cf. scission),0,BECO,Sud,Faible,dinar yougoslave,0
+41,CU,CUB,Cuba,5,BC,Sud,Intermédiaire élevé,NULL,1
+42,CV,CPV,Cap-Vert,2,BAO,Sud,Intermédiaire faible,NULL,1
+43,CY,CYP,Chypre,8,BMO,Nord,Elevé,NULL,1
+44,CZ,CZE,République tchèque,6,BECO,Nord,Elevé,NULL,1
+45,DE,DEU,Allemagne,12,BEO,Nord,Elevé,NULL,1
+46,DJ,DJI,Djibouti,8,BMO,Sud,Intermédiaire faible,NULL,1
+47,DK,DNK,Danemark,12,BEO,Nord,Elevé,NULL,1
+48,DM,DMA,Dominique,5,BC,Sud,Intermédiaire élevé,NULL,1
+49,DO,DOM,République dominicaine,5,BC,Sud,Intermédiaire élevé,NULL,1
+50,DZ,DZA,Algérie,11,BM,Sud,Intermédiaire élevé,NULL,1
+51,UZ,UZB,Ouzbékistan,6,BECO,Sud,Intermédiaire faible,NULL,1
+52,UY,URY,Uruguay,3,BA,Sud,Intermédiaire élevé,NULL,1
+53,US,USA,États-Unis,3,BA,Nord,Elevé,NULL,1
+54,UG,UGA,Ouganda,1,BACGL,Sud,Faible,NULL,1
+55,UA,UKR,Ukraine,6,BECO,Sud,Intermédiaire faible,NULL,1
+56,TZ,TZA,République-unie de Tanzanie,9,BOI,Sud,Faible,NULL,1
+57,TV,TUV,Tuvalu,4,BAP,Sud,Intermédiaire élevé,NULL,1
+58,TT,TTO,Trinité-et-Tobago,5,BC,Nord,Elevé,NULL,1
+59,TO,TON,Tonga,4,BAP,Sud,Intermédiaire faible,NULL,1
+60,TR,TUR,Turquie,6,BECO,Sud,Intermédiaire élevé,NULL,1
+61,TN,TUN,Tunisie,11,BM,Sud,Intermédiaire élevé,NULL,1
+62,TL,TLS,Timor-Leste,4,BAP,Sud,Intermédiaire faible,NULL,1
+63,TM,TKM,Turkménistan,6,BECO,Sud,Intermédiaire élevé,NULL,1
+64,TJ,TJK,Tadjikistan,6,BECO,Sud,Faible,NULL,1
+65,TH,THA,Thaïlande,4,BAP,Sud,Intermédiaire élevé,NULL,1
+66,TG,TGO,Togo,2,BAO,Sud,Faible,NULL,1
+67,TD,TCD,Tchad,1,BACGL,Sud,Faible,NULL,1
+68,SZ,SWZ,Swaziland,1,BACGL,Sud,Intermédiaire faible,NULL,1
+69,SY,SYR,République arabe syrienne,8,BMO,Sud,Intermédiaire faible,NULL,1
+70,SV,SLV,El Salvador,3,BA,Sud,Intermédiaire faible,NULL,1
+71,ST,STP,Sao Tomé-et-Principe,1,BACGL,Sud,Intermédiaire faible,NULL,1
+72,SR,SUR,Suriname,3,BA,Sud,Intermédiaire élevé,NULL,1
+73,SN,SEN,Sénégal,2,BAO,Sud,Intermédiaire faible,NULL,1
+74,SO,SOM,Somalie,1,BACGL,Sud,Faible,NULL,1
+75,SM,SMR,Saint-Marin,12,BEO,Nord,Elevé,NULL,1
+76,SL,SLE,Sierra Leone,2,BAO,Sud,Faible,NULL,1
+77,SK,SVK,Slovaquie,6,BECO,Nord,Elevé,NULL,1
+78,SI,SVN,Slovénie,6,BECO,Nord,Elevé,NULL,1
+79,SG,SGP,Singapour,4,BAP,Nord,Elevé,NULL,1
+80,SE,SWE,Suède,12,BEO,Nord,Elevé,NULL,1
+81,SD,SDN,Soudan,8,BMO,Sud,Intermédiaire faible,NULL,1
+82,SB,SLB,Îles Salomon,4,BAP,Sud,Intermédiaire faible,NULL,1
+83,SC,SYC,Seychelles,9,BOI,Sud,Intermédiaire élevé,NULL,1
+84,SA,SAU,Arabie Saoudite,8,BMO,Nord,Elevé,NULL,1
+85,RW,RWA,Rwanda,1,BACGL,Sud,Faible,NULL,1
+86,S3,S33,Sans objet,0,BXX,NULL,inconnu,NULL,0
+87,RU,RUS,Fédération de Russie,6,BECO,Sud,Intermédiaire élevé,NULL,1
+88,RO,ROU,Roumanie,6,BECO,Sud,Intermédiaire élevé,NULL,1
+89,QA,QAT,Qatar,8,BMO,Nord,Elevé,NULL,1
+90,PY,PRY,Paraguay,3,BA,Sud,Intermédiaire faible,NULL,1
+91,PW,PLW,Palaos,4,BAP,Sud,Intermédiaire élevé,NULL,1
+92,PT,PRT,Portugal,12,BEO,Nord,Elevé,NULL,1
+93,PS,PSE,Palestine,8,BMO,Sud,Intermédiaire faible,NULL,1
+94,PL,POL,Pologne,6,BECO,Nord,Elevé,NULL,1
+95,PK,PAK,Pakistan,8,BMO,Sud,Intermédiaire faible,NULL,1
+96,PH,PHL,Philippines,4,BAP,Sud,Intermédiaire faible,NULL,1
+97,PG,PNG,Papouasie-Nouvelle-Guinée,4,BAP,Sud,Intermédiaire faible,NULL,1
+98,PE,PER,Pérou,3,BA,Sud,Intermédiaire élevé,NULL,1
+99,OM,OMN,Oman,8,BMO,Nord,Elevé,NULL,1
+100,PA,PAN,Panama,3,BA,Sud,Intermédiaire élevé,NULL,1
+101,NZ,NZL,Nouvelle-Zélande,4,BAP,Nord,Elevé,NULL,1
+102,NR,NRU,Nauru,4,BAP,Sud,Non défini,NULL,1
+103,NP,NPL,Népal,4,BAP,Sud,Faible,NULL,1
+104,NO,NOR,Norvège,12,BEO,Nord,Elevé,NULL,1
+105,NL,NLD,Pays-Bas,12,BEO,Nord,Elevé,NULL,1
+106,NI,NIC,Nicaragua,3,BA,Sud,Intermédiaire faible,NULL,1
+107,NG,NGA,Nigéria,2,BAO,Sud,Intermédiaire faible,NULL,1
+108,NE,NER,Niger,2,BAO,Sud,Faible,NULL,1
+109,NA,NAM,Namibie,1,BACGL,Sud,Intermédiaire élevé,NULL,1
+110,MZ,MOZ,Mozambique,9,BOI,Sud,Faible,NULL,1
+111,MY,MYS,Malaisie,4,BAP,Sud,Intermédiaire élevé,NULL,1
+112,MX,MEX,Mexique,3,BA,Sud,Intermédiaire élevé,NULL,1
+113,MW,MWI,Malawi,1,BACGL,Sud,Faible,NULL,1
+114,MV,MDV,Maldives,4,BAP,Sud,Intermédiaire élevé,NULL,1
+115,MU,MUS,Maurice,9,BOI,Sud,Intermédiaire élevé,NULL,1
+116,MT,MLT,Malte,12,BEO,Nord,Elevé,NULL,1
+117,MR,MRT,Mauritanie,2,BAO,Sud,Faible,NULL,1
+118,MN,MNG,Mongolie,6,BECO,Sud,Intermédiaire faible,NULL,1
+119,MM,MMR,Myanmar,4,BAP,Sud,Faible,NULL,1
+120,ML,MLI,Mali,2,BAO,Sud,Faible,NULL,1
+121,MK,MKD,"Macédoine, l'ex-république yougoslave de",6,BECO,Sud,Intermédiaire élevé,NULL,1
+122,MH,MHL,Îles Marshall,4,BAP,Sud,Intermédiaire faible,NULL,1
+123,MD,MDA,République de Moldavie,6,BECO,Sud,Intermédiaire faible,NULL,1
+124,MG,MDG,Madagascar,9,BOI,Sud,Faible,NULL,1
+125,MC,MCO,Monaco,12,BEO,Nord,Elevé,NULL,1
+126,MA,MAR,Maroc,11,BM,Sud,Intermédiaire faible,NULL,1
+127,LY,LBY,"Libyenne, jamahiriya arabe",11,BM,Sud,Intermédiaire élevé,NULL,1
+128,LV,LVA,Lettonie,6,BECO,Sud,Intermédiaire élevé,NULL,1
+129,LU,LUX,Luxembourg,12,BEO,Nord,Elevé,NULL,1
+130,LS,LSO,Lesotho,1,BACGL,Sud,Intermédiaire faible,NULL,1
+131,LT,LTU,Lituanie,6,BECO,Sud,Intermédiaire élevé,NULL,1
+132,LR,LBR,Libéria,2,BAO,Sud,Faible,NULL,1
+133,LK,LKA,Sri Lanka,4,BAP,Sud,Intermédiaire faible,NULL,1
+134,LI,LIE,Liechtenstein,12,BEO,Nord,Elevé,NULL,1
+135,LC,LCA,Sainte-Lucie,5,BC,Sud,Intermédiaire élevé,NULL,1
+136,LB,LBN,Liban,8,BMO,Sud,Intermédiaire élevé,NULL,1
+137,LA,LAO,République démocratique populaire lao,4,BAP,Sud,Intermédiaire faible,NULL,1
+138,KZ,KAZ,Kazakhstan,6,BECO,Sud,Intermédiaire élevé,NULL,1
+139,KW,KWT,Koweït,8,BMO,Nord,Elevé,NULL,1
+140,KR,KOR,République de Corée,4,BAP,Nord,Elevé,NULL,1
+141,KP,PRK,République populaire démocratique de Corée,4,BAP,Sud,Faible,NULL,1
+142,KM,COM,Comores,9,BOI,Sud,Faible,NULL,1
+143,KN,KNA,Saint-Kitts-et-Nevis,5,BC,Nord,Elevé,NULL,1
+144,KI,KIR,Kiribati,4,BAP,Sud,Intermédiaire faible,NULL,1
+145,KH,KHM,Cambodge,4,BAP,Sud,Faible,NULL,1
+146,KG,KGZ,Kirghizistan,6,BECO,Sud,Faible,NULL,1
+147,KE,KEN,Kenya,9,BOI,Sud,Faible,NULL,1
+148,JP,JPN,Japon,4,BAP,Nord,Elevé,NULL,1
+149,JO,JOR,Jordanie,8,BMO,Sud,Intermédiaire élevé,NULL,1
+150,JM,JAM,Jamaïque,5,BC,Sud,Intermédiaire élevé,NULL,1
+151,IT,ITA,Italie,12,BEO,Nord,Elevé,NULL,1
+152,IS,ISL,Islande,12,BEO,Nord,Elevé,NULL,1
+153,IR,IRN,Iran (République islamique d'),8,BMO,Sud,Intermédiaire élevé,NULL,1
+154,IQ,IRQ,Iraq,8,BMO,Sud,Intermédiaire faible,NULL,1
+155,IN,IND,Inde,4,BAP,Sud,Intermédiaire faible,NULL,1
+156,IL,ISR,Israël,12,BEO,Nord,Elevé,NULL,1
+157,IE,IRL,Irlande,12,BEO,Nord,Elevé,NULL,1
+158,ID,IDN,Indonésie,4,BAP,Sud,Intermédiaire faible,NULL,1
+159,HU,HUN,Hongrie,6,BECO,Nord,Elevé,NULL,1
+160,HT,HTI,Haïti,5,BC,Sud,Faible,NULL,1
+161,HR,HRV,Croatie,6,BECO,Nord,Elevé,NULL,1
+162,HN,HND,Honduras,3,BA,Sud,Intermédiaire faible,NULL,1
+163,GY,GUY,Guyana,3,BA,Sud,Intermédiaire faible,NULL,1
+164,GW,GNB,Guinée Bissau,2,BAO,Sud,Faible,NULL,1
+165,GT,GTM,Guatemala,3,BA,Sud,Intermédiaire faible,NULL,1
+166,GR,GRC,Grèce,12,BEO,Nord,Elevé,NULL,1
+167,GQ,GNQ,Guinée équatoriale,1,BACGL,Nord,Elevé,NULL,1
+168,GN,GIN,Guinée,2,BAO,Sud,Faible,NULL,1
+169,GM,GMB,Gambie,2,BAO,Sud,Faible,NULL,1
+170,GH,GHA,Ghana,2,BAO,Sud,Intermédiaire faible,NULL,1
+171,GE,GEO,Géorgie,6,BECO,Sud,Intermédiaire faible,NULL,1
+172,GD,GRD,Grenade,5,BC,Sud,Intermédiaire élevé,NULL,1
+173,GB,GBR,Royaume-Uni,12,BEO,Nord,Elevé,NULL,1
+174,G3,G33,Général,0,BSC,NULL,inconnu,NULL,0
+175,GA,GAB,Gabon,1,BACGL,Sud,Intermédiaire élevé,NULL,1
+176,FR,FRA,France,12,BEO,Nord,Elevé,NULL,1
+177,FM,FSM,Micronésie (états fédérés de),4,BAP,Sud,Intermédiaire faible,NULL,1
+178,FJ,FJI,Fidji,4,BAP,Sud,Intermédiaire faible,NULL,1
+179,FI,FIN,Finlande,12,BEO,Nord,Elevé,NULL,1
+180,ET,ETH,Éthiopie,1,BACGL,Sud,Faible,NULL,1
+181,ER,ERI,Érythrée,1,BACGL,Sud,Faible,NULL,1
+182,ES,ESP,Espagne,12,BEO,Nord,Elevé,NULL,1
+183,EG,EGY,Égypte,8,BMO,Sud,Intermédiaire faible,NULL,1
+184,EC,ECU,Équateur,3,BA,Sud,Intermédiaire élevé,NULL,1
+185,EE,EST,Estonie,6,BECO,Nord,Elevé,NULL,1
+186,VA,VAT,Saint-Siège (État de la Cité du Vatican),12,BEO,Nord,Non défini,NULL,1
+187,VC,VCT,Saint-Vincent-Et-Les Grenadines,5,BC,Sud,Intermédiaire élevé,NULL,1
+188,VE,VEN,Venezuela,3,BA,Sud,Intermédiaire élevé,NULL,1
+189,VN,VNM,Viet Nam,4,BAP,Sud,Intermédiaire faible,NULL,1
+190,VU,VUT,Vanuatu,4,BAP,Sud,Intermédiaire faible,NULL,1
+191,WS,WSM,Samoa,4,BAP,Sud,Intermédiaire faible,NULL,1
+192,YE,YEM,Yémen,8,BMO,Sud,Intermédiaire faible,NULL,1
+193,ZA,ZAF,Afrique du Sud,9,BOI,Sud,Intermédiaire élevé,NULL,1
+194,ZM,ZMB,Zambie,1,BACGL,Sud,Intermédiaire faible,NULL,1
+195,ZW,ZWE,Zimbabwe,1,BACGL,Sud,Faible,NULL,1
+196,RS,SRB,Serbie,6,BECO,Sud,Intermédiaire élevé,NULL,1
+197,ME,MNE,Monténégro,6,BECO,Sud,Intermédiaire élevé,NULL,1
+198,SS,SSD,Soudan du Sud,8,BMO,Sud,Intermédiaire faible,NULL,1
