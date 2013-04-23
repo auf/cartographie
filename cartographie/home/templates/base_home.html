@@ -46,28 +46,29 @@
 {% endblock %}
 
 {% block footer_addon %}
+
     <div class="row">
-      <div id="statistiques" class="span12">
-	<div class="content">
-	  <div class="pull-left" id="info-formations">
-	    <p class="highlight">10000</p>
-	    <p class="detail au-dessus">formations</p>
-	  </div>
-	  <div class="pull-left" id="info-disciplines">
-	    <p class="highlight">62</p>
-	    <p class="detail">disciplines</p>
-	  </div>
-</p>
-<div class="pull-left" id="info-etablissements">
-  <span class="preambule">Dispensées dans<br/></span>
-  <p class="highlight">521</p>
-  <p class="info"> établissements</p>
-</div>
-<p class="pull-left huge">&</p>
-<div class="pull-left" id="info-pays">
-  <p class="highlight">15</p>
-  <p class="info">pays<br/> différents</p>
-</div>
-</div>
-</div>
+        <div id="statistiques" class="span12">
+            <div class="content">
+                <div class="pull-left" id="info-formations">
+                    <p class="highlight">{{ stats_formations }}</p>
+                    <p class="detail">formations</p>
+                </div>
+                <div class="pull-left" id="info-disciplines">
+                    <p class="highlight">{{ stats_disciplines }}</p>
+                    <p class="detail">disciplines</p>
+                </div>
+                <div class="pull-left" id="info-etablissements">
+                    <span class="preambule">Dispensées dans<br/></span>
+                    <p class="highlight">{{ stats_etablissements }}</p>
+                    <p class="info"> établissements</p>
+                </div>
+                <p class="pull-left huge">&</p>
+                <div class="pull-left" id="info-pays">
+                    <p class="highlight">{{ stats_pays }}</p>
+                    <p class="info">pays<br/> différents</p>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
