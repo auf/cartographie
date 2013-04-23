@@ -3842,9 +3842,9 @@ div#info-formations p.highlight {
   margin-bottom: 0;
 }
 div#info-formations p.detail {
+  font-size: 1.25em;
   margin-bottom: 10px;
   font-variant: small-caps;
-  font-size: 1.25em;
 }
 div#info-disciplines {
   width: 100px;
@@ -3855,7 +3855,7 @@ div#info-disciplines {
   background-color: black;
   color: white;
   display: inline-block;
-  margin-left: -10px;
+  margin-left: -5px;
 }
 div#info-disciplines p.highlight {
   font-size: 1.5em;
@@ -3864,9 +3864,9 @@ div#info-disciplines p.highlight {
   margin-bottom: 0;
 }
 div#info-disciplines p.detail {
+  font-size: 1.25em;
   margin-bottom: 10px;
   font-variant: small-caps;
-  font-size: 1.25em;
 }
 div#info-etablissements {
   height: 75px;
