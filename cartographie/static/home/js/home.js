@@ -6,7 +6,6 @@ AUF.home = function(){
             console.log("AUF.home.init()");
             this.searchForm();
             this.beautifulSelects(); 
-            this.initMap();
         },
 
         initMap: function() {
@@ -93,4 +92,9 @@ $(document).ready(function(){
     $("#recherche select").change(function() {
         $("#recherche").submit();
     });
+
+    if ($('#map').length) {
+	AUF.home.initMap();
+    }
+
 });
