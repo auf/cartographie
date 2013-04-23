@@ -38,11 +38,99 @@ ul.nav.en-tete {
     font-weight: bold;
 }
 
+div#info-formations {
+    .circle-background(90px);
+    display: inline-block;
+    margin-top: 5px;
+    margin-left: 50px;
+    z-index: 9999;
+}
+
+div#info-disciplines {
+    .circle-background(100px);
+    display: inline-block;
+    margin-left: -10px;
+}
+
+div#info-etablissements {
+    .border-top-bottom(75px, 300px);
+    margin-top: 12.5px;
+    margin-left: 50px;
+    
+}
+
+div#info-pays {
+    .border-top-bottom(75px, 200px);
+    margin-top: 12.5px;
+}
+
+
+.border-top-bottom (@height: 100px, @width: 200px) {
+    height: @height;
+    width: @width;
+    border-top: 1px black solid;
+    border-bottom: 1px black solid;
+
+    span.preambule {
+	margin-top: 5px;
+    }
+
+    p.highlight {
+	font-size: 3.5em;
+	margin-top: (@height / 4);
+	display: inline-block;
+	margin-bottom: 0;
+    }
+
+    p.info {
+	display: inline-block;
+	font-size: 2em;
+	margin-top: @height / 4;
+	font-variant: small-caps;
+    }
+}
+
+.circle-background (@radius: 50px) {
+    width: @radius;
+    height: @radius;
+    border-radius: (@radius / 2);
+    text-align: center;
+    text-color: #ffff;
+    background-color: black;
+    color: white;
+
+    p.highlight {
+	font-size: 1.5em;
+	padding-top: (@radius / 3.5);
+	vertical-align: bottom;
+	margin-bottom: 0;
+    }
+
+    p.detail {
+	margin-bottom: 10px;
+	font-variant: small-caps;
+	font-size: 1.25em;
+    }
+
+}
+
 div.navbar {
     background-color: lighten(@bleu_auf, 50%);
 }
 
-//
+// footer
+
+div#statistiques {
+    background-color: #f5f5f5;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    p.huge {
+	font-size: 4em;
+	margin-left: 25px;
+	margin-right: 25px;
+	margin-top: 50px;
+    }
+}
 
 ul.nav.nav-pills > li > span.title {
     background-color: red;

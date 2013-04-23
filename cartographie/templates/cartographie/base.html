@@ -22,32 +22,30 @@
     <div class="container">
         <header>
             {% if user.is_authenticated %}
-                <div class="row" style="padding-bottom:5px; background-color:#F9F9F9">
-                    <div class="span12 pull-right">
-                        {% comment %}
-/                        <a class="btn btn-small pull-right dashboard-link" href="{% url dashboard_statistiques %}">
-                            <i class="icon-th"></i>
-                            Consulter votre tableau de bord
-                        </a>
-                        {% endcomment %}
-                        <a class="pull-right dashboard-link" href="{% url dashboard_statistiques %}">
-                            Tableau de bord
-                        </a>
-                        {% if user.is_superuser %}
-                            <a class="pull-right dashboard-link" href="{% url admin:index %}">
-                                Administration
-                            </a>
-                        {% endif %}
-                        <span class="pull-right dashboard-link">
-                        {% if user.first_name and user.last_name %}
-                            {{ user.first_name }} {{ user.last_name|upper }}
-                        {% else %}
-                            {{ user }}
-                        {% endif %}
-                        </span>
-                    </div>
-                    <div class="clear"></div>
-                </div>
+
+            <div class="row userbar">
+              <div class="span12">
+                <a class="pull-right dashboard-link" href="{% url dashboard_statistiques %}">
+                  Tableau de bord
+                </a>
+                {% if user.is_superuser %}
+                <a class="pull-right dashboard-link" href="{% url admin:index %}">
+                  Administration
+                </a>
+                {% endif %}
+                <span class="pull-right dashboard-link">
+		  <i class="icon-user"></i>
+                  {% if user.first_name and user.last_name %}
+                  {{ user.first_name }} {{ user.last_name|upper }}
+                  {% else %}
+                  {{ user }}
+                  {% endif %}
+                </span>
+	      </div>
+
+              <div class="clear"></div>
+            </div>
+
             {% endif %}
             <div class="row">
                 <div class="span12">
@@ -92,24 +90,11 @@
             25%   #c0e2f2
             10%   #e6f3fa
             {% endcomment %}
-            <div>
-	      <div class="navbar">
-		<div class="navbar-inner">
-		 
-		  <ul class="nav nav-pills en-tete">
-		    <li>
-		      <div id="entete">
-			<span class="titre-premier">Pour trouver une formation</span>
-			<span class="titre-second">2 options s'offrent à vous</span>
-		      </div>
-		    </li>
-		    <li class="{% active request "^/$" %}"><a href="{% url home_accueil %}">CARTE</a></li>
-		    <li class="{% active request "^/formations" %}"><a href="{% url home_formation_rechercher %}">RECHERCHER</a></li>
-		  </ul>
-		</div>
-              </div>
-	    </div>
             <div class="clear"></div>
+	    {% block banniere %}
+
+	    {% endblock %}
+
 	    <div class="row">
             {% block Contenu %}
 
@@ -117,32 +102,33 @@
             </div>
         </div> <!-- #main -->
         <footer>
-            <div class="row">
-                <div class="rainbow span12">
-                    <span class="elem bleu"></span>
-                    <span class="elem jaune"></span>
-                    <span class="elem vert"></span>
-                    <span class="elem mauve"></span>
-                    <span class="elem rouge"></span>
+	  {% block footer_addon %}
+	  {% endblock %}
+              <div class="rainbow span12">
+                <span class="elem bleu"></span>
+                <span class="elem jaune"></span>
+                <span class="elem vert"></span>
+                <span class="elem mauve"></span>
+                <span class="elem rouge"></span>
+              </div>
+              <div class="span12">
+                <div class="content">
+                  <p class="pull-left copyright">
+                    © AUF 2013 Tous droits réservés
+                  </p>
+                  <p class="pull-right dahsboard-link">
+                    <a style="margin: 8px 22px 0 0;" href="{% url home_legal %}">
+                      Légal
+                    </a>
+                    <a style="margin: 8px 22px 0 0;" href="{% url home_contact %}">
+                      Contact
+                    </a>
+                    <a style="margin: 8px 22px 0 0;" href="{% url home_credits %}">
+                      Crédits
+                    </a>
+                  </p>
                 </div>
-                <div class="span12">
-                    <div class="content">
-                        <p class="pull-left copyright">
-                            © AUF 2013 Tous droits réservés
-                        </p>
-                        <p class="pull-right dahsboard-link">
-                            <a style="margin: 8px 22px 0 0;" href="{% url home_legal %}">
-                                Légal
-                            </a>
-                            <a style="margin: 8px 22px 0 0;" href="{% url home_contact %}">
-                                Contact
-                            </a>
-                            <a style="margin: 8px 22px 0 0;" href="{% url home_credits %}">
-                                Crédits
-                            </a>
-                        </p>
-                    </div>
-                </div>
+              </div>
             </div>
         </footer>
     </div> <!-- .container -->

@@ -3696,6 +3696,16 @@ a.badge:hover {
 .btn-mini .badge {
   top: 0;
 }
+div.row.userbar > div {
+  background-color: #e9e9ea;
+  color: black;
+}
+div.userbar a {
+  border-left: 1px dashed gray;
+  padding-left: 10px;
+  margin-bottom: 10px;
+  color: black;
+}
 body {
   font-family: Arial, Helvetica, Sans-serif;
   color: #616161;
