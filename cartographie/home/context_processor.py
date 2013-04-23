@@ -10,13 +10,27 @@ def stats(request):
         return str(Formation.objects.exclude(statut=StatutsFormation.supprimee).count())
 
     def _etablissements():
-        return str(ref.Etablissement.objects.all().count())
+        formations = Formation.objects.exclude(statut=StatutsFormation.supprimee)
+        etablissements = set()
+        for f in formations:
+            etablissements.add(f.etablissement)
+        return str(len(etablissements))
 
     def _disciplines():
-        return str(ref.Discipline.objects.all().count())
+        formations = Formation.objects.exclude(statut=StatutsFormation.supprimee)
+        disciplines = set()
+        for f in formations:
+            disciplines.add(f.discipline_1)
+            disciplines.add(f.discipline_2)
+            disciplines.add(f.discipline_3)
+        return str(len(disciplines))
 
     def _pays():
-        return str(ref.Pays.objects.all().count())
+        formations = Formation.objects.exclude(statut=StatutsFormation.supprimee)
+        pays = set()
+        for f in formations:
+            pays.add(f.etablissement.pays)
+        return str(len(pays))
 
     return {
         'stats_formations': lazy(_formations, str),
