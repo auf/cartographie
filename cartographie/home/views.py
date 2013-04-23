@@ -62,12 +62,11 @@ def contact(request):
 def credits(request):
     return render(request, "statiques/credits.html")
 
-def formation_rechercher(request):
+def rechercher(request):
     from cartographie.home.viewModels.formation \
         import FormationRechercheViewModel
 
     form_params = request.GET.copy()
-
 
     if request.GET.get('pays'):
         try:
@@ -78,10 +77,8 @@ def formation_rechercher(request):
 
     vm = FormationRechercheViewModel(form_params)
 
-
-
     return render_to_response(
-        "formation_rechercher.html", vm.get_data(), RequestContext(request)
+        "rechercher.html", vm.get_data(), RequestContext(request)
     )
 
 def formation_detail(request, id, slug=None):
@@ -122,7 +119,7 @@ def geojson_formations(request):
                   "etablissements": country['etablissements'],
                   "nom": country['nom'],
                   "tooltip": t.render(Context(country)),
-                  "url": "%s?pays=%s" % (reverse('home_formation_rechercher'), country['code'])
+                  "url": "%s?pays=%s" % (reverse('home_rechercher'), country['code'])
               },
               "geometry": {
                 "type": "Point",
