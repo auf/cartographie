@@ -61,6 +61,7 @@ INSTALLED_APPS = (
 TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_TEMPLATE_CONTEXT_PROCESSORS + (
     'django.core.context_processors.static',
     'django.core.context_processors.request',
+    'home.context_processor.stats',
 )
 
 MIDDLEWARE_CLASSES = DEFAULT_MIDDLEWARE_CLASSES + (
