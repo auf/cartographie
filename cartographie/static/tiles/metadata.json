@@ -2,9 +2,9 @@
     "description": "", 
     "center": "0,0,2", 
     "bounds": "-180,-85.0511,180,85.0511", 
-    "minzoom": "0", 
+    "minzoom": "2", 
     "version": "1.0.0", 
     "template": "", 
     "maxzoom": "5", 
-    "name": "new_auf"
+    "name": "auf_230413"
 }
