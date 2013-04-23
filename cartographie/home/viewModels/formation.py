@@ -50,7 +50,7 @@ def disciplines_enfants(discipline):
     code = discipline.code if discipline else ''
 
     regex_enfants = r'^%s[0-9]$' % code
-    return Discipline.objects.filter(code__regex=regex_enfants)    
+    return Discipline.objects.filter(code__regex=regex_enfants).order_by('nom')
 
 def disciplines_counter(formations):
     counter = collections.defaultdict(int)
