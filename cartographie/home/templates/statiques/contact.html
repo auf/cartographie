@@ -2,9 +2,10 @@
 
 {% block Contenu_home %}
 <h3>Contact</h3>
+
+<div style="width: 60%;">
 <p>
-Si vous avez des questions relatives à l'utilisation de ce site,<br />
-merci de consulter l'<a href="{% url home_aide %}">aide</a> prévue à cet effet.
+Si vous avez des questions relatives à l'utilisation de ce site, merci de consulter l'<a href="{% url home_aide %}">aide</a> prévue à cet effet.
 </p>
 <p>
 Si vous travaillez au sein d'un établissement membre de l'AUF et vous souhaitez en savoir davantage sur ce site et sur le projet Cartographie, merci de contacter le <a href="http://www.auf.org/auf_dans_le_monde/" target="_blank">bureau régional de l'AUF</a> de votre région. 
@@ -12,4 +13,5 @@ Si vous travaillez au sein d'un établissement membre de l'AUF et vous souhaitez
 <p>
 L'équipe du projet Cartographie vous remercie pour tout avis, recommandation ou suggestion que vous pourriez nous donner en complétant ce simple <a href="{% url home_feedback %}">formulaire</a>.
 </p>
+</div>
 {% endblock %}

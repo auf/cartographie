@@ -3,6 +3,7 @@
 {% block Contenu_home %}
 <h3>Aide</h3>
 
+<div style="width: 60%;">
 <p>
 Étudiants et futurs étudiants, enseignants, chercheurs, responsables d'établissement, ce site est pour vous!
 </p>
@@ -12,7 +13,7 @@
 <h4>Étudiants et futurs étudiants, enseignants, chercheurs, responsables d'établissement</h4>
 
 <p>
-Vous souhaitez consulter la liste des formations francophones -<br />un court film vous offre une démonstration de l'utilisation de ce site : <a href="">voir la démo</a>.
+Vous souhaitez consulter la liste des formations francophones - un court film vous offre une démonstration de l'utilisation de ce site : <a href="">voir la démo</a>.
 </p>
 <p>
 Deux options s'offrent à vous pour trouver une formation :
@@ -23,14 +24,12 @@ Deux options s'offrent à vous pour trouver une formation :
 Pour trouver des formations dispensées dans un pays en particulier, <a href="{% url home_accueil %}">cliquer sur le pays ou territoire concerné</a>.
 </p>
 <p>
-Vous arriverez directement sur la page de résultats de recherche avec toutes les formations offertes pour le pays sélectionné.<br />
-Vous pourrez ensuite <b>affiner votre recherche</b>.
+Vous arriverez directement sur la page de résultats de recherche avec toutes les formations offertes pour le pays sélectionné. Vous pourrez ensuite <b>affiner votre recherche</b>.
 </p>
 
 <h5><a href="{% url home_formation_rechercher %}">Rechercher</a></h5>
 <p>
-La zone de recherche présente toutes les formations disponibles sur ce site.<br />
-Pour cibler les formations qui vous intéressent, trois options intuitives s'offrent à vous.
+La zone de recherche présente toutes les formations disponibles sur ce site. Pour cibler les formations qui vous intéressent, trois options intuitives s'offrent à vous.
 </p>
 
 <h6>1. Recherche textuelle</h6>
@@ -71,9 +70,7 @@ Pour cibler les formations qui vous intéressent, trois options intuitives s'off
     Vous pouvez également naviguer dans les disciplines principales associées aux formations.
     </p>
     <p>
-    Les disciplines sont organisées hiérarchiquement.<br />
-    Pour chacune d'elles, le nombre de formations disponibles est fourni entre parenthèses<br />
-    (incluant les formations associées à ses sous-disciplines).<br />
+    Les disciplines sont organisées hiérarchiquement. Pour chacune d'elles, le nombre de formations disponibles est fourni entre parenthèses (incluant les formations associées à ses sous-disciplines).
     </p>
     <p>
     <b>Cliquer sur une discipline</b> pour :
@@ -98,8 +95,7 @@ Actuellement, aucune connexion n'est nécessaire pour consulter le site.
 <h4>Représentant d'un établissement membre de l'AUF</h4>
 
 <p>
-Vous travaillez pour un établissement membre de l'AUF et vous souhaitez<br />
-<b>ajouter, modifier ou supprimer des formations</b> pour votre établissement :<br />
+Vous travaillez pour un établissement membre de l'AUF et vous souhaitez <b>ajouter, modifier ou supprimer des formations</b> pour votre établissement :<br />
 Merci de contacter le <a href="http://www.auf.org/auf_dans_le_monde/" target="_blank">bureau régional de l'AUF</a> de votre région.
 </p>
 
@@ -119,5 +115,5 @@ Vous êtes un employé de l'AUF et vous avez besoin d'aide, <a href="{% url home
   voir la liste sur le <a href="http://www.auf.org/auf_dans_le_monde/" target="_blank">site institutionnel</a> de l'AUF.
   </p>
 </div>
-
+</div>
 {% endblock %}

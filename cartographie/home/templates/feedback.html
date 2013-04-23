@@ -3,6 +3,7 @@
 {% block Contenu_home %}
 <h3>Donnez-nous vos impressions!</h3>
 
+<div style="width: 60%;">
 {% include "cartographie/messages.html" %}
 
 <p>
@@ -15,4 +16,5 @@ L'équipe du projet Cartographie vous remercie pour tout avis, recommandation ou
     {{ form.as_p }}
     <input type="submit" value="Envoyer" />
 </form>
+</div>
 {% endblock %}
