@@ -108,7 +108,7 @@ def geojson_formations(request):
       {% load pluralize %}
       <b>{{ nom }}</b><br/>
       <div>{{ formations }} formation{{ formations|pluralize_fr }}</div>
-      <div>{{ etablissements }} etablissement{{ etablissements|pluralize_fr }}</div>
+      <div>{{ etablissements }} établissement{{ etablissements|pluralize_fr }}</div>
     </div>"""
 
     t = Template(raw_template)

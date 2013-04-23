@@ -39,7 +39,7 @@ AUF.home = function(){
             var osm = new L.TileLayer(osmUrl, {
                 attributionControl: false,
                 minZoom: 2,
-                maxZoom: 4
+                maxZoom: 5
             });
 
             map.addLayer(osm);

@@ -3963,6 +3963,7 @@ form div.optional {
 }
 .enfant {
   display: block;
+  margin-top: 10px;
 }
 .enfant a {
   display: block;
