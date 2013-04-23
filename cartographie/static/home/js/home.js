@@ -33,7 +33,7 @@ AUF.home = function(){
                 attributionControl: false,
             }).setView([51.505, -15.09], 13);
 
-            map.setView(new L.LatLng(41.3, 0.7),3);
+            map.setView(new L.LatLng(34.0, 0.7), 2);
 
             var osmUrl='/static/tiles/{z}/{x}/{y}.png';
             var osm = new L.TileLayer(osmUrl, {
@@ -47,7 +47,6 @@ AUF.home = function(){
                   L.geoJson(data, {
                     pointToLayer: function(feature, latlng) {
                         var marker =  L.marker(latlng);
-                        console.log(feature);
                         marker.on('click', function(evt) {
                                 window.location.href = feature.properties.url;
                         });

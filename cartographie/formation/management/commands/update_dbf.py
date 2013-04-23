@@ -9,6 +9,7 @@ from django.core.management.base import BaseCommand
 from formation.stats import (num_etablissements_per_country,
                              num_formations_per_country)
 
+from cartographie.home.tools import countryname
 
 class Command(BaseCommand):
 
