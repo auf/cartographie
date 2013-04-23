@@ -1,7 +1,65 @@
 @import "../../commun/less/auf-base.less";
 
+@bleu_auf: #0088CC;
+
+// en-tête
+
 #map {
     height: 500px;
+}
+
+#entete {
+    line-height: 30px;
+    margin-right: 35px;
+}
+
+ul.nav.en-tete {
+    padding: 15px;
+}
+
+.nav-pills.en-tete > li > a {
+    line-height: 30px;
+    margin-top: 7px;
+    margin-bottom: 7px;
+    margin-right: 20px;
+}
+
+#entete > span.titre-premier,
+#entete > span.titre-second {
+    display: block;
+    font-size: 20px;
+}
+
+#entete > span.titre-premier {
+
+}
+
+#entete > span.titre-second {
+    font-weight: bold;
+}
+
+div.navbar {
+    background-color: lighten(@bleu_auf, 50%);
+}
+
+//
+
+ul.nav.nav-pills > li > span.title {
+    background-color: red;
+
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-right: 12px;
+    padding-left: 12px;
+
+    margin-top: 2px;
+    margin-bottom: 2px;
+    margin-right: 2px;
+
+    line-height: 14px;
+    border-radius: 5px;
+
+    display: block;
 }
 
 .search-form {

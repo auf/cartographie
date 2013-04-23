@@ -1,4 +1,5 @@
 {% load admin_urls %}
+{% load actif %}
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -24,7 +25,7 @@
                 <div class="row" style="padding-bottom:5px; background-color:#F9F9F9">
                     <div class="span12 pull-right">
                         {% comment %}
-                        <a class="btn btn-small pull-right dashboard-link" href="{% url dashboard_statistiques %}">
+/                        <a class="btn btn-small pull-right dashboard-link" href="{% url dashboard_statistiques %}">
                             <i class="icon-th"></i>
                             Consulter votre tableau de bord
                         </a>
@@ -91,20 +92,25 @@
             25%   #c0e2f2
             10%   #e6f3fa
             {% endcomment %}
-            <div class="row" style="height:50px; background-color:#e6f3fa">
-                <div style="float:left; margin: 8px 80px 8px 45px;">
-                    Pour trouver une formation<br />
-                    <b>2 options s'offrent à vous</b>
-                </div>
-                <div style="float:left; margin: 15px 35px 0 0;">
-                    <a href="{% url home_accueil %}">CARTE</a>
-                </div>
-                <div style="float:left; margin: 15px 35px 0 0;">
-                    <a href="{% url home_formation_rechercher %}">RECHERCHER</a>
-                </div>
-                <div class="clear"></div>
-            </div>
-            <div class="row">
+            <div>
+	      <div class="navbar">
+		<div class="navbar-inner">
+		 
+		  <ul class="nav nav-pills en-tete">
+		    <li>
+		      <div id="entete">
+			<span class="titre-premier">Pour trouver une formation</span>
+			<span class="titre-second">2 options s'offrent à vous</span>
+		      </div>
+		    </li>
+		    <li class="{% active request "^/$" %}"><a href="{% url home_accueil %}">CARTE</a></li>
+		    <li class="{% active request "^/formations" %}"><a href="{% url home_formation_rechercher %}">RECHERCHER</a></li>
+		  </ul>
+		</div>
+              </div>
+	    </div>
+            <div class="clear"></div>
+	    <div class="row">
             {% block Contenu %}
 
             {% endblock %}
