@@ -104,32 +104,34 @@
         <footer>
 	  {% block footer_addon %}
 	  {% endblock %}
-              <div class="rainbow span12">
-                <span class="elem bleu"></span>
-                <span class="elem jaune"></span>
-                <span class="elem vert"></span>
-                <span class="elem mauve"></span>
-                <span class="elem rouge"></span>
-              </div>
-              <div class="span12">
-                <div class="content">
-                  <p class="pull-left copyright">
-                    © AUF 2013 Tous droits réservés
-                  </p>
-                  <p class="pull-right dahsboard-link">
-                    <a style="margin: 8px 22px 0 0;" href="{% url home_legal %}">
-                      Légal
-                    </a>
-                    <a style="margin: 8px 22px 0 0;" href="{% url home_contact %}">
-                      Contact
-                    </a>
-                    <a style="margin: 8px 22px 0 0;" href="{% url home_credits %}">
-                      Crédits
-                    </a>
-                  </p>
-                </div>
+	  <div class="row">
+            <div class="rainbow span12">
+              <span class="elem bleu"></span>
+              <span class="elem jaune"></span>
+              <span class="elem vert"></span>
+              <span class="elem mauve"></span>
+              <span class="elem rouge"></span>
+            </div>
+            <div class="span12">
+              <div class="content">
+                <p class="pull-left copyright">
+                  © AUF 2013 Tous droits réservés
+                </p>
+                <p class="pull-right dahsboard-link">
+                  <a style="margin: 8px 22px 0 0;" href="{% url home_legal %}">
+                    Légal
+                  </a>
+                  <a style="margin: 8px 22px 0 0;" href="{% url home_contact %}">
+                    Contact
+                  </a>
+                  <a style="margin: 8px 22px 0 0;" href="{% url home_credits %}">
+                    Crédits
+                  </a>
+                </p>
               </div>
             </div>
+          </div>
+
         </footer>
     </div> <!-- .container -->
 
