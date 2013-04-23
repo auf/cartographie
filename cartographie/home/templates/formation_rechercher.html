@@ -92,8 +92,7 @@
                                     <tr>
                                         {% for column in columns %}
                                         <th class="span1">
-                                            <a class="sort" value="foo" href=
-                                               {% if tri.name == column.sort_name and tri.asc %}"?{% qs_replace request.GET tri=column.sort_name_desc %}"{% else %}"?{% qs_replace request.GET tri=column.sort_name %}"{% endif %}>{{ column.name }}{% if tri.name == column.sort_name %} <span class="{% if tri.asc %}icon-chevron-up{% else %}icon-chevron-down{% endif %}">{% endif %}</a>
+                                            <a class="sort" href={% if tri.name == column.sort_name and tri.asc %}"?{% qs_replace request.GET tri=column.sort_name_desc %}"{% else %}"?{% qs_replace request.GET tri=column.sort_name %}"{% endif %}>{{ column.name }}{% if tri.name == column.sort_name %} <span class="{% if tri.asc %}icon-chevron-up{% else %}icon-chevron-down{% endif %}">{% endif %}</a>
                                         </th>
                                         {% endfor %}
                                     </tr>
