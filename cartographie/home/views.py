@@ -45,18 +45,7 @@ def aide(request):
     )
 
 def apropos(request):
-    formations = Formation.objects.exclude(statut=999)  # 999 = supprimées
-    etablissements = set()
-    pays = set()
-    for f in formations:
-        etablissements.add(f.etablissement.id)
-        pays.add(f.etablissement.pays.id)
-    c = {
-        'formations_nb' : formations.count(),
-        'etablissements_nb' : len(etablissements),
-        'pays_nb' : len(pays),
-    }
-    return render(request, "statiques/a-propos.html", c)
+    return render(request, "statiques/a-propos.html")
 
 def feedback(request):
     from cartographie.home.viewModels.feedback import FeedbackViewModel

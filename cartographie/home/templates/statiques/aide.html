@@ -8,19 +8,25 @@
 Étudiants et futurs étudiants, enseignants, chercheurs, responsables d'établissement, ce site est pour vous!
 </p>
 
-{% if afficher_film %}
-<h3>Très facile d'utilisation!</h3>
-<iframe frameborder="0" width="480" height="389" src="{{ film_url }}"></iframe>
-{% endif %}
 <hr />
 
 <h4>Étudiants et futurs étudiants, enseignants, chercheurs, responsables d'établissement</h4>
 
 <p>
-Vous souhaitez consulter la liste des formations francophones - un court film vous offre une démonstration de l'utilisation de ce site : <a href="">voir la démo</a>.
+Vous souhaitez consulter la liste des formations francophones...
 </p>
+
+{% if afficher_film %}
 <p>
-Deux options s'offrent à vous pour trouver une formation :
+... un court film vous offre une démonstration de l'utilisation de ce site :
+</p>
+
+<h5>Trouver une formation, c'est facile!</h5>
+<iframe frameborder="0" width="480" height="389" src="{{ film_url }}"></iframe>
+{% endif %}
+
+<p>
+... deux options s'offrent à vous pour trouver une formation :
 </p>
 
 <h5><a href="{% url home_accueil %}">Carte</a></h5>
