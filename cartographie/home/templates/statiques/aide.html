@@ -8,6 +8,10 @@
 Étudiants et futurs étudiants, enseignants, chercheurs, responsables d'établissement, ce site est pour vous!
 </p>
 
+{% if afficher_film %}
+<h3>Très facile d'utilisation!</h3>
+<iframe frameborder="0" width="480" height="389" src="{{ film_url }}"></iframe>
+{% endif %}
 <hr />
 
 <h4>Étudiants et futurs étudiants, enseignants, chercheurs, responsables d'établissement</h4>
