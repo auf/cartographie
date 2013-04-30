@@ -22,23 +22,27 @@ from django.conf import settings
 from cartographie.formation.models import Fichier, Formation
 from cartographie.formation.sendfile import send_file
 
-def accueil(request):
-    from cartographie.home.viewModels.accueil \
-        import AccueilViewModel
 
-    view_data = { 'afficher_film': False }
+def get_film_url():
     if getattr(settings, 'FILM_URL', ''):
-        view_data['afficher_film'] = True
-        view_data['film_url'] = settings.FILM_URL
 
-    vm = AccueilViewModel(request)
+        return {'afficher_film': True,
+                'film_url': settings.FILM_URL }
+    return {'afficher_film': False }
+
+def accueil(request):
+
+    view_data = get_film_url()
 
     return render_to_response(
         "accueil.html", view_data, RequestContext(request)
     )
 
 def aide(request):
-    return render(request, "statiques/aide.html")
+    view_data = get_film_url()
+    return render_to_response(
+        "statiques/aide.html", view_data, RequestContext(request)
+    )
 
 def apropos(request):
     formations = Formation.objects.exclude(statut=999)  # 999 = supprimées

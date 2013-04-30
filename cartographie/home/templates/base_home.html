@@ -32,7 +32,7 @@
 	<li class="{% active request "^/$" %}"><a href="{% url home_accueil %}">CARTE</a></li>
 	<li class="{% active request "^/rechercher" %}"><a href="{% url home_rechercher %}">RECHERCHER</a></li>
         {% if afficher_film %}
-	<li class="{% active request "^/demo" %}"><a href="#}" onclick="$('#popup-form-film').css('z-index', 9999); $('#popup-form-film').modal()"><i class="icon-white icon-play"></i>DEMO</a></li>
+	<li><a href="#" onclick="$('#popup-form-film').css('z-index', 9999); $('#popup-form-film').modal()"><i class="icon-white icon-play"></i>DEMO</a></li>
         {% endif %}
       </ul>
     </div>
@@ -47,6 +47,7 @@
         {% endblock %}
         </div>
     </div>
+
 {% if afficher_film %}
     <div id="popup-form-film" class="modal hide fade" role="dialog"
          aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: -1">
@@ -58,7 +59,7 @@
         <iframe frameborder="0" width="480" height="389" src="{{ film_url }}"></iframe>
       </div>
     </div>
-    {% endif%}
+{% endif %}
 {% endblock %}
 
 {% block footer_addon %}
