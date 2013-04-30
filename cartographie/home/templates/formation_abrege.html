@@ -8,7 +8,7 @@
     <td>{{ formation.discipline_1.nom }}
         {% if formation.discipline_2 %}, {{ formation.discipline_2.nom }}{% endif %}
         {% if formation.discipline_3 %}, {{ formation.discipline_3.nom }}{% endif %}</td>
-    <td>{{ formation.etablissement.nom }}</td>
+    <td><a href="{{ formation.etablissement.url }}">{{ formation.etablissement.nom }}</a></td>
     <td>{{ formation.etablissement.pays.nom }}</td>
     <td>{{ formation.etablissement.region.nom }}</td>
 </tr>

@@ -2,6 +2,8 @@
 {% load actif %}
 
 {% block Contenu_home %}
+{% include "cartographie/messages.html" %}
+
 <h3>
     {{ formation }}
     {% if formation.sigle %}({{ formation.sigle }}){% endif %}

@@ -1,6 +1,5 @@
 #coding: utf-8
 
-
 import json
 import cartographie.home
 
@@ -90,6 +89,28 @@ def rechercher(request):
 
 def formation_detail(request, id, slug=None):
     formation = Formation.objects.get(pk=id)
+    
+    if formation.statut == 2:
+        messages.error(
+            request, u"""Formation en cours de publication.
+                Les informations présentées dans cette fiche pourraient être révisées prochainement.
+                Cette fiche est mis temporairement à votre disposition pour votre convenance.
+                """
+            )
+    elif formation.statut == 1:
+        messages.error(
+            request, u"""Formation en rédaction.
+                Les informations présentées dans cette fiche n'ont pas été validées par l'établissement dispensant la formation.
+                Cette fiche est mis temporairement à votre disposition pour votre convenance.
+                Merci de vous référer directement au site Internet de la formation ou de l'établissement dispensant la formation pour obtenir des informations officielles validées.
+                """
+            )
+    elif formation.statut == 999:
+        messages.error(
+            request, u"""Formation supprimée. 
+                Aucune information sur cette fiche n'est fiable.
+                """
+            )
     c = {
         'formation': formation,
         'files': Fichier.objects.filter(formation=formation).filter(is_public=True).order_by('nom')

@@ -10,26 +10,28 @@ def stats(request):
         return str(Formation.objects.exclude(statut=StatutsFormation.supprimee).count())
 
     def _etablissements():
-        formations = Formation.objects.exclude(statut=StatutsFormation.supprimee)
+        data = Formation.objects.exclude(statut=StatutsFormation.supprimee) \
+            .values('etablissement')
         etablissements = set()
-        for f in formations:
-            etablissements.add(f.etablissement)
+        for d in data:
+            etablissements.add(d['etablissement'])
         return str(len(etablissements))
 
     def _disciplines():
-        formations = Formation.objects.exclude(statut=StatutsFormation.supprimee)
+        data = Formation.objects.exclude(statut=StatutsFormation.supprimee) \
+            .values('discipline_1', 'discipline_2', 'discipline_3')
         disciplines = set()
-        for f in formations:
-            disciplines.add(f.discipline_1)
-            disciplines.add(f.discipline_2)
-            disciplines.add(f.discipline_3)
+        for d in data:
+            disciplines.add(d['discipline_1'])
+            disciplines.add(d['discipline_2'])
+            disciplines.add(d['discipline_3'])
         return str(len(disciplines))
 
     def _pays():
-        formations = Formation.objects.exclude(statut=StatutsFormation.supprimee)
+        data = Formation.objects.exclude(statut=StatutsFormation.supprimee).values('etablissement__pays')
         pays = set()
-        for f in formations:
-            pays.add(f.etablissement.pays)
+        for d in data:
+            pays.add(d['etablissement__pays'])
         return str(len(pays))
 
     return {
