@@ -41,3 +41,6 @@ EMAIL_USE_TLS = ""
 # utilisateur utilise le formulaire de feedback. Exemple:
 # ['usager1@host', 'usager2@host']
 EMAIL_FEEDBACK = []
+
+# Film démo
+FILM_URL = "http://www.dailymotion.com/embed/video/xxu7l6"
