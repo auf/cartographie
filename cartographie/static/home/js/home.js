@@ -89,6 +89,26 @@ $(document).ready(function(){
     AUF.home.init();
 
     $("#recherche select").change(function() {
+        switch ($(this).attr('name')) {
+        case "region":
+            $("#id_pays").val("");
+            $("#id_etablissement").val("");
+            break;
+        case "pays": 
+            $("#id_etablissement").val("");
+
+            if ($(this).val() != "") {
+                $("#id_region").val("");
+            }
+            break;
+        case "etablissement":
+            $("#id_region").val("");
+
+            if ($(this).val() != "") {
+                $("#id_pays").val("");
+            }
+            break;
+        }
         $("#recherche").submit();
     });
 

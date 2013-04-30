@@ -97,15 +97,28 @@ class RechercheForm(forms.Form):
     parpage = forms.Field(required=False)
     page = forms.Field(required=False)
 
-    def _post_clean(self):
+    def clean(self):
+        super(forms.Form, self).clean()
+
         region = self.cleaned_data['region']
+        pays = self.cleaned_data['pays']
+        etablissement = self.cleaned_data['etablissement']
+
         if region:
             self.fields['pays'].queryset = self.fields['pays'].queryset.filter(region=region)
             self.fields['etablissement'].queryset = self.fields['etablissement'].queryset.filter(pays__region=region)
 
-        pays = self.cleaned_data['pays']
         if pays:
+            self.data['region'] = pays.region
+            self.fields['pays'].queryset = self.fields['pays'].queryset.filter(region=pays.region)
             self.fields['etablissement'].queryset = self.fields['etablissement'].queryset.filter(pays=pays)
+
+        if etablissement:
+            self.data['region'] = etablissement.pays.region
+            self.data['pays'] = etablissement.pays
+            self.fields['etablissement'].queryset = self.fields['etablissement'].queryset.filter(pays=etablissement.pays)
+
+        return self.cleaned_data
 
     
 

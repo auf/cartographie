@@ -112,7 +112,7 @@
                                 <ul>
                                     {% if formations.has_previous %}
                                     <li>
-                                        <a href="?page={{ formations.previous_page_number }}{% if tri %}&tri={{ tri.tri }}{% endif %}{% if terme_recherche %}&s={{ terme_recherche }}{% endif %}&parpage={{ formations.paginator.per_page }}">
+                                        <a href="?{% qs_replace request.GET page=formations.previous_page_number %}">
                                             &laquo;
                                         </a>
                                     </li>
@@ -124,7 +124,7 @@
                                     </li>
                                     {% if formations.has_next %}
                                     <li>
-                                        <a href="?page={{ formations.next_page_number }}{% if tri %}&tri={{ tri.name }}{% endif %}{% if terme_recherche %}&s={{ terme_recherche }}{% endif %}&parpage={{ formations.paginator.per_page }}">
+                                        <a href="?{% qs_replace request.GET page=formations.next_page_number %}">
                                             &raquo;
                                         </a>
                                     </li>
