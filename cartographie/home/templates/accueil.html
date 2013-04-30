@@ -1,5 +1,25 @@
+
 {% extends "base_home.html" %}
 
 {% block Contenu_home %}
+{% if afficher_film %}
+<div id="popup-form-film" class="modal hide fade" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>C'est facile et simple!</h3>
+  </div>
+  <div class="modal-body">
+    <iframe frameborder="0" width="480" height="389" src="{{ film_url }}"></iframe>
+  </div>
+</div>
+
+<a href="#" onclick="$('#popup-form-film').modal()">C'est facile et agréable!</a>
+{% endif %}
 <div id="map"></div>
 {% endblock %}
+
+
+<iframe frameborder="0" width="480" height="360" src="http://www.dailymotion.com/embed/video/xxu7l6"></iframe><br /><a href="http://www.dailymotion.com/video/xxu7l6_video-de-chat-rigolo_animals" target="_blank">vid&eacute;o de chat rigolo</a> <i>par <a href="http://www.dailymotion.com/etancelincorinne" target="_blank">etancelincorinne</a></i>
+
+http://www.dailymotion.com/embed/video/xxu7l6

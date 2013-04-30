@@ -17,6 +17,8 @@ from django.core.urlresolvers import reverse
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404, render_to_response, render
 from django.template import RequestContext, Template, Context
+from django.conf import settings
+
 
 from cartographie.formation.models import Fichier, Formation
 from cartographie.formation.sendfile import send_file
@@ -25,10 +27,15 @@ def accueil(request):
     from cartographie.home.viewModels.accueil \
         import AccueilViewModel
 
+    view_data = { 'afficher_film': False }
+    if getattr(settings, 'FILM_URL', ''):
+        view_data['afficher_film'] = True
+        view_data['film_url'] = settings.FILM_URL
+
     vm = AccueilViewModel(request)
 
     return render_to_response(
-        "accueil.html", vm.get_data(), RequestContext(request)
+        "accueil.html", view_data, RequestContext(request)
     )
 
 def aide(request):
