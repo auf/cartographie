@@ -61,6 +61,10 @@ def disciplines_counter(formations):
             counter[code[:i]] += 1
     return counter
 
+class EtablissementModelChoiceField(forms.ModelChoiceField):
+    def label_from_instance(self, obj):
+        return obj.nom
+
 class RechercheForm(forms.Form):
     terme = forms.CharField(
         max_length=150,
@@ -87,7 +91,7 @@ class RechercheForm(forms.Form):
                                   required=False,
                                   widget=forms.Select(attrs={"class": "input-medium"}))
 
-    etablissement = forms.ModelChoiceField(queryset=ref.Etablissement.objects.all(),
+    etablissement = EtablissementModelChoiceField(queryset=ref.Etablissement.objects.all(),
                                            empty_label=u'Tous', 
                                            required=False,
                                            widget=forms.Select(attrs={"class": "input-medium"}))
