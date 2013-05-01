@@ -25,41 +25,43 @@ from cartographie.formation.sendfile import send_file
 
 def get_film_url():
     if getattr(settings, 'FILM_URL', ''):
-
         return {'afficher_film': True,
                 'film_url': settings.FILM_URL }
     return {'afficher_film': False }
 
 def accueil(request):
-
     view_data = get_film_url()
-
-    return render_to_response(
-        "accueil.html", view_data, RequestContext(request)
-    )
+    return render(request, "accueil.html", view_data)
 
 def aide(request):
     view_data = get_film_url()
-    return render_to_response(
-        "statiques/aide.html", view_data, RequestContext(request)
-    )
+    return render(request, "statiques/aide.html", view_data)
 
 def apropos(request):
-    return render(request, "statiques/a-propos.html")
+    view_data = get_film_url()
+    return render(request, "statiques/a-propos.html", view_data)
 
 def feedback(request):
     from cartographie.home.viewModels.feedback import FeedbackViewModel
     vm = FeedbackViewModel(request)
-    return render(request, "feedback.html", vm.get_data())
+    vm_data = vm.get_data()
+    c = {}
+    c.update(vm_data)
+    view_data = get_film_url()
+    c.update(view_data)
+    return render(request, "feedback.html", c)
 
 def legal(request):
-    return render(request, "statiques/legal.html")
+    view_data = get_film_url()
+    return render(request, "statiques/legal.html", view_data)
 
 def contact(request):
-    return render(request, "statiques/contact.html")
+    view_data = get_film_url()
+    return render(request, "statiques/contact.html", view_data)
 
 def credits(request):
-    return render(request, "statiques/credits.html")
+    view_data = get_film_url()
+    return render(request, "statiques/credits.html", view_data)
 
 def rechercher(request):
     from cartographie.home.viewModels.formation \
@@ -75,10 +77,12 @@ def rechercher(request):
             form_params['pays'] = ref.Pays.objects.get(code_iso3=pays_iso3).pk
 
     vm = FormationRechercheViewModel(form_params)
-
-    return render_to_response(
-        "rechercher.html", vm.get_data(), RequestContext(request)
-    )
+    vm_data = vm.get_data()
+    c = {}
+    c.update(vm_data)
+    view_data = get_film_url()
+    c.update(view_data)
+    return render(request, "rechercher.html", c)
 
 def formation_detail(request, id, slug=None):
     formation = Formation.objects.get(pk=id)
@@ -104,10 +108,13 @@ def formation_detail(request, id, slug=None):
                 Aucune information sur cette fiche n'est fiable.
                 """
             )
+
     c = {
         'formation': formation,
         'files': Fichier.objects.filter(formation=formation).filter(is_public=True).order_by('nom')
     }
+    view_data = get_film_url()
+    c.update(view_data)
     return render(request, "formation/formation_detail.html", c)
 
 

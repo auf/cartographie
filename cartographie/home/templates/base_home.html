@@ -21,18 +21,22 @@
 <div>
   <div class="navbar">
     <div class="navbar-inner">
-      
       <ul class="nav nav-pills en-tete">
-	<li>
-	  <div id="entete">
-	    <span class="titre-premier">Pour trouver une formation</span>
-	    <span class="titre-second">2 options s'offrent à vous</span>
-	  </div>
-	</li>
-	<li class="{% active request "^/$" %}"><a href="{% url home_accueil %}">CARTE</a></li>
-	<li class="{% active request "^/rechercher" %}"><a href="{% url home_rechercher %}">RECHERCHER</a></li>
+        <li>
+          <div id="entete">
+            <span class="titre-premier">Pour trouver une formation</span>
+            <span class="titre-second">2 options s'offrent à vous</span>
+          </div>
+        </li>
+        <li class="{% active request "^/$" %}"><a href="{% url home_accueil %}">CARTE</a></li>
+        <li class="{% active request "^/rechercher" %}"><a href="{% url home_rechercher %}">RECHERCHER</a></li>
         {% if afficher_film %}
-	<li><a href="#" onclick="$('#popup-form-film').css('z-index', 9999); $('#popup-form-film').modal()"><i class="icon icon-play-circle" style="margin-top: 0px"></i><span>DEMO</span></a></li>
+          <li>
+            <a href="#" onclick="$('#popup-form-film').css('z-index', 9999); $('#popup-form-film').modal()">
+              <span>DEMO</span>&nbsp;&nbsp;
+              <img src="{{ STATIC_URL }}home/img/play.png" alt="voir video"></div>
+            </a>
+          </li>
         {% endif %}
       </ul>
     </div>
@@ -47,23 +51,21 @@
         {% endblock %}
         </div>
     </div>
-
-{% if afficher_film %}
-    <div id="popup-form-film" class="modal hide fade" role="dialog"
-         aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: -1">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h3>Trouver une formation, c'est facile!</h3>
-      </div>
-      <div class="modal-body">
-        <iframe frameborder="0" width="480" height="389" src="{{ film_url }}"></iframe>
-      </div>
-    </div>
-{% endif %}
+    {% if afficher_film %}
+        <div id="popup-form-film" class="modal hide fade" role="dialog"
+             aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: -1">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h3>Trouver une formation, c'est facile!</h3>
+          </div>
+          <div class="modal-body">
+            <iframe frameborder="0" width="480" height="389" src="{{ film_url }}"></iframe>
+          </div>
+        </div>
+    {% endif %}
 {% endblock %}
 
 {% block footer_addon %}
-
     <div class="row">
         <div id="statistiques" class="span12">
             <div class="content">
