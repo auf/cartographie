@@ -11,10 +11,10 @@
 {% endblock %}
 
 {% block js %}
-    <script src="{{ STATIC_URL }}home/js/leaflet.js"></script>
-    <script src="{{ STATIC_URL }}commun/chosen/chosen.jquery.min.js"></script>
-    <script src="{{ STATIC_URL }}twitter-bootstrap/js/bootstrap-modal.js"></script>
-    <script src="{{ STATIC_URL }}home/js/home.js"></script>
+<script src="{{ STATIC_URL }}home/js/leaflet.js"></script>
+<script src="{{ STATIC_URL }}commun/chosen/chosen.jquery.min.js"></script>
+<script src="{{ STATIC_URL }}twitter-bootstrap/js/bootstrap-modal.js"></script>
+<script src="{{ STATIC_URL }}home/js/home.js"></script>
 {% endblock %}
 
 {% block banniere %}
@@ -34,7 +34,7 @@
           <li class="pull-right">
             <a href="#" onclick="$('#popup-form-film').css('z-index', 9999).show(); $('#popup-form-film').modal(); addPlaya();"  style="color:black;">
               <span>DEMO</span>&nbsp;&nbsp;
-              <img src="{{ STATIC_URL }}home/img/play.png" alt="voir video"></div>
+              <img src="{{ STATIC_URL }}home/img/play.png" alt="voir video" />
             </a>
           </li>
         {% endif %}
@@ -45,58 +45,56 @@
 {% endblock %}
 
 {% block Contenu %}
-    <script>
-    var vid_template = "<iframe id=\"vid-playa\" frameborder=\"0\" width=\"480\" height=\"389\" scrolling=\"no\" src=\"{{ film_url }}\"></iframe>";
-    function addPlaya() {
-        $('#video-playa-dest').html(vid_template);
-    }
-    function removePlaya() {
-        $('#video-playa-dest').html('');
-    }
-    </script>
-    <div class="span12">
-        <div class="content">
-        {% block Contenu_home %}
-        {% endblock %}
-        </div>
+<script>
+  var vid_template = "<iframe id=\"vid-playa\" frameborder=\"0\" width=\"480\" height=\"389\" scrolling=\"no\" src=\"{{ film_url }}\"></iframe>";
+  function addPlaya() {
+      $('#video-playa-dest').html(vid_template);
+  }
+  function removePlaya() {
+      $('#video-playa-dest').html('');
+  }
+</script>
+<div class="span12">
+  <div class="content">
+  {% block Contenu_home %}
+  {% endblock %}
+  </div>
+</div>
+{% if afficher_film %}
+  <div id="popup-form-film" class="modal hide fade" role="dialog"
+       aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: -1; display:none;">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="removePlaya();">&times;</button>
+      <h3>Trouver une formation, c'est facile!</h3>
     </div>
-    {% if afficher_film %}
-        <div id="popup-form-film" class="modal hide fade" role="dialog"
-             aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: -1; display:none;">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="removePlaya();">&times;</button>
-            <h3>Trouver une formation, c'est facile!</h3>
-          </div>
-          <div class="modal-body" id="video-playa-dest">
-            
-          </div>
-        </div>
-    {% endif %}
+    <div class="modal-body" id="video-playa-dest"></div>
+  </div>
+{% endif %}
 {% endblock %}
 
 {% block footer_addon %}
-    <div class="row">
-        <div id="statistiques" class="span12">
-            <div class="content">
-                <div class="pull-left" id="info-formations">
-                    <p class="highlight">{{ stats_formations }}</p>
-                    <p class="detail">formations</p>
-                </div>
-                <div class="pull-left" id="info-disciplines">
-                    <p class="highlight">{{ stats_disciplines }}</p>
-                    <p class="detail">disciplines</p>
-                </div>
-                <div class="pull-left" id="info-etablissements">
-                    <span class="preambule">Dispensées dans<br/></span>
-                    <p class="highlight">{{ stats_etablissements }}</p>
-                    <p class="info"> établissements</p>
-                </div>
-                <p class="pull-left huge">&</p>
-                <div class="pull-left" id="info-pays">
-                    <p class="highlight">{{ stats_pays }}</p>
-                    <p class="info">pays<br/> différents</p>
-                </div>
-            </div>
-        </div>
+<div class="row">
+  <div id="statistiques" class="span12">
+    <div class="content">
+      <div class="pull-left" id="info-formations">
+        <p class="highlight">{{ stats_formations }}</p>
+        <p class="detail">formations</p>
+      </div>
+      <div class="pull-left" id="info-disciplines">
+        <p class="highlight">{{ stats_disciplines }}</p>
+        <p class="detail">disciplines</p>
+      </div>
+      <div class="pull-left" id="info-etablissements">
+        <span class="preambule">Dispensées dans<br/></span>
+        <p class="highlight">{{ stats_etablissements }}</p>
+        <p class="info"> établissements</p>
+      </div>
+      <p class="pull-left huge">&</p>
+      <div class="pull-left" id="info-pays">
+        <p class="highlight">{{ stats_pays }}</p>
+        <p class="info">pays<br/> différents</p>
+      </div>
     </div>
+  </div>
+</div>
 {% endblock %}

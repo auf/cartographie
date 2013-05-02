@@ -7,145 +7,123 @@
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <html lang="fr">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <link rel="shortcut icon" href="{{ STATIC_URL }}commun/img/favicon.ico" />
-
-    <title>AUF - Cartographie des formations {% block sous_titre %}{% endblock %}</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width">
-    {% block css %}
-    {% endblock %}
-    <script src="{{STATIC_URL }}formation/js/vendor/modernizr-2.6.2.min.js"></script>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <link rel="shortcut icon" href="{{ STATIC_URL }}commun/img/favicon.ico" />
+  <title>AUF - Cartographie des formations {% block sous_titre %}{% endblock %}</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+  {% block css %}
+  {% endblock %}
+  <script src="{{STATIC_URL }}formation/js/vendor/modernizr-2.6.2.min.js"></script>
 </head>
 <body>
-    <div class="container">
-        <header>
-            {% if user.is_authenticated %}
-
-            <div class="row userbar">
-              <div class="span12">
-                <a class="pull-right dashboard-link" href="{% url dashboard_statistiques %}">
-                  Tableau de bord
-                </a>
-                {% if user.is_superuser %}
-                <a class="pull-right dashboard-link" href="{% url admin:index %}">
-                  Administration
-                </a>
-                {% endif %}
-                <span class="pull-right dashboard-link">
-		  <i class="icon-user"></i>
-                  {% if user.first_name and user.last_name %}
-                  {{ user.first_name }} {{ user.last_name|upper }}
-                  {% else %}
-                  {{ user }}
-                  {% endif %}
-                </span>
-	      </div>
-
-              <div class="clear"></div>
-            </div>
-
+<div class="container">
+  <header>
+    {% if user.is_authenticated %}
+      <div class="row userbar">
+        <div class="span12">
+          <a class="pull-right dashboard-link" href="{% url dashboard_statistiques %}">Tableau de bord</a>
+          {% if user.is_superuser %}
+            <a class="pull-right dashboard-link" href="{% url admin:index %}">Administration</a>
+          {% endif %}
+          <span class="pull-right dashboard-link">
+            <i class="icon-user"></i>
+            {% if user.first_name and user.last_name %}
+              {{ user.first_name }} {{ user.last_name|upper }}
+            {% else %}
+              {{ user }}
             {% endif %}
-            <div class="row">
-                <div class="span12">
-                    <div class="rainbow span6 pull-right">
-                        <span class="elem bleu"></span>
-                        <span class="elem jaune"></span>
-                        <span class="elem vert"></span>
-                        <span class="elem mauve"></span>
-                        <span class="elem rouge"></span>
-                    </div>
-
-                    <div class="clear"></div>
-
-                    <h1 class="logo pull-left">
-                        <a href="http://cartographie.auf.org">
-                            <img src="{{ STATIC_URL }}commun/img/Logo_Auf_FR.png"
-                                 alt="Agence universitaire de la Francophonie">
-                        </a>
-                    </h1>
-                    {% if user.is_authenticated %}
-                        <a class="pull-right dashboard-link" href="{% url logout %}">Déconnexion</a>
-                    {% else %}
-                        <a class="pull-right dashboard-link" href="{% url login %}">Connexion</a>
-                    {% endif %}
-                    <a class="pull-right dashboard-link" href="{% url home_feedback %}">Donnez-nous vos impressions</a>
-                    <a class="pull-right dashboard-link" href="{% url home_a_propos %}">À propos</a>
-                    <a class="pull-right dashboard-link" href="{% url home_aide %}">Aide</a>
-                    <a class="pull-right dashboard-link" href="{% url home_accueil %}">Accueil</a>
-                    <div class="clear"></div>
-                    <div class="slogan span6 pull-right">
-                        <h2>Cartographie des formations</h2>
-                        <p>
-                            Répertoire des formations supérieures dispensées en français ou partiellement en français, au sein des établissements membres de l'AUF.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </header>
-        <div id="main">
-            {% comment %}
-            100%  #0088cc bleu AUF
-            37%   #b2dbf0
-            25%   #c0e2f2
-            10%   #e6f3fa
-            {% endcomment %}
-            <div class="clear"></div>
-	    {% block banniere %}
-
-	    {% endblock %}
-
-	    <div class="row">
-            {% block Contenu %}
-
-            {% endblock %}
-            </div>
-        </div> <!-- #main -->
-        <footer>
-	  {% block footer_addon %}
-	  {% endblock %}
-	        <div class="row">
-            <div class="rainbow span12">
-              <span class="elem bleu"></span>
-              <span class="elem jaune"></span>
-              <span class="elem vert"></span>
-              <span class="elem mauve"></span>
-              <span class="elem rouge"></span>
-            </div>
-            <div class="span12">
-              <div class="content">
-                <p class="pull-left copyright">
-                  © AUF 2013 Tous droits réservés
-                </p>
-                <p class="pull-right dahsboard-link">
-                  <a style="margin: 8px 22px 0 0;" href="{% url home_legal %}">
-                    Légal
-                  </a>
-                  <a style="margin: 8px 22px 0 0;" href="{% url home_contact %}">
-                    Contact
-                  </a>
-                  <a style="margin: 8px 22px 0 0;" href="{% url home_credits %}">
-                    Crédits
-                  </a>
-                </p>
-              </div>
-            </div>
-          </div>
-
-        </footer>
-    </div> <!-- .container -->
-
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js">
-    </script>
-    <script>
-        window.jQuery || document.write(
-            '<script src="{{ STATIC_URL }}formation/js/vendor/jquery-1.9.0.min.js"><\/script>'
-        )
-    </script>
-    <script src="{{ STATIC_URL }}commun/js/console.js"></script>
-    {% block js %}
-
+          </span>
+        </div>
+        <div class="clear"></div>
+      </div>
+    {% endif %}
+    <div class="row">
+      <div class="span12">
+        <div class="rainbow span6 pull-right">
+          <span class="elem bleu"></span>
+          <span class="elem jaune"></span>
+          <span class="elem vert"></span>
+          <span class="elem mauve"></span>
+          <span class="elem rouge"></span>
+        </div>
+        <div class="clear"></div>
+        <h1 class="logo pull-left">
+          <a href="http://cartographie.auf.org">
+          <img src="{{ STATIC_URL }}commun/img/Logo_Auf_FR.png"
+          alt="Agence universitaire de la Francophonie">
+          </a>
+        </h1>
+        {% if user.is_authenticated %}
+          <a class="pull-right dashboard-link" href="{% url logout %}">Déconnexion</a>
+        {% else %}
+          <a class="pull-right dashboard-link" href="{% url login %}">Connexion</a>
+        {% endif %}
+        <a class="pull-right dashboard-link" href="{% url home_feedback %}">Donnez-nous vos impressions</a>
+        <a class="pull-right dashboard-link" href="{% url home_a_propos %}">À propos</a>
+        <a class="pull-right dashboard-link" href="{% url home_aide %}">Aide</a>
+        <a class="pull-right dashboard-link" href="{% url home_accueil %}">Accueil</a>
+        <div class="clear"></div>
+        <div class="slogan span6 pull-right">
+          <h2>Cartographie des formations</h2>
+          <p>
+          Répertoire des formations supérieures dispensées en français ou partiellement en français, au sein des établissements membres de l'AUF.
+          </p>
+        </div>
+      </div>
+    </div>
+  </header>
+  <div id="main">
+    {% comment %}
+    100%  #0088cc bleu AUF
+    37%   #b2dbf0
+    25%   #c0e2f2
+    10%   #e6f3fa
+    {% endcomment %}
+    <div class="clear"></div>
+    {% block banniere %}
     {% endblock %}
+    <div class="row">
+      {% block Contenu %}
+      {% endblock %}
+    </div>
+  </div>
+  <footer>
+    {% block footer_addon %}
+    {% endblock %}
+    <div class="row">
+      <div class="rainbow span12">
+        <span class="elem bleu"></span>
+        <span class="elem jaune"></span>
+        <span class="elem vert"></span>
+        <span class="elem mauve"></span>
+        <span class="elem rouge"></span>
+      </div>
+      <div class="span12">
+        <div class="content">
+          <p class="pull-left copyright">
+            © AUF 2013 Tous droits réservés
+          </p>
+          <p class="pull-right dahsboard-link">
+            <a style="margin: 8px 22px 0 0;" href="{% url home_legal %}">Légal</a>
+            <a style="margin: 8px 22px 0 0;" href="{% url home_contact %}">Contact</a>
+            <a style="margin: 8px 22px 0 0;" href="{% url home_credits %}">Crédits</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div> <!-- .container -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+<script>
+  window.jQuery || document.write(
+      '<script src="{{ STATIC_URL }}formation/js/vendor/jquery-1.9.0.min.js"><\/script>'
+  )
+</script>
+<script src="{{ STATIC_URL }}commun/js/console.js"></script>
+{% block js %}
+{% endblock %}
 </body>
 </html>
