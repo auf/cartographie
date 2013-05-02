@@ -32,7 +32,7 @@
         <li class="{% active request "^/rechercher" %}"><a href="{% url home_rechercher %}">RECHERCHER</a></li>
         {% if afficher_film %}
           <li class="pull-right">
-            <a href="#" onclick="$('#popup-form-film').css('z-index', 9999); $('#popup-form-film').modal()"  style="color:black;">
+            <a href="#" onclick="$('#popup-form-film').css('z-index', 9999).show(); $('#popup-form-film').modal(); addPlaya();"  style="color:black;">
               <span>DEMO</span>&nbsp;&nbsp;
               <img src="{{ STATIC_URL }}home/img/play.png" alt="voir video"></div>
             </a>
@@ -45,6 +45,15 @@
 {% endblock %}
 
 {% block Contenu %}
+    <script>
+    var vid_template = "<iframe id=\"vid-playa\" frameborder=\"0\" width=\"480\" height=\"389\" scrolling=\"no\" src=\"{{ film_url }}\"></iframe>";
+    function addPlaya() {
+        $('#video-playa-dest').html(vid_template);
+    }
+    function removePlaya() {
+        $('#video-playa-dest').html('');
+    }
+    </script>
     <div class="span12">
         <div class="content">
         {% block Contenu_home %}
@@ -53,13 +62,13 @@
     </div>
     {% if afficher_film %}
         <div id="popup-form-film" class="modal hide fade" role="dialog"
-             aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: -1">
+             aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: -1; display:none;">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="removePlaya();">&times;</button>
             <h3>Trouver une formation, c'est facile!</h3>
           </div>
-          <div class="modal-body">
-            <iframe frameborder="0" width="480" height="389" scrolling="no" src="{{ film_url }}"></iframe>
+          <div class="modal-body" id="video-playa-dest">
+            
           </div>
         </div>
     {% endif %}
