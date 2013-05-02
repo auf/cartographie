@@ -31,8 +31,8 @@
         <li class="{% active request "^/$" %}"><a href="{% url home_accueil %}">CARTE</a></li>
         <li class="{% active request "^/rechercher" %}"><a href="{% url home_rechercher %}">RECHERCHER</a></li>
         {% if afficher_film %}
-          <li>
-            <a href="#" onclick="$('#popup-form-film').css('z-index', 9999); $('#popup-form-film').modal()">
+          <li class="pull-right">
+            <a href="#" onclick="$('#popup-form-film').css('z-index', 9999); $('#popup-form-film').modal()"  style="color:black;">
               <span>DEMO</span>&nbsp;&nbsp;
               <img src="{{ STATIC_URL }}home/img/play.png" alt="voir video"></div>
             </a>
