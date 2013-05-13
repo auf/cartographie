@@ -172,7 +172,20 @@ class FormationComposanteInline(TabularInline):
     extra = 2
 
 
-class FormationAdminFieldset(ModelAdmin):
+class FormationAdmin(ModelAdmin):
+    list_display = ('etablissement', 'nom', 'statut',)
+    list_display_links = ('nom',)
+    
+    list_filter = (
+        'etablissement__region',
+        'statut',
+    )
+
+    search_fields = (
+        'nom',
+        'etablissement__nom',
+    )
+                    
     inlines = [
         FormationComposanteInline,
         FormationPartenaireAUFInline,
@@ -209,7 +222,7 @@ class FormationAdminFieldset(ModelAdmin):
         }),
         (u"Gestion", {
             "fields": (
-                "modifications", "commentaires"
+                "modifications", "commentaires", "statut"
             )
         }),
     )
@@ -377,7 +390,7 @@ class EtablissementCoordonneesAdmin(ModelAdmin):
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 
-admin.site.register(Formation, FormationAdminFieldset)
+admin.site.register(Formation, FormationAdmin)
 admin.site.register(EtablissementComposante)
 admin.site.register(EtablissementAutre)
 admin.site.register(Personne)
