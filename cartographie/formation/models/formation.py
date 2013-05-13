@@ -274,6 +274,7 @@ class Formation(WorkflowMixin, models.Model):
         verbose_name_plural = u"Formations"
         app_label = "formation"
         db_table = "formation_formation"
+        ordering = ["etablissement"]
 
     def __unicode__(self):
         return u"%s" % (self.nom,)
