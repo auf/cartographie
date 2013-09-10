@@ -18,7 +18,7 @@ urlpatterns = patterns(
     # app Home
     (r'^', include("cartographie.home.urls")),
     # API
-    (r'^api/', include("auf.django.pong.urls")),
+    (r'^api/pong/', include("auf.django.pong.urls")),
     # app Formation
     (r'^etablissement/', include("cartographie.formation.urls")),
     # app tableau_de_bord
