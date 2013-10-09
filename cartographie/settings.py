@@ -56,6 +56,7 @@ INSTALLED_APPS = (
     'tableau_de_bord',
     'auf.django.references',
     'auf.django.permissions',
+    'auf.django.pong',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_TEMPLATE_CONTEXT_PROCESSORS + (
