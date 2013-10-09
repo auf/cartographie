@@ -307,6 +307,7 @@ class Formation(WorkflowMixin, models.Model):
         # 'pays'.
 
         query = Formation.objects.values('etablissement__pays__code_iso3')\
+            .exclude(statut=999)\
             .annotate(count=Count('etablissement__pays__code_iso3'))
 
         return dict(map(result2pair, query))

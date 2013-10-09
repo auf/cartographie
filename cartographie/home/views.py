@@ -126,6 +126,7 @@ def fichiers(request, fichier_id):
 
     raise Http404
 
+
 def geojson_formations(request):
     geojson = []
 
@@ -157,7 +158,6 @@ def geojson_formations(request):
 
     coordonnees_path = "%s/data/coordonnees.json" % cartographie.home.__path__[0]
 
-
     with open(coordonnees_path) as coords:
         lines = coords.readlines()
         coords = json.loads("".join(lines))
@@ -166,13 +166,13 @@ def geojson_formations(request):
         for country in form_per_country.keys():
             isoAlpha3 = country.upper()
             feature_dict = {
-              "code": isoAlpha3,
-              "formations": form_per_country[country],
-              "etablissements": etab_per_country[country],
-              "lat": coords[isoAlpha3]["lat"],
-              "lon": coords[isoAlpha3]["lon"],
-              "nom": coords[isoAlpha3]["nom"],
+                "code": isoAlpha3,
+                "formations": form_per_country[country],
+                "etablissements": etab_per_country[country],
+                "lat": coords[isoAlpha3]["lat"],
+                "lon": coords[isoAlpha3]["lon"],
+                "nom": coords[isoAlpha3]["nom"],
             }
             geojson.append(get_geojson_feature(feature_dict))
-    print geojson
+
     return HttpResponse(json.dumps(geojson), content_type="application/json")
