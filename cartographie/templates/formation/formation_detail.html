@@ -22,6 +22,62 @@
 <div style="clear:both"></div>
 <hr />
 
+
+{% if old %}
+<div>
+  <h4>Informations générales</h4>
+
+  <table class="table table-stripped table-bordered table-hover table-condensed">
+    <tbody>
+      <tr>
+        <td>Intitulé de la formation en français :</td>
+        <td>{{ formation.nom }}</td>
+      </tr>
+
+      {% if formation.url %}
+      <tr>
+        <td>Lien Internet :</td>
+        <td><a href="{{ formation.url }}">{{ formation.url }}</a></td>
+      </tr>
+      {% endif %}
+    </tbody>
+  </table>
+</div>
+
+<div>
+  <h4>Organisation de la formation</h4>
+
+  <table class="table table-stripped table-bordered table-hover table-condensed">
+    <tbody>
+      {% if formation|responsables_actifs %}
+      <tr>
+        <td>Responsables :</td>
+        <td>
+          {% for personne in formation|responsables_actifs %}
+          <div style="float:left; padding-right:10px">{% include "personne_abrege.html" %}</div>
+          {% endfor %}
+          <div style="clear:both"></div>
+        </td>
+      </tr>
+      {% endif %}
+
+      {% if formation|contacts_actifs %}
+      <tr>
+        <td>Contacts :</td>
+        <td>
+          {% for personne in formation|contacts_actifs %}
+          <div style="float:left; padding-right:10px">{% include "personne_abrege.html" %}</div>
+          {% endfor %}
+          <div style="clear:both"></div>
+        </td>
+      </tr>
+      {% endif %}
+    </tbody>
+  </table>
+</div>
+
+{% else %}
+
 <div>
     <h4>Informations générales</h4>      
     <table class="table table-striped table-bordered table-hover table-condensed">
@@ -220,6 +276,7 @@
         </tbody>
     </table>
 </div>
+{% endif %}
 
 {% if files %}
 <div>

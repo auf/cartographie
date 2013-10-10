@@ -1,13 +1,7 @@
 #coding: utf-8
 
+from datetime import datetime, timedelta
 import json
-import cartographie.home
-
-from cartographie.formation.models import Fichier, Formation
-from cartographie.formation.sendfile import send_file
-from cartographie.formation.stats import num_etablissements_per_country
-
-from auf.django.references import models as ref
 
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
@@ -18,10 +12,11 @@ from django.shortcuts import get_object_or_404, render_to_response, render
 from django.template import RequestContext, Template, Context
 from django.conf import settings
 
-
+from auf.django.references import models as ref
 from cartographie.formation.models import Fichier, Formation
 from cartographie.formation.sendfile import send_file
-
+from cartographie.formation.stats import num_etablissements_per_country
+import cartographie.home
 
 def get_film_url():
     if getattr(settings, 'FILM_URL', ''):
@@ -84,10 +79,22 @@ def rechercher(request):
     c.update(view_data)
     return render(request, "rechercher.html", c)
 
+
 def formation_detail(request, id, slug=None):
     formation = Formation.objects.get(pk=id)
-    
-    if formation.statut == 2:
+
+    c = {}
+
+    year_ago = datetime.now() - timedelta(days=365)
+
+    if formation.date_modification <= year_ago:
+        # TODO Valider le message d'erreur
+        messages.error(
+            request,
+            u"""Cette formation n'a pas été mise à jour dans la dernière année.
+            Les informations contenues peuvent ne plus être valides.""")
+        c['old'] = True
+    elif formation.statut == 2:
         messages.error(
             request, u"""Formation en cours de publication.
                 Les informations présentées dans cette fiche pourraient être révisées prochainement.
@@ -109,12 +116,14 @@ def formation_detail(request, id, slug=None):
                 """
             )
 
-    c = {
+    c.update({
         'formation': formation,
         'files': Fichier.objects.filter(formation=formation).filter(is_public=True).order_by('nom')
-    }
+    })
+
     view_data = get_film_url()
     c.update(view_data)
+
     return render(request, "formation/formation_detail.html", c)
 
 
