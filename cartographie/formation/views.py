@@ -127,6 +127,19 @@ def actualiser(request, token, formation_id):
 
 
 @token_required
+def tout_actualiser(request, token, etablissement_id):
+    '''Mettre à jour toutes les formations'''
+
+    formations = Formation.objects.filter(etablissement_id=etablissement_id)
+    formations.update(date_modification=datetime.datetime.now())
+
+    messages.success(
+            request, u'Les formations ont été mises à jour')
+
+    return redirect('formation_liste', token)
+
+
+@token_required
 def modifier(request, token, formation_id=None):
     """
         Formulaire d'édition d'une fiche formation
