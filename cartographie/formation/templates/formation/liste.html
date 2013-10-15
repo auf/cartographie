@@ -1,5 +1,7 @@
 {% load statusLabel %}
 
+{% include "cartographie/messages.html" %}
+
 <h4 class="pull-left">Liste des formations</h4>
 <div class="actions pull-right">
     <a href="{% url formation_ajouter token %}" class="btn btn-info pull-right">
@@ -50,6 +52,8 @@
                    <i class="icon icon-eye-open"></i>
                     Historique
                 </a>
+                
+                <a class="btn" href="{% url formation_actualiser token f.id %}"><i class="icon icon-repeat"></i> Actualiser</a>
             </td>
         </tr>
         {% endfor %}

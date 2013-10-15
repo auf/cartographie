@@ -1,16 +1,19 @@
-# coding: utf-8
+# -*- coding: utf-8 -*-
 
-from cartographie.formation.decorators import token_required, editor_of_region_required
-from cartographie.formation.models import Acces, Fichier, Formation, FormationModification
-from cartographie.formation.models.workflow import statusIdToStatusLabel, is_statut_final
+import datetime
+
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.http import Http404, HttpResponseRedirect, HttpResponse
-from django.shortcuts import get_object_or_404, render, render_to_response
+from django.shortcuts import get_object_or_404, redirect, render, render_to_response
 from django.template import RequestContext
 from django.utils import simplejson
+
+from cartographie.formation.decorators import token_required, editor_of_region_required
+from cartographie.formation.models import Acces, Fichier, Formation, FormationModification
+from cartographie.formation.models.workflow import statusIdToStatusLabel, is_statut_final
 from sendfile import send_file
 
 
@@ -75,6 +78,7 @@ def ajouter(request, token):
         RequestContext(request)
     )
 
+
 @token_required
 def consulter(request, token, formation_id):
     """
@@ -86,7 +90,9 @@ def consulter(request, token, formation_id):
         'formation': formation,
         'files': Fichier.objects.filter(formation=formation).filter(is_public=True).order_by('nom')
     }
+
     return render(request, "formation/formation_detail.html", c)
+
 
 @token_required
 def historique(request, token, formation_id):
@@ -103,7 +109,21 @@ def historique(request, token, formation_id):
         'formation': formation,
         'historique': historique,
     }
+
     return render(request, "formation/historique.html", c)
+
+
+@token_required
+def actualiser(request, token, formation_id):
+    '''Mettre à jour une formation'''
+
+    formation = Formation.objects.get(pk=formation_id)
+    formation.date_modification = datetime.datetime.now()
+
+    messages.success(
+            request, u'La formation "%s" a été mise à jour' % (formation.nom, ))
+
+    return redirect('formation_liste', token)
 
 
 @token_required
