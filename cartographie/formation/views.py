@@ -140,6 +140,25 @@ def tout_actualiser(request, token, etablissement_id):
 
 
 @token_required
+def select_actualiser(request, token, etablissement_id):
+    '''Mettre à jour les formations sélectionnées'''
+
+    if request.method == 'POST':
+        ids = []
+        for key in request.POST.keys():
+            if key.startswith('formation-'):
+                num = key.split('-')[1]
+                ids.append(num)
+        if ids:
+            formations = Formation.objects.filter(etablissement_id=etablissement_id, pk__in=ids)
+            formations.update(date_modification=datetime.datetime.now())
+
+            messages.success(request, u'Les formations ont été mises à jour')
+
+    return redirect('formation_liste', token)
+
+
+@token_required
 def modifier(request, token, formation_id=None):
     """
         Formulaire d'édition d'une fiche formation
