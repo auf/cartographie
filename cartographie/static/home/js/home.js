@@ -88,8 +88,22 @@ AUF.home = function(){
 $(document).ready(function(){
     AUF.home.init();
 
+    var advanced_filters = $('#advanced-filters');
+    var advanced_icon = $('#advanced-toggle .icon');
+    var advanced_show = false;
+
     $('#advanced-toggle').click(function() {
-      $('#advanced-filters').slideToggle();
+      if (!advanced_show) {
+        advanced_filters.slideDown();
+        advanced_icon.removeClass('icon-chevron-down');
+        advanced_icon.addClass('icon-chevron-up');
+        advanced_show = true;
+      } else {
+        advanced_filters.slideUp();
+        advanced_icon.removeClass('icon-chevron-up');
+        advanced_icon.addClass('icon-chevron-down');
+        advanced_show = false;
+      }
 
       return false;
     });

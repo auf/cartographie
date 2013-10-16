@@ -18,23 +18,28 @@ from cartographie.formation.sendfile import send_file
 from cartographie.formation.stats import num_etablissements_per_country
 import cartographie.home
 
+
 def get_film_url():
     if getattr(settings, 'FILM_URL', ''):
         return {'afficher_film': True,
-                'film_url': settings.FILM_URL }
-    return {'afficher_film': False }
+                'film_url': settings.FILM_URL}
+    return {'afficher_film': False}
+
 
 def accueil(request):
     view_data = get_film_url()
     return render(request, "accueil.html", view_data)
 
+
 def aide(request):
     view_data = get_film_url()
     return render(request, "statiques/aide.html", view_data)
 
+
 def apropos(request):
     view_data = get_film_url()
     return render(request, "statiques/a-propos.html", view_data)
+
 
 def feedback(request):
     from cartographie.home.viewModels.feedback import FeedbackViewModel
@@ -46,17 +51,21 @@ def feedback(request):
     c.update(view_data)
     return render(request, "feedback.html", c)
 
+
 def legal(request):
     view_data = get_film_url()
     return render(request, "statiques/legal.html", view_data)
+
 
 def contact(request):
     view_data = get_film_url()
     return render(request, "statiques/contact.html", view_data)
 
+
 def credits(request):
     view_data = get_film_url()
     return render(request, "statiques/credits.html", view_data)
+
 
 def rechercher(request):
     from cartographie.home.viewModels.formation \
@@ -96,29 +105,31 @@ def formation_detail(request, id, slug=None):
         c['old'] = True
     elif formation.statut == 2:
         messages.error(
-            request, u"""Formation en cours de publication.
-                Les informations présentées dans cette fiche pourraient être révisées prochainement.
-                Cette fiche est mis temporairement à votre disposition pour votre convenance.
-                """
+            request, u"""Formation en cours de publication. Les informations
+            présentées dans cette fiche pourraient être révisées prochainement.
+            Cette fiche est mise temporairement à votre disposition pour votre
+            convenance."""
             )
     elif formation.statut == 1:
         messages.error(
-            request, u"""Formation en rédaction.
-                Les informations présentées dans cette fiche n'ont pas été validées par l'établissement dispensant la formation.
-                Cette fiche est mis temporairement à votre disposition pour votre convenance.
-                Merci de vous référer directement au site Internet de la formation ou de l'établissement dispensant la formation pour obtenir des informations officielles validées.
-                """
+            request, u"""Formation en rédaction. Les informations présentées
+            dans cette fiche n'ont pas été validées par l'établissement
+            dispensant la formation. Cette fiche est mis temporairement à votre
+            disposition pour votre convenance. Merci de vous référer
+            directement au site Internet de la formation ou de l'établissement
+            dispensant la formation pour obtenir des informations officielles
+            validées."""
             )
     elif formation.statut == 999:
         messages.error(
-            request, u"""Formation supprimée. 
-                Aucune information sur cette fiche n'est fiable.
-                """
+            request, u"""Formation supprimée. Aucune information sur cette
+            fiche n'est fiable."""
             )
 
     c.update({
         'formation': formation,
-        'files': Fichier.objects.filter(formation=formation).filter(is_public=True).order_by('nom')
+        'files': Fichier.objects.filter(
+            formation=formation).filter(is_public=True).order_by('nom')
     })
 
     view_data = get_film_url()
@@ -140,32 +151,37 @@ def geojson_formations(request):
     geojson = []
 
     raw_template = """<div>
-      {% load pluralize %}
-      <b>{{ nom }}</b><br/>
-      <div>{{ formations }} formation{{ formations|pluralize_fr }}</div>
-      <div>{{ etablissements }} établissement{{ etablissements|pluralize_fr }}</div>
-    </div>"""
+        {% load pluralize %}
+        <b>{{ nom }}</b><br/>
+        <div>{{ formations }} formation{{ formations|pluralize_fr }}</div>
+        <div>
+            {{ etablissements }} établissement{{ etablissements|pluralize_fr }}
+        </div>
+        </div>"""
 
     t = Template(raw_template)
 
     def get_geojson_feature(country):
         return {
-              "type": "Feature",
-              "properties": {
-                  "isoAlpha3": country['code'],
-                  "formations": country['formations'],
-                  "etablissements": country['etablissements'],
-                  "nom": country['nom'],
-                  "tooltip": t.render(Context(country)),
-                  "url": "%s?pays=%s" % (reverse('home_rechercher'), country['code'])
-              },
-              "geometry": {
+            "type": "Feature",
+            "properties": {
+                "isoAlpha3": country['code'],
+                "formations": country['formations'],
+                "etablissements": country['etablissements'],
+                "nom": country['nom'],
+                "tooltip": t.render(Context(country)),
+                "url": "%s?pays=%s" % (
+                    reverse('home_rechercher'), country['code'])
+            },
+            "geometry": {
                 "type": "Point",
                 "coordinates": [country['lon'], country['lat']]
             }
         }
 
-    coordonnees_path = "%s/data/coordonnees.json" % cartographie.home.__path__[0]
+    coordonnees_path = (
+        "%s/data/coordonnees.json" % cartographie.home.__path__[0]
+    )
 
     with open(coordonnees_path) as coords:
         lines = coords.readlines()

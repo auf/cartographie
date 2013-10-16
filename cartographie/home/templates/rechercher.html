@@ -76,10 +76,28 @@
 
           <div class="row">
             <div class="span9" id="advanced-bar">
-              <a id="advanced-toggle" href="javascript:void(0);"><i class="icon icon-plus"></i> Recherche avancée</a>
+              <div id="advanced-wrap">
+                <a id="advanced-toggle" href="javascript:void(0);"><i class="icon icon-chevron-down"></i> Recherche avancée</a>
+              </div>
 
               <div id="advanced-filters" class="input-prepend pull-left">
-                <span class="add-on">Niveau de diplôme</span> {{ form.niveau_diplome }}
+                <div class="advanced-field">
+                  <div class="input-prepend pull-left">
+                    <span class="add-on">Niveau de diplôme</span> {{ form.niveau_diplome }}
+                  </div>
+                </div>
+
+                <div class="advanced-field">
+                  <div class="input-prepend pull-left">
+                    <span class="add-on">Années d'étude à l'entrée</span> {{ form.niveau_entree }}
+                  </div>
+                </div>
+
+                <div class="advanced-field">
+                  <div class="input-prepend pull-left">
+                    <span class="add-on">Vocation</span> {{ form.vocation }}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
