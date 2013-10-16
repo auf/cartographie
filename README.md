@@ -72,6 +72,7 @@ LessCSS est utilisé pour rassembler le CSS de Twitter Bootstrap en un seul fich
 **Installation de ces dépendances**
 
     $ apt-get install ruby-full rubygems
+    $ gem install therubyracer
     $ gem install less
 
 **Compilation d'un fichier .less**

@@ -88,6 +88,12 @@ AUF.home = function(){
 $(document).ready(function(){
     AUF.home.init();
 
+    $('#advanced-toggle').click(function() {
+      $('#advanced-filters').slideToggle();
+
+      return false;
+    });
+
     $("#recherche select").change(function() {
         switch ($(this).attr('name')) {
         case "region":
@@ -113,7 +119,7 @@ $(document).ready(function(){
     });
 
     if ($('#map').length) {
-	AUF.home.initMap();
+      AUF.home.initMap();
     }
 
 });
