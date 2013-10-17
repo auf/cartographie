@@ -86,9 +86,11 @@ def consulter(request, token, formation_id):
     """
 
     formation = Formation.objects.get(pk=formation_id)
+
     c = {
         'formation': formation,
-        'files': Fichier.objects.filter(formation=formation).filter(is_public=True).order_by('nom')
+        'files': Fichier.objects.filter(formation=formation).filter(is_public=True).order_by('nom'),
+        'composantes_actives': formation.etablissement_composante.filter(actif=True),
     }
 
     return render(request, "formation/formation_detail.html", c)

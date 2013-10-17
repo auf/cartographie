@@ -129,7 +129,8 @@ def formation_detail(request, id, slug=None):
     c.update({
         'formation': formation,
         'files': Fichier.objects.filter(
-            formation=formation).filter(is_public=True).order_by('nom')
+            formation=formation).filter(is_public=True).order_by('nom'),
+        'composantes_actives': formation.etablissement_composante.filter(actif=True),
     })
 
     view_data = get_film_url()

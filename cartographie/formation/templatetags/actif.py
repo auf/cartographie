@@ -9,13 +9,11 @@ def active(request, pattern):
         return 'active'
     return ''
 
-@register.filter
-def composantes_actives(formation):
-    return formation.etablissement_composante.filter(actif=True)
 
 @register.filter
 def contacts_actifs(formation):
     return formation.contacts.filter(actif=True)
+
 
 @register.filter
 def disciplines_actives(formation):
@@ -32,6 +30,7 @@ def disciplines_actives(formation):
                          filter(is_active,
                                 map(index2discipline,
                                     range(1,4)))))
+
 
 @register.filter
 def partenaires_auf_actifs(formation):

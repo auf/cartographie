@@ -239,14 +239,14 @@
                 <td>{{ formation.etablissement.nom }}</td>
                 <td>{{ formation.etablissement_emet_diplome|yesno:"oui,non,inconnu" }}</td>
             </tr>
-            {% if formation|composantes_actives %}
+            {% if composantes_actives %}
                 <tr>
                     <td colspan="3">Composantes de l'établissement dispensant la formation :</td>
                 </tr>
-                {% for fc in formation|composantes_actives %}
+                {% for fc in composantes_actives %}
                 <tr>
                     <td></td>
-                    <td>{{ fc.etablissementComposante.nom }}</td>
+                    <td>{{ fc.nom }}</td>
                     <td>{{ fc.etablissement_composante_emet_diplome|yesno:"oui,non,inconnu" }}</td>
                     </td>
                 </tr>
