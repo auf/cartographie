@@ -398,6 +398,8 @@ admin.site.register(Acces, AccesAdmin)
 
 admin.site.register(FormationModification, FormationModificationAdmin)
 
+admin.site.register(CourrielRappel)
+
 admin.site.register(Discipline, DisciplineAdmin)
 admin.site.register(NiveauDiplome)
 admin.site.register(TypeDiplome)
