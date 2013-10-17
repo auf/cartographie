@@ -1,13 +1,11 @@
 #coding: utf-8
-
-import csv, os, sys
+from datetime import datetime, timedelta
+from collections import defaultdict
 
 from django.core.management.base import BaseCommand
-from formation.models import EtablissementComposante, Formation
+from django.template import Template, Context
 
-from datetime import datetime, timedelta
-
-from collections import defaultdict
+from formation.models import Formation, CourrielRappel
 
 class Command(BaseCommand):
     help = u"""
@@ -33,9 +31,15 @@ class Command(BaseCommand):
             return etab
 
         def envoi_courriel(etab_formations):
+            contexte = {}
             print etab_formations
+            for day in etab_formations.keys():
+                contexte['expiration_%s_jours' % day] = etab_formations[day]
+            t = Template(courriel.template)
 
-        expire_in_days = (15, 30, 45,)
+        courriel = CourrielRappel.objects.filter(actif=True)[0]
+
+        expire_in_days = [int(d) for d in courriel.periode.split(',')]
         all_expirations = {}
 
         for day in expire_in_days:
@@ -55,4 +59,5 @@ class Command(BaseCommand):
             etab_email = {}
             for day in expire_in_days:
                 etab_email[day] = all_expirations[day][etab]
+            envoi_courriel(etab_email)
             print etab_email
