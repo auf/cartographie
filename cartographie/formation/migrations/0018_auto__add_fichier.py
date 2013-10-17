@@ -85,6 +85,7 @@ class Migration(SchemaMigration):
         'formation.etablissementautre': {
             'Meta': {'object_name': 'EtablissementAutre'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'etablissement': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['references.Etablissement']"}),
             'nom': ('django.db.models.fields.CharField', [], {'max_length': '150'}),
             'nom_origine': ('django.db.models.fields.CharField', [], {'max_length': '150', 'null': 'True', 'blank': 'True'}),
             'pays': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['references.Pays']", 'null': 'True', 'blank': 'True'}),
