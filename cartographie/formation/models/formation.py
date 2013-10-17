@@ -438,6 +438,17 @@ class FormationPartenaireAUF(models.Model):
     def __unicode__(self):
         return u""
 
+class CourrielRappel(models.Model):
+    nom = models.CharField(max_length=250)
+    template = models.TextField()
+    periode = models.CharField(max_length=50)
+    actif = models.BooleanField()
+
+    class Meta:
+        verbose_name = u"Rappel actualisation de formations"
+        verbose_name_plural = u"Rappel actualisation de formations"
+        app_label = "formation"
+        db_table = "formation_courrielrappel"
 
 class FormationPartenaireAutre(models.Model):
     formation = models.ForeignKey(Formation)
