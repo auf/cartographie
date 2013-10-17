@@ -19,15 +19,17 @@ class Command(BaseCommand):
         def get_formations_exp_in_n_days(n_days):
             today = datetime.now()
             n_days_ago = today + timedelta(days=-(365 - n_days))
+            n_days_ago_p1 = today + timedelta(days=-(365 - n_days + 1))
             print n_days_ago
-            expire_in_n_days = Formation.objects.filter(date_modification__lte=n_days_ago)
             print expire_in_n_days
+            expire_in_n_days = Formation.objects.filter(date_modification__lte=n_days_ago,
+                                                        date_modification__gte=n_days_ago_p1)
             return expire_in_n_days
 
         def index_by_etablissement(formations):
             etab = defaultdict(list)
             for f in formations:
-                etab[f.etablissement] = f
+                etab[f.etablissement].append(f)
             return etab
 
         def envoi_courriel(etab_formations):
