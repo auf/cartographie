@@ -5,9 +5,14 @@
 {% include "cartographie/messages.html" %}
 
 <h3>
-    {{ formation }}
-    {% if formation.sigle %}({{ formation.sigle }}){% endif %}
+  {{ formation }}
+  {% if formation.sigle %}({{ formation.sigle }}){% endif %}
 </h3>
+
+<h4 class="subtitle">
+  Dernière mise à jour effectuée le {{ formation.date_modification|date:"Y-m-d" }}
+</h4>
+
 <hr />
 
 <div style="float:left; width:50%">
@@ -15,9 +20,8 @@
 </div>  
 <div style="float:left;">
     {% if formation.url %}
-        <i>Source : </i><a href="{{ formation.url }}">{{ formation }}</a><br />
+    <i>Source : </i><a href="{{ formation.url }}">{{ formation }}</a><br />
     {% endif %}
-    <i>Dernière mise à jour effectuée le : </i>{{ formation.date_modification|date:"Y-m-d" }}
 </div>
 <div style="clear:both"></div>
 <hr />

@@ -696,6 +696,7 @@ ul.nav.en-tete{padding:15px}
 .nav-pills.en-tete>li>a{line-height:30px;margin-top:7px;margin-bottom:7px;margin-right:20px}
 #entete>span.titre-premier,#entete>span.titre-second{display:block;font-size:20px}
 #entete>span.titre-second{font-weight:bold}
+.subtitle{color:#555;font-size:16px;font-style:italic;font-weight:normal}
 div#info-formations{width:90px;height:90px;border-radius:45px;text-align:center;text-color:#fff f;background-color:#000;color:#fff;display:inline-block;margin-top:5px;margin-left:50px;z-index:9999}div#info-formations p.highlight{font-size:1.5em;padding-top:25.714285714285715px;vertical-align:bottom;margin-bottom:0}
 div#info-formations p.detail{font-size:1.25em;margin-bottom:10px;font-variant:small-caps}
 div#info-disciplines{width:100px;height:100px;border-radius:50px;text-align:center;text-color:#fff f;background-color:#000;color:#fff;display:inline-block;margin-left:-5px}div#info-disciplines p.highlight{font-size:1.5em;padding-top:28.571428571428573px;vertical-align:bottom;margin-bottom:0}
