@@ -33,20 +33,19 @@ def disciplines_actives(formation):
 
 
 @register.filter
-def partenaires_auf_actifs(formation):
-    return formation.partenaires_auf.filter(actif=True)
-
-@register.filter
 def langues_actives(formation):
     return formation.langue.filter(actif=True)
+
 
 @register.filter
 def niveaux_entrees_actifs(formation):
     return formation.niveau_entree.filter(actif=True)
 
+
 @register.filter
 def responsables_actifs(formation):
     return formation.responsables.filter(actif=True)
+
 
 @register.filter
 def vocations_actives(formation):

@@ -131,6 +131,7 @@ def formation_detail(request, id, slug=None):
         'files': Fichier.objects.filter(
             formation=formation).filter(is_public=True).order_by('nom'),
         'composantes_actives': formation.etablissement_composante.filter(actif=True),
+        'auf_actifs': formation.partenaires_auf.filter(actif=True),
     })
 
     view_data = get_film_url()

@@ -252,14 +252,14 @@
                 </tr>
                 {% endfor %}
             {% endif %}
-            {% if formation|partenaires_auf_actifs %}
+            {% if auf_actifs %}
                 <tr>
                     <td colspan="3">Partenaire(s) membre de l'AUF impliqué(s) dans la formation :</td>
                 </tr>
-                {% for auf in formation|partenaires_auf_actifs %}
+                {% for auf in auf_actifs %}
                 <tr>
                     <td></td>
-                    <td>{{ auf.etablissement.nom }} ({{ auf.etablissement.pays.nom }})</td>
+                    <td>{{ auf.nom }} ({{ auf.pays.nom }})</td>
                     <td>{{ auf.partenaire_auf_emet_diplome|yesno:"oui,non,inconnu" }}</td>
                 </tr>
                 {% endfor %}
