@@ -37,7 +37,11 @@
     </thead>
     <tbody>
     {% for f in formations %}
+    {% if f|expired %}
+    <tr class="expired">
+    {% else %}
     <tr>
+    {% endif %}
       <td>
         <input type="checkbox" name="formation-{{ f.id }}" class="select-check" />
       </td>

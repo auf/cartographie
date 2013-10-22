@@ -722,6 +722,8 @@ form div.optional{display:none}
 .disciplines li{line-height:1.5em}
 .enfant{display:block;margin-top:10px}
 .enfant a{display:block}
+.expired{background-color:#fcc !important}
+.expired td{background-color:#fcc !important}
 form.form-horizontal .control-label{width:180px}
 form.form-horizontal .controls{margin-left:200px}
 form .recherche-field{margin:10px}
