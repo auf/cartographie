@@ -112,6 +112,8 @@ $(document).ready(function(){
       return false;
     });
 
+    $('#etablissement-liste').accordion();
+
     $("#recherche select").change(function() {
         switch ($(this).attr('name')) {
         case "region":

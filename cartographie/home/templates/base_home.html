@@ -30,7 +30,7 @@
 
         <li class="{% active request "^/$" %}"><a href="{% url home_accueil %}">CARTE</a></li>
         <li class="{% active request "^/rechercher" %}"><a href="{% url home_rechercher %}">RECHERCHER</a></li>
-        <li class="{% active request "^/liste" %}"><a href="{% url home_liste %}">LISTE</a></li> <!-- FIXME #6943 -->
+        <li class="{% active request "^/liste" %}"><a href="{% url home_liste %}">ÉTABLISSEMENTS</a></li>
 
         {% if afficher_film %}
           <li class="pull-right">
