@@ -25,11 +25,13 @@
         <li>
           <div id="entete">
             <span class="titre-premier">Pour trouver une formation</span>
-            <span class="titre-second">2 options s'offrent à vous</span>
           </div>
         </li>
+
         <li class="{% active request "^/$" %}"><a href="{% url home_accueil %}">CARTE</a></li>
         <li class="{% active request "^/rechercher" %}"><a href="{% url home_rechercher %}">RECHERCHER</a></li>
+        <li class="{% active request "^/liste" %}"><a href="{% url home_liste %}">LISTE</a></li> <!-- FIXME #6943 -->
+
         {% if afficher_film %}
           <li class="pull-right">
             <a href="#" onclick="$('#popup-form-film').css('z-index', 9999).show(); $('#popup-form-film').modal(); addPlaya();"  style="color:black;">
@@ -89,12 +91,21 @@
         <p class="highlight">{{ stats_etablissements }}</p>
         <p class="info"> établissements</p>
       </div>
-      <p class="pull-left huge">&</p>
+      <p class="pull-left huge">&amp;</p>
       <div class="pull-left" id="info-pays">
         <p class="highlight">{{ stats_pays }}</p>
         <p class="info">pays<br/> différents</p>
       </div>
     </div>
+  </div>
+</div>
+
+<div class="row">
+  <div id="last" class="span12">
+    <h3>Dernières formations mises à jour</h3>
+    {% for formation in dernieres %}
+    <p><a href="{% url home_formation_detail formation.id %}"><strong>{{ formation.date_modification|date:"d F Y" }} </strong> &mdash; {{ formation }}</a></p>
+    {% endfor %}
   </div>
 </div>
 {% endblock %}

@@ -14,6 +14,7 @@ urlpatterns = patterns(
 
     # navigation
     url(r"^rechercher/$", "rechercher", name="home_rechercher"),
+    url(r'^liste/$', 'liste', name='home_liste'),
 
     # footer
     url(r"^legal/$", "legal", name="home_legal"),

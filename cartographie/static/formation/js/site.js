@@ -254,4 +254,22 @@ $(document).ready(function(){
     }
     return true;
   });
+
+  $('.chzn-container').map(function(i, e) {
+    var par = $(e).parent();
+    var blank = par.find('option[value=""]');
+    var sel = par.find('select');
+
+    if (blank) {
+      var clear = $('<div>X</div>', {'class': 'clear-button'});
+
+      clear.click(function() {
+        // FIXME AAAAAAAAAAAAAAURGH!
+        blank.attr('selected', 'selected');
+        sel.trigger('chosen:updated');
+      });
+
+      $(e).after(clear);
+    }
+  });
 });

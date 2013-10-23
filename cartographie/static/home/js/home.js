@@ -88,6 +88,10 @@ AUF.home = function(){
 $(document).ready(function(){
     AUF.home.init();
 
+    if ($('#map').length) {
+      AUF.home.initMap();
+    }
+
     var advanced_filters = $('#advanced-filters');
     var advanced_icon = $('#advanced-toggle .icon');
     var advanced_show = false;
@@ -131,9 +135,4 @@ $(document).ready(function(){
         }
         $("#recherche").submit();
     });
-
-    if ($('#map').length) {
-      AUF.home.initMap();
-    }
-
 });

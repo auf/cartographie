@@ -683,18 +683,19 @@ h5{font-size:16px}
 header .logo{margin:0}
 header .rainbow{margin:0 22px 0 0}
 header .dashboard-link{margin:8px 22px 0 0}
-header .slogan{margin:-91px 22px 0 0}header .slogan h2{margin-top:0}
+header .slogan{margin:14px 0 0 0}header .slogan h2{margin-top:0}
 header .slogan p{margin:0}
 .nav{margin:16px 0}
-.content{padding:22px}
+.content{padding:11px}
 footer{margin-top:6px}footer .rainbow{margin-bottom:15px}
 footer .content{padding-top:0;padding-bottom:0}
 footer .copyright{font-size:.8em;color:#a3a4a7;margin:0 0 15px}
-#map{height:500px}
+#map{height:450px}
 #entete{line-height:30px;margin-right:35px}
-ul.nav.en-tete{padding:15px}
+ul.nav.en-tete{margin:0;padding:0 10px}
 .nav-pills.en-tete>li>a{line-height:30px;margin-top:7px;margin-bottom:7px;margin-right:20px}
 #entete>span.titre-premier,#entete>span.titre-second{display:block;font-size:20px}
+#entete>span.titre-premier{margin-top:14px}
 #entete>span.titre-second{font-weight:bold}
 .subtitle{color:#555;font-size:16px;font-style:italic;font-weight:normal}
 div#info-formations{width:90px;height:90px;border-radius:45px;text-align:center;text-color:#fff f;background-color:#000;color:#fff;display:inline-block;margin-top:5px;margin-left:50px;z-index:9999}div#info-formations p.highlight{font-size:1.5em;padding-top:25.714285714285715px;vertical-align:bottom;margin-bottom:0}
@@ -709,6 +710,8 @@ div#info-pays p.highlight{font-size:3.5em;margin-top:18.75px;display:inline-bloc
 div#info-pays p.info{display:inline-block;font-size:2em;margin-top:18.75px;font-variant:small-caps}
 div.navbar{background-color:#cef}
 div#statistiques{background-color:#f5f5f5;padding-top:20px;padding-bottom:20px}div#statistiques p.huge{font-size:4em;margin-left:25px;margin-right:25px;margin-top:50px}
+#last{padding-left:10px}
+#last p{font-size:1.25em}
 ul.nav.nav-pills>li>span.title{background-color:#f00;padding-top:8px;padding-bottom:8px;padding-right:12px;padding-left:12px;margin-top:2px;margin-bottom:2px;margin-right:2px;line-height:14px;border-radius:5px;display:block}
 .search-form form,.search-form .control-group{margin:0}
 .search-form label{font-weight:bold}

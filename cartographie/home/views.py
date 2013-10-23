@@ -27,8 +27,44 @@ def get_film_url():
 
 
 def accueil(request):
-    view_data = get_film_url()
+    lasts = Formation.objects.order_by('-date_modification')[:5]
+
+    view_data = {
+        'dernieres': lasts,
+    }
+
+    view_data.update(get_film_url())
+
     return render(request, "accueil.html", view_data)
+
+
+def rechercher(request):
+    from cartographie.home.viewModels.formation \
+        import FormationRechercheViewModel
+
+    form_params = request.GET.copy()
+
+    if request.GET.get('pays'):
+        try:
+            pays = int(request.GET.get('pays'))
+        except ValueError:
+            pays_iso3 = request.GET.get('pays')
+            form_params['pays'] = ref.Pays.objects.get(code_iso3=pays_iso3).pk
+
+    vm = FormationRechercheViewModel(form_params)
+    vm_data = vm.get_data()
+    c = {}
+    c.update(vm_data)
+    view_data = get_film_url()
+    c.update(view_data)
+
+    return render(request, "rechercher.html", c)
+
+
+def liste(request):
+    # FIXME #6943
+
+    return None
 
 
 def aide(request):
@@ -65,28 +101,6 @@ def contact(request):
 def credits(request):
     view_data = get_film_url()
     return render(request, "statiques/credits.html", view_data)
-
-
-def rechercher(request):
-    from cartographie.home.viewModels.formation \
-        import FormationRechercheViewModel
-
-    form_params = request.GET.copy()
-
-    if request.GET.get('pays'):
-        try:
-            pays = int(request.GET.get('pays'))
-        except ValueError:
-            pays_iso3 = request.GET.get('pays')
-            form_params['pays'] = ref.Pays.objects.get(code_iso3=pays_iso3).pk
-
-    vm = FormationRechercheViewModel(form_params)
-    vm_data = vm.get_data()
-    c = {}
-    c.update(vm_data)
-    view_data = get_film_url()
-    c.update(view_data)
-    return render(request, "rechercher.html", c)
 
 
 def formation_detail(request, id, slug=None):
