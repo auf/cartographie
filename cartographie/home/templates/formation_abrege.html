@@ -1,14 +1,27 @@
+{% load statusLabel %}
+
+{% if formation|expired %}
+<tr class="expired">
+{% else %}
 <tr>
-    <td><a href="{% url home_formation_detail formation.id %}">
-            {{ formation.nom }}
-            {% if formation.sigle %}({{ formation.sigle }}){% endif %}
-        </a>
-    </td>
-    <td>{{ formation.niveau_diplome|default_if_none:"-" }}</td>
-    <td>{{ formation.discipline_1.nom }}
-        {% if formation.discipline_2 %}, {{ formation.discipline_2.nom }}{% endif %}
-        {% if formation.discipline_3 %}, {{ formation.discipline_3.nom }}{% endif %}</td>
-    <td><a href="{{ formation.etablissement.url }}">{{ formation.etablissement.nom }}</a></td>
-    <td>{{ formation.etablissement.pays.nom }}</td>
-    <td>{{ formation.etablissement.region.nom }}</td>
+{% endif %}
+  <td>
+    <a href="{% url home_formation_detail formation.id %}">
+      {{ formation.nom }} {% if formation.sigle %}({{ formation.sigle }}){% endif %}
+    </a>
+  </td>
+
+  <td>{{ formation.niveau_diplome|default_if_none:"-" }}</td>
+
+  <td>
+    {{ formation.discipline_1.nom }}
+    {% if formation.discipline_2 %}, {{ formation.discipline_2.nom }}{% endif %}
+    {% if formation.discipline_3 %}, {{ formation.discipline_3.nom }}{% endif %}
+  </td>
+
+  <td><a href="{{ formation.etablissement.url }}">{{ formation.etablissement.nom }}</a></td>
+
+  <td>{{ formation.etablissement.pays.nom }}</td>
+
+  <td>{{ formation.etablissement.region.nom }}</td>
 </tr>

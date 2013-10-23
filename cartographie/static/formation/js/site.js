@@ -232,5 +232,44 @@ AUF.formation = function(){
 }();
 
 $(document).ready(function(){
-    AUF.formation.init();
+  AUF.formation.init();
+
+  var updateEnabled = false;
+
+  $('#select-update').click(function() {
+    if (updateEnabled) {
+      $('#select-form').submit();
+    }
+
+    return false;
+  });
+
+  $('.select-check').click(function() {
+    updateEnabled = $('.select-check:checked').length !== 0;
+
+    if (updateEnabled) {
+      $('#select-update').removeClass('disabled');
+    } else {
+      $('#select-update').addClass('disabled');
+    }
+    return true;
+  });
+
+  $('.chzn-container').map(function(i, e) {
+    var par = $(e).parent();
+    var blank = par.find('option[value=""]');
+    var sel = par.find('select');
+
+    if (blank) {
+      var clear = $('<div>X</div>', {'class': 'clear-button'});
+
+      clear.click(function() {
+        // FIXME AAAAAAAAAAAAAAURGH!
+        blank.attr('selected', 'selected');
+        sel.trigger('chosen:updated');
+      });
+
+      $(e).after(clear);
+    }
+  });
 });

@@ -24,5 +24,6 @@ class ListeViewModel(BaseListeViewModel):
         data = super(ListeViewModel, self).get_data()
         data["cacher_onglets"] = self.cacher_onglets
         data["formations"] = self.formations
+        data['etablissement_id'] = self.etablissement.id
 
         return data

@@ -48,13 +48,9 @@
           <span class="elem mauve"></span>
           <span class="elem rouge"></span>
         </div>
+
         <div class="clear"></div>
-        <h1 class="logo pull-left">
-          <a href="http://cartographie.auf.org">
-          <img src="{{ STATIC_URL }}commun/img/Logo_Auf_FR.png"
-          alt="Agence universitaire de la Francophonie">
-          </a>
-        </h1>
+
         {% if user.is_authenticated %}
           <a class="pull-right dashboard-link" href="{% url logout %}">Déconnexion</a>
         {% else %}
@@ -64,12 +60,21 @@
         <a class="pull-right dashboard-link" href="{% url home_a_propos %}">À propos</a>
         <a class="pull-right dashboard-link" href="{% url home_aide %}">Aide</a>
         <a class="pull-right dashboard-link" href="{% url home_accueil %}">Accueil</a>
+
         <div class="clear"></div>
-        <div class="slogan span6 pull-right">
+
+        <h1 class="logo pull-left">
+          <a href="http://cartographie.auf.org"><img src="{{ STATIC_URL }}commun/img/Logo_Auf_FR.png" alt="Agence universitaire de la Francophonie"></a>
+        </h1>
+
+        <div class="slogan span4 pull-right">
+          <p>Répertoire des formations supérieures dispensées en français ou
+          partiellement en français, au sein des établissements membres de
+          l'AUF.</p>
+        </div>
+
+        <div class="span5 pull-right">
           <h2>Cartographie des formations</h2>
-          <p>
-          Répertoire des formations supérieures dispensées en français ou partiellement en français, au sein des établissements membres de l'AUF.
-          </p>
         </div>
       </div>
     </div>

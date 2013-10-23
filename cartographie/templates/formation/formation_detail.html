@@ -5,9 +5,14 @@
 {% include "cartographie/messages.html" %}
 
 <h3>
-    {{ formation }}
-    {% if formation.sigle %}({{ formation.sigle }}){% endif %}
+  {{ formation }}
+  {% if formation.sigle %}({{ formation.sigle }}){% endif %}
 </h3>
+
+<h4 class="subtitle">
+  Dernière mise à jour effectuée le {{ formation.date_modification|date:"Y-m-d" }}
+</h4>
+
 <hr />
 
 <div style="float:left; width:50%">
@@ -15,12 +20,67 @@
 </div>  
 <div style="float:left;">
     {% if formation.url %}
-        <i>Source : </i><a href="{{ formation.url }}">{{ formation }}</a><br />
+    <i>Source : </i><a href="{{ formation.url }}">{{ formation }}</a><br />
     {% endif %}
-    <i>Dernière mise à jour effectuée le : </i>{{ formation.date_modification|date:"Y-m-d" }}
 </div>
 <div style="clear:both"></div>
 <hr />
+
+
+{% if old %}
+<div>
+  <h4>Informations générales</h4>
+
+  <table class="table table-stripped table-bordered table-hover table-condensed">
+    <tbody>
+      <tr>
+        <td>Intitulé de la formation en français :</td>
+        <td>{{ formation.nom }}</td>
+      </tr>
+
+      {% if formation.url %}
+      <tr>
+        <td>Lien Internet :</td>
+        <td><a href="{{ formation.url }}">{{ formation.url }}</a></td>
+      </tr>
+      {% endif %}
+    </tbody>
+  </table>
+</div>
+
+<div>
+  <h4>Organisation de la formation</h4>
+
+  <table class="table table-stripped table-bordered table-hover table-condensed">
+    <tbody>
+      {% if formation|responsables_actifs %}
+      <tr>
+        <td>Responsables :</td>
+        <td>
+          {% for personne in formation|responsables_actifs %}
+          <div style="float:left; padding-right:10px">{% include "personne_abrege.html" %}</div>
+          {% endfor %}
+          <div style="clear:both"></div>
+        </td>
+      </tr>
+      {% endif %}
+
+      {% if formation|contacts_actifs %}
+      <tr>
+        <td>Contacts :</td>
+        <td>
+          {% for personne in formation|contacts_actifs %}
+          <div style="float:left; padding-right:10px">{% include "personne_abrege.html" %}</div>
+          {% endfor %}
+          <div style="clear:both"></div>
+        </td>
+      </tr>
+      {% endif %}
+    </tbody>
+  </table>
+</div>
+
+{% else %}
 
 <div>
     <h4>Informations générales</h4>      
@@ -179,27 +239,27 @@
                 <td>{{ formation.etablissement.nom }}</td>
                 <td>{{ formation.etablissement_emet_diplome|yesno:"oui,non,inconnu" }}</td>
             </tr>
-            {% if formation|composantes_actives %}
+            {% if composantes_actives %}
                 <tr>
                     <td colspan="3">Composantes de l'établissement dispensant la formation :</td>
                 </tr>
-                {% for fc in formation|composantes_actives %}
+                {% for fc in composantes_actives %}
                 <tr>
                     <td></td>
-                    <td>{{ fc.etablissementComposante.nom }}</td>
+                    <td>{{ fc.nom }}</td>
                     <td>{{ fc.etablissement_composante_emet_diplome|yesno:"oui,non,inconnu" }}</td>
                     </td>
                 </tr>
                 {% endfor %}
             {% endif %}
-            {% if formation|partenaires_auf_actifs %}
+            {% if auf_actifs %}
                 <tr>
                     <td colspan="3">Partenaire(s) membre de l'AUF impliqué(s) dans la formation :</td>
                 </tr>
-                {% for auf in formation|partenaires_auf_actifs %}
+                {% for auf in auf_actifs %}
                 <tr>
                     <td></td>
-                    <td>{{ auf.etablissement.nom }} ({{ auf.etablissement.pays.nom }})</td>
+                    <td>{{ auf.nom }} ({{ auf.pays.nom }})</td>
                     <td>{{ auf.partenaire_auf_emet_diplome|yesno:"oui,non,inconnu" }}</td>
                 </tr>
                 {% endfor %}
@@ -220,6 +280,7 @@
         </tbody>
     </table>
 </div>
+{% endif %}
 
 {% if files %}
 <div>

@@ -5,7 +5,7 @@
 // en-tête
 
 #map {
-    height: 500px;
+    height: 450px;
 }
 
 #entete {
@@ -14,7 +14,8 @@
 }
 
 ul.nav.en-tete {
-    padding: 15px;
+  margin: 0;
+  padding: 0 10px;
 }
 
 .nav-pills.en-tete > li > a {
@@ -31,11 +32,18 @@ ul.nav.en-tete {
 }
 
 #entete > span.titre-premier {
-
+  margin-top: 14px;
 }
 
 #entete > span.titre-second {
     font-weight: bold;
+}
+
+.subtitle {
+  color: @gray;
+  font-size: 16px;
+  font-style: italic;
+  font-weight: normal;
 }
 
 div#info-formations {
@@ -72,21 +80,21 @@ div#info-pays {
     border-bottom: 1px black solid;
 
     span.preambule {
-	margin-top: 5px;
+  margin-top: 5px;
     }
 
     p.highlight {
-	font-size: 3.5em;
-	margin-top: (@height / 4);
-	display: inline-block;
-	margin-bottom: 0;
+  font-size: 3.5em;
+  margin-top: (@height / 4);
+  display: inline-block;
+  margin-bottom: 0;
     }
 
     p.info {
-	display: inline-block;
-	font-size: 2em;
-	margin-top: @height / 4;
-	font-variant: small-caps;
+  display: inline-block;
+  font-size: 2em;
+  margin-top: @height / 4;
+  font-variant: small-caps;
     }
 }
 
@@ -100,16 +108,16 @@ div#info-pays {
     color: white;
 
     p.highlight {
-	font-size: 1.5em;
-	padding-top: (@radius / 3.5);
-	vertical-align: bottom;
-	margin-bottom: 0;
+  font-size: 1.5em;
+  padding-top: (@radius / 3.5);
+  vertical-align: bottom;
+  margin-bottom: 0;
     }
 
     p.detail {
-	font-size: 1.25em;
-	margin-bottom: 10px;
-	font-variant: small-caps;
+  font-size: 1.25em;
+  margin-bottom: 10px;
+  font-variant: small-caps;
     }
 
 }
@@ -121,15 +129,24 @@ div.navbar {
 // footer
 
 div#statistiques {
-    background-color: #f5f5f5;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    p.huge {
-	font-size: 4em;
-	margin-left: 25px;
-	margin-right: 25px;
-	margin-top: 50px;
-    }
+  background-color: #f5f5f5;
+  padding-top: 20px;
+  padding-bottom: 20px;
+
+  p.huge {
+    font-size: 4em;
+    margin-left: 25px;
+    margin-right: 25px;
+    margin-top: 50px;
+  }
+}
+
+#last {
+  padding-left: 10px;
+}
+
+#last p {
+  font-size: 1.25em;
 }
 
 ul.nav.nav-pills > li > span.title {
@@ -164,22 +181,46 @@ form div.optional {
     margin-bottom: 1em;
 }
 
-#filter-bar {
+#filter-bar, #advanced-bar {
     text-align: center;
     margin-bottom: 1em;
 }
 
+#advanced-wrap {
+  margin-bottom: 1em;
+}
+
+#advanced-filters {
+  display: none;
+}
+
+.advanced-field {
+  display: block;
+}
+
+.advanced-field .input-prepend {
+  margin-bottom: 8px;
+}
+
 .disciplines li{
-    line-height: 1.5em;
+  line-height: 1.5em;
 }
 
 .enfant {
-    display: block;
-    margin-top: 10px;
+  display: block;
+  margin-top: 10px;
 }
 
 .enfant a {
-    display: block;
+  display: block;
+}
+
+.expired {
+  background-color: #ffcccc !important;
+}
+
+.expired td {
+  background-color: #ffcccc !important;
 }
 
 @import "form.less";

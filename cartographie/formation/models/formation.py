@@ -172,7 +172,6 @@ class Formation(WorkflowMixin, models.Model):
                   en nombre d'années d'études
                   dans l'enseignement supérieur""",
         limit_choices_to={"actif": True},
-        # related_name="niveau_sortie+"
     )
 
     vocation = models.ManyToManyField(
@@ -252,7 +251,7 @@ class Formation(WorkflowMixin, models.Model):
     )
 
     # gestion
-    date_creation = models.DateTimeField(editable=False)
+    date_creation = models.DateTimeField(auto_now_add=True, editable=False)
     date_modification = models.DateTimeField(editable=False)
 
     modifications = models.ManyToManyField(
@@ -287,12 +286,26 @@ class Formation(WorkflowMixin, models.Model):
         else:
             modif.save_modification(self.id)
 
+    content_fields = [
+        'nom_origine', 'sigle', 'url', 'discipline_1', 'discipline_2',
+        'discipline_3', 'niveau_diplome', 'type_diplome', 'delivrance_diplome',
+        'niveau_entree', 'niveau_sortie', 'vocation', 'presentation',
+        'type_formation', 'langue', 'duree', 'responsables', 'contacts',
+    ]
+
     def save(self, *args, **kwargs):
-        # sauvegarder le champ de création seulement lors de la création
-        if not self.id:
-            self.date_creation = datetime.datetime.now()
-        # sauvegarder la date de modification à chaque sauvegarde
-        self.date_modification = datetime.datetime.now()
+        # Mettre à jour la date de modification lorsque le contenu est modifié
+
+        if self.pk is not None:
+            orig = Formation.objects.get(pk=self.pk)
+            orig_fields = [getattr(orig, field) for field in self.content_fields]
+            self_fields = [getattr(self, field) for field in self.content_fields]
+            changed = [x != y for x, y in zip(orig_fields, self_fields)]
+            
+            if any(changed):
+                self.date_modification = datetime.datetime.now()
+        else:
+            self.date_modification = datetime.datetime.now()
 
         super(Formation, self).save(*args, **kwargs)
 
@@ -308,6 +321,7 @@ class Formation(WorkflowMixin, models.Model):
         # 'pays'.
 
         query = Formation.objects.values('etablissement__pays__code_iso3')\
+            .exclude(statut=999)\
             .annotate(count=Count('etablissement__pays__code_iso3'))
 
         return dict(map(result2pair, query))

@@ -1,6 +1,9 @@
 #coding: utf-8
 
+from datetime import datetime, timedelta
+
 from django import template
+
 from cartographie.formation.models.workflow import statusIdToStatusLabel
 from cartographie.formation.constants import statuts_formation as STATUTS
 
@@ -31,3 +34,9 @@ def statusClass(value):
         return 'label-info'
     return ''
 
+
+@register.filter
+def expired(formation):
+    year_ago = datetime.now() - timedelta(days=365)
+
+    return formation.date_modification <= year_ago
