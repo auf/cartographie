@@ -17,7 +17,7 @@ class Fichier(models.Model):
                             help_text=u"Fichier joint a la formation")
 
     is_public = models.BooleanField(
-        default=False,
+        default=True,
         verbose_name=u"Public?",
         help_text=u"Cocher si le fichier est public",
         )
