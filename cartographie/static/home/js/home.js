@@ -112,7 +112,15 @@ $(document).ready(function(){
       return false;
     });
 
-    $('#etablissement-liste').accordion();
+    $('#etablissement-liste').accordion({
+      'active': false,
+      'collapsible': true,
+      'heightStyle': 'content',
+      'icons': {
+        'header': 'icon icon-chevron-down',
+        'activeHeader': 'icon icon-chevron-up',
+      },
+    });
 
     $("#recherche select").change(function() {
         switch ($(this).attr('name')) {

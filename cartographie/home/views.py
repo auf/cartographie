@@ -67,7 +67,10 @@ def liste_etablissements(request):
     regions = defaultdict(lambda: [])
 
     for etablissement in Etablissement.objects.all():
-        regions[etablissement.region].append(etablissement)
+        # Seulement lister les établissements possédant au moins une formation
+        # active (statut différent de 999)
+        if etablissement.formation_set.exclude(statut=999):
+            regions[etablissement.region].append(etablissement)
 
     context = {
         'regions': regions,

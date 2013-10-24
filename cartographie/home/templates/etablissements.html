@@ -1,34 +1,23 @@
 {% extends "base_home.html" %}
+{% load qs_helpers %}
 
 {% block Contenu_home %}
 <div class="row">
   <div class="span9">
     <div id="etablissement-liste">
-      {% for region, etablissements in regions %}
-      <h3>{{ region }} - poulet</h3>
+      {% for region in regions %}
+      <h3>{{ region }}</h3>
       <div>
         <ul>
-          {% for etablissement in etablissements %}
-          <li>{{ etablissement }} - poulet</li>
+          {% for etablissement in regions|get_item:region %}
+          <li>{{ etablissement.pays }} &mdash; <a href="{% url home_rechercher %}?etablissement={{ etablissement.id }}">{{ etablissement.nom }}</a></li>
           {% endfor %}
         </ul>
       </div>
       {% endfor %}
-
-      <h3>Amérique du Nord</h3>
-      <div>
-        <ul>
-          </li>Poulet</li>
-        </ul>
-      </div>
-
-      <h3>Océanie</h3>
-      <div>
-        <ul>
-          <li>Poulet</li>
-        </ul>
-      </div>
     </div>
   </div>
 </div>
+
+<div class="clear"></div>
 {% endblock %}
