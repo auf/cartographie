@@ -260,13 +260,12 @@ $(document).ready(function(){
     var blank = par.find('option[value=""]');
     var sel = par.find('select');
 
-    if (blank) {
-      var clear = $('<div>X</div>', {'class': 'clear-button'});
+    if (blank && !sel.attr('multiple')) {
+      var clear = $('<div class="clear-button"></div>');
 
       clear.click(function() {
-        // FIXME AAAAAAAAAAAAAAURGH!
-        blank.attr('selected', 'selected');
-        sel.trigger('chosen:updated');
+        sel.val('');
+        sel.trigger('liszt:updated');
       });
 
       $(e).after(clear);
