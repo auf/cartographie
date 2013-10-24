@@ -17,6 +17,7 @@ from .workflow import WorkflowMixin
 
 from cartographie.formation.signals.formation import formation_is_valider
 
+from auf.django.mailing.models import ModeleCourriel
 
 class Formation(WorkflowMixin, models.Model):
     """
@@ -452,9 +453,7 @@ class FormationPartenaireAUF(models.Model):
     def __unicode__(self):
         return u""
 
-class CourrielRappel(models.Model):
-    nom = models.CharField(max_length=250)
-    template = models.TextField()
+class CourrielRappel(ModeleCourriel):
     periode = models.CharField(max_length=50)
     actif = models.BooleanField()
 

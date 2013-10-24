@@ -12,6 +12,9 @@ from django.core.urlresolvers import reverse_lazy
 
 # Rapports d'erreurs
 SERVER_EMAIL = 'ne-pas-repondre@auf.org'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = '127.0.0.1'
+EMAIL_PORT = '1025'
 EMAIL_SUBJECT_PREFIX = '[auf_cartographie - %s] ' % socket.gethostname()
 ADMINS = ()
 
@@ -57,6 +60,7 @@ INSTALLED_APPS = (
     'auf.django.references',
     'auf.django.permissions',
     'auf.django.pong',
+    'auf.django.mailing',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_TEMPLATE_CONTEXT_PROCESSORS + (
