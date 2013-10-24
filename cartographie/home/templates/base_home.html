@@ -100,12 +100,14 @@
   </div>
 </div>
 
-<div class="row">
-  <div id="last" class="span12">
-    <h3>Dernières formations mises à jour</h3>
-    {% for formation in dernieres %}
-    <p><a href="{% url home_formation_detail formation.id %}"><strong>{{ formation.date_modification|date:"d F Y" }} </strong> &mdash; {{ formation }}</a></p>
-    {% endfor %}
+{% if dernieres %}
+  <div class="row">
+    <div id="last" class="span12">
+      <h3>Dernières formations mises à jour</h3>
+      {% for formation in dernieres %}
+      <p><a href="{% url home_formation_detail formation.id %}"><strong>{{ formation.date_modification|date:"d F Y" }} </strong> &mdash; {{ formation }}</a></p>
+      {% endfor %}
+    </div>
   </div>
-</div>
+{% endif %}
 {% endblock %}
