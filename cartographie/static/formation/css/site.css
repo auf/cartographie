@@ -683,10 +683,10 @@ h5{font-size:16px}
 header .logo{margin:0}
 header .rainbow{margin:0 22px 0 0}
 header .dashboard-link{margin:8px 22px 0 0}
-header .slogan{margin:-91px 22px 0 0}header .slogan h2{margin-top:0}
+header .slogan{margin:14px 0 0 0}header .slogan h2{margin-top:0}
 header .slogan p{margin:0}
 .nav{margin:16px 0}
-.content{padding:22px}
+.content{padding:11px}
 footer{margin-top:6px}footer .rainbow{margin-bottom:15px}
 footer .content{padding-top:0;padding-bottom:0}
 footer .copyright{font-size:.8em;color:#a3a4a7;margin:0 0 15px}
@@ -716,3 +716,5 @@ ul.cacher_facultatif li.onglet_facultatif{display:none}
 .modal-body{max-height:800px}
 .expired{background-color:#fcc !important}
 .expired td{background-color:#fcc !important}
+.clear-button{display:inline-block;position:relative;top:-6px;left:-42px;width:12px;height:12px;margin:0 0 0 .5em;background:url("../../commun/chosen/chosen-sprite.png") no-repeat scroll -42px 1px rgba(0,0,0,0);cursor:pointer}
+.clear-button:hover{background-position:-42px -10px}

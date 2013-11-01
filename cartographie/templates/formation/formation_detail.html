@@ -288,7 +288,7 @@
 
     <ul>
         {% for file in files %}
-        <li><a href="{% url home_fichiers file.id %}">{{file.nom}}</a></li>
+        <li><a href="{% url home_fichiers file.id %}">{{ file.nom }}{% if not file.is_public %} (Privé){% endif %}</a></li>
         {% endfor %}
     </ul>
 </div>

@@ -1,5 +1,6 @@
 #coding: utf-8
 
+from collections import defaultdict
 from datetime import datetime, timedelta
 import json
 
@@ -13,6 +14,7 @@ from django.template import RequestContext, Template, Context
 from django.conf import settings
 
 from auf.django.references import models as ref
+from auf.django.references.models import Etablissement
 from cartographie.formation.models import Fichier, Formation
 from cartographie.formation.sendfile import send_file
 from cartographie.formation.stats import num_etablissements_per_country
@@ -61,10 +63,20 @@ def rechercher(request):
     return render(request, "rechercher.html", c)
 
 
-def liste(request):
-    # FIXME #6943
+def liste_etablissements(request):
+    regions = defaultdict(lambda: [])
 
-    return None
+    for etablissement in Etablissement.objects.all():
+        # Seulement lister les établissements possédant au moins une formation
+        # active (statut différent de 999)
+        if etablissement.formation_set.exclude(statut=999):
+            regions[etablissement.region].append(etablissement)
+
+    context = {
+        'regions': regions,
+    }
+
+    return render(request, 'etablissements.html', context)
 
 
 def aide(request):

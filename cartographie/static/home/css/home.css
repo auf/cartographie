@@ -708,6 +708,8 @@ div#info-etablissements p.info{display:inline-block;font-size:2em;margin-top:18.
 div#info-pays{height:75px;width:200px;border-top:1px #000 solid;border-bottom:1px #000 solid;margin-top:12.5px}div#info-pays span.preambule{margin-top:5px}
 div#info-pays p.highlight{font-size:3.5em;margin-top:18.75px;display:inline-block;margin-bottom:0}
 div#info-pays p.info{display:inline-block;font-size:2em;margin-top:18.75px;font-variant:small-caps}
+#etablissement-liste .ui-accordion-header{color:#31abf5;cursor:default}#etablissement-liste .ui-accordion-header .icon-chevron-down{padding-top:.5em;background-position:-313px -116px}
+#etablissement-liste ul li{font-size:1.1em;line-height:150%}
 div.navbar{background-color:#cef}
 div#statistiques{background-color:#f5f5f5;padding-top:20px;padding-bottom:20px}div#statistiques p.huge{font-size:4em;margin-left:25px;margin-right:25px;margin-top:50px}
 #last{padding-left:10px}
