@@ -98,6 +98,11 @@ urlpatterns = patterns(
     ),
     # ajout/edition des personnes
     url(
+        r'^personne/password/(?P<secret>\w+)$',
+        'personne_modifier_password',
+        name='formation_personne_modifier_password',
+    ),
+    url(
         r"^(?P<token>\w+)/personne/liste$",
         "liste_personne",
         name="formation_personne_liste"

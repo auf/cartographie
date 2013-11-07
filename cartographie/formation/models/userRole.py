@@ -1,4 +1,4 @@
-#coding: utf-8
+# -*- coding: utf-8 -*-
 
 from auf.django.references import models as ref
 from auf.django.permissions import Role
@@ -18,10 +18,16 @@ class UserRole(models.Model, Role):
         'editeur': [
             'manage'
         ],
+
+        'referent': [
+            # FIXME trouver les bonnes perms pour les référents
+            'manage',
+        ],
     }
 
     ROLE_CHOICES = (
         (u'editeur', u"AUF: Éditeur"),
+        (u'referent', u"Référent"),
     )
 
     type = models.CharField(max_length=25, choices=ROLE_CHOICES)

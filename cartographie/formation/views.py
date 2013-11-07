@@ -2,6 +2,7 @@
 
 import datetime
 
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib import messages
@@ -372,6 +373,18 @@ def commentaire_supprimer(request, token, formation_id, commentaire_id):
         simplejson.dumps(vm.get_data()),
         mimetype="application/json"
     )
+
+
+def personne_modifier_password(request, secret):
+    if request.method == 'POST':
+        # submit
+        pass
+    else:
+        form = PasswordChangeForm()
+
+    return render(request, 'personne/modifier_password.html', {
+        'form': form
+    })
 
 
 @token_required
