@@ -47,7 +47,7 @@ class Personne(models.Model):
         blank=True,
     )
 
-    role = models.ForeignKey(UserRole, verbose_name=u'Rôle')
+    role = models.ForeignKey(UserRole, verbose_name=u'Rôle', blank=True)
 
     actif = models.BooleanField(
         default=True,
@@ -55,10 +55,10 @@ class Personne(models.Model):
     )
 
     utilisateur = models.ForeignKey(
-        User, verbose_name=u'Utilisateur', blank=False)
+        User, verbose_name=u'Utilisateur', blank=True)
 
     jeton_password = models.ForeignKey(
-        JetonPassword, verbose_name=u'Jeton de mot de passe')
+        JetonPassword, verbose_name=u'Jeton de mot de passe', blank=True)
 
     def save(self, *args, **kwargs):
         if not self.id:

@@ -16,27 +16,19 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal('formation', ['JetonPassword'])
 
-        # Adding field 'EtablissementAutre.etablissement'
-        db.add_column('formation_etablissementautre', 'etablissement',
-                      self.gf('django.db.models.fields.related.ForeignKey')(default=1, to=orm['references.Etablissement']),
-                      keep_default=False)
-
-
-        # Changing field 'Formation.date_creation'
-        db.alter_column('formation_formation', 'date_creation', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True))
         # Adding field 'Personne.role'
         db.add_column('formation_personne', 'role',
-                      self.gf('django.db.models.fields.related.ForeignKey')(default='', to=orm['formation.UserRole']),
+                      self.gf('django.db.models.fields.related.ForeignKey')(default=1, to=orm['formation.UserRole'], blank=True),
                       keep_default=False)
 
         # Adding field 'Personne.utilisateur'
         db.add_column('formation_personne', 'utilisateur',
-                      self.gf('django.db.models.fields.related.ForeignKey')(default=1, to=orm['auth.User']),
+                      self.gf('django.db.models.fields.related.ForeignKey')(default=1, to=orm['auth.User'], blank=True),
                       keep_default=False)
 
         # Adding field 'Personne.jeton_password'
         db.add_column('formation_personne', 'jeton_password',
-                      self.gf('django.db.models.fields.related.ForeignKey')(default=0, to=orm['formation.JetonPassword']),
+                      self.gf('django.db.models.fields.related.ForeignKey')(default=1, to=orm['formation.JetonPassword'], blank=True),
                       keep_default=False)
 
 
@@ -44,12 +36,6 @@ class Migration(SchemaMigration):
         # Deleting model 'JetonPassword'
         db.delete_table('formation_jetonpassword')
 
-        # Deleting field 'EtablissementAutre.etablissement'
-        db.delete_column('formation_etablissementautre', 'etablissement_id')
-
-
-        # Changing field 'Formation.date_creation'
-        db.alter_column('formation_formation', 'date_creation', self.gf('django.db.models.fields.DateTimeField')())
         # Deleting field 'Personne.role'
         db.delete_column('formation_personne', 'role_id')
 
@@ -258,12 +244,12 @@ class Migration(SchemaMigration):
             'etablissement': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['references.Etablissement']"}),
             'fonction': ('django.db.models.fields.CharField', [], {'max_length': '150', 'null': 'True', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'jeton_password': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['formation.JetonPassword']"}),
+            'jeton_password': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['formation.JetonPassword']", 'blank': 'True'}),
             'nom': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'prenom': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'role': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['formation.UserRole']"}),
+            'role': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['formation.UserRole']", 'blank': 'True'}),
             'telephone': ('django.db.models.fields.CharField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
-            'utilisateur': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']"})
+            'utilisateur': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']", 'blank': 'True'})
         },
         'formation.typediplome': {
             'Meta': {'object_name': 'TypeDiplome', 'db_table': "'formation_config_typediplome'"},
