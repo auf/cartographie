@@ -73,8 +73,13 @@ def liste_etablissements(request):
         if etablissement.formation_set.exclude(statut=999):
             regions[etablissement.region].append(etablissement)
 
+    # Trie les régions en ordre décroissant de nombre de formations par région
+    ordered = sorted(
+        ((k, v) for k, v in regions.iteritems()),
+        cmp=lambda a, b: cmp(len(b[1]), len(a[1])))
+
     context = {
-        'regions': regions,
+        'regions': ordered,
     }
 
     return render(request, 'etablissements.html', context)

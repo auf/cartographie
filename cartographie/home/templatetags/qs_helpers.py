@@ -12,5 +12,5 @@ def qs_replace(value, **kwargs):
 
 
 @register.filter
-def get_item(dictionary, key):
-    return dictionary.get(key)
+def length_sum(etablissements, **kwargs):
+    return sum(len(etablissement.formation_set.exclude(statut=999)) for etablissement in etablissements)
