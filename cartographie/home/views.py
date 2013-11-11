@@ -29,7 +29,8 @@ def get_film_url():
 
 
 def accueil(request):
-    lasts = Formation.objects.order_by('-date_modification')[:5]
+    lasts = Formation.objects.exclude(
+        statut=999).order_by('-date_modification')[:10]
 
     view_data = {
         'dernieres': lasts,
