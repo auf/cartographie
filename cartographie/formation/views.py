@@ -8,13 +8,17 @@ from django.contrib.auth.decorators import user_passes_test
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.http import Http404, HttpResponseRedirect, HttpResponse
-from django.shortcuts import get_object_or_404, redirect, render, render_to_response
+from django.shortcuts import (
+    get_object_or_404, redirect, render, render_to_response)
 from django.template import RequestContext
 from django.utils import simplejson
 
-from cartographie.formation.decorators import token_required, editor_of_region_required
-from cartographie.formation.models import Acces, Fichier, Formation, FormationModification
-from cartographie.formation.models.workflow import statusIdToStatusLabel, is_statut_final
+from cartographie.formation.decorators import (
+    token_required, editor_of_region_required)
+from cartographie.formation.models import (
+    Acces, Fichier, Formation, FormationModification)
+from cartographie.formation.models.workflow import (
+    statusIdToStatusLabel, is_statut_final)
 from sendfile import send_file
 
 
@@ -29,11 +33,10 @@ def erreur(request):
 
 @token_required
 def liste(request, token):
-    """
-        Afficher la liste de formation pour l'utilisateur courant
-    """
+    """Afficher la liste de formation pour l'utilisateur courant"""
 
-    from cartographie.formation.viewModels.formation.liste import ListeViewModel
+    from cartographie.formation.viewModels.formation.liste import (
+        ListeViewModel)
 
     return render_to_response(
         "liste.html",
@@ -91,7 +94,8 @@ def consulter(request, token, formation_id):
     c = {
         'formation': formation,
         'files': Fichier.objects.filter(formation=formation).order_by('nom'),
-        'composantes_actives': formation.etablissement_composante.filter(actif=True),
+        'composantes_actives': formation.etablissement_composante.filter(
+            actif=True),
         'auf_actifs': formation.partenaires_auf.filter(actif=True),
         'prive': True,
     }
@@ -124,9 +128,10 @@ def actualiser(request, token, formation_id):
 
     formation = Formation.objects.get(pk=formation_id)
     formation.date_modification = datetime.datetime.now()
+    formation.save()
 
     messages.success(
-            request, u'La formation "%s" a été mise à jour' % (formation.nom, ))
+        request, u'La formation "%s" a été mise à jour' % (formation.nom, ))
 
     return redirect('formation_liste', token)
 
@@ -135,11 +140,12 @@ def actualiser(request, token, formation_id):
 def tout_actualiser(request, token, etablissement_id):
     '''Mettre à jour toutes les formations'''
 
-    formations = Formation.objects.filter(etablissement_id=etablissement_id)
+    formations = Formation.objects.filter(
+        etablissement_id=etablissement_id).exclude(statut=999)
     formations.update(date_modification=datetime.datetime.now())
 
     messages.success(
-            request, u'Les formations ont été mises à jour')
+        request, u'Les formations ont été mises à jour')
 
     return redirect('formation_liste', token)
 
@@ -155,7 +161,8 @@ def select_actualiser(request, token, etablissement_id):
                 num = key.split('-')[1]
                 ids.append(num)
         if ids:
-            formations = Formation.objects.filter(etablissement_id=etablissement_id, pk__in=ids)
+            formations = Formation.objects.filter(
+                etablissement_id=etablissement_id, pk__in=ids)
             formations.update(date_modification=datetime.datetime.now())
 
             messages.success(request, u'Les formations ont été mises à jour')
@@ -179,8 +186,8 @@ def modifier(request, token, formation_id=None):
         # d'une nouvelle fiche
         formation_courante = modifVM.form.save()
         # TODO: overrider la fonction save du formulaire pour donner la request
-        # à la fonction save du Model. Pour l'instant, on fait le save_modification() de la ligne
-        # suivante:
+        # à la fonction save du Model. Pour l'instant, on fait le
+        # save_modification() de la ligne suivante:
         formation_courante.save_modification(request)
         # obtenir les infos de nouveau pour rafraîchir la page
         modifVM = ModifierViewModel(request, token, formation_courante.id)
@@ -271,12 +278,12 @@ def modifier_commentaires(request, token, formation_id=None):
 
     vm = CommentairesViewModel(request, token, formation_id)
 
-
     return render_to_response(
-        "formation/commentaire/liste.html", 
+        "formation/commentaire/liste.html",
         vm.get_data(),
         RequestContext(request)
     )
+
 
 @token_required
 def modifier_fichiers(request, token, formation_id=None):
@@ -286,9 +293,8 @@ def modifier_fichiers(request, token, formation_id=None):
 
     vm = FichierViewModel(request, token, formation_id)
 
-
     return render_to_response(
-        "formation/modifier_fichier.html", 
+        "formation/modifier_fichier.html",
         vm.get_data(),
         RequestContext(request)
     )
@@ -304,7 +310,7 @@ def commentaire_ajouter(request, token, formation_id):
         import CommentaireAjouterViewModel
 
     vm = CommentaireAjouterViewModel(request, token, formation_id)
-    
+
     form_url = reverse('commentaire_ajouter', args=[token, formation_id])
 
     if request.GET.get("ajax"):
@@ -318,12 +324,15 @@ def commentaire_ajouter(request, token, formation_id):
         if vm.form.is_valid():
             commentaire = vm.form.save(commit=False)
             commentaire.formation = vm.formation
-            commentaire.user = request.user if request.user.is_authenticated() else None
+
+            commentaire.user = None
+            if request.user.is_authenticated():
+                commentaire.user = request.user
+
             commentaire.save()
 
-            return HttpResponseRedirect(
-                reverse("formation_modifier_commentaires", args=[token, formation_id])
-            )
+            return HttpResponseRedirect(reverse(
+                "formation_modifier_commentaires", args=[token, formation_id]))
         else:
             messages.warning(
                 request, u"Veuillez entrer un commentaire"
@@ -336,7 +345,6 @@ def commentaire_ajouter(request, token, formation_id):
 
 @token_required
 def commentaire_modifier(request, token, formation_id, commentaire_id):
-
     from cartographie.formation.viewModels.formation.commentaire \
         import CommentaireModifierViewModel
 
@@ -430,24 +438,47 @@ def ajouter_personne(request, token):
 
 
 @token_required
-def commentaire_avant_changement_statut(request, token, formation_id, nouveau_statut):
-    from cartographie.formation.viewModels.formation.commentaire import CommentaireAjouterViewModel
+def commentaire_avant_changement_statut(
+        request, token, formation_id, nouveau_statut):
+
+    from cartographie.formation.viewModels.formation.commentaire import (
+        CommentaireAjouterViewModel)
 
     vm = CommentaireAjouterViewModel(request, token, formation_id)
-    form_url = reverse('formation_commentaire_avant_changement_statut', args=[token, formation_id, nouveau_statut])
+    form_url = reverse(
+        'formation_commentaire_avant_changement_statut',
+        args=[token, formation_id, nouveau_statut])
+
     if request.method == "POST":
         if vm.form.is_valid():
             commentaire = vm.form.save(commit=False)
             commentaire.formation = vm.formation
-            commentaire.user = request.user if request.user.is_authenticated() else None
-            commentaire.commentaire = "[Statut: %s] %s" % (statusIdToStatusLabel(nouveau_statut), commentaire.commentaire)
+
+            commentaire.user = None
+            if request.user.is_authenticated():
+                commentaire.user = request.user
+
+            commentaire.commentaire = (
+                "[Statut: %s] %s" % (
+                    statusIdToStatusLabel(nouveau_statut),
+                    commentaire.commentaire))
             commentaire.save()
-            return HttpResponse(
-                simplejson.dumps({'error': False, 'next_url': reverse('formation_modifier_workflow', args=[token, formation_id, nouveau_statut])})
-                )
+
+            return HttpResponse(simplejson.dumps({
+                'error': False,
+                'next_url': reverse(
+                    'formation_modifier_workflow',
+                    args=[token, formation_id, nouveau_statut])
+            }))
+
         else:
             return HttpResponse(
-                simplejson.dumps({'error': True, 'msg': 'Un commentaire est nécessaire pour ce changement de statut'}), mimetype="application/json"
+                simplejson.dumps({
+                    'error': True,
+                    'msg': (
+                        'Un commentaire est nécessaire pour ce changement ' +
+                        'de statut'),
+                }), mimetype="application/json"
             )
 
     data = vm.get_data()
@@ -460,13 +491,12 @@ def commentaire_avant_changement_statut(request, token, formation_id, nouveau_st
         data,
         RequestContext(request)
     )
-    
 
 
 @token_required
 def personne_ajouter_popup(request, token):
-
-    from cartographie.formation.viewModels.personne.ajouter import AjouterViewModel
+    from cartographie.formation.viewModels.personne.ajouter import (
+        AjouterViewModel)
 
     vm = AjouterViewModel(request, token, json_request=True)
 
@@ -502,9 +532,8 @@ def personne_ajouter_popup(request, token):
 
 @token_required
 def modifier_personne(request, token, personne_id):
-
-    from cartographie.formation.viewModels.personne.modifier \
-        import ModifierViewModel
+    from cartographie.formation.viewModels.personne.modifier import (
+        ModifierViewModel)
 
     vm = ModifierViewModel(request, token, personne_id)
 
@@ -526,9 +555,8 @@ def modifier_personne(request, token, personne_id):
 
 @token_required
 def liste_partenaire_autre(request, token):
-
-    from cartographie.formation.viewModels.partenaire_autre.liste \
-        import ListeViewModel
+    from cartographie.formation.viewModels.partenaire_autre.liste import (
+        ListeViewModel)
 
     return render_to_response(
         "liste.html",
@@ -539,9 +567,8 @@ def liste_partenaire_autre(request, token):
 
 @token_required
 def ajouter_partenaire_autre(request, token):
-
-    from cartographie.formation.viewModels.partenaire_autre.ajouter \
-        import AjouterViewModel
+    from cartographie.formation.viewModels.partenaire_autre.ajouter import (
+        AjouterViewModel)
 
     vm = AjouterViewModel(request, token, json_request=False)
 
@@ -564,8 +591,8 @@ def ajouter_partenaire_autre(request, token):
 
 @token_required
 def ajouter_partenaire_autre_popup(request, token):
-    from cartographie.formation.viewModels.partenaire_autre.ajouter \
-        import AjouterViewModel
+    from cartographie.formation.viewModels.partenaire_autre.ajouter import (
+        AjouterViewModel)
 
     vm = AjouterViewModel(request, token, json_request=True)
 
@@ -597,9 +624,8 @@ def ajouter_partenaire_autre_popup(request, token):
 
 @token_required
 def modifier_partenaire_autre(request, token, partenaire_autre_id):
-
-    from cartographie.formation.viewModels.partenaire_autre.modifier \
-        import ModifierViewModel
+    from cartographie.formation.viewModels.partenaire_autre.modifier import (
+        ModifierViewModel)
 
     vm = ModifierViewModel(request, token, partenaire_autre_id)
 
@@ -621,8 +647,8 @@ def modifier_partenaire_autre(request, token, partenaire_autre_id):
 
 @token_required
 def liste_composante(request, token):
-
-    from cartographie.formation.viewModels.composante.liste import ListeViewModel
+    from cartographie.formation.viewModels.composante.liste import (
+        ListeViewModel)
 
     return render_to_response(
         "liste.html",
@@ -633,7 +659,6 @@ def liste_composante(request, token):
 
 @token_required
 def ajouter_composante(request, token):
-
     from cartographie.formation.viewModels.composante.ajouter \
         import AjouterViewModel
 
@@ -729,8 +754,8 @@ def liste_langue(request, token):
 
 @token_required
 def ajouter_langue(request, token):
-
-    from cartographie.formation.viewModels.langue.ajouter import AjouterViewModel
+    from cartographie.formation.viewModels.langue.ajouter import (
+        AjouterViewModel)
 
     vm = AjouterViewModel(request, token)
 
@@ -751,7 +776,8 @@ def ajouter_langue(request, token):
 
 @token_required
 def ajouter_langue_popup(request, token):
-    from cartographie.formation.viewModels.langue.ajouter import AjouterViewModel
+    from cartographie.formation.viewModels.langue.ajouter import (
+        AjouterViewModel)
 
     vm = AjouterViewModel(request, token, json_request=True)
 
@@ -783,7 +809,8 @@ def ajouter_langue_popup(request, token):
 
 @token_required
 def modifier_langue(request, token, langue_id):
-    from cartographie.formation.viewModels.langue.modifier import ModifierViewModel
+    from cartographie.formation.viewModels.langue.modifier import (
+        ModifierViewModel)
 
     vm = ModifierViewModel(request, token, langue_id)
 
@@ -802,6 +829,7 @@ def modifier_langue(request, token, langue_id):
     )
     pass
 
+
 @token_required
 def fichiers(request, token, formation_id=None, fichier_id=None):
     def file_in_formation(fil, formation):
@@ -814,8 +842,9 @@ def fichiers(request, token, formation_id=None, fichier_id=None):
     acces = get_object_or_404(Acces, token=token)
     fil = get_object_or_404(Fichier, pk=fichier_id)
 
-    if fil.is_public or (token_is_valid(acces, formation) \
-                                        and file_in_formation(fil, formation)):
+    if fil.is_public or (
+            token_is_valid(acces, formation)
+            and file_in_formation(fil, formation)):
         return send_file(fil.file)
 
     raise Http404
