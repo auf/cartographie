@@ -220,62 +220,64 @@
 </div>
 
 <div>
-    <h4>Établissements impliqués dans la formation</h4>
-    <table class="table table-striped table-bordered table-hover table-condensed">
-        <thead>
-            <th></th>
-            <th></th>
-            <th>Émet le diplôme?</th>
-        </thead>
-        <tbody>
-            <tr>
-                <td>
-                Établissement dispensant la formation :<br />
-                (ou <i>Structure d'accueil</i>)
-                </td>
-                <td>{{ formation.etablissement.nom }}</td>
-                <td>{{ formation.etablissement_emet_diplome|yesno:"oui,non,inconnu" }}</td>
-            </tr>
-            {% if composantes_actives %}
-                <tr>
-                    <td colspan="3">Composantes de l'établissement dispensant la formation :</td>
-                </tr>
-                {% for fc in composantes_actives %}
-                <tr>
-                    <td></td>
-                    <td>{{ fc.nom }}</td>
-                    <td>{{ fc.etablissement_composante_emet_diplome|yesno:"oui,non,inconnu" }}</td>
-                    </td>
-                </tr>
-                {% endfor %}
-            {% endif %}
-            {% if auf_actifs %}
-                <tr>
-                    <td colspan="3">Partenaire(s) membre de l'AUF impliqué(s) dans la formation :</td>
-                </tr>
-                {% for auf in auf_actifs %}
-                <tr>
-                    <td></td>
-                    <td>{{ auf.nom }} ({{ auf.pays.nom }})</td>
-                    <td>{{ auf.partenaire_auf_emet_diplome|yesno:"oui,non,inconnu" }}</td>
-                </tr>
-                {% endfor %}
-            {% endif %}
+  <h4>Établissements impliqués dans la formation</h4>
+  <table class="table table-striped table-bordered table-hover table-condensed">
+    <thead>
+      <th></th>
+      <th></th>
+      <th>Émet le diplôme?</th>
+    </thead>
 
-            {% if formation.formationpartenaireautre_set.all %}
-                <tr>
-                    <td colspan="3">Partenaire(s) non membre de l'AUF impliqué(s) dans la formation :</td>
-                </tr>
-                {% for autre in formation.formationpartenaireautre_set.all %}
-                <tr>
-                    <td></td>
-                    <td>{{ autre.etablissement.nom }} ({{ autre.etablissement.pays.nom }})</td>
-                    <td>{{ autre.partenaire_autre_emet_diplome|yesno:"oui,non,inconnu" }}</td>
-                </tr>
-                {% endfor %}
-            {% endif %}
-        </tbody>
-    </table>
+    <tbody>
+      <tr>
+        <td>
+          Établissement dispensant la formation :<br />
+          (ou <i>Structure d'accueil</i>)
+        </td>
+        <td>{{ formation.etablissement.nom }}</td>
+        <td>{{ formation.etablissement_emet_diplome|yesno:"oui,non,inconnu" }}</td>
+      </tr>
+
+      {% if composantes_actives %}
+      <tr>
+        <td colspan="3">Composantes de l'établissement dispensant la formation :</td>
+      </tr>
+      {% for fc in composantes_actives %}
+      <tr>
+        <td></td>
+        <td>{{ fc.nom }}</td>
+        <td>{{ fc.etablissement_composante_emet_diplome|yesno:"oui,non,inconnu" }}</td>
+      </tr>
+      {% endfor %}
+      {% endif %}
+
+      {% if auf_actifs %}
+      <tr>
+        <td colspan="3">Partenaire(s) membre de l'AUF impliqué(s) dans la formation :</td>
+      </tr>
+      {% for auf in auf_actifs %}
+      <tr>
+        <td></td>
+        <td>{{ auf.nom }} ({{ auf.pays.nom }})</td>
+        <td>{{ auf.partenaire_auf_emet_diplome|yesno:"oui,non,inconnu" }}</td>
+      </tr>
+      {% endfor %}
+      {% endif %}
+
+      {% if formation.formationpartenaireautre_set.all %}
+      <tr>
+        <td colspan="3">Partenaire(s) non membre de l'AUF impliqué(s) dans la formation :</td>
+      </tr>
+      {% for autre in formation.formationpartenaireautre_set.all %}
+      <tr>
+        <td></td>
+        <td>{{ autre.etablissement.nom }} ({{ autre.etablissement.pays.nom }})</td>
+        <td>{{ autre.partenaire_autre_emet_diplome|yesno:"oui,non,inconnu" }}</td>
+      </tr>
+      {% endfor %}
+      {% endif %}
+    </tbody>
+  </table>
 </div>
 {% endif %}
 

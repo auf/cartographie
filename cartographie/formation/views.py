@@ -96,7 +96,8 @@ def consulter(request, token, formation_id):
         'files': Fichier.objects.filter(formation=formation).order_by('nom'),
         'composantes_actives': formation.etablissement_composante.filter(
             actif=True),
-        'auf_actifs': formation.partenaires_auf.filter(actif=True),
+        'auf_actifs': formation.formationpartenaireauf_set.filter(
+            etablissement__actif=True),
         'prive': True,
     }
 
