@@ -1,4 +1,4 @@
-#coding: utf-8
+# -*- coding: utf-8 -*-
 
 from functools import wraps
 
@@ -19,17 +19,28 @@ def token_required(wrapped_func):
     def inner_decorator(request, *args, **kwargs):
         token = kwargs.get("token", False)
 
-        # obtention d'un etablissement à partir de la valeur du token
-        try:
-            acces = models.Acces.objects.select_related(
-                'etablissement'
-            ).get(
-                token=token
-            )
-        except ObjectDoesNotExist:
-            return HttpResponseRedirect(reverse('formation_erreur'))
+        etab = None
 
-        etab = acces.etablissement
+        if not token:
+            # Remonte vers la Personne pour obtenir l'établissement
+            try:
+                personne = models.Personne.objects.get(utilisateur=request.user)
+                etab = personne.etablissement
+            except models.Personne.DoesNotExist:
+                return HttpResponseREdirect(reverse('formation_erreur'))
+        else:
+            # Passe par Acces pour obtenir l'établissement
+            try:
+                acces = models.Acces.objects.select_related(
+                    'etablissement'
+                ).get(
+                    token=token
+                )
+            except ObjectDoesNotExist:
+                return HttpResponseRedirect(reverse('formation_erreur'))
+
+            etab = acces.etablissement
+
         if not etab:
             return HttpResponseRedirect(reverse('formation_erreur'))
 
@@ -39,7 +50,7 @@ def token_required(wrapped_func):
                 formation = models.Formation.objects.get(pk=formation_id)
                 if formation.etablissement != etab:
                     return HttpResponseRedirect(reverse('formation_erreur'))
-            except ObjectDoesNotExist, e:
+            except ObjectDoesNotExist:
                 return HttpResponseRedirect(reverse('formation_erreur'))
         return wrapped_func(request, *args, **kwargs)
 

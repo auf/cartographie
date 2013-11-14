@@ -47,7 +47,9 @@ class Personne(models.Model):
         blank=True,
     )
 
-    role = models.ForeignKey(UserRole, verbose_name=u'Rôle', blank=True)
+    role = models.CharField(
+        choices=UserRole.ROLE_CHOICES, max_length=25, verbose_name=u'Rôle',
+        blank=True)
 
     actif = models.BooleanField(
         default=True,
