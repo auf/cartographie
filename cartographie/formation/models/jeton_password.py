@@ -7,7 +7,7 @@ from django.db import models
 
 class JetonPasswordManager(models.Manager):
 
-    def create_jeton_password(self, personne):
+    def create_jeton_password(self):
         # Utilise os.urandom pour avoir une chaîne cryptographiquement
         # sécuritaire
         secret = os.urandom(32).encode('hex').upper()

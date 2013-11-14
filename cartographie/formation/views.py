@@ -2,7 +2,7 @@
 
 import datetime
 
-from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.forms import SetPasswordForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib import messages
@@ -15,8 +15,9 @@ from django.utils import simplejson
 
 from cartographie.formation.decorators import (
     token_required, editor_of_region_required)
+from cartographie.formation.forms.personne_modifier_password_form import PersonneModifierPasswordForm
 from cartographie.formation.models import (
-    Acces, Fichier, Formation, FormationModification)
+    Acces, Fichier, Formation, FormationModification, Personne)
 from cartographie.formation.models.workflow import (
     statusIdToStatusLabel, is_statut_final)
 from sendfile import send_file
@@ -386,14 +387,37 @@ def commentaire_supprimer(request, token, formation_id, commentaire_id):
 
 
 def personne_modifier_password(request, secret):
+    user = None
+    try:
+        # Essaie de remonter vers la personne pour laquelle le secret a été
+        # assigné
+        personne = Personne.objects.filter(
+            jeton_password__jeton=secret).get()
+        user = personne.utilisateur
+    except Personne.DoesNotExist:
+        # Il n'y a pas de personne assignée, donc le jeton est invalide
+        return HttpResponseRedirect('/')
+
     if request.method == 'POST':
-        # submit
-        pass
+        form = PersonneModifierPasswordForm(request.POST)
+
+        if form.is_valid():
+            password1 = form.cleaned_data['new_password1']
+            password2 = form.cleaned_data['new_password2']
+            if password1 and password2 and (password1 == password2):
+                user.set_password(password1)
+                user.save()
+                messages.success(
+                    request,
+                    u'Votre mot de passe a été mis à jour avec succès!')
+
+                return HttpResponseRedirect('/')
     else:
-        form = PasswordChangeForm()
+        form = PersonneModifierPasswordForm()
 
     return render(request, 'personne/modifier_password.html', {
-        'form': form
+        'secret': secret,
+        'form': form,
     })
 
 

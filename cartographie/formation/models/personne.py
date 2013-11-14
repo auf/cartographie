@@ -72,16 +72,17 @@ class Personne(models.Model):
             jeton.save()
             self.jeton_password = jeton
 
-            _courriel_validation()
+            _courriel_validation(jeton)
         else:
             if not self.role:
                 _courriel_validation()
 
         return super(Personne, self).save(*args, **kwargs)
 
-    def _courriel_validation(self):
+    def _courriel_validation(self, jeton=None):
         # FIXME
-        pass
+        if jeton:
+            print(jeton.jeton)
 
     def __unicode__(self):
         return u"%s %s" % (self.prenom, self.nom.upper())
