@@ -57,10 +57,10 @@ class Personne(models.Model):
     )
 
     utilisateur = models.ForeignKey(
-        User, verbose_name=u'Utilisateur', blank=True)
+        User, verbose_name=u'Utilisateur', blank=True, null=True)
 
     jeton_password = models.ForeignKey(
-        JetonPassword, verbose_name=u'Jeton de mot de passe', blank=True)
+        JetonPassword, verbose_name=u'Jeton de mot de passe', blank=True, null=True)
 
     def save(self, *args, **kwargs):
         if not self.id:
