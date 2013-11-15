@@ -74,10 +74,7 @@ class Personne(models.Model):
             jeton.save()
             self.jeton_password = jeton
 
-            _courriel_validation(jeton)
-        else:
-            if not self.role:
-                _courriel_validation()
+            self._courriel_validation(jeton)
 
         return super(Personne, self).save(*args, **kwargs)
 
