@@ -70,7 +70,6 @@ TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_TEMPLATE_CONTEXT_PROCESSORS + (
 )
 
 MIDDLEWARE_CLASSES = DEFAULT_MIDDLEWARE_CLASSES + (
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'auf.django.piwik.middleware.TrackMiddleware',
 )
 
@@ -135,21 +134,4 @@ LOGIN_URL = reverse_lazy("login")
 
 UPLOAD_DIRECTORY = MEDIA_ROOT
 
-EBUG_TOOLBAR_CONFIG = {'INTERCEPT_REDIRECTS': False,}
-DEBUG_TOOLBAR_PANELS = (
-    'debug_toolbar.panels.version.VersionDebugPanel',
-    'debug_toolbar.panels.timer.TimerDebugPanel',
-    'debug_toolbar.panels.settings_vars.SettingsVarsDebugPanel',
-    'debug_toolbar.panels.headers.HeaderDebugPanel',
-    'debug_toolbar.panels.request_vars.RequestVarsDebugPanel',
-    'debug_toolbar.panels.template.TemplateDebugPanel',
-    'debug_toolbar.panels.sql.SQLDebugPanel',
-    'debug_toolbar.panels.signals.SignalDebugPanel',
-    'debug_toolbar.panels.logger.LoggingPanel',
-)
-
 DEBUG = True
-
-def show_toolbar(request):
-    return True
-SHOW_TOOLBAR_CALLBACK = show_toolbar
