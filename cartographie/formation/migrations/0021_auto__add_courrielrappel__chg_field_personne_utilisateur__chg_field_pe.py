@@ -10,19 +10,29 @@ class Migration(SchemaMigration):
     def forwards(self, orm):
         # Adding model 'CourrielRappel'
         db.create_table('formation_courrielrappel', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('nom', self.gf('django.db.models.fields.CharField')(max_length=250)),
-            ('template', self.gf('django.db.models.fields.TextField')()),
+            ('modelecourriel_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['mailing.ModeleCourriel'], unique=True, primary_key=True)),
             ('periode', self.gf('django.db.models.fields.CharField')(max_length=50)),
             ('actif', self.gf('django.db.models.fields.BooleanField')(default=False)),
         ))
         db.send_create_signal('formation', ['CourrielRappel'])
 
 
+        # Changing field 'Personne.utilisateur'
+        db.alter_column('formation_personne', 'utilisateur_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'], null=True))
+
+        # Changing field 'Personne.jeton_password'
+        db.alter_column('formation_personne', 'jeton_password_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['formation.JetonPassword'], null=True))
+
     def backwards(self, orm):
         # Deleting model 'CourrielRappel'
         db.delete_table('formation_courrielrappel')
 
+
+        # User chose to not deal with backwards NULL issues for 'Personne.utilisateur'
+        raise RuntimeError("Cannot reverse this migration. 'Personne.utilisateur' and its values cannot be restored.")
+
+        # User chose to not deal with backwards NULL issues for 'Personne.jeton_password'
+        raise RuntimeError("Cannot reverse this migration. 'Personne.jeton_password' and its values cannot be restored.")
 
     models = {
         'auth.group': {
@@ -69,12 +79,10 @@ class Migration(SchemaMigration):
             'token': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '128'})
         },
         'formation.courrielrappel': {
-            'Meta': {'object_name': 'CourrielRappel'},
+            'Meta': {'object_name': 'CourrielRappel', '_ormbases': ['mailing.ModeleCourriel']},
             'actif': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'nom': ('django.db.models.fields.CharField', [], {'max_length': '250'}),
-            'periode': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
-            'template': ('django.db.models.fields.TextField', [], {})
+            'modelecourriel_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['mailing.ModeleCourriel']", 'unique': 'True', 'primary_key': 'True'}),
+            'periode': ('django.db.models.fields.CharField', [], {'max_length': '50'})
         },
         'formation.delivrancediplome': {
             'Meta': {'object_name': 'DelivranceDiplome', 'db_table': "'formation_config_delivrancediplome'"},
@@ -126,14 +134,14 @@ class Migration(SchemaMigration):
             'file': ('django.db.models.fields.files.FileField', [], {'max_length': '100'}),
             'formation': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['formation.Formation']"}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'is_public': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'is_public': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'nom': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
         'formation.formation': {
             'Meta': {'ordering': "['etablissement']", 'object_name': 'Formation'},
             'commentaires': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'commentaires+'", 'null': 'True', 'symmetrical': 'False', 'to': "orm['formation.FormationCommentaire']"}),
             'contacts': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'contacts+'", 'null': 'True', 'symmetrical': 'False', 'to': "orm['formation.Personne']"}),
-            'date_creation': ('django.db.models.fields.DateTimeField', [], {}),
+            'date_creation': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'date_modification': ('django.db.models.fields.DateTimeField', [], {}),
             'delivrance_diplome': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'to': "orm['formation.DelivranceDiplome']"}),
             'discipline_1': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'+'", 'to': "orm['formation.Discipline']"}),
@@ -199,6 +207,12 @@ class Migration(SchemaMigration):
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'partenaire_autre_emet_diplome': ('django.db.models.fields.BooleanField', [], {'default': 'False'})
         },
+        'formation.jetonpassword': {
+            'Meta': {'object_name': 'JetonPassword'},
+            'creation': ('django.db.models.fields.DateField', [], {'auto_now': 'True', 'blank': 'True'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'jeton': ('django.db.models.fields.CharField', [], {'max_length': '64'})
+        },
         'formation.langue': {
             'Meta': {'object_name': 'Langue', 'db_table': "'formation_config_langue'"},
             'actif': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
@@ -224,9 +238,12 @@ class Migration(SchemaMigration):
             'etablissement': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['references.Etablissement']"}),
             'fonction': ('django.db.models.fields.CharField', [], {'max_length': '150', 'null': 'True', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'jeton_password': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['formation.JetonPassword']", 'null': 'True', 'blank': 'True'}),
             'nom': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'prenom': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'telephone': ('django.db.models.fields.CharField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'})
+            'role': ('django.db.models.fields.CharField', [], {'max_length': '25', 'blank': 'True'}),
+            'telephone': ('django.db.models.fields.CharField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
+            'utilisateur': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']", 'null': 'True', 'blank': 'True'})
         },
         'formation.typediplome': {
             'Meta': {'object_name': 'TypeDiplome', 'db_table': "'formation_config_typediplome'"},
@@ -252,6 +269,14 @@ class Migration(SchemaMigration):
             'actif': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'nom': ('django.db.models.fields.CharField', [], {'max_length': '150'})
+        },
+        'mailing.modelecourriel': {
+            'Meta': {'object_name': 'ModeleCourriel'},
+            'code': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '8'}),
+            'corps': ('django.db.models.fields.TextField', [], {}),
+            'html': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'sujet': ('django.db.models.fields.CharField', [], {'max_length': '256'})
         },
         'references.bureau': {
             'Meta': {'ordering': "['nom']", 'object_name': 'Bureau', 'db_table': "u'ref_bureau'", 'managed': 'False'},
