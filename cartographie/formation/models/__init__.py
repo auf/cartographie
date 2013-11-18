@@ -6,7 +6,7 @@
 
 # http://paltman.com/2008/01/29/breaking-apart-models-in-django/
 from userRole import UserRole
-from personne import Personne
+from personne import Personne, CartoEtablissement
 from acces import Acces
 from configuration import Discipline, NiveauDiplome, \
                           TypeDiplome, DelivranceDiplome, \
@@ -33,6 +33,7 @@ __all__ = [
     "Fichier", "Formation", "FormationModification", "FormationCommentaire",
     "FormationComposante", "FormationPartenaireAutre", "FormationPartenaireAUF",
     "Langue", "WorkflowMixin", "EtablissementCoordonnees", "CourrielRappel",
+    "CartoEtablissement",
 ]
 
 if __name__ == '__main__':

@@ -7,6 +7,14 @@ from auf.django.references import models as ref
 from cartographie.formation.models.jeton_password import JetonPassword
 from cartographie.formation.models.userRole import UserRole
 
+class CartoEtablissement(ref.Etablissement):
+    def has_referent(self):
+        count = Personne.objects.filter(etablissement=self, role="referent").count()
+        return bool(count)
+
+    class Meta:
+        proxy = True
+
 
 class Personne(models.Model):
 
