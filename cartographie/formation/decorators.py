@@ -6,6 +6,7 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ObjectDoesNotExist
 
+
 from . import models
 
 
@@ -21,27 +22,27 @@ def token_required(wrapped_func):
 
         etab = None
 
-        if not token:
-            # Remonte vers la Personne pour obtenir l'établissement
-            try:
-                personne = models.Personne.objects.get(utilisateur=request.user)
-                etab = personne.etablissement
-            except models.Personne.DoesNotExist:
-                return HttpResponseREdirect(reverse('formation_erreur'))
-        else:
-            # Passe par Acces pour obtenir l'établissement
-            try:
-                acces = models.Acces.objects.select_related(
-                    'etablissement'
-                ).get(
-                    token=token
-                )
-            except ObjectDoesNotExist:
-                return HttpResponseRedirect(reverse('formation_erreur'))
 
-            etab = acces.etablissement
+        # Passe par Acces pour obtenir l'établissement
+        try:
+            acces = models.Acces.objects.select_related(
+                'etablissement'
+            ).get(
+                token=token
+            )
+
+        except ObjectDoesNotExist:
+            return HttpResponseRedirect(reverse('formation_erreur'))
+
+        
+        # On passe "manuellement" au CartoEtablissement pour contourner
+        # les problèmes d'imports circulaires.
+        etab = models.CartoEtablissement.objects.get(pk=acces.etablissement.pk)
 
         if not etab:
+            return HttpResponseRedirect(reverse('formation_erreur'))
+
+        if not request.user.is_authenticated() and etab.has_referent():
             return HttpResponseRedirect(reverse('formation_erreur'))
 
         if 'formation_id' in kwargs:
