@@ -12,6 +12,16 @@ class CartoEtablissement(ref.Etablissement):
         count = Personne.objects.filter(etablissement=self, role="referent").count()
         return bool(count)
 
+    
+    def is_referent(self, user):
+        # TODO: vérifier si le user est éditeur ou admin
+        try:
+            personne = Personne.objects.get(utilisateur=user)
+            return personne.role == 'referent'\
+                and personne.etablissement == self
+        except Personne.DoesNotExist:
+            return False
+
     class Meta:
         proxy = True
 

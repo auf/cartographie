@@ -42,8 +42,11 @@ def token_required(wrapped_func):
         if not etab:
             return HttpResponseRedirect(reverse('formation_erreur'))
 
-        if not request.user.is_authenticated() and etab.has_referent():
-            return HttpResponseRedirect(reverse('formation_erreur'))
+        if etab.has_referent():
+            if not request.user.is_authenticated() \
+                    or not etab.is_referent(request.user):
+                return HttpResponseRedirect(reverse('formation_erreur'))
+
 
         if 'formation_id' in kwargs:
             formation_id = kwargs['formation_id']
