@@ -9,16 +9,30 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.http import Http404, HttpResponseRedirect, HttpResponse
-from django.shortcuts import get_object_or_404, render_to_response, render
+from django.shortcuts import get_object_or_404, render_to_response, render, redirect
 from django.template import RequestContext, Template, Context
 from django.conf import settings
 
 from auf.django.references import models as ref
 from auf.django.references.models import Etablissement
-from cartographie.formation.models import Fichier, Formation
+
+from cartographie.formation.models import Fichier, Formation, Personne, Acces
 from cartographie.formation.sendfile import send_file
 from cartographie.formation.stats import num_etablissements_per_country
 import cartographie.home
+
+@login_required
+def accueil_login(request):
+    try:
+        personne = Personne.objects.get(utilisateur=request.user)
+        if personne.role == 'referent':
+            token = Acces.objects.get(etablissement=personne.etablissement)
+
+            return redirect('formation_liste', token.token)
+    except Personne.DoesNotExist:
+        pass
+
+    return HttpResponseRedirect(reverse('dashboard_statistiques'))
 
 
 def get_film_url():

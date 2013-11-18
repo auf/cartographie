@@ -18,6 +18,7 @@ def token_required(wrapped_func):
 
     @wraps(wrapped_func)
     def inner_decorator(request, *args, **kwargs):
+        
         token = kwargs.get("token", False)
 
         etab = None

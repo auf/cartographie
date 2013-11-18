@@ -129,7 +129,7 @@ ADMIN_TOOLS_INDEX_DASHBOARD = 'cartographie.dashboard.CustomIndexDashboard'
 
 from conf import *
 
-LOGIN_REDIRECT_URL = reverse_lazy("dashboard_statistiques")
+LOGIN_REDIRECT_URL = reverse_lazy("home_accueil_login")
 LOGIN_URL = reverse_lazy("login")
 
 UPLOAD_DIRECTORY = MEDIA_ROOT

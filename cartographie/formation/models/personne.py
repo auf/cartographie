@@ -16,11 +16,19 @@ class CartoEtablissement(ref.Etablissement):
     def is_referent(self, user):
         # TODO: vérifier si le user est éditeur ou admin
         try:
-            personne = Personne.objects.get(utilisateur=user)
+            personne = Personne.objects.get(utilisateur_id=user.pk)
             return personne.role == 'referent'\
-                and personne.etablissement == self
+                and personne.etablissement.pk == self.pk
         except Personne.DoesNotExist:
             return False
+
+    def __eq__(self, other):
+        if isinstance(other, (ref.Etablissement, CartoEtablissement)):
+            return other.pk == self.pk
+        return False
+
+    def __req__(self, other):
+        return self.__eq__(other)
 
     class Meta:
         proxy = True
