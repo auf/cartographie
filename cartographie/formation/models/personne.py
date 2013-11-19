@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 
+from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.db import models
 
 from auf.django.references import models as ref
 from cartographie.formation.models.jeton_password import JetonPassword
 from cartographie.formation.models.userRole import UserRole
+from cartographie.formation.models.acces import Acces
 
 class CartoEtablissement(ref.Etablissement):
     def has_referent(self):
@@ -15,6 +17,10 @@ class CartoEtablissement(ref.Etablissement):
     def peut_consulter(self, user):
         """ Détermine si un utilisateur peut consulter la liste des formations
         de cet établissement"""
+
+        # L'utilisateur doit être actif
+        if not user.is_active:
+            return False
 
         # Soit qu'il est admin
         if user.is_superuser:
@@ -111,19 +117,38 @@ class Personne(models.Model):
     def save(self, *args, **kwargs):
         if not self.id:
             # Prendre le courriel comme username
-            user = User.objects.create_user(courriel, email=courriel)
-            user.password = UNUSABLE_PASSWORD
+            user = User.objects.create_user(self.courriel, email=self.courriel)
+            user.set_unusable_password()
+            user.is_active = False
             user.save()
             self.utilisateur = user
 
-            jeton = JetonPassword.objects.create_jeton_password()
-            jeton.save()
-            self.jeton_password = jeton
-
-            self._courriel_validation(jeton)
+            self.envoyer_courriel_editeur()
+#            jeton = JetonPassword.objects.create_jeton_password()
+#            jeton.save()
+#            self.jeton_password = jeton
+#
+#            self._courriel_validation(jeton)
 
         return super(Personne, self).save(*args, **kwargs)
 
+    def envoyer_courriel_editeur(self):
+        from auf.django.mailing.models import ModeleCourriel, Enveloppe, envoyer
+        from cartographie.formation.models import EnveloppeParams
+
+        user_roles = UserRole.objects.filter(regions=self.etablissement.region,
+                                             type=u'editeur')
+
+        token = Acces.token_for_etablissement(self.etablissement)
+
+        for user_role in user_roles:
+            params = EnveloppeParams.creer_depuis_modele("refvalid")
+            params.nom = self.utilisateur.username
+            params.url = reverse('formation_personne_liste', args=[token])
+            params.courriel_destinataire = user_role.user.email
+            params.save()
+
+        envoyer('refvalid', 'david.cormier@gmail.com')
     def _courriel_validation(self, jeton=None):
         # FIXME
         if jeton:

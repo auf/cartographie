@@ -20,7 +20,7 @@ from fichier import Fichier
 from formation import Formation, FormationModification, \
                       FormationCommentaire, FormationComposante, \
                       FormationPartenaireAutre, FormationPartenaireAUF, \
-                      CourrielRappel
+                      CourrielRappel, EnveloppeParams
 
 from workflow import WorkflowMixin
 
@@ -33,7 +33,7 @@ __all__ = [
     "Fichier", "Formation", "FormationModification", "FormationCommentaire",
     "FormationComposante", "FormationPartenaireAutre", "FormationPartenaireAUF",
     "Langue", "WorkflowMixin", "EtablissementCoordonnees", "CourrielRappel",
-    "CartoEtablissement",
+    "CartoEtablissement", "EnveloppeParams",
 ]
 
 if __name__ == '__main__':

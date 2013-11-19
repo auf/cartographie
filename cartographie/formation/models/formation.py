@@ -17,7 +17,41 @@ from .workflow import WorkflowMixin
 
 from cartographie.formation.signals.formation import formation_is_valider
 
-from auf.django.mailing.models import ModeleCourriel
+from auf.django.mailing.models import ModeleCourriel, Enveloppe
+
+class EnveloppeParams(models.Model):
+
+    enveloppe = models.ForeignKey(Enveloppe, related_name="auf_enveloppe")
+
+    nom = models.CharField(max_length=50)
+
+    url = models.TextField()
+
+    courriel_destinataire = models.EmailField()
+
+    def get_corps_context(self):
+
+        return {'nom': self.nom,
+                'adresse_validation': self.url}
+
+    def get_adresse(self):
+        return self.courriel_destinataire
+
+
+    @classmethod
+    def creer_depuis_modele(cls, code_modele):
+        """ Créée l'enveloppe en même temps que les paramètres"""
+
+        instance = cls()
+        modele = ModeleCourriel.objects.get(code=code_modele)
+        enveloppe = Enveloppe(modele=modele)
+        enveloppe.save()
+        instance.enveloppe = enveloppe
+        return instance
+
+
+    class Meta(object):
+        app_label = 'formation'
 
 class Formation(WorkflowMixin, models.Model):
     """
@@ -302,7 +336,7 @@ class Formation(WorkflowMixin, models.Model):
             orig_fields = [getattr(orig, field) for field in self.content_fields]
             self_fields = [getattr(self, field) for field in self.content_fields]
             changed = [x != y for x, y in zip(orig_fields, self_fields)]
-            
+
             if any(changed):
                 self.date_modification = datetime.datetime.now()
         else:
@@ -466,7 +500,7 @@ class CourrielRappel(ModeleCourriel):
 class FormationPartenaireAutre(models.Model):
     formation = models.ForeignKey(Formation)
     etablissement = models.ForeignKey(
-        EtablissementAutre, 
+        EtablissementAutre,
         related_name="+"
     )
     partenaire_autre_emet_diplome = models.BooleanField(

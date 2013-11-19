@@ -21,6 +21,15 @@ class Acces(models.Model):
     token_charset = "abcdefghiklmnopqrstuvwxyz01234567890"
 
     @staticmethod
+    def token_for_etablissement(etablissement):
+        try:
+            acces = Acces.objects.select_related('etablissement')\
+                .get(etablissement=etablissement)
+            return acces.token
+        except ObjectDoesNotExist:
+            return None
+
+    @staticmethod
     def etablissement_for_token(token):
         try:
             acces = Acces.objects.select_related('etablissement')\
