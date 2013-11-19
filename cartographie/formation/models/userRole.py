@@ -29,6 +29,7 @@ class UserRole(models.Model, Role):
     ROLE_CHOICES = (
         (u'editeur', u"AUF: Éditeur"),
         (u'referent', u"Référent"),
+        (u'redacteur', u"Rédacteur"),
     )
 
     type = models.CharField(max_length=25, choices=ROLE_CHOICES)
@@ -62,6 +63,8 @@ class UserRole(models.Model, Role):
 
     @staticmethod
     def get_toutes_regions(user):
+        """Retourne l'ensemble des régions couvertes
+        par l'ensemble des rôles de l'utilisateur"""
         roles = UserRole.objects.filter(user=user)
         regions = set(chain(*(role.regions.all() for role in roles)))
         return regions

@@ -19,20 +19,25 @@ from auf.django.references.models import Etablissement
 from cartographie.formation.models import Fichier, Formation, Personne, Acces
 from cartographie.formation.sendfile import send_file
 from cartographie.formation.stats import num_etablissements_per_country
+from cartographie.formation.models.userRole import UserRole
 import cartographie.home
 
 @login_required
 def accueil_login(request):
-    try:
-        personne = Personne.objects.get(utilisateur=request.user)
-        if personne.role == 'referent':
-            token = Acces.objects.get(etablissement=personne.etablissement)
+    regions = UserRole.get_toutes_regions(request.user)
+    if regions:
+        return HttpResponseRedirect(reverse('dashboard_statistiques'))
+    else:
+        try:
+            personne = Personne.objects.get(utilisateur=request.user)
+            if personne.role in ('referent', 'redacteur',):
+                token = Acces.objects.get(etablissement=personne.etablissement)
 
             return redirect('formation_liste', token.token)
-    except Personne.DoesNotExist:
-        pass
+        except Personne.DoesNotExist:
+            pass
 
-    return HttpResponseRedirect(reverse('dashboard_statistiques'))
+
 
 
 def get_film_url():
