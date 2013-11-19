@@ -92,7 +92,7 @@ class UserRole(models.Model, Role):
         if user.is_active and user.is_superuser:
             return True
         
-        if user.is_anonymous and 'token' in permissions:
+        if user.is_anonymous() and 'token' in permissions:
             etablissement = token2etablissement(token)
             if etablissement and etablissement == formation.etablissement:
                 return True
