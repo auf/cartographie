@@ -12,7 +12,25 @@ class CartoEtablissement(ref.Etablissement):
         count = Personne.objects.filter(etablissement=self, role="referent").count()
         return bool(count)
 
-    
+    def peut_consulter(self, user):
+        """ Détermine si un utilisateur peut consulter la liste des formations
+        de cet établissement"""
+
+        # Soit qu'il est admin
+        if user.is_superuser:
+            return True
+
+        # Soit qu'il a un rôle sur la région
+        roles = UserRole.objects.filter(user=user,
+                                        regions=self.region,
+                                        type__in=(u'editeur', u"referent")).count()
+        if roles:
+            return True
+
+        # Soit qu'il a un rôle sur l'établissement
+        return self.a_un_role(user, u"redacteur", u"referent")
+
+
     def a_un_role(self, user, *roles):
         """ Retourne True si l'utilisateur possède l'un des rôles sur
         cet établissement"""

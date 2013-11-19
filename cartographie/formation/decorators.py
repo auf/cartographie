@@ -18,7 +18,7 @@ def token_required(wrapped_func):
 
     @wraps(wrapped_func)
     def inner_decorator(request, *args, **kwargs):
-        
+
         token = kwargs.get("token", False)
 
         etab = None
@@ -35,7 +35,7 @@ def token_required(wrapped_func):
         except ObjectDoesNotExist:
             return HttpResponseRedirect(reverse('formation_erreur'))
 
-        
+
         # On passe "manuellement" au CartoEtablissement pour contourner
         # les problèmes d'imports circulaires.
         etab = models.CartoEtablissement.objects.get(pk=acces.etablissement.pk)
@@ -45,7 +45,7 @@ def token_required(wrapped_func):
 
         if etab.has_referent():
             if not request.user.is_authenticated() \
-                    or not etab.a_un_role(request.user, "referent"):
+                    or not etab.peut_consulter(request.user):
                 return HttpResponseRedirect(reverse('formation_erreur'))
 
 
