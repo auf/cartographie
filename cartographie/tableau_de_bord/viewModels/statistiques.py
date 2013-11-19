@@ -1,4 +1,5 @@
 #coding: utf-8
+from auf.django.references import models as ref
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Count
@@ -38,15 +39,12 @@ class StatistiquesViewModel(object):
             "etablissement__pays__nom"
         ).annotate(total=Count("id")).order_by("-total")
 
-        try:
-            role = UserRole.objects.get(user=request.user)
-        except ObjectDoesNotExist:
-            role = None
-            self.user_sans_region = True
 
-        if role:
+        regions = UserRole.get_toutes_regions(request.user)
+
+        if regions:
             self.formations = Formation.objects.exclude(statut=999) \
-                .filter(etablissement__region__in=role.regions.all())
+                .filter(etablissement__region__in=regions)
 
             self.recent_modifications \
                 = FormationModification.objects.filter(formation__in=self.formations) \
@@ -57,17 +55,19 @@ class StatistiquesViewModel(object):
 
             self.totaux_par_etablissements = Formation.objects  \
                 .exclude(statut=999).filter(
-                etablissement__region__in=role.regions.all()
+                etablissement__region__in=regions
             ).values("etablissement__nom").annotate(
                 total=Count("id")
             ).order_by("-total")
 
             self.totaux_par_statut = Formation.objects  \
                 .exclude(statut=999).filter(
-                etablissement__region__in=role.regions.all()
+                etablissement__region__in=regions
             ).values("statut").annotate(
                 total=Count("id")
             ).order_by("-total")
+        else:
+            self.user_sans_region = True
 
     def get_data(self):
         return {

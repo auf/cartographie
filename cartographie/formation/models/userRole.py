@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from itertools import chain
 
 from auf.django.references import models as ref
 from auf.django.permissions import Role
@@ -58,6 +59,12 @@ class UserRole(models.Model, Role):
         return not user.is_anonymous() and len(user.roles.filter(
               regions__pk=etablissement.region.pk
           ).filter(type=u'editeur')) > 0
+
+    @staticmethod
+    def get_toutes_regions(user):
+        roles = UserRole.objects.filter(user=user)
+        regions = set(chain(*(role.regions.all() for role in roles)))
+        return regions
 
     @staticmethod
     def has_permission_for_transition(user, token, formation, final_status):
