@@ -1,6 +1,7 @@
 #coding: utf-8
 
 import datetime
+from collections import defaultdict
 
 from django.db import models
 from django.db.models import signals, Q, Count

@@ -386,8 +386,22 @@ def commentaire_supprimer(request, token, formation_id, commentaire_id):
     )
 
 
+def personne_valider_compte(request, token, personne_id):
+    try:
+        personne = Personne.objects.get(pk=personne_id)
+        personne.utilisateur.is_active = True
+        personne.utilisateur.save()
+        # envoyer courriel
+        personne.envoyer_courriel_motdepasse()
+        return redirect('formation_personne_liste', token)
+    except Personne.DoesNotExist:
+        return HttpResponseRedirect('/')
+
+
+
 def personne_modifier_password(request, secret):
     user = None
+
     try:
         # Essaie de remonter vers la personne pour laquelle le secret a été
         # assigné

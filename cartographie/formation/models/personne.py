@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.db import models
 
 from auf.django.references import models as ref
+
 from cartographie.formation.models.jeton_password import JetonPassword
 from cartographie.formation.models.userRole import UserRole
 from cartographie.formation.models.acces import Acces
@@ -124,17 +125,36 @@ class Personne(models.Model):
             self.utilisateur = user
 
             self.envoyer_courriel_editeur()
-#            jeton = JetonPassword.objects.create_jeton_password()
-#            jeton.save()
-#            self.jeton_password = jeton
-#
-#            self._courriel_validation(jeton)
+            self.creer_jeton()
 
         return super(Personne, self).save(*args, **kwargs)
 
+    def creer_jeton(self):
+        jeton = JetonPassword.objects.create_jeton_password()
+        jeton.save()
+        self.jeton_password = jeton
+
+    def envoyer_courriel_motdepasse(self):
+        from cartographie.formation.models.formation import EnveloppeParams
+        from auf.django.mailing.models import envoyer
+
+        if not self.jeton_password:
+            self.creer_jeton()
+            self.save()
+
+        params = EnveloppeParams.creer_depuis_modele("motpasse")
+        params.nom = self.utilisateur.username
+        params.url = reverse("formation_personne_modifier_password",
+                             args=[self.jeton_password.jeton])
+        params.courriel_destinataire = self.utilisateur.email
+        params.save()
+
+        #FIXME: utiliser courriel AUF
+        envoyer("motpasse", "david.cormier@gmail.com")
+
     def envoyer_courriel_editeur(self):
-        from auf.django.mailing.models import ModeleCourriel, Enveloppe, envoyer
-        from cartographie.formation.models import EnveloppeParams
+        from cartographie.formation.models.formation import EnveloppeParams
+        from auf.django.mailing.models import envoyer
 
         user_roles = UserRole.objects.filter(regions=self.etablissement.region,
                                              type=u'editeur')
@@ -148,7 +168,10 @@ class Personne(models.Model):
             params.courriel_destinataire = user_role.user.email
             params.save()
 
+        #FIXME: utiliser courriel AUF
         envoyer('refvalid', 'david.cormier@gmail.com')
+
+
     def _courriel_validation(self, jeton=None):
         # FIXME
         if jeton:

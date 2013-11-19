@@ -32,6 +32,15 @@
                    <i class="icon icon-pencil"></i>
                     Modifier
                 </a>
+
+                {% if not p.utilisateur.is_active %}
+                <a class="btn"
+                   href="{% url formation_personne_valider_compte token p.id %}">
+                  <i class="icon icon-ok"></i>
+                  Valider
+                </a>
+                {% endif %}
+
             </td>
         </tr>
         {% endfor %}
