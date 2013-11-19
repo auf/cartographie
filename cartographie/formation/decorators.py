@@ -45,7 +45,7 @@ def token_required(wrapped_func):
 
         if etab.has_referent():
             if not request.user.is_authenticated() \
-                    or not etab.is_referent(request.user):
+                    or not etab.a_un_role(request.user, "referent"):
                 return HttpResponseRedirect(reverse('formation_erreur'))
 
 

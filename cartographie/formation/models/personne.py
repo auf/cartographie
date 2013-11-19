@@ -13,14 +13,16 @@ class CartoEtablissement(ref.Etablissement):
         return bool(count)
 
     
-    def is_referent(self, user):
-        # TODO: vérifier si le user est éditeur ou admin
+    def a_un_role(self, user, *roles):
+        """ Retourne True si l'utilisateur possède l'un des rôles sur
+        cet établissement"""
         try:
-            personne = Personne.objects.get(utilisateur_id=user.pk)
-            return personne.role == 'referent'\
-                and personne.etablissement.pk == self.pk
+            personne = Personne.objects.get(utilisateur_id=user.pk,
+                                            role__in=roles,
+                                            etablissement__pk=self.pk)
         except Personne.DoesNotExist:
             return False
+        return True
 
     def __eq__(self, other):
         if isinstance(other, (ref.Etablissement, CartoEtablissement)):
