@@ -18,7 +18,7 @@ class ModificationsViewModel(object):
             formations = Formation.objects.filter(etablissement__region__in=roles)
             self.recent_modifications \
                 = FormationModification.objects.filter(formation__in=formations) \
-                .order_by("-date")
+                .order_by("-date")[:100]
         else:
             self.user_sans_region = True
 
