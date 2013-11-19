@@ -5,6 +5,7 @@ from auf.django.references import models as ref
 from auf.django.permissions import Role
 from cartographie.formation.constants import statuts_formation as STATUTS
 from cartographie.formation.workflow import TRANSITIONS
+
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
@@ -66,13 +67,17 @@ class UserRole(models.Model, Role):
         except Personne.DoesNotExist:
             return False
         return True
+
+
     # FIXME
     # Pour éviter le  monkey patching. mettre dans User si on upgrade à Django 1.5
     @staticmethod
     def is_editeur_etablissement(user, etablissement):
-        return not user.is_anonymous() and len(user.roles.filter(
+
+        return not user.is_anonymous() and user.roles.filter(
               regions__pk=etablissement.region.pk
-          ).filter(type=u'editeur')) > 0
+          ).filter(type=u'editeur').exists()
+
 
     @staticmethod
     def get_toutes_regions(user):
@@ -109,10 +114,17 @@ class UserRole(models.Model, Role):
             etablissement = token2etablissement(token)
             if etablissement and etablissement == formation.etablissement:
                 return True
+        
+        if not user.is_active:
+            return False
 
-        if 'editeur' in permissions:
-            if user.is_active and \
-                    UserRole.is_editeur_etablissement(user, formation.etablissement):
+        if permissions:
+            if UserRole.is_editeur_etablissement(user, formation.etablissement):
+                return True
+
+            if UserRole.a_un_role_sur_etablissement(user,
+                                                    formation.etablissement,
+                                                    *permissions):
                 return True
 
         return False

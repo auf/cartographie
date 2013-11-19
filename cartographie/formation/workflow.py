@@ -6,7 +6,7 @@ from collections import defaultdict
 TRANSITIONS = {
     STATUTS.en_redaction: {
         STATUTS.supprimee: { 'roles': ['token'] },
-        STATUTS.validee: {'roles': ['token'] },
+        STATUTS.validee: {'roles': ['referent', 'token'] },
         },
 
     STATUTS.validee: {
