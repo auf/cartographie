@@ -53,6 +53,19 @@ class UserRole(models.Model, Role):
         return perm in self.perms[self.type]
 
 
+    @staticmethod
+    def a_un_role_sur_etablissement(user, etablissement, *roles):
+        """ Retourne True si l'utilisateur possède l'un des rôles sur
+        cet établissement"""
+        from cartographie.formation.models import Personne
+
+        try:
+            personne = Personne.objects.get(utilisateur_id=user.pk,
+                                            role__in=roles,
+                                            etablissement__pk=etablissement.pk)
+        except Personne.DoesNotExist:
+            return False
+        return True
     # FIXME
     # Pour éviter le  monkey patching. mettre dans User si on upgrade à Django 1.5
     @staticmethod
