@@ -46,7 +46,8 @@ def liste_formations(request):
 
     roles = request.user.roles.filter(type='editeur')
     regions = set(chain(*(role.regions.all() for role in roles)))
-    formations = Formation.objects.filter(etablissement__region__in=regions)
+    formations = Formation.objects.filter(
+        etablissement__region__in=regions).exclude(statut=999)
 
     for formation in formations:
         pays = formation.etablissement.pays.nom

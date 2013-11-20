@@ -12,5 +12,5 @@ Profil autre: {{ feedback.profil_autre|default:"(Non spécifié)" }}
 Sujet: {{ feedback.sujet }}
 
 Message:
-{{ feedback.contenu }}
+{{ feedback.contenu|striptags }}
 {% endblock %}
