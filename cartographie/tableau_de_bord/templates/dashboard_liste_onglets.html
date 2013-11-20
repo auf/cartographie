@@ -3,6 +3,8 @@
 
   <li class="{% if menu_actif == "liste_etablissements" %}active{% endif %}"><a href="{% url dashboard_liste_etablissements %}">Établissements</a></li>
 
+  <li class="{% if menu_actif == "liste_formations" %}active{% endif %}"><a href="{% url dashboard_liste_formations %}">Formations</a></li>
+
   <li class="{% if menu_actif == "modifications" %}active{% endif %}"><a href="{% url dashboard_modifications %}">Modifications</a></li>
 
   <li class="{% if menu_actif == "administration" %}active{% endif %}"><a href="{% url dashboard_administration %}">Administration</a></li>
