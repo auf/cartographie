@@ -494,26 +494,42 @@ def commentaire_avant_changement_statut(
 
     from cartographie.formation.viewModels.formation.commentaire import (
         CommentaireAjouterViewModel)
+    from cartographie.formation.forms.formation import (
+        CommentaireOptionnelForm, FormationCommentaireForm)
 
-    vm = CommentaireAjouterViewModel(request, token, formation_id)
+
+    suppression = int(nouveau_statut) == 999
+
+    vm = CommentaireAjouterViewModel(
+        request, token, formation_id, suppression=suppression)
     form_url = reverse(
         'formation_commentaire_avant_changement_statut',
         args=[token, formation_id, nouveau_statut])
 
     if request.method == "POST":
         if vm.form.is_valid():
-            commentaire = vm.form.save(commit=False)
-            commentaire.formation = vm.formation
+            # Si on a un formulaire avec commentaire optionnel, et qu'il y a un
+            # commentaire écrit, on échange le formulaire avec celui à
+            # commentaire obligatoire.
+            instance = isinstance(vm.form, CommentaireOptionnelForm)
+            content = vm.form.cleaned_data['commentaire']
+            if instance and content:
+                vm.form = CommetaireAjouterViewModel(
+                    request, token, formation_id, suppression=False)
 
-            commentaire.user = None
-            if request.user.is_authenticated():
-                commentaire.user = request.user
+            if content:
+                commentaire = vm.form.save(commit=False)
+                commentaire.formation = vm.formation
 
-            commentaire.commentaire = (
-                "[Statut: %s] %s" % (
-                    statusIdToStatusLabel(nouveau_statut),
-                    commentaire.commentaire))
-            commentaire.save()
+                commentaire.user = None
+                if request.user.is_authenticated():
+                    commentaire.user = request.user
+
+                commentaire.commentaire = (
+                    "[Statut: %s] %s" % (
+                        statusIdToStatusLabel(nouveau_statut),
+                        commentaire.commentaire))
+                commentaire.save()
 
             return HttpResponse(simplejson.dumps({
                 'error': False,
@@ -533,9 +549,12 @@ def commentaire_avant_changement_statut(
             )
 
     data = vm.get_data()
-    data.update({'form_url': form_url, 'json_request': True})
-    data.update({'statut_final': is_statut_final(nouveau_statut)})
-    data['retour_arriere'] = True
+    data.update({
+        'form_url': form_url,
+        'json_request': True,
+        'statut_final': is_statut_final(nouveau_statut),
+        'retour_arriere': True,
+    })
 
     return render_to_response(
         "formation/commentaire/form.html",

@@ -5,7 +5,7 @@ from cartographie.formation.constants import statuts_formation as STATUTS
 # Admin is implicit.
 TRANSITIONS = {
     STATUTS.en_redaction: {
-        STATUTS.supprimee: {'roles': ['token']},
+        STATUTS.supprimee: {'retro': True, 'roles': ['token']},
         STATUTS.validee: {'roles': ['token']},
         },
 
@@ -13,7 +13,7 @@ TRANSITIONS = {
         STATUTS.publiee: {'roles': ['editeur']},
         STATUTS.en_redaction: {'retro': True,
                                'roles': ['editeur', 'referent', 'token']},
-        STATUTS.supprimee: {'roles': ['token']},
+        STATUTS.supprimee: {'retro': True, 'roles': ['token']},
         },
 
     STATUTS.publiee: {
@@ -21,7 +21,7 @@ TRANSITIONS = {
                           'roles': ['editeur']},
         STATUTS.en_redaction: {'retro': True,
                                'roles': ['editeur', 'referent']},
-        STATUTS.supprimee: {'roles': []},
+        STATUTS.supprimee: {'retro': True, 'roles': []},
         },
 
     STATUTS.supprimee: {

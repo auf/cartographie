@@ -18,41 +18,46 @@ class WorkflowViewModel(BaseAjouterViewModel):
 
         statut_id = int(statut_id)
 
-        # verifier que le statut existe
+        # Vérifier que le statut existe
         if statut_id in map(lambda st: st[0], ETATS):
 
-            # obtenir la formation courante
+            # Obtenir la formation courante
             formation_courante = Formation.objects.get(pk=formation_id)
             source_statut = formation_courante.statut
-            
-            self.necessite_commentaire = formation_courante\
-                .changement_necessite_commentaire(statut_id)
+
+            self.necessite_commentaire = (
+                formation_courante.changement_necessite_commentaire(
+                    statut_id))
 
             pas_de_probleme = False
-            # modifier le statut avec les fonctions de WorkflowMixin
-            statut_modifie = formation_courante.set_statut(request.user, token, statut_id)
+
+            # Modifier le statut avec les fonctions de WorkflowMixin
+            statut_modifie = formation_courante.set_statut(
+                request.user, token, statut_id)
 
             if statut_modifie:
                 pas_de_probleme = True
             else:
-                messages.error(request, u"Vous ne pouvez pas attribuer le statut '%s' à cette fiche." % statut2label[statut_id])
-      
+                messages.error(
+                    request,
+                    u"Vous ne pouvez pas attribuer le statut '%s' " +
+                    "à cette fiche." % (statut2label[statut_id], ))
+
             if pas_de_probleme:
                 statut_labels = filter(lambda st: st[0] == statut_id, ETATS)
                 statut_label = statut_labels.pop()
 
                 messages.success(
-                    request, u"Le statut '%s' a été appliqué à la fiche" % statut_label[1]
-                )
+                    request, u"Le statut '%s' a été appliqué à la fiche" % (
+                        statut_label[1], ))
 
-                self._envoie_courriel(formation_courante, source_statut, statut_id)
+                self._envoie_courriel(
+                    formation_courante, source_statut, statut_id)
 
                 formation_courante.save()
                 formation_courante.save_modification(request)
         else:
-            messages.warning(
-                request, u"Ce statut n'existe pas"
-            )
+            messages.warning(request, u"Ce statut n'existe pas")
 
     def get_data(self):
         data = super(WorkflowViewModel, self).get_data()
@@ -62,9 +67,10 @@ class WorkflowViewModel(BaseAjouterViewModel):
     # C'est moche, mais c'est pour avoir des étiquettes personnalisées pour
     # mettre dans les courriels
     STATES = {
-        1: 'rédaction',
-        2: 'validée',
-        3: 'publiée',
+        1: u'rédaction',
+        2: u'validée',
+        3: u'publiée',
+        999: u'supprimée',
     }
 
     def _envoie_courriel(self, formation, source_id, target_id):
