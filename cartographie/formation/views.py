@@ -15,7 +15,8 @@ from django.utils import simplejson
 
 from cartographie.formation.decorators import (
     token_required, editor_of_region_required)
-from cartographie.formation.forms.personne_modifier_password_form import PersonneModifierPasswordForm
+from cartographie.formation.forms.personne_modifier_password_form import (
+    PersonneModifierPasswordForm)
 from cartographie.formation.models import (
     Acces, Fichier, Formation, FormationModification, Personne)
 from cartographie.formation.models.workflow import (
@@ -39,11 +40,23 @@ def liste(request, token):
     from cartographie.formation.viewModels.formation.liste import (
         ListeViewModel)
 
+    admin = request.user.is_superuser
+    referent = False
+
+    try:
+        personne = Personne.objects.get(utilisateur=request.user)
+        referent = personne.role == 'referent'
+    except Personne.DoesNotExist:
+        pass
+
+    context = RequestContext(request, {
+        'peut_actualiser': admin or referent,
+    })
+
     return render_to_response(
-        "liste.html",
-        ListeViewModel(token, onglet_actif="formation").get_data(),
-        RequestContext(request)
-    )
+        'liste.html',
+        ListeViewModel(token, onglet_actif='formation').get_data(),
+        context)
 
 
 @token_required
@@ -396,7 +409,6 @@ def personne_valider_compte(request, token, personne_id):
         return redirect('formation_personne_liste', token)
     except Personne.DoesNotExist:
         return HttpResponseRedirect('/')
-
 
 
 def personne_modifier_password(request, secret):
