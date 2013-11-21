@@ -21,7 +21,7 @@
           <tr>
             <th>Nom</th>
             <th>Établissement</th>
-            <th>Consulter</th>
+            <th></th>
           </tr>
         </thead>
 
@@ -38,6 +38,8 @@
 
             <td class="span2">
               <a href="{% url formation_consulter token formation.id %}" class="btn btn-info"><i class="icon-search icon-white"></i></a>
+
+              <a href="{% url formation_modifier token formation.id %}" class="btn"><i class="icon-pencil"></i></a>
             </td>
           </tr>
           {% endfor %}

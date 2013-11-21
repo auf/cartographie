@@ -85,5 +85,6 @@ class WorkflowViewModel(BaseAjouterViewModel):
             params.target = target
             params.url = reverse('formation', args=[token])
             params.courriel_destinataire = personne.courriel
+            params.save()
 
         envoyer('modform', 'cartographie@auf.org')
