@@ -6,7 +6,8 @@ from cartographie.formation.constants import statuts_formation as STATUTS
 TRANSITIONS = {
     STATUTS.en_redaction: {
         STATUTS.supprimee: {'retro': True, 'roles': ['token']},
-        STATUTS.validee: {'roles': ['token']},
+        STATUTS.validee: {'roles': ['referent', 'token']},
+
         },
 
     STATUTS.validee: {

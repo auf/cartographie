@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
+from itertools import chain
 
 from auf.django.references import models as ref
 from auf.django.permissions import Role
 from cartographie.formation.constants import statuts_formation as STATUTS
 from cartographie.formation.workflow import TRANSITIONS
+
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
@@ -28,6 +30,7 @@ class UserRole(models.Model, Role):
     ROLE_CHOICES = (
         (u'editeur', u"AUF: Éditeur"),
         (u'referent', u"Référent"),
+        (u'redacteur', u"Rédacteur"),
     )
 
     type = models.CharField(max_length=25, choices=ROLE_CHOICES)
@@ -51,13 +54,38 @@ class UserRole(models.Model, Role):
         return perm in self.perms[self.type]
 
 
+    @staticmethod
+    def a_un_role_sur_etablissement(user, etablissement, *roles):
+        """ Retourne True si l'utilisateur possède l'un des rôles sur
+        cet établissement"""
+        from cartographie.formation.models import Personne
+
+        try:
+            personne = Personne.objects.get(utilisateur_id=user.pk,
+                                            role__in=roles,
+                                            etablissement__pk=etablissement.pk)
+        except Personne.DoesNotExist:
+            return False
+        return True
+
+
     # FIXME
     # Pour éviter le  monkey patching. mettre dans User si on upgrade à Django 1.5
     @staticmethod
     def is_editeur_etablissement(user, etablissement):
-        return not user.is_anonymous() and len(user.roles.filter(
+
+        return not user.is_anonymous() and user.roles.filter(
               regions__pk=etablissement.region.pk
-          ).filter(type=u'editeur')) > 0
+          ).filter(type=u'editeur').exists()
+
+
+    @staticmethod
+    def get_toutes_regions(user):
+        """Retourne l'ensemble des régions couvertes
+        par l'ensemble des rôles de l'utilisateur"""
+        roles = UserRole.objects.filter(user=user)
+        regions = set(chain(*(role.regions.all() for role in roles)))
+        return regions
 
     @staticmethod
     def has_permission_for_transition(user, token, formation, final_status):
@@ -82,14 +110,21 @@ class UserRole(models.Model, Role):
         if user.is_active and user.is_superuser:
             return True
         
-        if user.is_anonymous and 'token' in permissions:
+        if user.is_anonymous() and 'token' in permissions:
             etablissement = token2etablissement(token)
             if etablissement and etablissement == formation.etablissement:
                 return True
+        
+        if not user.is_active:
+            return False
 
-        if 'editeur' in permissions:
-            if user.is_active and \
-                    UserRole.is_editeur_etablissement(user, formation.etablissement):
+        if permissions:
+            if UserRole.is_editeur_etablissement(user, formation.etablissement):
+                return True
+
+            if UserRole.a_un_role_sur_etablissement(user,
+                                                    formation.etablissement,
+                                                    *permissions):
                 return True
 
         return False

@@ -54,9 +54,10 @@ def liste(request, token):
     })
 
     return render_to_response(
-        'liste.html',
-        ListeViewModel(token, onglet_actif='formation').get_data(),
-        context)
+        "liste.html",
+        ListeViewModel(token, request.user, onglet_actif="formation").get_data(),
+        context(request)
+    )
 
 
 @token_required
@@ -631,7 +632,7 @@ def liste_partenaire_autre(request, token):
 
     return render_to_response(
         "liste.html",
-        ListeViewModel(token, onglet_actif="partenaire-autre").get_data(),
+        ListeViewModel(token, request.user, onglet_actif="partenaire-autre").get_data(),
         RequestContext(request)
     )
 
@@ -723,7 +724,7 @@ def liste_composante(request, token):
 
     return render_to_response(
         "liste.html",
-        ListeViewModel(token, onglet_actif="composante").get_data(),
+        ListeViewModel(token, request.user, onglet_actif="composante").get_data(),
         RequestContext(request)
     )
 
@@ -818,7 +819,7 @@ def liste_langue(request, token):
 
     return render_to_response(
         "liste.html",
-        ListeViewModel(token, onglet_actif="langue").get_data(),
+        ListeViewModel(token, request.user, onglet_actif="langue").get_data(),
         RequestContext(request)
     )
 

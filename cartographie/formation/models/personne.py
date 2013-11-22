@@ -35,19 +35,10 @@ class CartoEtablissement(ref.Etablissement):
             return True
 
         # Soit qu'il a un rôle sur l'établissement
-        return self.a_un_role(user, u"redacteur", u"referent")
-
-
-    def a_un_role(self, user, *roles):
-        """ Retourne True si l'utilisateur possède l'un des rôles sur
-        cet établissement"""
-        try:
-            personne = Personne.objects.get(utilisateur_id=user.pk,
-                                            role__in=roles,
-                                            etablissement__pk=self.pk)
-        except Personne.DoesNotExist:
-            return False
-        return True
+        return UserRole.a_un_role_sur_etablissement(user,
+                                                    self,
+                                                    u"redacteur",
+                                                    u"referent")
 
     def __eq__(self, other):
         if isinstance(other, (ref.Etablissement, CartoEtablissement)):
