@@ -309,6 +309,15 @@ class Formation(WorkflowMixin, models.Model):
         related_name="commentaires+"
     )
 
+    @staticmethod
+    def expire_dans_n_jours(jours):
+        today = datetime.datetime.now()
+        n_days_ago = today + datetime.timedelta(days=-(365 - jours))
+        n_days_ago_p1 = today + datetime.timedelta(days=-(365 - jours + 1))
+        expire_in_n_days = Formation.objects.filter(date_modification__lte=n_days_ago,
+                                                    date_modification__gte=n_days_ago_p1)
+        return expire_in_n_days
+
     class Meta:
         verbose_name = u"Formation"
         verbose_name_plural = u"Formations"
