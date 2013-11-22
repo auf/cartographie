@@ -514,8 +514,9 @@ def commentaire_avant_changement_statut(
             instance = isinstance(vm.form, CommentaireOptionnelForm)
             content = vm.form.cleaned_data['commentaire']
             if instance and content:
-                vm.form = CommetaireAjouterViewModel(
-                    request, token, formation_id, suppression=False)
+                import pdb; pdb.set_trace()
+                vm.form = FormationCommentaireForm(request.POST)
+                vm.form.is_valid()
 
             if content:
                 commentaire = vm.form.save(commit=False)
