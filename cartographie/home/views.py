@@ -38,8 +38,6 @@ def accueil_login(request):
             pass
 
 
-
-
 def get_film_url():
     if getattr(settings, 'FILM_URL', ''):
         return {'afficher_film': True,
