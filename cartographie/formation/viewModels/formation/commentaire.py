@@ -1,14 +1,15 @@
-#coding: utf-8
+# -*- coding: utf-8 -*-
 
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ObjectDoesNotExist
 
-from cartographie.formation.models import Formation, FormationCommentaire, UserRole
+from cartographie.formation.models import (
+    Formation, FormationCommentaire, UserRole)
 from cartographie.formation.constants import statuts_formation
-from cartographie.formation.viewModels.baseAjouterViewModel \
-    import BaseAjouterViewModel
-from cartographie.formation.forms.formation \
-    import FormationCommentaireForm
+from cartographie.formation.viewModels.baseAjouterViewModel import (
+    BaseAjouterViewModel)
+from cartographie.formation.forms.formation import (
+    CommentaireOptionnelForm, FormationCommentaireForm)
 
 from .base import BaseModifierViewModel
 
@@ -30,8 +31,8 @@ class CommentairesViewModel(BaseAjouterViewModel, BaseModifierViewModel):
         ).order_by("date")
 
         for commentaire in self.commentaires:
-            commentaire.modifier_url = reverse('commentaire_modifier', 
-                                               args=[self.token, 
+            commentaire.modifier_url = reverse('commentaire_modifier',
+                                               args=[self.token,
                                                      self.formation.id,
                                                      commentaire.id])
             commentaire.modifiable = commentaire.peut_modifier(request.user)
@@ -44,7 +45,8 @@ class CommentairesViewModel(BaseAjouterViewModel, BaseModifierViewModel):
             "statuts_formation": statuts_formation,
             "commentaires": self.commentaires,
             "form": self.form,
-            'form_url': reverse('commentaire_ajouter', args=[self.token, self.formation.id]),
+            'form_url': reverse(
+                'commentaire_ajouter', args=[self.token, self.formation.id]),
         })
         return data
 
@@ -53,14 +55,19 @@ class CommentaireAjouterViewModel(BaseAjouterViewModel):
     form = None
     formation = None
 
-    def __init__(self, request, token, formation_id):
+    def __init__(self, request, token, formation_id, suppression=False):
         super(CommentaireAjouterViewModel, self).__init__(request, token)
         self.formation = Formation.objects.get(pk=formation_id)
 
-        if request.method == "POST":
-            self.form = FormationCommentaireForm(request.POST)
+        if suppression:
+            source = CommentaireOptionnelForm
         else:
-            self.form = FormationCommentaireForm()
+            source = FormationCommentaireForm
+
+        if request.method == "POST":
+            self.form = source(request.POST)
+        else:
+            self.form = source()
 
     def get_data(self):
         data = super(CommentaireAjouterViewModel, self).get_data()
@@ -91,10 +98,7 @@ class CommentaireModifierViewModel(BaseAjouterViewModel):
                 self.success = False
                 self.commentaire = None
 
-
     def get_data(self):
-        super(CommentaireModifierViewModel, self).get_data() # TODO: Utile?
-
         data = {
             "success": self.success,
             "commentaire": self.commentaire,
@@ -128,8 +132,6 @@ class CommentaireSupprimerViewModel(BaseAjouterViewModel):
                 )
 
     def get_data(self):
-        super(CommentaireSupprimerViewModel, self).get_data() # TODO: Utile?
-
         data_json = {
             "redirect_url": self.redirect_url,
             "success": self.success

@@ -1,12 +1,13 @@
-# coding: utf-8
+# -*- coding: utf-8 -*-
 
-from cartographie.formation.viewModels.baseListeViewModel \
-    import BaseListeViewModel
+from cartographie.formation.viewModels.baseListeViewModel import (
+    BaseListeViewModel)
 
 from cartographie.formation.models import Formation
 
 
 class ListeViewModel(BaseListeViewModel):
+
     formations = []
 
     def __init__(self, token, onglet_actif="formation"):
@@ -16,9 +17,9 @@ class ListeViewModel(BaseListeViewModel):
 
         self.cacher_onglets = True if onglet_actif == "formation" else False
 
-        self.formations = Formation.objects.exclude(statut=999).filter(   # 999 = supprimée
-            etablissement=self.etablissement
-        ).order_by("nom")
+        self.formations = Formation.objects.exclude(
+            statut=999).filter(
+            etablissement=self.etablissement).order_by('nom')
 
     def get_data(self):
         data = super(ListeViewModel, self).get_data()

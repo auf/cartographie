@@ -140,8 +140,7 @@ class Personne(models.Model):
         params.courriel_destinataire = self.utilisateur.email
         params.save()
 
-        #FIXME: utiliser courriel AUF
-        envoyer("motpasse", "david.cormier@gmail.com")
+        envoyer('motpasse', 'cartographie@auf.org')
 
     def envoyer_courriel_editeur(self):
         from cartographie.formation.models.formation import EnveloppeParams
@@ -159,8 +158,7 @@ class Personne(models.Model):
             params.courriel_destinataire = user_role.user.email
             params.save()
 
-        #FIXME: utiliser courriel AUF
-        envoyer('refvalid', 'david.cormier@gmail.com')
+        envoyer('refvalid', 'cartographie@auf.org')
 
 
     def _courriel_validation(self, jeton=None):

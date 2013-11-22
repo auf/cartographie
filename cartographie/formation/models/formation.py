@@ -9,9 +9,9 @@ from django.contrib.auth.models import User
 
 from auf.django.references import models as ref
 
-from .configuration \
-    import Discipline, NiveauDiplome, TypeDiplome, DelivranceDiplome, \
-            NiveauUniversitaire, Vocation, TypeFormation, Langue
+from .configuration import (
+    Discipline, NiveauDiplome, TypeDiplome, DelivranceDiplome,
+    NiveauUniversitaire, Vocation, TypeFormation, Langue)
 from .etablissement import EtablissementComposante, EtablissementAutre
 from .personne import Personne
 from .workflow import WorkflowMixin
@@ -19,6 +19,7 @@ from .workflow import WorkflowMixin
 from cartographie.formation.signals.formation import formation_is_valider
 
 from auf.django.mailing.models import ModeleCourriel, Enveloppe
+
 
 class EnveloppeParams(models.Model):
 
@@ -38,7 +39,6 @@ class EnveloppeParams(models.Model):
     def get_adresse(self):
         return self.courriel_destinataire
 
-
     @classmethod
     def creer_depuis_modele(cls, code_modele):
         """ Créée l'enveloppe en même temps que les paramètres"""
@@ -50,9 +50,9 @@ class EnveloppeParams(models.Model):
         instance.enveloppe = enveloppe
         return instance
 
-
     class Meta(object):
         app_label = 'formation'
+
 
 class Formation(WorkflowMixin, models.Model):
     """
@@ -152,7 +152,8 @@ class Formation(WorkflowMixin, models.Model):
         null=True,
         blank=True,
         through="FormationPartenaireAutre",
-        verbose_name=u"Partenaires <strong class='text-info'>non membre</strong> de l'AUF",
+        verbose_name=u"""Partenaires <strong class='text-info'>non
+            membre</strong> de l'AUF""",
         help_text=u"Texte d'aide"
     )
 
@@ -270,7 +271,9 @@ class Formation(WorkflowMixin, models.Model):
             # "personne__etablissement": self.etablissement
         },
         related_name="responsables+",
-        help_text=u"Sélectionnez une personne dans la liste déroulante. Vous pouvez ajouter une nouvelle personne à la liste en cliquant sur le bouton ci-dessous."
+        help_text=u"""Sélectionnez une personne dans la liste déroulante. Vous
+            pouvez ajouter une nouvelle personne à la liste en cliquant sur le
+            bouton ci-dessous."""
 
     )
 
@@ -283,7 +286,9 @@ class Formation(WorkflowMixin, models.Model):
             # "personne__etablissement": self.etablissement
         },
         related_name="contacts+",
-        help_text=u"Sélectionnez une personne dans la liste déroulante. Vous pouvez ajouter une nouvelle personne à la liste en cliquant sur le bouton ci-dessous."
+        help_text=u"""Sélectionnez une personne dans la liste déroulante. Vous
+            pouvez ajouter une nouvelle personne à la liste en cliquant sur le
+            bouton ci-dessous."""
     )
 
     # gestion
@@ -334,8 +339,10 @@ class Formation(WorkflowMixin, models.Model):
 
         if self.pk is not None:
             orig = Formation.objects.get(pk=self.pk)
-            orig_fields = [getattr(orig, field) for field in self.content_fields]
-            self_fields = [getattr(self, field) for field in self.content_fields]
+            orig_fields = [
+                getattr(orig, field) for field in self.content_fields]
+            self_fields = [
+                getattr(self, field) for field in self.content_fields]
             changed = [x != y for x, y in zip(orig_fields, self_fields)]
 
             if any(changed):
@@ -345,12 +352,14 @@ class Formation(WorkflowMixin, models.Model):
 
         super(Formation, self).save(*args, **kwargs)
 
-
     @staticmethod
     def num_formations_per_country():
 
         def result2pair(result):
-            return result['etablissement__pays__code_iso3'].lower(), result['count']
+            return (
+                result['etablissement__pays__code_iso3'].lower(),
+                result['count']
+            )
 
         # On doit passer par Formation.objects parce que
         # 'related_name' = '+' dans EtablissementBase pour la colonne
@@ -361,11 +370,6 @@ class Formation(WorkflowMixin, models.Model):
             .annotate(count=Count('etablissement__pays__code_iso3'))
 
         return dict(map(result2pair, query))
-
-
-# utilisation d'un signal apres la sauvegarde d'une formation
-# pour envoyer un courriel lorsqu'elle est validée par un établissement
-signals.post_save.connect(formation_is_valider, sender=Formation)
 
 
 class FormationModification(models.Model):
@@ -488,6 +492,7 @@ class FormationPartenaireAUF(models.Model):
     def __unicode__(self):
         return u""
 
+
 class CourrielRappel(ModeleCourriel):
     periode = models.CharField(max_length=50)
     actif = models.BooleanField()
@@ -497,6 +502,7 @@ class CourrielRappel(ModeleCourriel):
         verbose_name_plural = u"Rappel actualisation de formations"
         app_label = "formation"
         db_table = "formation_courrielrappel"
+
 
 class FormationPartenaireAutre(models.Model):
     formation = models.ForeignKey(Formation)
