@@ -56,7 +56,7 @@ def liste(request, token):
     return render_to_response(
         "liste.html",
         ListeViewModel(token, request.user, onglet_actif="formation").get_data(),
-        context(request)
+        context
     )
 
 
@@ -456,7 +456,7 @@ def liste_personne(request, token):
 
     return render_to_response(
         "liste.html",
-        ListeViewModel(token, onglet_actif="personne").get_data(),
+        ListeViewModel(token, request.user, onglet_actif="personne").get_data(),
         RequestContext(request)
     )
 

@@ -8,8 +8,8 @@ from cartographie.formation.models import Personne
 class ListeViewModel(BaseListeViewModel):
     personnes = []
 
-    def __init__(self, token, onglet_actif="personne"):
-        super(ListeViewModel, self).__init__(token, onglet_actif)
+    def __init__(self, token, user, onglet_actif="personne"):
+        super(ListeViewModel, self).__init__(token, user, onglet_actif)
 
         self.personnes = Personne.objects.filter(
             etablissement=self.etablissement

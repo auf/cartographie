@@ -10,8 +10,8 @@ class ListeViewModel(BaseListeViewModel):
 
     formations = []
 
-    def __init__(self, token, onglet_actif="formation"):
-        super(ListeViewModel, self).__init__(token, onglet_actif)
+    def __init__(self, token, user, onglet_actif="formation"):
+        super(ListeViewModel, self).__init__(token, user, onglet_actif)
 
         # filtrer les formations pour ceux de l'établissement courant
 
