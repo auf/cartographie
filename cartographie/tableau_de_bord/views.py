@@ -9,7 +9,7 @@ from django.core.management import call_command
 from django.shortcuts import redirect, render, render_to_response
 from django.template import RequestContext
 
-from cartographie.formation.models import Acces, Formation, Personne
+from cartographie.formation.models import Acces, Formation, Personne, UserRole
 
 
 @login_required
@@ -44,8 +44,8 @@ def liste_etablissements(request):
 def liste_formations(request):
     formations_dict = defaultdict(lambda: [])
 
-    roles = request.user.roles.filter(type='editeur')
-    regions = set(chain(*(role.regions.all() for role in roles)))
+    regions = UserRole.get_toutes_regions(request.user)
+
     formations = Formation.objects.filter(
         etablissement__region__in=regions).exclude(statut=999)
 
