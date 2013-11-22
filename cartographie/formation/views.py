@@ -497,7 +497,6 @@ def commentaire_avant_changement_statut(
     from cartographie.formation.forms.formation import (
         CommentaireOptionnelForm, FormationCommentaireForm)
 
-
     suppression = int(nouveau_statut) == 999
 
     vm = CommentaireAjouterViewModel(

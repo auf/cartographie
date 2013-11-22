@@ -3,6 +3,7 @@
 from django.db import models
 
 from auf.django.references import models as ref
+from cartographie.utils.copymixin import CopyMixin
 
 
 class AbstractNomStatut(models.Model):
@@ -20,7 +21,7 @@ class AbstractNomStatut(models.Model):
         return u"%s" % (self.nom)
 
 
-class Discipline(AbstractNomStatut):
+class Discipline(CopyMixin, AbstractNomStatut):
     code = models.CharField(max_length=100, verbose_name=u"Code Erasmus")
     discipline = models.ForeignKey(ref.Discipline, null=True, blank=True)
 
@@ -39,7 +40,7 @@ class Discipline(AbstractNomStatut):
         return u"%s%s" % (indent, self.nom)
 
 
-class NiveauDiplome(AbstractNomStatut):
+class NiveauDiplome(CopyMixin, AbstractNomStatut):
     class Meta:
         verbose_name = u"Niveau de diplôme"
         verbose_name_plural = u"Niveaux de diplôme"
@@ -47,7 +48,7 @@ class NiveauDiplome(AbstractNomStatut):
         db_table = "formation_config_niveaudiplome"
 
 
-class TypeDiplome(AbstractNomStatut):
+class TypeDiplome(CopyMixin, AbstractNomStatut):
     class Meta:
         verbose_name = u"Type de diplôme"
         verbose_name_plural = u"Types de diplôme"
@@ -55,7 +56,7 @@ class TypeDiplome(AbstractNomStatut):
         db_table = "formation_config_typediplome"
 
 
-class DelivranceDiplome(AbstractNomStatut):
+class DelivranceDiplome(CopyMixin, AbstractNomStatut):
     class Meta:
         verbose_name = u"Délivrance de diplôme"
         verbose_name_plural = u"Délivrances de diplôme"
@@ -63,10 +64,10 @@ class DelivranceDiplome(AbstractNomStatut):
         db_table = "formation_config_delivrancediplome"
 
 
-class NiveauUniversitaire(AbstractNomStatut):
-    """
-    Niveau universitaire en nombre d'années d'enseignement supérieur
-    """
+class NiveauUniversitaire(CopyMixin, AbstractNomStatut):
+
+    """Niveau universitaire en nombre d'années d'enseignement supérieur"""
+
     class Meta:
         verbose_name = u"Niveau universitaire"
         verbose_name_plural = u"Niveaux universitaires"
@@ -74,7 +75,7 @@ class NiveauUniversitaire(AbstractNomStatut):
         db_table = "formation_config_niveauuniversitaire"
 
 
-class Vocation(AbstractNomStatut):
+class Vocation(CopyMixin, AbstractNomStatut):
 
     class Meta:
         verbose_name = u"Vocation"
@@ -83,7 +84,8 @@ class Vocation(AbstractNomStatut):
         db_table = "formation_config_vocation"
 
 
-class TypeFormation(AbstractNomStatut):
+class TypeFormation(CopyMixin, AbstractNomStatut):
+
     class Meta:
         verbose_name = u"Type de formation"
         verbose_name_plural = u"Types de formation"
@@ -91,32 +93,37 @@ class TypeFormation(AbstractNomStatut):
         db_table = "formation_config_typeformation"
 
 
-class Langue(AbstractNomStatut):
+class Langue(CopyMixin, AbstractNomStatut):
+
     class Meta:
         verbose_name = u"Langue"
         verbose_name_plural = u"Langues"
         app_label = "formation"
         db_table = "formation_config_langue"
+
         
-class EtablissementCoordonnees(models.Model):
+class EtablissementCoordonnees(CopyMixin, models.Model):
+
     etablissement = models.OneToOneField(
         ref.Etablissement,
         verbose_name=u"Établissement",
         help_text=u"Établissement membre de l'AUF",
         related_name="coordonnees"
     )
+
     latitude = models.DecimalField(
         null=True, 
         blank=True, 
         max_digits=13,
         decimal_places=10
-        )
+    )
+
     longitude = models.DecimalField(
         null=True, 
         blank=True, 
         max_digits=13,
         decimal_places=10
-        )
+    )
     
     def __unicode__(self):
         return u"Coordonnées pour : %s" % self.etablissement

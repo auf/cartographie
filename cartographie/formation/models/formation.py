@@ -1,13 +1,11 @@
 #coding: utf-8
 
-import datetime
 from collections import defaultdict
+import datetime
 
 from django.db import models
 from django.db.models import signals, Q, Count
 from django.contrib.auth.models import User
-
-from auf.django.references import models as ref
 
 from .configuration import (
     Discipline, NiveauDiplome, TypeDiplome, DelivranceDiplome,
@@ -15,10 +13,10 @@ from .configuration import (
 from .etablissement import EtablissementComposante, EtablissementAutre
 from .personne import Personne
 from .workflow import WorkflowMixin
-
-from cartographie.formation.signals.formation import formation_is_valider
-
 from auf.django.mailing.models import ModeleCourriel, Enveloppe
+from auf.django.references import models as ref
+from cartographie.formation.signals.formation import formation_is_valider
+from cartographie.utils.copymixin import CopyMixin
 
 
 class EnveloppeParams(models.Model):
@@ -54,7 +52,7 @@ class EnveloppeParams(models.Model):
         app_label = 'formation'
 
 
-class Formation(WorkflowMixin, models.Model):
+class Formation(CopyMixin, WorkflowMixin, models.Model):
     """
         Formation entièrement ou partiellement en français dispensée par un
         établissement membre de l'AUF
@@ -97,12 +95,14 @@ class Formation(WorkflowMixin, models.Model):
                   au maximum (choisir une des valeurs proposées)""",
         limit_choices_to={"actif": True}
     )
+
     discipline_2 = models.ForeignKey(
         Discipline, null=True, blank=True, related_name="+",
         help_text=u"""Indiquer une discipline minimum, trois disciplines
                   au maximum (choisir une des valeurs proposées)""",
         limit_choices_to={"actif": True}
     )
+
     discipline_3 = models.ForeignKey(
         Discipline, null=True, blank=True, related_name="+",
         help_text=u"""Indiquer une discipline minimum, trois disciplines
@@ -110,7 +110,6 @@ class Formation(WorkflowMixin, models.Model):
         limit_choices_to={"actif": True}
     )
 
-    # etablissement(s)
     etablissement = models.ForeignKey(
         ref.Etablissement,
         verbose_name=u"Structure d'accueil",
@@ -230,6 +229,7 @@ class Formation(WorkflowMixin, models.Model):
             u"(500 caractères maximum)"
         ])
     )
+
     type_formation = models.ForeignKey(
         TypeFormation,
         null=True,
@@ -239,6 +239,7 @@ class Formation(WorkflowMixin, models.Model):
         limit_choices_to={"actif": True},
         related_name="type_formation+"
     )
+
     langue = models.ManyToManyField(
         Langue,
         null=True,

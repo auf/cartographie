@@ -1,11 +1,13 @@
-# coding: utf-8
+# -*- coding: utf-8 -*-
 
 from django.db import models
 
 from auf.django.references import models as ref
+from cartographie.utils.copymixin import CopyMixin
 
 
-class EtablissementComposante(models.Model):
+class EtablissementComposante(CopyMixin, models.Model):
+
     nom = models.CharField(
         max_length=150,
         verbose_name=u"Nom",
@@ -82,7 +84,8 @@ class EtablissementComposante(models.Model):
         return u"%s" % (self.nom,)
 
 
-class EtablissementAutre(models.Model):
+class EtablissementAutre(CopyMixin, models.Model):
+
     nom = models.CharField(
         max_length=150, verbose_name=u"Nom",
         help_text=u" ".join([
