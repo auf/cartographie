@@ -2,6 +2,7 @@
 
 from copy import copy, deepcopy
 
+from django.core.exceptions import ObjectDoesNotExist
 from django.db.models.manager import Manager
 from django.db.models import related
 
@@ -36,17 +37,28 @@ class CopyMixin(object):
 
         for name in fields:
             print('\t%s' % (name, ))
-            orig_field = getattr(self, name)
+
+            try:
+                orig_field = getattr(self, name)
+            except ObjectDoesNotExist:
+                print('\t\tno matching')
+                continue
 
             if isinstance(orig_field, Manager):
                 print('\t\tmanager')
-                if name.endswith('_set'):
-                    print('\t\t\t_set')
+                if not name.endswith('_set'):
+                    print('\t\t\tnot _set')
                     new_field = copy(orig_field)
                     for val in orig_field.all():
                         new_val = copy(val)
-                        new_field.add(new_val)
-                    setattr(new, name, new_field.all())
+                        try:
+                            new_field.add(new_val)
+                        except AttributeError:
+                            print('\t\t\t\tno add')
+                    try:
+                        setattr(new, name, new_field.all())
+                    except AttributeError:
+                        print('\t\t\tintermediary')
             elif isinstance(orig_field, CopyMixin):
                 new_field = deepcopy(orig_field)
                 setattr(new, name, new_field)

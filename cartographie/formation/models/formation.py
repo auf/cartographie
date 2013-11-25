@@ -53,18 +53,16 @@ class EnveloppeParams(models.Model):
 
 
 class Formation(CopyMixin, WorkflowMixin, models.Model):
-    """
-        Formation entièrement ou partiellement en français dispensée par un
-        établissement membre de l'AUF
-    """
+    """Formation entièrement ou partiellement en français dispensée par un
+    établissement membre de l'AUF"""
 
-    # identification
     nom = models.CharField(
         max_length=250,
         verbose_name=u"Intitulé de la formation en français",
         help_text=u"Intitulé de la formation en français",
         blank=False
     )
+
     nom_origine = models.CharField(
         verbose_name=u"Intitulé de la formation dans la langue d'origine",
         max_length=250,
@@ -75,6 +73,7 @@ class Formation(CopyMixin, WorkflowMixin, models.Model):
             u"si ce n'est pas le français"
         ])
     )
+
     sigle = models.CharField(
         max_length=50,
         null=True,
@@ -82,6 +81,7 @@ class Formation(CopyMixin, WorkflowMixin, models.Model):
         verbose_name=u"Sigle de la formation",
         help_text=u"Indiquer ici le sigle de la formation s'il existe"
     )
+
     url = models.URLField(
         null=True,
         blank=True,
@@ -156,7 +156,6 @@ class Formation(CopyMixin, WorkflowMixin, models.Model):
         help_text=u"Texte d'aide"
     )
 
-    # Diplôme
     niveau_diplome = models.ForeignKey(
         NiveauDiplome,
         null=True,
@@ -309,6 +308,9 @@ class Formation(CopyMixin, WorkflowMixin, models.Model):
         blank=True,
         related_name="commentaires+"
     )
+
+    brouillon = models.ForeignKey(
+        'self', blank=True)
 
     class Meta:
         verbose_name = u"Formation"
