@@ -7,7 +7,11 @@ from django.core.urlresolvers import reverse
 class BaseModifierViewModel(object):
     def __init__(self, request, token, formation_id):
         self.token = token
+
         self.formation = Formation.objects.get(pk=formation_id)
+        if self.formation.brouillon:
+            self.formation = self.formation.brouillon
+
         self.statuts_valides = UserRole.valid_status(request.user, self.token, self.formation)
         self.transitions = TRANSITIONS[self.formation.statut]
         self.boutons = {}

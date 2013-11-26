@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from copy import copy
+
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 
@@ -51,6 +53,13 @@ u"""Vous ne pouvez pas attribuer le statut '%s'à cette fiche."""\
                     request, u"Le statut '%s' a été appliqué à la fiche" % (
                         statut_label[1], ))
 
+                if source_statut == 3 and statut_id == 1:
+                    # La formation va de 'publiée' à 'rédaction'
+                    self._brouillon(formation_courante)
+                elif statut_id == 3:
+                    # La formation va à 'publiée'
+                    self._publication(formation_courante)
+
                 self._envoie_courriel(
                     formation_courante, source_statut, statut_id)
 
@@ -64,8 +73,36 @@ u"""Vous ne pouvez pas attribuer le statut '%s'à cette fiche."""\
 
         return data
 
+    def _brouillon(self, formation):
+        '''Crée un clone en rédaction et garde la fiche courante publiée'''
+
+        print('brouillon')
+
+        clone = copy(formation)
+        clone.pk = None
+        clone.save()
+
+        formation.brouillon = clone
+        formation.statut = 3  # Garde la formation originale publiée
+        formation.save()
+
+    def _publication(self, formation):
+        '''Écrase la formation publiée avec les modifications'''
+
+        try:
+            original = formation.publication_originale
+
+            if original:
+                formation.publication_originale = None
+                formation.save()
+                original.brouillon = None
+                original.save()
+                original.delete()
+        except Formation.DoesNotExist:
+            pass
+
     # C'est moche, mais c'est pour avoir des étiquettes personnalisées pour
-    # mettre dans les courriels
+    # mettre dans les courriels. Sinon, utiliser les labels originaux.
     STATES = {
         1: u'rédaction',
         2: u'validée',

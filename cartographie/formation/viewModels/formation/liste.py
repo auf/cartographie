@@ -18,7 +18,7 @@ class ListeViewModel(BaseListeViewModel):
         self.cacher_onglets = True if onglet_actif == "formation" else False
 
         self.formations = Formation.objects.exclude(
-            statut=999).filter(
+            statut=999).exclude(brouillon__isnull=False).filter(
             etablissement=self.etablissement).order_by('nom')
 
     def get_data(self):

@@ -25,9 +25,8 @@ from sendfile import send_file
 
 
 def erreur(request):
-    """
-    Page d'erreur lorsque le token fait défaut
-    """
+    """Page d'erreur lorsque le token fait défaut"""
+
     return render_to_response(
         "erreur.html", {}, RequestContext(request)
     )
@@ -62,9 +61,7 @@ def liste(request, token):
 
 @token_required
 def ajouter(request, token):
-    """
-        Formulaire d'ajout d'une fiche formation
-    """
+    """Formulaire d'ajout d'une fiche formation"""
 
     from cartographie.formation.viewModels.formation.ajouter \
         import AjouterViewModel
@@ -100,9 +97,7 @@ def ajouter(request, token):
 
 @token_required
 def consulter(request, token, formation_id):
-    """
-        Fiche d'une formation
-    """
+    """Fiche d'une formation"""
 
     formation = Formation.objects.get(pk=formation_id)
 
@@ -121,9 +116,7 @@ def consulter(request, token, formation_id):
 
 @token_required
 def historique(request, token, formation_id):
-    """
-        Historique d'une formation
-    """
+    """Historique d'une formation"""
 
     historique = FormationModification.objects.filter(formation=formation_id) \
         .order_by("-date")
@@ -194,6 +187,11 @@ def modifier(request, token, formation_id=None):
 
     from cartographie.formation.viewModels.formation.modifier \
         import ModifierViewModel
+
+    formation = Formation.objects.get(pk=formation_id)
+    if formation.brouillon:
+        return redirect(
+            'formation_modifier', token, formation.brouillon.pk)
 
     modifVM = ModifierViewModel(request, token, formation_id)
 

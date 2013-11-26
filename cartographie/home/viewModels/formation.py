@@ -241,7 +241,9 @@ def recherche_formation(form):
 
         return formations.filter(q_formation)
 
-    formations = _filter(Formation.objects.exclude(statut=999))
+    formations = _filter(
+        Formation.objects.exclude(statut=999).exclude(
+            publication_originale__isnull=False))
 
     return formations
 

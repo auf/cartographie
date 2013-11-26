@@ -1,13 +1,11 @@
 #coding: utf-8
 
-import datetime
 from collections import defaultdict
+import datetime
 
 from django.db import models
 from django.db.models import signals, Q, Count
 from django.contrib.auth.models import User
-
-from auf.django.references import models as ref
 
 from .configuration import (
     Discipline, NiveauDiplome, TypeDiplome, DelivranceDiplome,
@@ -15,10 +13,10 @@ from .configuration import (
 from .etablissement import EtablissementComposante, EtablissementAutre
 from .personne import Personne
 from .workflow import WorkflowMixin
-
-from cartographie.formation.signals.formation import formation_is_valider
-
 from auf.django.mailing.models import ModeleCourriel, Enveloppe
+from auf.django.references import models as ref
+from cartographie.formation.signals.formation import formation_is_valider
+from cartographie.utils.copymixin import CopyMixin
 
 
 class EnveloppeParams(models.Model):
@@ -54,19 +52,17 @@ class EnveloppeParams(models.Model):
         app_label = 'formation'
 
 
-class Formation(WorkflowMixin, models.Model):
-    """
-        Formation entièrement ou partiellement en français dispensée par un
-        établissement membre de l'AUF
-    """
+class Formation(CopyMixin, WorkflowMixin, models.Model):
+    """Formation entièrement ou partiellement en français dispensée par un
+    établissement membre de l'AUF"""
 
-    # identification
     nom = models.CharField(
         max_length=250,
         verbose_name=u"Intitulé de la formation en français",
         help_text=u"Intitulé de la formation en français",
         blank=False
     )
+
     nom_origine = models.CharField(
         verbose_name=u"Intitulé de la formation dans la langue d'origine",
         max_length=250,
@@ -77,6 +73,7 @@ class Formation(WorkflowMixin, models.Model):
             u"si ce n'est pas le français"
         ])
     )
+
     sigle = models.CharField(
         max_length=50,
         null=True,
@@ -84,6 +81,7 @@ class Formation(WorkflowMixin, models.Model):
         verbose_name=u"Sigle de la formation",
         help_text=u"Indiquer ici le sigle de la formation s'il existe"
     )
+
     url = models.URLField(
         null=True,
         blank=True,
@@ -97,12 +95,14 @@ class Formation(WorkflowMixin, models.Model):
                   au maximum (choisir une des valeurs proposées)""",
         limit_choices_to={"actif": True}
     )
+
     discipline_2 = models.ForeignKey(
         Discipline, null=True, blank=True, related_name="+",
         help_text=u"""Indiquer une discipline minimum, trois disciplines
                   au maximum (choisir une des valeurs proposées)""",
         limit_choices_to={"actif": True}
     )
+
     discipline_3 = models.ForeignKey(
         Discipline, null=True, blank=True, related_name="+",
         help_text=u"""Indiquer une discipline minimum, trois disciplines
@@ -110,7 +110,6 @@ class Formation(WorkflowMixin, models.Model):
         limit_choices_to={"actif": True}
     )
 
-    # etablissement(s)
     etablissement = models.ForeignKey(
         ref.Etablissement,
         verbose_name=u"Structure d'accueil",
@@ -157,7 +156,6 @@ class Formation(WorkflowMixin, models.Model):
         help_text=u"Texte d'aide"
     )
 
-    # Diplôme
     niveau_diplome = models.ForeignKey(
         NiveauDiplome,
         null=True,
@@ -230,6 +228,7 @@ class Formation(WorkflowMixin, models.Model):
             u"(500 caractères maximum)"
         ])
     )
+
     type_formation = models.ForeignKey(
         TypeFormation,
         null=True,
@@ -239,6 +238,7 @@ class Formation(WorkflowMixin, models.Model):
         limit_choices_to={"actif": True},
         related_name="type_formation+"
     )
+
     langue = models.ManyToManyField(
         Langue,
         null=True,
@@ -251,6 +251,7 @@ class Formation(WorkflowMixin, models.Model):
         limit_choices_to={"actif": True},
         related_name="langue+"
     )
+
     duree = models.CharField(
         max_length=100,
         null=True,
@@ -309,14 +310,7 @@ class Formation(WorkflowMixin, models.Model):
         related_name="commentaires+"
     )
 
-    @staticmethod
-    def expire_dans_n_jours(jours):
-        today = datetime.datetime.now()
-        n_days_ago = today + datetime.timedelta(days=-(365 - jours))
-        n_days_ago_p1 = today + datetime.timedelta(days=-(365 - jours + 1))
-        expire_in_n_days = Formation.objects.filter(date_modification__lte=n_days_ago,
-                                                    date_modification__gte=n_days_ago_p1)
-        return expire_in_n_days
+    brouillon = models.OneToOneField('self', related_name='publication_originale', null=True)
 
     class Meta:
         verbose_name = u"Formation"

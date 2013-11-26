@@ -15,7 +15,8 @@ class FormationForm(forms.ModelForm):
             "commentaires",
             "etablissement_composante",
             "partenaires_auf",
-            "partenaires_autres"
+            "partenaires_autres",
+            'brouillon',
         )
 
         widgets = {
