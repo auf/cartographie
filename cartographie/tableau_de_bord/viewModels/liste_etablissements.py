@@ -38,10 +38,10 @@ class ListeEtablissementsViewModel(object):
     def __init__(self, request, menu_actif="liste_etablissements"):
         self.menu_actif = menu_actif
 
-        roles = UserRole.get_toutes_regions(request.user)
-        if roles:
+        regions = UserRole.get_toutes_regions(request.user)
+        if regions:
             self.liste_acces = Acces.objects.filter(
-                etablissement__region__in=roles)
+                etablissement__region__in=regions)
             self._sort(request.GET.get('tri'))
         else:
             self.user_sans_region = True
