@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from itertools import chain
+from itertools import chain, groupby
 
 from auf.django.references import models as ref
 from auf.django.permissions import Role
@@ -10,6 +10,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from .acces import Acces
+
 
 class UserRole(models.Model, Role):
     """
@@ -80,12 +81,16 @@ class UserRole(models.Model, Role):
 
 
     @staticmethod
-    def get_toutes_regions(user):
+    def get_toutes_regions(user, roletype=None):
         """Retourne l'ensemble des régions couvertes
         par l'ensemble des rôles de l'utilisateur"""
+        if not user:
+            return []
         roles = UserRole.objects.filter(user=user)
+        if roletype:
+            roles = roles.filter(type=roletype)
         regions = set(chain(*(role.regions.all() for role in roles)))
-        return regions
+        return list(regions)
 
     @staticmethod
     def has_permission_for_transition(user, token, formation, final_status):
@@ -130,6 +135,31 @@ class UserRole(models.Model, Role):
         return False
 
     @staticmethod
+    def get_contacts(user):
+        """Retourne les contacts d'un utilisateur"""
+        from .personne import Personne
+
+        regions = UserRole.get_toutes_regions(user, roletype="editeur")
+
+        personnes = Personne.objects.filter(role="referent",
+                                            etablissement__region__in=regions).distinct()
+
+        personnes = groupby(personnes,
+                            lambda p: p.etablissement.region)
+
+        users = User.objects.filter(roles__regions__in=regions,
+                                    roles__type="referent").distinct()
+
+        return {
+            'referents': personnes,
+            'referents_regions': users,
+        }
+
+
+
+
+
+    @staticmethod
     def valid_status(user, token, formation):
         status = set()
         for statut in [STATUTS.supprimee,
@@ -141,7 +171,6 @@ class UserRole(models.Model, Role):
                 status.add(statut)
 
         return status
-        
 
     def get_filter_for_perm(self, perm, model):
         if perm == "manage" and self.has_perm("manage"):

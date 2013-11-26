@@ -36,6 +36,11 @@ urlpatterns = patterns(
         name='dashboard_administration'
     ),
     url(
+        r'^contact$',
+        'contact',
+        name='dashboard_contact'
+    ),
+    url(
         r'^jetonizer$',
         'jetonizer',
         name='jetonizer'

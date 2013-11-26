@@ -13,6 +13,16 @@ from cartographie.formation.models import Acces, Formation, Personne, UserRole
 
 
 @login_required
+def contact(request):
+
+    contacts = UserRole.get_contacts(request.user)
+
+    return render_to_response(
+        "contact.html", contacts, RequestContext(request)
+    )
+
+
+@login_required
 def index(request):
     from viewModels.index import IndexViewModel as vm
 

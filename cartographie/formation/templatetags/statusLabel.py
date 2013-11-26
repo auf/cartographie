@@ -9,7 +9,6 @@ from cartographie.formation.constants import statuts_formation as STATUTS
 
 register = template.Library()
 
-
 @register.filter
 def statusLabel(value):
     """
