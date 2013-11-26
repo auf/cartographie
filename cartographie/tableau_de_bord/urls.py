@@ -20,6 +20,19 @@ urlpatterns = patterns(
         'liste_etablissements',
         name='dashboard_liste_etablissements'
     ),
+
+    url(
+        r'^export_contacts$',
+        'export_contacts',
+        name='dashboard_export_contacts'
+    ),
+
+    url(
+        r'^export_tous_contacts$',
+        'export_tous_contacts',
+        name='dashboard_export_tous_contacts'
+    ),
+
     url(
         r'^formations$',
         'liste_formations',

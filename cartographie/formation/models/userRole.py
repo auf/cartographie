@@ -144,9 +144,6 @@ class UserRole(models.Model, Role):
         personnes = Personne.objects.filter(role="referent",
                                             etablissement__region__in=regions).distinct()
 
-        personnes = groupby(personnes,
-                            lambda p: p.etablissement.region)
-
         users = User.objects.filter(roles__regions__in=regions,
                                     roles__type="referent").distinct()
 

@@ -21,3 +21,26 @@ $(document).ready(function(){
     },
   });
 });
+
+$('.select-check').click(function() {
+    updateEnabled = $('.select-check:checked').length !== 0;
+
+    if (updateEnabled) {
+        $('#select-update').removeClass('disabled');
+    } else {
+        $('#select-update').addClass('disabled');
+    }
+
+    return true;
+
+});
+
+$('#select-update').click(function() {
+
+    if (updateEnabled) {
+        $('#select-form').submit();
+    }
+
+    return false;
+
+});

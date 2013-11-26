@@ -2,13 +2,16 @@
 
 from collections import defaultdict
 from itertools import chain
+import csv
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.core.management import call_command
 from django.http import Http404
 from django.shortcuts import redirect, render, render_to_response
 from django.template import RequestContext
+from django.http import HttpResponse
 
 from cartographie.formation.models import Acces, Formation, Personne, UserRole
 
@@ -22,6 +25,47 @@ def contact(request):
         "contact.html", contacts, RequestContext(request)
     )
 
+@login_required
+def export_tous_contacts(request):
+    response = HttpResponse(content_type="text/csv")
+    response['Content-Disposition'] = 'attachment; filename="contacts.csv"'
+    contacts = UserRole.get_contacts(request.user)
+    personnes_csv = map(lambda u: ("%s %s" % (u.prenom, u.nom), u.courriel), contacts['referents'])
+    users_csv = map(lambda u: (u.get_full_name(), u.email), contacts['referents_regions'])
+
+    data_csv = chain(personnes_csv, users_csv)
+    writer =csv.writer(response)
+    for personne in data_csv:
+        writer.writerow(personne)
+    return response
+
+
+@login_required
+def export_contacts(request):
+    response = HttpResponse(content_type="text/csv")
+    response['Content-Disposition'] = 'attachment; filename="contacts.csv"'
+
+    keys = request.POST.keys()
+
+    personne_keys = map(lambda k: k.replace('personne-', ''),
+                        filter(lambda k: k.startswith('personne-'), keys))
+
+    user_keys = map(lambda k: k.replace('user-', ''),
+                    filter(lambda k: k.startswith('user'), keys))
+
+    personnes = Personne.objects.filter(pk__in=personne_keys)
+    users = User.objects.filter(pk__in=user_keys)
+
+    personnes_csv = map(lambda u: ("%s %s" % (u.nom, u.prenom), u.courriel), personnes)
+    users_csv = map(lambda p: (p.get_full_name(), p.email), users)
+
+    data_csv = chain(personnes_csv, users_csv)
+
+    writer = csv.writer(response)
+    for personne in data_csv:
+        writer.writerow(personne)
+
+    return response
 
 @login_required
 def index(request):

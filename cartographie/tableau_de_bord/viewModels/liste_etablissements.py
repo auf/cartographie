@@ -15,7 +15,8 @@ def make_sort_by_column(column):
 
 def sort_by_formation_count(acces, asc):
     prefix = '' if asc else '-'
-    return acces.annotate(Count('etablissement__formation')). \
+
+    return acces.filter(etablissement__formation__brouillon__isnull=False).annotate(Count('etablissement__formation')). \
         order_by(prefix + 'etablissement__formation__count')
 
 class ListeEtablissementsViewModel(object):
