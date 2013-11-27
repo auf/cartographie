@@ -105,7 +105,7 @@
     <div id="last" class="span12">
       <h3>Dernières formations mises à jour</h3>
       {% for formation in dernieres %}
-      <p><a href="{% url home_formation_detail formation.id %}"><strong>{{ formation.date_modification|date:"d F Y" }} </strong> &mdash; {{ formation }}</a></p>
+      <p><a href="{% url home_formation_detail formation.id %}"><strong>{{ formation }}</strong> &mdash; {{ formation.etablissement.nom }} &mdash; {{ formation.etablissement.pays.nom }} <small>(mise à jour le {{ formation.date_modification|date:"Y/m/d" }})</small></a></p>
       {% endfor %}
     </div>
   </div>

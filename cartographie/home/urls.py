@@ -10,6 +10,7 @@ urlpatterns = patterns(
     # header
     url(r"^aide/$", "aide", name="home_aide"),
     url(r"^a-propos/$", "apropos", name="home_a_propos"),
+    url(r"^accueil/$", "accueil_login", name="home_accueil_login"),
     url(r"^feedback/$", "feedback", name="home_feedback"),
 
     # navigation

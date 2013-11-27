@@ -1,36 +1,68 @@
 #coding: utf-8
 
+from collections import defaultdict
 import datetime
 
 from django.db import models
 from django.db.models import signals, Q, Count
 from django.contrib.auth.models import User
 
-from auf.django.references import models as ref
-
-from .configuration \
-    import Discipline, NiveauDiplome, TypeDiplome, DelivranceDiplome, \
-            NiveauUniversitaire, Vocation, TypeFormation, Langue
+from .configuration import (
+    Discipline, NiveauDiplome, TypeDiplome, DelivranceDiplome,
+    NiveauUniversitaire, Vocation, TypeFormation, Langue)
 from .etablissement import EtablissementComposante, EtablissementAutre
 from .personne import Personne
 from .workflow import WorkflowMixin
-
+from auf.django.mailing.models import ModeleCourriel, Enveloppe
+from auf.django.references import models as ref
 from cartographie.formation.signals.formation import formation_is_valider
+from cartographie.utils.copymixin import CopyMixin
 
 
-class Formation(WorkflowMixin, models.Model):
-    """
-        Formation entièrement ou partiellement en français dispensée par un
-        établissement membre de l'AUF
-    """
+class EnveloppeParams(models.Model):
 
-    # identification
+    enveloppe = models.ForeignKey(Enveloppe, related_name="auf_enveloppe")
+
+    nom = models.CharField(max_length=50)
+
+    url = models.TextField()
+
+    courriel_destinataire = models.EmailField()
+
+    def get_corps_context(self):
+
+        return {'nom': self.nom,
+                'adresse_validation': self.url}
+
+    def get_adresse(self):
+        return self.courriel_destinataire
+
+    @classmethod
+    def creer_depuis_modele(cls, code_modele):
+        """ Créée l'enveloppe en même temps que les paramètres"""
+
+        instance = cls()
+        modele = ModeleCourriel.objects.get(code=code_modele)
+        enveloppe = Enveloppe(modele=modele)
+        enveloppe.save()
+        instance.enveloppe = enveloppe
+        return instance
+
+    class Meta(object):
+        app_label = 'formation'
+
+
+class Formation(CopyMixin, WorkflowMixin, models.Model):
+    """Formation entièrement ou partiellement en français dispensée par un
+    établissement membre de l'AUF"""
+
     nom = models.CharField(
         max_length=250,
         verbose_name=u"Intitulé de la formation en français",
         help_text=u"Intitulé de la formation en français",
         blank=False
     )
+
     nom_origine = models.CharField(
         verbose_name=u"Intitulé de la formation dans la langue d'origine",
         max_length=250,
@@ -41,6 +73,7 @@ class Formation(WorkflowMixin, models.Model):
             u"si ce n'est pas le français"
         ])
     )
+
     sigle = models.CharField(
         max_length=50,
         null=True,
@@ -48,6 +81,7 @@ class Formation(WorkflowMixin, models.Model):
         verbose_name=u"Sigle de la formation",
         help_text=u"Indiquer ici le sigle de la formation s'il existe"
     )
+
     url = models.URLField(
         null=True,
         blank=True,
@@ -61,12 +95,14 @@ class Formation(WorkflowMixin, models.Model):
                   au maximum (choisir une des valeurs proposées)""",
         limit_choices_to={"actif": True}
     )
+
     discipline_2 = models.ForeignKey(
         Discipline, null=True, blank=True, related_name="+",
         help_text=u"""Indiquer une discipline minimum, trois disciplines
                   au maximum (choisir une des valeurs proposées)""",
         limit_choices_to={"actif": True}
     )
+
     discipline_3 = models.ForeignKey(
         Discipline, null=True, blank=True, related_name="+",
         help_text=u"""Indiquer une discipline minimum, trois disciplines
@@ -74,7 +110,6 @@ class Formation(WorkflowMixin, models.Model):
         limit_choices_to={"actif": True}
     )
 
-    # etablissement(s)
     etablissement = models.ForeignKey(
         ref.Etablissement,
         verbose_name=u"Structure d'accueil",
@@ -116,11 +151,11 @@ class Formation(WorkflowMixin, models.Model):
         null=True,
         blank=True,
         through="FormationPartenaireAutre",
-        verbose_name=u"Partenaires <strong class='text-info'>non membre</strong> de l'AUF",
+        verbose_name=u"""Partenaires <strong class='text-info'>non
+            membre</strong> de l'AUF""",
         help_text=u"Texte d'aide"
     )
 
-    # Diplôme
     niveau_diplome = models.ForeignKey(
         NiveauDiplome,
         null=True,
@@ -193,6 +228,7 @@ class Formation(WorkflowMixin, models.Model):
             u"(500 caractères maximum)"
         ])
     )
+
     type_formation = models.ForeignKey(
         TypeFormation,
         null=True,
@@ -202,6 +238,7 @@ class Formation(WorkflowMixin, models.Model):
         limit_choices_to={"actif": True},
         related_name="type_formation+"
     )
+
     langue = models.ManyToManyField(
         Langue,
         null=True,
@@ -214,6 +251,7 @@ class Formation(WorkflowMixin, models.Model):
         limit_choices_to={"actif": True},
         related_name="langue+"
     )
+
     duree = models.CharField(
         max_length=100,
         null=True,
@@ -234,7 +272,9 @@ class Formation(WorkflowMixin, models.Model):
             # "personne__etablissement": self.etablissement
         },
         related_name="responsables+",
-        help_text=u"Sélectionnez une personne dans la liste déroulante. Vous pouvez ajouter une nouvelle personne à la liste en cliquant sur le bouton ci-dessous."
+        help_text=u"""Sélectionnez une personne dans la liste déroulante. Vous
+            pouvez ajouter une nouvelle personne à la liste en cliquant sur le
+            bouton ci-dessous."""
 
     )
 
@@ -247,7 +287,9 @@ class Formation(WorkflowMixin, models.Model):
             # "personne__etablissement": self.etablissement
         },
         related_name="contacts+",
-        help_text=u"Sélectionnez une personne dans la liste déroulante. Vous pouvez ajouter une nouvelle personne à la liste en cliquant sur le bouton ci-dessous."
+        help_text=u"""Sélectionnez une personne dans la liste déroulante. Vous
+            pouvez ajouter une nouvelle personne à la liste en cliquant sur le
+            bouton ci-dessous."""
     )
 
     # gestion
@@ -267,6 +309,8 @@ class Formation(WorkflowMixin, models.Model):
         blank=True,
         related_name="commentaires+"
     )
+
+    brouillon = models.OneToOneField('self', related_name='publication_originale', null=True)
 
     class Meta:
         verbose_name = u"Formation"
@@ -298,10 +342,12 @@ class Formation(WorkflowMixin, models.Model):
 
         if self.pk is not None:
             orig = Formation.objects.get(pk=self.pk)
-            orig_fields = [getattr(orig, field) for field in self.content_fields]
-            self_fields = [getattr(self, field) for field in self.content_fields]
+            orig_fields = [
+                getattr(orig, field) for field in self.content_fields]
+            self_fields = [
+                getattr(self, field) for field in self.content_fields]
             changed = [x != y for x, y in zip(orig_fields, self_fields)]
-            
+
             if any(changed):
                 self.date_modification = datetime.datetime.now()
         else:
@@ -309,12 +355,14 @@ class Formation(WorkflowMixin, models.Model):
 
         super(Formation, self).save(*args, **kwargs)
 
-
     @staticmethod
     def num_formations_per_country():
 
         def result2pair(result):
-            return result['etablissement__pays__code_iso3'].lower(), result['count']
+            return (
+                result['etablissement__pays__code_iso3'].lower(),
+                result['count']
+            )
 
         # On doit passer par Formation.objects parce que
         # 'related_name' = '+' dans EtablissementBase pour la colonne
@@ -325,11 +373,6 @@ class Formation(WorkflowMixin, models.Model):
             .annotate(count=Count('etablissement__pays__code_iso3'))
 
         return dict(map(result2pair, query))
-
-
-# utilisation d'un signal apres la sauvegarde d'une formation
-# pour envoyer un courriel lorsqu'elle est validée par un établissement
-signals.post_save.connect(formation_is_valider, sender=Formation)
 
 
 class FormationModification(models.Model):
@@ -453,10 +496,21 @@ class FormationPartenaireAUF(models.Model):
         return u""
 
 
+class CourrielRappel(ModeleCourriel):
+    periode = models.CharField(max_length=50)
+    actif = models.BooleanField()
+
+    class Meta:
+        verbose_name = u"Rappel actualisation de formations"
+        verbose_name_plural = u"Rappel actualisation de formations"
+        app_label = "formation"
+        db_table = "formation_courrielrappel"
+
+
 class FormationPartenaireAutre(models.Model):
     formation = models.ForeignKey(Formation)
     etablissement = models.ForeignKey(
-        EtablissementAutre, 
+        EtablissementAutre,
         related_name="+"
     )
     partenaire_autre_emet_diplome = models.BooleanField(

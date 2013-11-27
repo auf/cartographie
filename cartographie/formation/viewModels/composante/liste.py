@@ -11,8 +11,8 @@ class ListeViewModel(BaseListeViewModel):
     """
     composantes = []
 
-    def __init__(self, token, onglet_actif="composante"):
-        super(ListeViewModel, self).__init__(token, onglet_actif)
+    def __init__(self, token, user, onglet_actif="composante"):
+        super(ListeViewModel, self).__init__(token, user, onglet_actif)
 
         self.composantes = EtablissementComposante.objects.filter(
             etablissement=self.etablissement

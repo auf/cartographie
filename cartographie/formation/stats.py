@@ -10,6 +10,7 @@ def num_etablissements_per_country():
 
     query = Etablissement.objects.values('pays__code_iso3')\
         .exclude(formation__isnull=True)\
+        .exclude(formation__publication_originale__isnull=False)\
         .annotate(count=Count('pays__code_iso3'))
 
     return dict(map(result2pair, query))
@@ -26,6 +27,7 @@ def num_formations_per_country():
 
     query = Formation.objects.values('etablissement__pays__code_iso3')\
         .exclude(statut=999)\
+        .exclude(publication_originale__isnull=False)\
         .annotate(count=Count('etablissement__pays__code_iso3'))
 
     return dict(map(result2pair, query))

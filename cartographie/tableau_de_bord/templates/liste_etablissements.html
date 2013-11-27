@@ -1,5 +1,5 @@
 {% extends "base_tableau_de_bord.html" %}
-
+{% load count_formations %}
 {% block Contenu %}
     <div class="span12">
         <div class="content">
@@ -42,7 +42,7 @@
                                     {{ ac.etablissement.nom }}
                                 </a>
                             </td>
-                            <td>{{ ac.etablissement.formation_set.count }}</td>
+                            <td>{{ ac.etablissement|count_formations }}</td>
                             <td>
                                 <a href="{% url formation_liste ac.token %}"
                                     class="btn btn-info">

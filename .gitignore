@@ -7,15 +7,19 @@
 *~
 \#*#
 src/*
+
 # DB de dev
 *.db
 *.sqlite
+
 # restants de merge
 *.orig
 *.rej
+
 # Configuration du projet - par environnement
 conf.py
 django.wsgi
+
 # buildout
 .installed.cfg
 bin
@@ -28,6 +32,11 @@ parts
 tmp
 sitestatic
 media
+
+# virtualenv
+include/
+lib/
+share/
 
 # Vagrant pour le poste local de Bernard
 /mysql-dumps/

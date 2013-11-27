@@ -4,14 +4,27 @@ AUF - Cartographie des formations
 Comment construire le projet
 ---
 
-Rouler les commandes suivantes:
+1.a Rouler les commandes suivantes:
 
     $ git clone https://github.com/auf/cartographie.git
     $ cd cartographie
     $ python bootstrap.py
     $ bin/buildout -c devel.cfg
 
-Créer le fichier conf.py à partir de conf.py.edit et y copier les informations de connexion à la BD
+Si la commande `bin/buildout` échoue avec le message d'erreur:
+
+    AttributeError: 'NoneType' object has no attribute 'location'
+
+1.b nettoyez le projet, puis installez un virtualenv ainsi que distribute:
+
+    $ rm -rf rm -rf bin/ develop-eggs/ eggs/ lib/ parts/
+    $ virtualenv2 --distribute .
+    $ pip install distribute
+    $ python bootstrap.py
+    $ bin/buildout -c devel.cfg
+
+2. Créer le fichier conf.py à partir de conf.py.edit et y copier les
+informations de connexion à la BD
 
     $ cd cartographie
     $ cp conf.py.edit conf.py
@@ -55,7 +68,8 @@ Comment rouler le server Django de dév. dans une VM Vagrant
 
     $ bin/django runserver [::]:8000
 
-Cela indique à Django de permettre les connexions de n'importe où sur le réseau actuel
+Cela indique à Django de permettre les connexions de n'importe où sur le réseau
+actuel
 
 Exécuter les tests de l'app
 ---
@@ -67,7 +81,8 @@ Il existe des TestCases pour les commandes propres à l'app
 La gestion des CSS de l'app Formation
 ---
 
-LessCSS est utilisé pour rassembler le CSS de Twitter Bootstrap en un seul fichier.
+LessCSS est utilisé pour rassembler le CSS de Twitter Bootstrap en un seul
+fichier.
 
 **Installation de ces dépendances**
 

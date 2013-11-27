@@ -12,6 +12,9 @@ from django.core.urlresolvers import reverse_lazy
 
 # Rapports d'erreurs
 SERVER_EMAIL = 'ne-pas-repondre@auf.org'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = '127.0.0.1'
+EMAIL_PORT = '1025'
 EMAIL_SUBJECT_PREFIX = '[auf_cartographie - %s] ' % socket.gethostname()
 ADMINS = ()
 
@@ -57,6 +60,7 @@ INSTALLED_APPS = (
     'auf.django.references',
     'auf.django.permissions',
     'auf.django.pong',
+    'auf.django.mailing',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_TEMPLATE_CONTEXT_PROCESSORS + (
@@ -68,6 +72,8 @@ TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_TEMPLATE_CONTEXT_PROCESSORS + (
 MIDDLEWARE_CLASSES = DEFAULT_MIDDLEWARE_CLASSES + (
     'auf.django.piwik.middleware.TrackMiddleware',
 )
+
+INTERNAL_IPS = ('127.0.0.1', '::ffff:127.0.0.1', )
 
 AUTHENTICATION_BACKENDS = DEFAULT_AUTHENTICATION_BACKENDS
 
@@ -123,7 +129,9 @@ ADMIN_TOOLS_INDEX_DASHBOARD = 'cartographie.dashboard.CustomIndexDashboard'
 
 from conf import *
 
-LOGIN_REDIRECT_URL = reverse_lazy("dashboard_statistiques")
+LOGIN_REDIRECT_URL = reverse_lazy("home_accueil_login")
 LOGIN_URL = reverse_lazy("login")
 
 UPLOAD_DIRECTORY = MEDIA_ROOT
+
+DEBUG = True

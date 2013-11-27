@@ -3,14 +3,14 @@
 {% block content %}
 Un nouveau feedback a été soumis sur le site web.
 
-Nom: {{ feedback.nom|default:"(Non spécifié)" }}
-Prénom: {{ feedback.prenom|default:"(Non spécifié)" }}
-Courriel: {{ feedback.courriel }}
-Profil: {{ feedback.profil|default:"(Non spécifié)" }}
-Profil autre: {{ feedback.profil_autre|default:"(Non spécifié)" }}
+Nom: {{ feedback.nom|striptags|default:"(Non spécifié)" }}
+Prénom: {{ feedback.prenom|striptags|default:"(Non spécifié)" }}
+Courriel: {{ feedback.courriel|striptags }}
+Profil: {{ feedback.profil|striptags|default:"(Non spécifié)" }}
+Profil autre: {{ feedback.profil_autre|striptags|default:"(Non spécifié)" }}
 
-Sujet: {{ feedback.sujet }}
+Sujet: {{ feedback.sujet|striptags }}
 
 Message:
-{{ feedback.contenu }}
+{{ feedback.contenu|striptags }}
 {% endblock %}

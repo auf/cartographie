@@ -1,11 +1,12 @@
-# coding: utf-8
+# -*- coding: utf-8 -*-
 
-from django.forms import ModelForm, Textarea
+from django import forms
 
-from cartographie.formation.models import Formation, FormationCommentaire, Personne
+from cartographie.formation.models import (
+    Formation, FormationCommentaire, Personne)
 
 
-class FormationForm(ModelForm):
+class FormationForm(forms.ModelForm):
     class Meta:
         model = Formation
         exclude = (
@@ -14,20 +15,17 @@ class FormationForm(ModelForm):
             "commentaires",
             "etablissement_composante",
             "partenaires_auf",
-            "partenaires_autres"
+            "partenaires_autres",
+            'brouillon',
         )
 
         widgets = {
-            "presentation": Textarea(
-                attrs={"rows": 5}
-            )
+            "presentation": forms.Textarea(attrs={"rows": 5})
         }
 
     def __init__(self, etablissement, afficher_etablissement, *args, **kwargs):
         super(FormationForm, self).__init__(*args, **kwargs)
 
-        # choisir les personnes et les contacts pour l'établissement courant
-        # ref: http://collingrady.wordpress.com/2008/07/24/useful-form-tricks-in-django/
         self.fields["responsables"].queryset = Personne.objects.filter(
             actif=True, etablissement=etablissement
         )
@@ -41,7 +39,7 @@ class FormationForm(ModelForm):
             del self.fields["etablissement_emet_diplome"]
 
 
-class FormationCommentaireForm(ModelForm):
+class FormationCommentaireForm(forms.ModelForm):
     class Meta:
         model = FormationCommentaire
         exclude = (
@@ -49,7 +47,14 @@ class FormationCommentaireForm(ModelForm):
         )
 
         widgets = {
-            "commentaire": Textarea(
-                attrs={"row": 3}
-            )
+            "commentaire": forms.Textarea(attrs={"row": 3})
         }
+
+
+class CommentaireOptionnelForm(forms.Form):
+
+    commentaire = forms.CharField(max_length=10000, required=False)
+
+    widgets = {
+        'commentaire': forms.Textarea(attrs={'row': 3})
+    }

@@ -9,16 +9,33 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.http import Http404, HttpResponseRedirect, HttpResponse
-from django.shortcuts import get_object_or_404, render_to_response, render
+from django.shortcuts import get_object_or_404, render_to_response, render, redirect
 from django.template import RequestContext, Template, Context
 from django.conf import settings
 
 from auf.django.references import models as ref
 from auf.django.references.models import Etablissement
-from cartographie.formation.models import Fichier, Formation
+
+from cartographie.formation.models import Fichier, Formation, Personne, Acces
 from cartographie.formation.sendfile import send_file
 from cartographie.formation.stats import num_etablissements_per_country
+from cartographie.formation.models.userRole import UserRole
 import cartographie.home
+
+@login_required
+def accueil_login(request):
+    regions = UserRole.get_toutes_regions(request.user)
+    if regions:
+        return HttpResponseRedirect(reverse('dashboard_statistiques'))
+    else:
+        try:
+            personne = Personne.objects.get(utilisateur=request.user)
+            if personne.role in ('referent', 'redacteur',):
+                token = Acces.objects.get(etablissement=personne.etablissement)
+
+            return redirect('formation_liste', token.token)
+        except Personne.DoesNotExist:
+            pass
 
 
 def get_film_url():
@@ -29,7 +46,8 @@ def get_film_url():
 
 
 def accueil(request):
-    lasts = Formation.objects.order_by('-date_modification')[:5]
+    lasts = Formation.objects.exclude(
+        statut=999).order_by('-date_modification')[:10]
 
     view_data = {
         'dernieres': lasts,
@@ -72,8 +90,13 @@ def liste_etablissements(request):
         if etablissement.formation_set.exclude(statut=999):
             regions[etablissement.region].append(etablissement)
 
+    # Trie les régions en ordre décroissant de nombre de formations par région
+    ordered = sorted(
+        ((k, v) for k, v in regions.iteritems()),
+        cmp=lambda a, b: cmp(len(b[1]), len(a[1])))
+
     context = {
-        'regions': regions,
+        'regions': ordered,
     }
 
     return render(request, 'etablissements.html', context)
@@ -157,7 +180,8 @@ def formation_detail(request, id, slug=None):
         'files': Fichier.objects.filter(
             formation=formation).filter(is_public=True).order_by('nom'),
         'composantes_actives': formation.etablissement_composante.filter(actif=True),
-        'auf_actifs': formation.partenaires_auf.filter(actif=True),
+        'auf_actifs': formation.formationpartenaireauf_set.filter(
+            etablissement__actif=True),
     })
 
     view_data = get_film_url()

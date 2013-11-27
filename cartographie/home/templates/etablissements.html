@@ -5,11 +5,11 @@
 <div class="row">
   <div class="span9">
     <div id="etablissement-liste">
-      {% for region in regions %}
-      <h3>{{ region }}</h3>
+      {% for region, etablissements in regions %}
+      <h3>{{ region }} <small>({{ etablissements|length }} établissements, {{ etablissements|length_sum }} formations)</small></h3>
       <div>
         <ul>
-          {% for etablissement in regions|get_item:region %}
+          {% for etablissement in etablissements %}
           <li>{{ etablissement.pays }} &mdash; <a href="{% url home_rechercher %}?etablissement={{ etablissement.id }}">{{ etablissement.nom }}</a></li>
           {% endfor %}
         </ul>

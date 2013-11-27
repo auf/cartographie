@@ -1,7 +1,7 @@
 # coding: utf-8
 
 from cartographie.formation.models import Acces
-
+from cartographie.formation.models import UserRole
 
 class BaseListeViewModel(object):
     """
@@ -13,7 +13,7 @@ class BaseListeViewModel(object):
     token = None
     etablissement = None
 
-    def __init__(self, token, onglet_actif):
+    def __init__(self, token, user, onglet_actif):
         if token:
             self.token = token
             acces = Acces.objects.filter(token=token)[0]

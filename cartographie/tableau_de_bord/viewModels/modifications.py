@@ -13,18 +13,14 @@ class ModificationsViewModel(object):
     def __init__(self, request, menu_actif="modifications"):
         self.menu_actif = menu_actif
 
-        try:
-            role = UserRole.objects.get(user=request.user)
-        except ObjectDoesNotExist:
-            role = None
-            self.user_sans_region = True
-
-        if role:
-            formations = Formation.objects.filter(etablissement__region__in=role.regions.all())
+        roles = UserRole.get_toutes_regions(request.user)
+        if roles:
+            formations = Formation.objects.filter(etablissement__region__in=roles)
             self.recent_modifications \
                 = FormationModification.objects.filter(formation__in=formations) \
-                .order_by("-date")
-
+                .order_by("-date")[:100]
+        else:
+            self.user_sans_region = True
 
     def get_data(self):
         return {
