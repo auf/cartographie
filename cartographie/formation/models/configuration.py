@@ -1,4 +1,4 @@
-#coding: utf-8
+# -*- coding: utf-8 -*-
 
 from django.db import models
 
@@ -84,6 +84,7 @@ class Vocation(AbstractNomStatut):
 
 
 class TypeFormation(AbstractNomStatut):
+
     class Meta:
         verbose_name = u"Type de formation"
         verbose_name_plural = u"Types de formation"
@@ -92,32 +93,37 @@ class TypeFormation(AbstractNomStatut):
 
 
 class Langue(AbstractNomStatut):
+
     class Meta:
         verbose_name = u"Langue"
         verbose_name_plural = u"Langues"
         app_label = "formation"
         db_table = "formation_config_langue"
-        
+
+
 class EtablissementCoordonnees(models.Model):
+
     etablissement = models.OneToOneField(
         ref.Etablissement,
         verbose_name=u"Établissement",
         help_text=u"Établissement membre de l'AUF",
         related_name="coordonnees"
     )
+
     latitude = models.DecimalField(
-        null=True, 
-        blank=True, 
+        null=True,
+        blank=True,
         max_digits=13,
         decimal_places=10
         )
+
     longitude = models.DecimalField(
-        null=True, 
-        blank=True, 
+        null=True,
+        blank=True,
         max_digits=13,
         decimal_places=10
         )
-    
+
     def __unicode__(self):
         return u"Coordonnées pour : %s" % self.etablissement
 

@@ -1,16 +1,17 @@
-from cartographie.formation.constants import statuts_formation
-from cartographie.formation.models import Fichier, Formation, UserRole
-from cartographie.formation.viewModels.baseAjouterViewModel \
-    import BaseAjouterViewModel
-from django.forms.models import inlineformset_factory
-from django.forms import ClearableFileInput, ModelForm, BooleanField, URLField
+# -*- coding: utf-8 -*-
 
-from django.utils.safestring import mark_safe
-from django.utils.html import escape
-from django.utils.encoding import force_unicode
 from django.core.urlresolvers import reverse
+from django.forms import ClearableFileInput, ModelForm, BooleanField, URLField
+from django.forms.models import inlineformset_factory
+from django.utils.encoding import force_unicode
+from django.utils.html import escape
+from django.utils.safestring import mark_safe
 
 from .base import BaseModifierViewModel
+from cartographie.formation.constants import statuts_formation
+from cartographie.formation.models import Fichier, Formation, UserRole
+from cartographie.formation.viewModels.baseAjouterViewModel import (
+    BaseAjouterViewModel)
 
 
 class CustomClearableFileInput(ClearableFileInput):
@@ -24,10 +25,15 @@ class CustomClearableFileInput(ClearableFileInput):
             'clear_checkbox_label': self.clear_checkbox_label,
         }
         template = u'%(input)s'
-        substitutions['input'] = super(ClearableFileInput, self).render(name, value, attrs)
+        substitutions['input'] = super(
+            ClearableFileInput, self).render(name, value, attrs)
 
         if value:
-            url = reverse("formation_fichiers", args=[self.token, value.instance.formation_id, value.instance.id])
+            url = reverse(
+                "formation_fichiers",
+                args=[
+                    self.token, value.instance.formation_id,
+                    value.instance.id])
             name = value.instance.nom
 
             template = self.template_with_initial
@@ -37,10 +43,14 @@ class CustomClearableFileInput(ClearableFileInput):
             if not self.is_required:
                 checkbox_name = self.clear_checkbox_name(name)
                 checkbox_id = self.clear_checkbox_id(checkbox_name)
-                substitutions['clear_checkbox_name'] = conditional_escape(checkbox_name)
-                substitutions['clear_checkbox_id'] = conditional_escape(checkbox_id)
-                substitutions['clear'] = CheckboxInput().render(checkbox_name, False, attrs={'id': checkbox_id})
-                substitutions['clear_template'] = self.template_with_clear % substitutions
+                substitutions['clear_checkbox_name'] = conditional_escape(
+                    checkbox_name)
+                substitutions['clear_checkbox_id'] = conditional_escape(
+                    checkbox_id)
+                substitutions['clear'] = CheckboxInput().render(
+                    checkbox_name, False, attrs={'id': checkbox_id})
+                substitutions['clear_template'] = (
+                    self.template_with_clear % substitutions)
 
         return mark_safe(template % substitutions)
 
@@ -54,7 +64,6 @@ class FichierForm(ModelForm):
         fields = ('file', 'nom', 'is_public')
 
 
-
 class FichierViewModel(BaseAjouterViewModel, BaseModifierViewModel):
     files = None
     forms = None
@@ -63,7 +72,8 @@ class FichierViewModel(BaseAjouterViewModel, BaseModifierViewModel):
         BaseAjouterViewModel.__init__(self, request, token)
         BaseModifierViewModel.__init__(self, request, token, formation_id)
         self.formation = Formation.objects.get(pk=formation_id)
-        self.files = Fichier.objects.filter(formation=self.formation).order_by('nom')
+        self.files = Fichier.objects.filter(
+            formation=self.formation).order_by('nom')
 
         # Model field -> Form field
         def callback(field, **kwargs):
@@ -74,10 +84,15 @@ class FichierViewModel(BaseAjouterViewModel, BaseModifierViewModel):
 
             return form_field
 
-        FichierFormSet = inlineformset_factory(Formation, Fichier, extra=1, form=FichierForm, formfield_callback=callback)
+        FichierFormSet = inlineformset_factory(
+            Formation, Fichier, extra=1, form=FichierForm,
+            formfield_callback=callback)
 
         if request.method == "POST":
-            self.formset = FichierFormSet(data=request.POST, files=request.FILES, instance=self.formation)
+            self.formset = FichierFormSet(
+                data=request.POST, files=request.FILES,
+                instance=self.formation)
+
             if self.formset.is_valid():
                 self.formset.save()
         self.formset = FichierFormSet(instance=self.formation)
@@ -86,11 +101,12 @@ class FichierViewModel(BaseAjouterViewModel, BaseModifierViewModel):
         data = BaseAjouterViewModel.get_data(self)
         data.update(BaseModifierViewModel.get_data(self))
         data.update({
-                'files': self.files,
-                'formation': self.formation,
-                'token': self.token,
-                'formset': self.formset,
-                'etablissement': self.etablissement,
-                'statuts_formation': statuts_formation,
-                })
+            'files': self.files,
+            'formation': self.formation,
+            'token': self.token,
+            'formset': self.formset,
+            'etablissement': self.etablissement,
+            'statuts_formation': statuts_formation,
+        })
+
         return data

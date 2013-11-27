@@ -40,10 +40,10 @@ class WorkflowViewModel(BaseAjouterViewModel):
             if statut_modifie:
                 pas_de_probleme = True
             else:
-                messages.error(
-                    request,
-u"""Vous ne pouvez pas attribuer le statut '%s'à cette fiche."""\
-                    % (statut2label[statut_id], ))
+                msg = (
+                    u"Vous ne pouvez pas attribuer le statut '%s'à cette " +
+                    "fiche.") % (statut2label[statut_id], )
+                messages.error(request, msg)
 
             if pas_de_probleme:
                 statut_labels = filter(lambda st: st[0] == statut_id, ETATS)
@@ -126,7 +126,8 @@ u"""Vous ne pouvez pas attribuer le statut '%s'à cette fiche."""\
             params.formation = formation.nom
             params.source = source
             params.target = target
-            params.url = reverse('formation_modifier', args=[token, formation.id])
+            params.url = reverse(
+                'formation_modifier', args=[token, formation.id])
             params.courriel_destinataire = personne.courriel
             params.save()
 

@@ -1,4 +1,4 @@
-#coding: utf-8
+# -*- coding: utf-8 -*-
 
 from django import forms
 from django.http import HttpResponseNotAllowed
@@ -12,30 +12,13 @@ from django.core.urlresolvers import reverse
 from cartographie.formation.models import *
 
 
-class ModelAdmin(ModelAdmin):
-    """
-    * Ajout d'une stack pour supprimer l'affichage de l'application dans
-        le breadcrumb
-    """
-    # add_form_template = "admin/custom_change_form.html"
-    # change_form_template = "admin/custom_change_form.html"
-    # change_list_template = "admin/custom_change_list.html"
-    # delete_confirmation_template = (
-    #     "admin/custom_delete_confirmation.html")
-    # delete_selected_confirmation_template = (
-    #     "admin/custom_delete_selected_confirmation.html")
-    # object_history_template = "admin/custom_object_history.html"
-    pass
-
-PERMISSION_DENIED_MESSAGE = ('Vous n\'avez pas la permission de faire '
-                             'cette opération')
+PERMISSION_DENIED_MESSAGE = (
+    "Vous n'avez pas la permission de faire cette opération")
 
 
 class GuardedAdminMixin(object):
-    """
-    Tous les modèles doivent inclure ce mixin, directement ou
-    indirectement, pour que les permissions soient vérifiés.
-    """
+    """Tous les modèles doivent inclure ce mixin, directement ou indirectement,
+    pour que les permissions soient vérifiés."""
 
     ACCEPTED_METHODS = ['POST', 'PUT', 'DELETE', 'GET', 'HEAD', 'OPTIONS']
 
@@ -43,8 +26,10 @@ class GuardedAdminMixin(object):
         return self.model.objects.with_perm(request.user, 'manage')
 
     def __check_read_write(self, request):
-        if (request.method in ['POST', 'PUT', 'DELETE']
-            and not request.user.has_perm('manage')):
+        method = request.method in ['POST', 'PUT', 'DELETE']
+        manage = request.user.has_perm('manage')
+
+        if method and not manage:
             messages.error(request, PERMISSION_DENIED_MESSAGE)
             raise PermissionDenied()
         elif (request.method in ['GET', 'HEAD', 'OPTIONS']):
@@ -72,41 +57,41 @@ class GuardedAdminMixin(object):
             extra_context,
             )
 
-    def changelist_view(self,
-                    request,
-                    extra_context={}):
+    def changelist_view(self, request, extra_context={}):
         self.__check_read_write(request)
+
         return super(GuardedAdminMixin, self).changelist_view(
             request,
             extra_context,
             )
 
-    def add_view(self,
-                    request,
-                    form_url='',
-                    extra_context={}):
-        if (request.method == 'POST'
-            and not request.user.has_perm('manage')):
+    def add_view(self, request, form_url='', extra_context={}):
+        post = request.method == 'POST'
+        manage = request.user.has_perm('manage')
+
+        if post and not manage:
             raise PermissionDenied()
-        return super(GuardedAdminMixin, self).add_view(
-            request,
-            form_url,
-            extra_context,
-            )
+
+        return super(
+            GuardedAdminMixin, self).add_view(request, form_url, extra_context)
 
     def has_delete_permission(self, request, obj=None):
         return request.user.is_superuser
 
     def has_change_permission(self, request, obj=None):
-        return (request.user.has_perm('manage', obj) or
-                request.user.has_perm('lecture_allocataires', obj)) # TODO : allocataires vient de SIGMA...
+        manage = request.user.has_perm('manage', obj)
+
+        # TODO allocataires vient de sigma.
+        allocataires = request.user.has_perm('lecture_allocataires', obj)
+
+        return manage or allocataires
 
     def has_add_permission(self, request):
         return request.user.has_perm('manage')
 
 
-# Je crois qu'il est preferable de garder l'ordre des deux mixin comme
-# tel, pour s'assurer que super(GuardedAdmin, self)... fasse un call a
+# XXX Je crois qu'il est preferable de garder l'ordre des deux mixin comme tel,
+# pour s'assurer que super(GuardedAdmin, self)... fasse un call a
 # ModelAdmin.<methode>
 class GuardedModelAdmin(GuardedAdminMixin, ModelAdmin):
     pass
@@ -126,7 +111,8 @@ class UserForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(UserForm, self).__init__(*args, **kwargs)
-        self.fields["password"].help_text = "<a href='./password'>Modifier le mot de passe de cet usager</a>"
+        self.fields["password"].help_text = (
+            "<a href='./password'>Modifier le mot de passe de cet usager</a>")
 
     def save(self, commit=True):
         user = super(UserForm, self).save(commit=commit)
@@ -175,7 +161,7 @@ class FormationComposanteInline(TabularInline):
 class FormationAdmin(ModelAdmin):
     list_display = ('etablissement', 'nom', 'statut',)
     list_display_links = ('nom',)
-    
+
     list_filter = (
         'etablissement__region',
         'statut',
@@ -185,7 +171,7 @@ class FormationAdmin(ModelAdmin):
         'nom',
         'etablissement__nom',
     )
-                    
+
     inlines = [
         FormationComposanteInline,
         FormationPartenaireAUFInline,
@@ -256,9 +242,9 @@ class AccesAdmin(ModelAdmin):
     _etablissement_nom.short_description = u"Établissement"
 
     def _token(self, instance):
-        if instance.active == True:
+        if instance.active is True:
             output = instance.token
-        elif instance.active == False:
+        elif instance.active is False:
             output = u"Désactivé"
         else:
             output = u"Non généré"
@@ -267,11 +253,11 @@ class AccesAdmin(ModelAdmin):
 
     def _url(self, instance):
         # TODO : virer hardcode domain (basse priorité)
-        if instance.active == True:
+        if instance.active is True:
             href = reverse("formation_liste", args=[instance.token])
             text = "http://cartographie.auf.org%s" % href
             output = self._get_link(href, text)
-        elif instance.active == False:
+        elif instance.active is False:
             output = u"Désactivé"
         else:
             output = u"Non généré"
@@ -346,9 +332,10 @@ class FormationModificationAdmin(ModelAdmin):
     def has_delete_permission(self, request, obj=None):
         return False
 
+
 class EtablissementCoordonneesAdmin(ModelAdmin):
     list_display = (
-        '_region', '_pays', '_etablissement_id', 
+        '_region', '_pays', '_etablissement_id',
         '_etablissement', 'latitude', 'longitude',
     )
     list_display_links = ('_etablissement',)

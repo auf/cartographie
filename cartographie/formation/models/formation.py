@@ -310,7 +310,8 @@ class Formation(CopyMixin, WorkflowMixin, models.Model):
         related_name="commentaires+"
     )
 
-    brouillon = models.OneToOneField('self', related_name='publication_originale', null=True)
+    brouillon = models.OneToOneField(
+        'self', related_name='publication_originale', null=True)
 
     class Meta:
         verbose_name = u"Formation"

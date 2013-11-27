@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 from itertools import chain, groupby
 
 from auf.django.references import models as ref
@@ -54,7 +55,6 @@ class UserRole(models.Model, Role):
     def has_perm(self, perm):
         return perm in self.perms[self.type]
 
-
     @staticmethod
     def a_un_role_sur_etablissement(user, etablissement, *roles):
         """ Retourne True si l'utilisateur possède l'un des rôles sur
@@ -69,16 +69,16 @@ class UserRole(models.Model, Role):
             return False
         return True
 
-
-    # FIXME
-    # Pour éviter le  monkey patching. mettre dans User si on upgrade à Django 1.5
+    # FIXME Pour éviter le  monkey patching. mettre dans User si on upgrade à
+    # Django 1.5
     @staticmethod
     def is_editeur_etablissement(user, etablissement):
+        anonymous = user.is_anonymous()
+        role = user.roles.filter(
+            regions__pk=etablissement.region.pk).filter(
+            type=u'editeur').exists()
 
-        return not user.is_anonymous() and user.roles.filter(
-              regions__pk=etablissement.region.pk
-          ).filter(type=u'editeur').exists()
-
+        return not anonymous and role
 
     @staticmethod
     def get_toutes_regions(user, roletype=None):
@@ -97,7 +97,8 @@ class UserRole(models.Model, Role):
 
         def token2etablissement(token):
             try:
-                acces = Acces.objects.select_related('etablissement').get(token=token)
+                acces = Acces.objects.select_related(
+                    'etablissement').get(token=token)
             except ObjectDoesNotExist:
                 return None
 
@@ -106,7 +107,6 @@ class UserRole(models.Model, Role):
                 return None
             return etablissement
 
-
         try:
             permissions = TRANSITIONS[formation.statut][final_status]['roles']
         except KeyError:
@@ -114,22 +114,26 @@ class UserRole(models.Model, Role):
 
         if user.is_active and user.is_superuser:
             return True
-        
+
         if user.is_anonymous() and 'token' in permissions:
             etablissement = token2etablissement(token)
             if etablissement and etablissement == formation.etablissement:
                 return True
-        
+
         if not user.is_active:
             return False
 
         if permissions:
-            if UserRole.is_editeur_etablissement(user, formation.etablissement):
+            editeur = UserRole.is_editeur_etablissement(
+                user, formation.etablissement)
+
+            if editeur:
                 return True
 
-            if UserRole.a_un_role_sur_etablissement(user,
-                                                    formation.etablissement,
-                                                    *permissions):
+            role = UserRole.a_un_role_sur_etablissement(
+                user, formation.etablissement, *permissions)
+
+            if role:
                 return True
 
         return False
@@ -141,8 +145,8 @@ class UserRole(models.Model, Role):
 
         regions = UserRole.get_toutes_regions(user, roletype="editeur")
 
-        personnes = Personne.objects.filter(role="referent",
-                                            etablissement__region__in=regions).distinct()
+        personnes = Personne.objects.filter(
+            role="referent", etablissement__region__in=regions).distinct()
 
         personnes = groupby(personnes,
                             lambda p: p.etablissement.region)
@@ -155,19 +159,20 @@ class UserRole(models.Model, Role):
             'referents_regions': users,
         }
 
-
-
-
-
     @staticmethod
     def valid_status(user, token, formation):
         status = set()
-        for statut in [STATUTS.supprimee,
-                       STATUTS.en_redaction,
-                       STATUTS.validee,
-                       STATUTS.publiee]:
-            if formation.statut != statut and \
-                    UserRole.has_permission_for_transition(user, token, formation, statut):
+
+        stat_list = [
+            STATUTS.supprimee, STATUTS.en_redaction, STATUTS.validee,
+            STATUTS.publiee]
+
+        for statut in stat_list:
+            different = formation.statut != statut
+            permission = UserRole.has_permission_for_transition(
+                user, token, formation, statut)
+
+            if different and permission:
                 status.add(statut)
 
         return status

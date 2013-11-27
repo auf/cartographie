@@ -1,4 +1,4 @@
-#coding: utf-8
+# -*- coding: utf-8 -*-
 
 from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
@@ -12,6 +12,7 @@ ETATS = [
     (STATUTS.validee, STATUTS.validee_label),
     (STATUTS.publiee, STATUTS.publiee_label),
 ]
+
 
 def is_statut_final(statut_id):
     return int(statut_id) == int(STATUTS.supprimee)
@@ -45,8 +46,10 @@ class WorkflowMixin(models.Model):
         abstract = True
 
     def changement_necessite_commentaire(self, statut_id):
-        return self.is_statut_precedent(statut_id)\
-          or self.is_statut_terminal(statut_id)
+        precedent = self.is_statut_precedent(statut_id)
+        terminal = self.is_statut_terminal(statut_id)
+
+        return precedent or terminal
 
     def is_statut_precedent(self, statut_id):
         return statut_id == STATUTS.en_redaction
@@ -59,7 +62,7 @@ class WorkflowMixin(models.Model):
     def set_statut(self, user, token, statut_id):
         has_permission = UserRole.has_permission_for_transition(
             user, token, self, statut_id)
-            
+
         if has_permission:
             self.statut = statut_id
 

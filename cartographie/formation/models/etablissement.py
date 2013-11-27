@@ -1,4 +1,4 @@
-# coding: utf-8
+# -*- coding: utf-8 -*-
 
 from django.db import models
 
@@ -6,6 +6,7 @@ from auf.django.references import models as ref
 
 
 class EtablissementComposante(models.Model):
+
     nom = models.CharField(
         max_length=150,
         verbose_name=u"Nom",
@@ -118,7 +119,7 @@ class EtablissementAutre(models.Model):
     )
 
     etablissement = models.ForeignKey(
-        ref.Etablissement,    
+        ref.Etablissement,
         null=False,
         blank=False,
         verbose_name=u"Établissement membre de l'AUF",

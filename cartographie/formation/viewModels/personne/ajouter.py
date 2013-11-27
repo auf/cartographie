@@ -1,13 +1,15 @@
-# coding: utf-8
+# -*- coding: utf-8 -*-
 
 from django.core.urlresolvers import reverse
 
-from cartographie.formation.viewModels.baseAjouterViewModel \
-    import BaseAjouterViewModel
+from cartographie.formation.viewModels.baseAjouterViewModel import (
+    BaseAjouterViewModel)
 
 from cartographie.formation.forms.personne import PersonneForm
 
+
 class AjouterViewModel(BaseAjouterViewModel):
+
     form = None
     submit_url = None
     json_request = None

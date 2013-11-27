@@ -2,6 +2,7 @@ from django import template
 
 register = template.Library()
 
+
 @register.simple_tag
 def active(request, pattern):
     import re
@@ -26,10 +27,13 @@ def disciplines_actives(formation):
     def is_active(obj):
         return obj and obj.actif
 
-    return ', '.join(map(discipline2nom,
-                         filter(is_active,
-                                map(index2discipline,
-                                    range(1,4)))))
+    disciplines = [
+        discipline2nom(index2discipline(x))
+        for x in [1, 2, 3]
+        if is_active(index2discipline(x))
+    ]
+
+    return ', '.join(disciplines)
 
 
 @register.filter

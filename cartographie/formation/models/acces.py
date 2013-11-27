@@ -1,7 +1,7 @@
-#coding: utf-8
+# -*- coding: utf-8 -*-
 
-import string
 import random
+import string
 
 from django.db import models
 
@@ -9,13 +9,12 @@ from auf.django.references import models as ref
 
 
 class Acces(models.Model):
-    """
-        Classe d'association d'un établissement à un jeton d'identification
-    """
+
+    """Classe d'association d'un établissement à un jeton d'identification"""
 
     etablissement = models.ForeignKey(ref.Etablissement)
-    token = models.CharField(max_length=128, unique=True, null=False,
-              verbose_name="Code d'accès")
+    token = models.CharField(
+        max_length=128, unique=True, null=False, verbose_name="Code d'accès")
     active = models.NullBooleanField()
 
     token_charset = "abcdefghiklmnopqrstuvwxyz01234567890"

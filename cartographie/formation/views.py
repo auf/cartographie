@@ -54,7 +54,8 @@ def liste(request, token):
 
     return render_to_response(
         "liste.html",
-        ListeViewModel(token, request.user, onglet_actif="formation").get_data(),
+        ListeViewModel(
+            token, request.user, onglet_actif="formation").get_data(),
         context
     )
 
@@ -454,7 +455,8 @@ def liste_personne(request, token):
 
     return render_to_response(
         "liste.html",
-        ListeViewModel(token, request.user, onglet_actif="personne").get_data(),
+        ListeViewModel(
+            token, request.user, onglet_actif="personne").get_data(),
         RequestContext(request)
     )
 
@@ -512,7 +514,6 @@ def commentaire_avant_changement_statut(
             instance = isinstance(vm.form, CommentaireOptionnelForm)
             content = vm.form.cleaned_data['commentaire']
             if instance and content:
-                import pdb; pdb.set_trace()
                 vm.form = FormationCommentaireForm(request.POST)
                 vm.form.is_valid()
 
@@ -629,7 +630,8 @@ def liste_partenaire_autre(request, token):
 
     return render_to_response(
         "liste.html",
-        ListeViewModel(token, request.user, onglet_actif="partenaire-autre").get_data(),
+        ListeViewModel(
+            token, request.user, onglet_actif="partenaire-autre").get_data(),
         RequestContext(request)
     )
 
@@ -721,7 +723,8 @@ def liste_composante(request, token):
 
     return render_to_response(
         "liste.html",
-        ListeViewModel(token, request.user, onglet_actif="composante").get_data(),
+        ListeViewModel(
+            token, request.user, onglet_actif="composante").get_data(),
         RequestContext(request)
     )
 

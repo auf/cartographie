@@ -10,9 +10,13 @@ from cartographie.formation.models.jeton_password import JetonPassword
 from cartographie.formation.models.userRole import UserRole
 from cartographie.formation.models.acces import Acces
 
+
 class CartoEtablissement(ref.Etablissement):
+
     def has_referent(self):
-        count = Personne.objects.filter(etablissement=self, role="referent").count()
+        count = Personne.objects.filter(
+            etablissement=self, role="referent").count()
+
         return bool(count)
 
     def peut_consulter(self, user):
@@ -28,9 +32,11 @@ class CartoEtablissement(ref.Etablissement):
             return True
 
         # Soit qu'il a un rôle sur la région
-        roles = UserRole.objects.filter(user=user,
-                                        regions=self.region,
-                                        type__in=(u'editeur', u"referent")).count()
+        roles = UserRole.objects.filter(
+            user=user,
+            regions=self.region,
+            type__in=(u'editeur', u"referent")).count()
+
         if roles:
             return True
 
@@ -104,7 +110,8 @@ class Personne(models.Model):
         User, verbose_name=u'Utilisateur', blank=True, null=True)
 
     jeton_password = models.ForeignKey(
-        JetonPassword, verbose_name=u'Jeton de mot de passe', blank=True, null=True)
+        JetonPassword, verbose_name=u'Jeton de mot de passe', blank=True,
+        null=True)
 
     def save(self, *args, **kwargs):
         if not self.id:
@@ -159,12 +166,6 @@ class Personne(models.Model):
             params.save()
 
         envoyer('refvalid', 'cartographie@auf.org')
-
-
-    def _courriel_validation(self, jeton=None):
-        # FIXME
-        if jeton:
-            print(jeton.jeton)
 
     def __unicode__(self):
         return u"%s %s" % (self.prenom, self.nom.upper())

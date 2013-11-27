@@ -1,4 +1,4 @@
-# coding: utf-8
+# -*- coding: utf-8 -*-
 
 from django.conf.urls.defaults import *
 
@@ -37,12 +37,18 @@ urlpatterns = patterns(
         name='formation_actualiser'
     ),
     url(
-        r'^(?P<token>\w+)/formation/tout_actualiser/(?P<etablissement_id>\d+)$',
+        (
+            r'^(?P<token>\w+)/formation/tout_actualiser/' +
+            r'(?P<etablissement_id>\d+)$'
+        ),
         'tout_actualiser',
         name='formation_tout_actualiser'
     ),
     url(
-        r'^(?P<token>\w+)/formation/select_actualiser/(?P<etablissement_id>\d+)$',
+        (
+            r'^(?P<token>\w+)/formation/select_actualiser/' +
+            r'(?P<etablissement_id>\d+)$'
+        ),
         'select_actualiser',
         name='formation_select_actualiser'
     ),
@@ -52,7 +58,10 @@ urlpatterns = patterns(
         name="formation_modifier"
     ),
     url(
-        r"^(?P<token>\w+)/formation/(?P<formation_id>\d+)/modifier_etablissements$",
+        (
+            r"^(?P<token>\w+)/formation/(?P<formation_id>\d+)/" +
+            r"modifier_etablissements$"
+        ),
         "modifier_etablissements",
         name="formation_modifier_etablissements"
     ),
@@ -67,32 +76,50 @@ urlpatterns = patterns(
         name="formation_modifier_fichiers"
     ),
     url(
-        r"^(?P<token>\w+)/formation/(?P<formation_id>\d+)/(?P<nouveau_statut>\d+)/commentaires/$",
+        (
+            r"^(?P<token>\w+)/formation/(?P<formation_id>\d+)/" +
+            r"(?P<nouveau_statut>\d+)/commentaires/$"
+        ),
         "commentaire_avant_changement_statut",
         name="formation_commentaire_avant_changement_statut"
     ),
     url(
-        r"^(?P<token>\w+)/formation/(?P<formation_id>\d+)/commentaires/ajouter$",
+        (
+            r"^(?P<token>\w+)/formation/(?P<formation_id>\d+)/commentaires/" +
+            r"ajouter$"
+        ),
         "commentaire_ajouter",
         name="commentaire_ajouter"
     ),
     url(
-        r"^(?P<token>\w+)/formation/(?P<formation_id>\d+)/commentaires/(?P<commentaire_id>\d+)/modifier$",
+        (
+            r"^(?P<token>\w+)/formation/(?P<formation_id>\d+)/commentaires/" +
+            r"(?P<commentaire_id>\d+)/modifier$"
+        ),
         "commentaire_modifier",
         name="commentaire_modifier"
     ),
     url(
-        r"^(?P<token>\w+)/formation/(?P<formation_id>\d+)/commentaires/(?P<commentaire_id>\d+)/supprimer$",
+        (
+            r"^(?P<token>\w+)/formation/(?P<formation_id>\d+)/commentaires/" +
+            r"(?P<commentaire_id>\d+)/supprimer$"
+        ),
         "commentaire_supprimer",
         name="commentaire_supprimer"
     ),
     url(
-        r"^(?P<token>\w+)/formation/(?P<formation_id>\d+)/fichiers/(?P<fichier_id>\d+)$",
+        (
+            r"^(?P<token>\w+)/formation/(?P<formation_id>\d+)/fichiers/" +
+            r"(?P<fichier_id>\d+)$"
+        ),
         "fichiers",
         name="formation_fichiers"
         ),
     url(
-        r"^(?P<token>\w+)/formation/(?P<formation_id>\d+)/workflow/(?P<statut_id>\d+)$",
+        (
+            r"^(?P<token>\w+)/formation/(?P<formation_id>\d+)/workflow/" +
+            r"(?P<statut_id>\d+)$"
+        ),
         "modifier_workflow",
         name="formation_modifier_workflow"
     ),
@@ -144,7 +171,10 @@ urlpatterns = patterns(
         name="formation_partenaire_autre_ajouter_popup"
     ),
     url(
-        r"^(?P<token>\w+)/partenaire_autre/(?P<partenaire_autre_id>\d+)/modifier$",
+        (
+            r"^(?P<token>\w+)/partenaire_autre/(?P<partenaire_autre_id>\d+)" +
+            r"/modifier$"
+        ),
         "modifier_partenaire_autre",
         name="formation_partenaire_autre_modifier"
     ),

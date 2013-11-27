@@ -1,13 +1,13 @@
-# coding: utf-8
+# -*- coding: utf-8 -*-
 
 from cartographie.formation.models import Acces
 from cartographie.formation.models import UserRole
 
+
 class BaseListeViewModel(object):
-    """
-        La class de Base qui contient les propriétés essentiels
-        pour une ListeViewModel
-    """
+
+    """La class de Base qui contient les propriétés essentielles pour une
+    ListeViewModel"""
 
     onglet_actif = None
     token = None
