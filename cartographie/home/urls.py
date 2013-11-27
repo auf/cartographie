@@ -1,4 +1,4 @@
-# coding: utf-8
+# -*- coding: utf-8 -*-
 
 from django.conf.urls.defaults import *
 
@@ -6,7 +6,7 @@ from django.conf.urls.defaults import *
 urlpatterns = patterns(
     "cartographie.home.views",
     url(r"^$", "accueil", name="home_accueil"),
-    
+
     # header
     url(r"^aide/$", "aide", name="home_aide"),
     url(r"^a-propos/$", "apropos", name="home_a_propos"),
@@ -20,10 +20,14 @@ urlpatterns = patterns(
     # footer
     url(r"^legal/$", "legal", name="home_legal"),
     url(r"^contact/$", "contact", name="home_contact"),
-    url(r"^credits/$", "credits", name="home_credits"),    
+    url(r"^credits/$", "credits", name="home_credits"),
 
     # formation
-    url(r"^formations/(?P<id>\d+)$", "formation_detail", name="home_formation_detail"),
+    url(
+        r"^formations/(?P<id>\d+)$",
+        "formation_detail",
+        name="home_formation_detail"
+    ),
     url(r"^geojson/$", "geojson_formations", name="home_geojson_formations"),
 
     url(r"^fichiers/(?P<fichier_id>\d+)$", "fichiers", name="home_fichiers"),

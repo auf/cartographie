@@ -1,9 +1,10 @@
-from lxml import etree
-import json
 import csv
+import json
+from lxml import etree
 
 pays_ref = []
 filename = 'ref_pays.csv'
+
 
 def unicode_csv_reader(utf8_data, dialect=csv.excel, **kwargs):
     csv_reader = csv.reader(utf8_data, dialect=dialect, **kwargs)
@@ -35,6 +36,10 @@ for country in root:
     south = float(country.findtext('south'))
     latitude = (north + south) / 2
     longitude = (east + west) / 2
-    countries[countryCode] = {'lat': latitude, 'lon': longitude , 'nom': get_nom_for_id(countryCode)}
-print json.dumps(countries)
+    countries[countryCode] = {
+        'lat': latitude,
+        'lon': longitude,
+        'nom': get_nom_for_id(countryCode)
+    }
 
+print(json.dumps(countries))

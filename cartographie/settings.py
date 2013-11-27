@@ -2,12 +2,13 @@
 
 import os
 import socket
-from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as \
-        DEFAULT_TEMPLATE_CONTEXT_PROCESSORS
-from django.conf.global_settings import MIDDLEWARE_CLASSES as \
-        DEFAULT_MIDDLEWARE_CLASSES
-from django.conf.global_settings import AUTHENTICATION_BACKENDS as \
-        DEFAULT_AUTHENTICATION_BACKENDS
+
+from django.conf.global_settings import (
+    TEMPLATE_CONTEXT_PROCESSORS as DEFAULT_TEMPLATE_CONTEXT_PROCESSORS)
+from django.conf.global_settings import (
+    MIDDLEWARE_CLASSES as DEFAULT_MIDDLEWARE_CLASSES)
+from django.conf.global_settings import (
+    AUTHENTICATION_BACKENDS as DEFAULT_AUTHENTICATION_BACKENDS)
 from django.core.urlresolvers import reverse_lazy
 
 # Rapports d'erreurs
@@ -92,7 +93,9 @@ LOGGING = {
     },
     'formatters': {
         'verbose': {
-            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+            'format': (
+                '%(levelname)s %(asctime)s %(module)s %(process)d ' +
+                '%(thread)d %(message)s')
         },
     },
     'handlers': {

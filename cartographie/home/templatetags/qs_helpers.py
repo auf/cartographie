@@ -1,4 +1,4 @@
-from django import template 
+from django import template
 
 register = template.Library()
 
@@ -13,4 +13,6 @@ def qs_replace(value, **kwargs):
 
 @register.filter
 def length_sum(etablissements, **kwargs):
-    return sum(len(etablissement.formation_set.exclude(statut=999)) for etablissement in etablissements)
+    return sum(
+        len(etablissement.formation_set.exclude(statut=999))
+        for etablissement in etablissements)

@@ -6,4 +6,3 @@ import sys
 sys.stdout = sys.stderr
 
 from cartographie.settings import *
-

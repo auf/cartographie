@@ -1,11 +1,11 @@
-import simplejson
 import codecs
 import csv
-
+import simplejson
 
 pays_ref = []
 filename = 'ref_pays.csv'
 pays_file = 'world.json'
+
 
 def unicode_csv_reader(utf8_data, dialect=csv.excel, **kwargs):
     csv_reader = csv.reader(utf8_data, dialect=dialect, **kwargs)
@@ -37,15 +37,15 @@ def replace_in_json():
             new_name = get_nom_for_id(pays_id)
             if new_name:
                 pays['properties']['NAME'] = new_name
-                print new_name
+                print(new_name)
             else:
-                print pays['properties']['NAME']
+                print(pays['properties']['NAME'])
             new_json['features'].append(pays)
     f = codecs.open('test', 'w', 'utf-8')
-    print simplejson.dumps(new_json, indent=' ')
+    print(simplejson.dumps(new_json, indent=' '))
     f.write(simplejson.dumps(new_json))
 
 if __name__ == '__main__':
     load_pays_ref()
     replace_in_json()
-    print get_nom_for_id('CHE')
+    print(get_nom_for_id('CHE'))

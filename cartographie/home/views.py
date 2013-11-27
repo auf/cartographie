@@ -1,4 +1,4 @@
-#coding: utf-8
+# -*- coding: utf-8 -*-
 
 from collections import defaultdict
 from datetime import datetime, timedelta
@@ -9,18 +9,19 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.http import Http404, HttpResponseRedirect, HttpResponse
-from django.shortcuts import get_object_or_404, render_to_response, render, redirect
+from django.shortcuts import (
+    get_object_or_404, render_to_response, render, redirect)
 from django.template import RequestContext, Template, Context
 from django.conf import settings
 
 from auf.django.references import models as ref
 from auf.django.references.models import Etablissement
-
 from cartographie.formation.models import Fichier, Formation, Personne, Acces
 from cartographie.formation.sendfile import send_file
 from cartographie.formation.stats import num_etablissements_per_country
 from cartographie.formation.models.userRole import UserRole
 import cartographie.home
+
 
 @login_required
 def accueil_login(request):
@@ -179,7 +180,8 @@ def formation_detail(request, id, slug=None):
         'formation': formation,
         'files': Fichier.objects.filter(
             formation=formation).filter(is_public=True).order_by('nom'),
-        'composantes_actives': formation.etablissement_composante.filter(actif=True),
+        'composantes_actives': formation.etablissement_composante.filter(
+            actif=True),
         'auf_actifs': formation.formationpartenaireauf_set.filter(
             etablissement__actif=True),
     })
