@@ -6,14 +6,15 @@ from django.template.loader import get_template
 from django.contrib.auth.models import User
 
 from cartographie.formation.constants import statuts_formation as STATUTS
-from cartographie.formation.models import Acces, UserRole
+from cartographie.formation.models import Acces
 
 
 def formation_is_valider(sender, instance, signal, *args, **kwargs):
-    """
-        Envoi de courriel lorsque la formation (@instance) possède
-        le statut "validée"
-    """
+    '''Envoi de courriel lorsque la formation (@instance) possède le statut
+    "validée"'''
+
+    from cartographie.formation.models import UserRole
+
     formation_courante = instance
 
     if formation_courante.statut == STATUTS.validee:

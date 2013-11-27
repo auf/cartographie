@@ -4,7 +4,6 @@ from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
 
 from cartographie.formation.constants import statuts_formation as STATUTS
-from cartographie.formation.models import UserRole
 
 ETATS = [
     (STATUTS.supprimee, STATUTS.supprimee_label),
@@ -60,6 +59,8 @@ class WorkflowMixin(models.Model):
         return False
 
     def set_statut(self, user, token, statut_id):
+        from cartographie.formation.models import UserRole
+
         has_permission = UserRole.has_permission_for_transition(
             user, token, self, statut_id)
 

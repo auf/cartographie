@@ -2,15 +2,15 @@
 
 from itertools import chain, groupby
 
+from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
+from django.db import models
+
+from .acces import Acces
 from auf.django.references import models as ref
 from auf.django.permissions import Role
 from cartographie.formation.constants import statuts_formation as STATUTS
 from cartographie.formation.workflow import TRANSITIONS
-
-from django.contrib.auth.models import User
-from django.core.exceptions import ObjectDoesNotExist
-from django.db import models
-from .acces import Acces
 
 
 class UserRole(models.Model, Role):
