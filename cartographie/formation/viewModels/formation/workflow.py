@@ -93,8 +93,12 @@ u"""Vous ne pouvez pas attribuer le statut '%s'à cette fiche."""\
             original = formation.publication_originale
 
             if original:
-                formation.publication_originale = None
-                formation.save()
+                try:
+                    formation.publication_originale = None
+                    formation.save()
+                except AttributeError:
+                    # FIXME vraiment désagréable ça.
+                    pass
                 original.brouillon = None
                 original.save()
                 original.delete()
