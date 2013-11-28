@@ -255,20 +255,22 @@ $(document).ready(function(){
     return true;
   });
 
-  $('.chzn-container').map(function(i, e) {
-    var par = $(e).parent();
-    var blank = par.find('option[value=""]');
-    var sel = par.find('select');
+  if ($('.content').attr('data-tab') === 'main') {
+    $('.chzn-container').map(function(i, e) {
+      var par = $(e).parent();
+      var blank = par.find('option[value=""]');
+      var sel = par.find('select');
 
-    if (blank && !sel.attr('multiple')) {
-      var clear = $('<div class="clear-button"></div>');
+      if (blank && !sel.attr('multiple')) {
+        var clear = $('<div class="clear-button"></div>');
 
-      clear.click(function() {
-        sel.val('');
-        sel.trigger('liszt:updated');
-      });
+        clear.click(function() {
+          sel.val('');
+          sel.trigger('liszt:updated');
+        });
 
-      $(e).after(clear);
-    }
-  });
+        $(e).after(clear);
+      }
+    });
+  }
 });

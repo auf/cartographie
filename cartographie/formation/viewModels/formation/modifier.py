@@ -83,7 +83,6 @@ class ModifierViewModel(BaseModifierViewModel):
             partenaireAufFormset = inlineformset_factory(
                 Formation, FormationPartenaireAUF, extra=1
             )
-            import ipdb; ipdb.set_trace()
             partenaireAutreFormset = inlineformset_factory(
                 Formation, FormationPartenaireAutre, extra=1,
                 formfield_callback=limiter_choix_partenaire_autre
