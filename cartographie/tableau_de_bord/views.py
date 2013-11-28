@@ -6,6 +6,7 @@ from itertools import chain
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.management import call_command
+from django.http import Http404
 from django.shortcuts import redirect, render, render_to_response
 from django.template import RequestContext
 
@@ -86,6 +87,9 @@ def modifications(request):
 
 @login_required
 def administration(request):
+    if not request.user.is_superuser:
+        raise Http404
+
     return render(request, 'administration.html', {})
 
 
