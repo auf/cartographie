@@ -1,10 +1,11 @@
-# coding: utf-8
+# -*- coding: utf-8 -*-
 
 from django.forms.models import inlineformset_factory
 
 
 from cartographie.formation.models import Acces, Formation, UserRole
-from cartographie.formation.models import FormationComposante, EtablissementComposante, EtablissementAutre
+from cartographie.formation.models import (
+    FormationComposante, EtablissementComposante, EtablissementAutre)
 from cartographie.formation.models import FormationPartenaireAUF
 from cartographie.formation.models import FormationPartenaireAutre
 
@@ -66,11 +67,11 @@ class ModifierViewModel(BaseModifierViewModel):
                 """
                 if field.name == 'etablissement':
                     formfield = field.formfield()
-                    # refaire le queryset
-                    formfield.queryset = EtablissementAutre.objects.filter(
-                        etablissement=etablissement_courant
-                    )
+                    formfield.queryset = EtablissementAutre.objects.all()
                     return formfield
+
+                elif field.name == 'partenaire_autre_emet_diplome':
+                    return field.formfield()
 
             # setup des formsets
             composanteFormset = inlineformset_factory(
@@ -82,6 +83,7 @@ class ModifierViewModel(BaseModifierViewModel):
             partenaireAufFormset = inlineformset_factory(
                 Formation, FormationPartenaireAUF, extra=1
             )
+            import ipdb; ipdb.set_trace()
             partenaireAutreFormset = inlineformset_factory(
                 Formation, FormationPartenaireAutre, extra=1,
                 formfield_callback=limiter_choix_partenaire_autre
